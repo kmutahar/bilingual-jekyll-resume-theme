@@ -21,4 +21,10 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").select { |f| f.match(%r!^(assets|_data|_layouts|_includes|_sass|LICENSE|README|CHANGELOG|CODE_OF_CONDUCT)!i) }
 
   spec.add_runtime_dependency "jekyll", "~> 4.4"
+
+  # --- PLUGIN DEPENDENCIES ---
+  spec.add_runtime_dependency "jekyll-feed"
+  spec.add_runtime_dependency "jekyll-seo-tag"
+  spec.add_runtime_dependency "jekyll-sitemap"
+  spec.add_runtime_dependency "jekyll-redirect-from"
 end

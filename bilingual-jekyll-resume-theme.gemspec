@@ -4,10 +4,10 @@ Gem::Specification.new do |spec|
   spec.name          = "bilingual-jekyll-resume-theme"
   spec.version       = "0.1.0"
   spec.authors       = ["Khaldoon Mutahar"]
-  spec.email         = ["git@mutahar.me"]
+  spec.email         = ["contact@mutahar.me"]
 
-  spec.summary       = "TODO: Write a short summary, because Rubygems requires one."
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = "A flexible Jekyll theme for creating a clean, data-driven, bilingual (English & Arabic) resume."
+  spec.homepage      = "https://www.mutahr.me/bilingual-jekyll-resume-theme"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").select { |f| f.match(%r!^(assets|_data|_layouts|_includes|_sass|LICENSE|README|_config\.yml)!i) }

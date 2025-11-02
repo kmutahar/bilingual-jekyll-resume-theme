@@ -1,0 +1,16 @@
+---
+---
+
+// "Reset" styles and SCSS reusable components
+@use "../../_sass/normalize";
+@use "../../_sass/mixins";
+@use "../../_sass/variables";
+
+// Generic site base & layout styles
+@use "../../_sass/base";
+@use "../../_sass/layout";
+
+// Layouts
+@use "../../_sass/resume";
+
+@use "../../_sass/all-pages";

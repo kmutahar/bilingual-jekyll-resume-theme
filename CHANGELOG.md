@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.3.1] - 2025-11-03
+
+### Added
+* Add arabic name to resume and config file ([`c6b224d`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/c6b224d13f8602b8b6f30d0d630817dc6fa55e3a))
+
 ## [0.3.0] - 2025-11-03
 
 ### Added
@@ -78,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[0.3.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.1.0...v0.1.1

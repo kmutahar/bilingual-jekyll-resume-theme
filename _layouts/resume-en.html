@@ -4,7 +4,7 @@ DYNAMIC DATA LOADER FOR JEKYLL
 =============================================================================
 This entire block dynamically sets the 'resume_data' variable.
 Its goal is to find the correct data folder (or "data object") based on the 
-'active_resume_path' variable set in your _config.yml file.
+'active_resume_path_en' variable set in your _config.yml file.
 
 The rest of the template can then use 'resume_data' 
 (e.g., 'resume_data.experience', 'resume_data.links') without 
@@ -16,7 +16,7 @@ caring *where* that data actually came from.
     'site.active_resume_path_en' reads the value from _config.yml.
     We assign it to a new, shorter variable called 'data_path_string'.
 {% endcomment %}
-{% assign data_path_string = site.active_resume_path %}
+{% assign data_path_string = site.active_resume_path_en %}
 
 {% comment %}
     STEP 2: Check if the path is empty.

@@ -4,10 +4,32 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [Unreleased]
+## [0.3.0] - 2025-11-03
+
+### Added
+* Add SCSS/SASS Guide Documentation ([`77c9e2e`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/77c9e2e6a83188382e5c26033955438438d78beb))
+
+* Add _config.yml Guide Documentation and a full sample file ([`a08d4f5`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/a08d4f5675ca902e8a2b5e23a2f3d2b4b5e02902))
+
+* Add _layouts Guide Documentation ([`94830fe`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/94830fe4ac59667cc1514e45e5fc82af18440b5e))
+
+* Add _includes Guide Documentation ([`b586225`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/b5862259e2f3d955b71417ec9506b1a778c5440a))
+
+* Add Data Structure Documentation ([`077184c`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/077184ccd038441c0bfbd7644228d6efd743e75f))
+
+* Add comments to the dynamic data loader ar&en layouts ([`4efe0a4`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/4efe0a453f2ca767d55f601ca7b02c7372357e74))
+
 
 ### Changed
+* Add WARP.md file ([`ff38359`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ff383590d783e17af1432d257f4f325b101dc574))
+
+* Upload changelog file ([`d4ba77b`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/d4ba77b2f17a1d53f9e7e93db57569840fd0e03f))
+
 * Create git-cliff config file ([`ad72acd`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ad72acd74d03bc42c8380ff7d0a5362de66fff81))
+
+
+### Fixed
+* Update dynamic data loader to use specific active_resume_path variables for Arabic and English ([`f4852cc`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/f4852cc01410deb358df978041a980a6e671ed00))
 
 ## [0.2.0] - 2025-11-02
 
@@ -56,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
-[unreleased]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.2.0...HEAD
+[0.3.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.1.0...v0.1.1
 

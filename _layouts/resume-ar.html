@@ -205,7 +205,7 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                             {% endif %}
 
                             {% if site.contact_info.dob %}
-                                &nbsp;&nbsp;تاريخ الميلاد:&nbsp;{{ site.contact_info.dob | date_to_long_string }}
+                                &nbsp;&nbsp;تاريخ الميلاد:&nbsp;{% include ar-date.html date=site.contact_info.dob style="MDY" %}
                             {% endif %}
 
                             {% assign active_languages = resume_data.languages | where: "active", true %}

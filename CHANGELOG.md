@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.4.0] - 2025-11-05
+
+### Added
+* Add logger as explicit dependency ([`327702b`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/327702beb3383375172401d8f5869ee3ab3f50a9))
+
+
+### Changed
+* Move intro text from _config to data file ([`d026de9`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/d026de92817b3de76843e18b8770c20136ae0691))
+
+* Make summary optional in association.yml ([`a12cdc8`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/a12cdc8b9d64db5c3368db6dc270c03a4f353538))
+
+* Make summary optional in recognition.yml ([`34b4661`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/34b46613dc561a3d1868fdf8d64f7cfd80e02e5d))
+
+* Make description optional in skills.yml ([`601dbf9`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/601dbf9d81a621366d3a0e46f7079da42aa73e75))
+
 ## [0.3.1] - 2025-11-03
 
 ### Added
@@ -83,6 +98,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[0.4.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.1.1...v0.2.0

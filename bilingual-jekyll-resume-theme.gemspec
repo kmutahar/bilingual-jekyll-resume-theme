@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "jekyll-seo-tag"
   spec.add_runtime_dependency "jekyll-sitemap"
   spec.add_runtime_dependency "jekyll-redirect-from"
+  spec.add_runtime_dependency "logger" # Future-proof: 'logger' will be removed from the Ruby 3.5.0+ standard library.
 end

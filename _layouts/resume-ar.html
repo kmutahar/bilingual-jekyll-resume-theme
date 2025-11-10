@@ -242,7 +242,7 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                 {% endif %}
 
                 {% if site.resume_looking_for_work == true %}
-                    <a href="mailto:{{ site.contact_info.email }}" class="contact-button no-print" itemprop="email">تواصل معي</a>
+                  <button id="contactBtn" class="your-button-class contact-button no-print" itemprop="email">تواصل معي</button>
                 {% elsif site.resume_looking_for_work == false %}
                     <a class="contact-button not-looking no-print">لستُ باحثاً عن عمل حالياً.</a>
                 {% else %}
@@ -296,5 +296,39 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
             {% endif %}
         </div>
 
+        {%- include contact-form.html -%} <!-- Your include is already here -->
+
+        <!-- begin contact script block -->
+        <script>
+          (function() {
+            // Get all the elements
+            var modal = document.getElementById("contactModal");
+            var btn = document.getElementById("contactBtn");
+            var span = document.getElementById("closeBtn");
+      
+            // Check if the elements exist before adding listeners
+            if (btn) {
+              // When the user clicks the button, show the modal
+              btn.onclick = function() {
+                modal.style.display = "flex";
+              }
+            }
+      
+            if (span) {
+              // When the user clicks on <span> (x), close the modal
+              span.onclick = function() {
+                modal.style.display = "none";
+              }
+            }
+      
+            // When the user clicks anywhere on the gray overlay, close the modal
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+          })();
+        </script>
+        <!-- end contact script block -->
     </body>
 </html>

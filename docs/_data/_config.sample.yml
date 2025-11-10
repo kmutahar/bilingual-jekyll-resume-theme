@@ -38,6 +38,9 @@ contact_info:
   phone_live: "+1 555 000 0000" # Optional
   # dob: 1990-01-01 # Optional date of birth
 
+contact_form:
+  formcarry: "your-formcarry-id" # Optional Formcarry ID for contact form (leave empty to disable)
+
 # ==============================================================================
 # SOCIAL LINKS (Optional - only add the ones you use using full URLs)
 # ==============================================================================

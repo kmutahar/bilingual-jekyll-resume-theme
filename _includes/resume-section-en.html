@@ -228,15 +228,46 @@
             <h2>Skills</h2>
         </header>
 
-        {% for skill in resume_data.skills %}
-            {% if skill.active == true %}
-                <div class="resume-item">
-                    <h4 class="resume-item-details">{{ skill.skill }}</h4>
-                    {% if skill.description %}
-                        <p class="resume-item-copy">{{ skill.description }}</p>
-                    {% endif %}                </div>
-            {% endif %}
-        {% endfor %}
+        {%- assign active_skills = resume_data.skills | where: "active", true -%}
+
+        {%- if include.skill_category -%}
+          {%- assign active_skills = active_skills | where: "category", include.skill_category -%}
+        {%- endif -%}
+
+        {%- if include.skill_tag -%}
+          {%- assign filtered = '' | split: ',' -%}
+          {%- for s in active_skills -%}
+            {%- if s.tags and s.tags contains include.skill_tag -%}
+              {%- assign filtered = filtered | push: s -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- assign active_skills = filtered -%}
+        {%- endif -%}
+
+        {%- assign groups = active_skills | group_by: "category" -%}
+
+        {%- for group in groups -%}
+          <div class="resume-item">
+            <h3 class="resume-item-title skills-category-title">{{ group.name | default: 'Other' }}</h3>
+
+            {%- assign skills_sorted = group.items | sort: "skill" -%}
+            {%- for skill in skills_sorted -%}
+              <div class="skill-entry">
+                <h4 class="resume-item-details">{{ skill.skill }}</h4>
+                {%- if skill.description -%}
+                  <p class="resume-item-copy">{{ skill.description }}</p>
+                {%- endif -%}
+                {%- if skill.tags and skill.tags.size > 0 -%}
+                  <p class="skill-tags">
+                    {%- for tag in skill.tags -%}
+                      <span class="skill-tag">{{ tag }}</span>
+                    {%- endfor -%}
+                  </p>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
     </section>
     <!-- end Skills -->
 

@@ -296,26 +296,55 @@ Same as Experience section - grouped by organization, sorted by date.
 
 ```yaml
 - skill: "Organizational leadership"           # Required: Skill name/title
-  active: true                                 # Required: Set to false to hide
+  active: true                                  # Required: Set to false to hide
   description: "I have several years of experience leading organizations from community groups to business departments. From public speaking, to mentoring, to coordination of people and events, I can lead in any context."  # Required: Detailed description
+  category: "Soft Skills"                      # Optional: Category name (e.g., Programming Languages, Frameworks, Tools, Soft Skills)
+  tags: [leadership, communication]             # Optional: List of tags for filtering
 
 # Multiple examples
 - skill: "Full-Stack Web Development"
   active: true
   description: "Expert in JavaScript, React, Node.js, and PostgreSQL. Built and deployed 20+ production applications."
+  category: "Frameworks"
+  tags: [javascript, react, node]
 
 - skill: "Technical Writing"
   active: true
   description: "Created comprehensive documentation for APIs, user guides, and technical specifications."
+  category: "Soft Skills"
+  tags: [documentation]
 
 - skill: "Legacy Skill"
-  active: false                                # This will not appear on resume
+  active: false                                 # This will not appear on resume
   description: "Old technology no longer relevant to current career goals."
+  category: "Tools"
+  tags: []
 ```
 
 **Display Format:**
-- Skill name as subheading
-- Description as paragraph
+- Skills are grouped by `category` with a category subheading. If no category is set, they appear under "Other" (English) or "أخرى" (Arabic).
+- Each skill shows the skill name and description.
+- If `tags` are provided, they display as small badges under the description.
+
+**Suggested categories:**
+- Programming Languages
+- Frameworks
+- Tools
+- Soft Skills
+
+**Optional filtering (advanced usage):**
+- You can filter the rendered skills by category or by a single tag when including the section manually:
+
+  English template example:
+  `{% include resume-section-en.html section_name="skills" skill_category="Programming Languages" %}`
+
+  Arabic template example:
+  `{% include resume-section-ar.html section_name="skills" skill_tag="cloud" %}`
+
+Notes:
+- `skill_category` filters by the `category` field.
+- `skill_tag` includes skills whose `tags` array contains the provided value.
+- Default resume pages include all active skills if no filters are passed.
 
 ---
 

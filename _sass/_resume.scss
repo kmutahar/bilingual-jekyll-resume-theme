@@ -190,6 +190,30 @@
   .resume-item-copy-license-cert-id {
     font-weight: normal;
   }
+  
+  // Skills taxonomy styles
+  .skills-category-title {
+    margin: 0 0 .5rem;
+  }
+
+  .skill-entry {
+    margin: 0 0 1rem;
+  }
+
+  .skill-tags {
+    margin: .25rem 0 0;
+  }
+
+  .skill-tag {
+    display: inline-block;
+    background: #f3f3f3;
+    border: 1px solid #e0e0e0;
+    color: #555;
+    padding: .1rem .4rem;
+    margin: 0 .25rem .25rem 0;
+    font-size: .8rem;
+    @include mixins.border-radius(3px);
+  }
   /* Languages table (responsive, flexible spacing) */
   .languages-table {
     width: 100%;

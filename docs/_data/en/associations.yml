@@ -6,7 +6,7 @@
 - organization: ""  # Required: Organization name
   active: true      # Required: Set to false to hide this entry
   role: ""          # Required: Your role/position in the organization
-  year: ""          # Required: Time period (as display text, e.g., "2020 &mdash; Present" or "July 2022 &mdash; Present")
+  year: ""          # Required: Time period (as display text, e.g., "2020 &ndash; Present" or "July 2022 &ndash; Present")
   url: ""           # Optional: Organization URL (leave empty if no URL)
   summary: ""       # Optional: Description of your involvement
 

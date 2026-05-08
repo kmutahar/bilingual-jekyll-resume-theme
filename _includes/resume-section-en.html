@@ -24,7 +24,7 @@
                         {%- if role.durations -%}
                             {%- for time in role.durations -%} {{ time.duration }} {%- endfor -%}
                         {%- else -%}
-                            {{ role.startdate | date: '%b %Y' }} &mdash;
+                            {{ role.startdate | date: '%b %Y' }} &ndash;
                             {%- if role.enddate and role.enddate != 'Present' -%}
                                 {{ role.enddate | date: '%b %Y' }}
                             {%- else -%}
@@ -93,7 +93,7 @@
                     <h3 class="resume-item-title" itemprop="award">{{ certification.name }}</h3>
                     <h4 class="resume-item-details">
                         {{ certification.issuing_organization }} &bull; {{ certification.issue_date | date: '%b %d, %Y' }}
-                        {% if certification.expiration %} &mdash; {{ certification.expiration | date: '%b %d, %Y' }} {% endif %}
+                        {% if certification.expiration %} &ndash; {{ certification.expiration | date: '%b %d, %Y' }} {% endif %}
                         &bull;
                         {% if certification.credential_id %}
                             <span class="resume-item-copy-license-cert-id">Credential ID:
@@ -125,7 +125,7 @@
                     <h3 class="resume-item-title" itemprop="award">{{ course.name }}</h3>
                     <h4 class="resume-item-details">
                         {{ course.issuing_organization }} &bull; {{ course.startdate | date: '%b %d, %Y' }}
-                        {% if course.enddate %} &mdash; {{ course.enddate | date: '%b %d, %Y' }} {% endif %}
+                        {% if course.enddate %} &ndash; {{ course.enddate | date: '%b %d, %Y' }} {% endif %}
                     </h4>
 
                     {% if site.enable_summary == true %}
@@ -169,7 +169,7 @@
                         {%- if v.durations -%}
                             {%- for time in v.durations -%} {{ time.duration }} {%- endfor -%}
                         {%- else -%}
-                            {{ v.startdate | date: '%b %Y' }} &mdash;
+                            {{ v.startdate | date: '%b %Y' }} &ndash;
                             {%- if v.enddate and v.enddate != 'Present' -%}
                                 {{ v.enddate | date: '%b %Y' }}
                             {%- else -%}
@@ -329,7 +329,7 @@
                     <td class="lang-cell">
                         <p class="lang-entry">
                             <span class="resume-item-details">{{ lang.language }}</span>
-                            &mdash;
+                            &ndash;
                             <span class="resume-item-copy">{{ lang.description }}</span>
                         </p>
                     </td>

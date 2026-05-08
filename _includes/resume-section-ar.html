@@ -24,7 +24,7 @@
                         {%- if role.durations -%}
                             {%- for time in role.durations -%} {{ time.duration }} {%- endfor -%}
                         {%- else -%}
-                            {% include ar-date.html date=role.startdate style="MY" %} &mdash;
+                            {% include ar-date.html date=role.startdate style="MY" %} &ndash;
                             {%- if role.enddate and role.enddate != 'Present' and role.enddate != 'حتى الآن' -%}
                                 {% include ar-date.html date=role.enddate style="MY" %}
                             {%- else -%}
@@ -93,7 +93,7 @@
                     <h3 class="resume-item-title" itemprop="award">{{ certification.name }}</h3>
                     <h4 class="resume-item-details">
                         {{ certification.issuing_organization }} &bull; {% include ar-date.html date=certification.issue_date style="MDY" %}
-                        {% if certification.expiration %} &mdash; {% include ar-date.html date=certification.expiration style="MDY" %} {% endif %}
+                        {% if certification.expiration %} &ndash; {% include ar-date.html date=certification.expiration style="MDY" %} {% endif %}
                         &bull;
                         {% if certification.credential_id %}
                             <span class="resume-item-copy-license-cert-id">معرّف الاعتماد:
@@ -125,7 +125,7 @@
                     <h3 class="resume-item-title" itemprop="award">{{ course.name }}</h3>
                     <h4 class="resume-item-details">
                         {{ course.issuing_organization }} &bull; {% include ar-date.html date=course.startdate style="MDY" %}
-                        {% if course.enddate %} &mdash; {% include ar-date.html date=course.enddate style="MDY" %} {% endif %}
+                        {% if course.enddate %} &ndash; {% include ar-date.html date=course.enddate style="MDY" %} {% endif %}
                     </h4>
 
                     {% if site.enable_summary == true %}
@@ -169,7 +169,7 @@
                         {%- if v.durations -%}
                             {%- for time in v.durations -%} {{ time.duration }} {%- endfor -%}
                         {%- else -%}
-                            {% include ar-date.html date=v.startdate style="MY" %} &mdash;
+                            {% include ar-date.html date=v.startdate style="MY" %} &ndash;
                             {%- if v.enddate and v.enddate != 'Present' and v.enddate != 'حتى الآن' -%}
                                 {% include ar-date.html date=v.enddate style="MY" %}
                             {%- else -%}
@@ -330,7 +330,7 @@
                     <td class="lang-cell">
                         <p class="lang-entry">
                             <span class="resume-item-details">{{ lang.language }}</span>
-                            &mdash;
+                            &ndash;
                             <span class="resume-item-copy">{{ lang.description }}</span>
                         </p>
                     </td>

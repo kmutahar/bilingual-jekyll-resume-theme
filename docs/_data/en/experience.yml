@@ -31,9 +31,9 @@
 - company: ""
   position: ""
   durations:          # Alternative: Use this instead of startdate/enddate for non-continuous periods
-    - duration: ""    # Display text for first period (e.g., "Jun 2020 &mdash; Jan 2021")
-    - duration: ""    # Display text for second period (e.g., "&amp; Jun 2022 &mdash; Dec 2022")
-                      # Use &amp; for ampersand (&) and &mdash; for em dash (—)
+    - duration: ""    # Display text for first period (e.g., "Jun 2020 &ndash; Jan 2021")
+    - duration: ""    # Display text for second period (e.g., "&amp; Jun 2022 &ndash; Dec 2022")
+                      # Use &amp; for ampersand (&) and &ndash; for em dash (—)
   location: ""
   active: true
   notes: ""

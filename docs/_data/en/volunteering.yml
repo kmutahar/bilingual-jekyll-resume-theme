@@ -32,7 +32,7 @@
   durations:         # Alternative: Use this instead of startdate/enddate for non-continuous periods
     - duration: ""   # Display text for first period (e.g., "Summer 2022")
     - duration: ""   # Display text for second period (e.g., "&amp; Winter 2021")
-                     # Use &amp; for ampersand (&) and &mdash; for em dash (—)
+                     # Use &amp; for ampersand (&) and &ndash; for em dash (—)
   location: ""
   active: true
   notes: ""

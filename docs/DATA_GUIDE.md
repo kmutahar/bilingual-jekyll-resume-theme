@@ -32,7 +32,7 @@ Highlights:
 * Certifications: Emphasized that nested courses are NOT displayed (personal record-keeping only)
 * Languages: Explained the two display modes (section vs header) and the descrp_short field purpose
 * Dates: Clear distinction between ISO dates for auto-formatting and display text for manual control
-* HTML Entities: Explained when to use &mdash; and &amp;
+* HTML Entities: Explained when to use &ndash; and &amp;
 
 ## Table of Contents
 
@@ -76,8 +76,8 @@ Jobs are grouped by company name. Multiple roles at the same company will be dis
 - company: "State University"
   position: "Lecturer"
   durations:                                   # Alternative: Use this instead of startdate/enddate for non-continuous periods
-    - duration: "Jun 2020 &mdash; Jan 2021"    # Display text for first period
-    - duration: "&amp; Jun 2022 &mdash; Dec 2022"  # Display text for second period
+    - duration: "Jun 2020 &ndash; Jan 2021"    # Display text for first period
+    - duration: "&amp; Jun 2022 &ndash; Dec 2022"  # Display text for second period
   location: "Semenyih, Malaysia"
   active: true
   notes:
@@ -112,7 +112,7 @@ Jobs are grouped by company name. Multiple roles at the same company will be dis
 - degree: "Bachelor of Business"  # Required: Degree name and details
   active: true                                 # Required: Set to false to hide this entry
   uni: "State University"     # Required: University/institution name
-  year: "Sep 2020 &mdash; June 2024"           # Required: Time period (as display text)
+  year: "Sep 2020 &ndash; June 2024"           # Required: Time period (as display text)
   location: "Sana'a, Yemen"                    # Required: Location of institution
   awards:                                      # Optional: List of awards/honors received
     - award: "Deans List (2021-2022)"
@@ -124,7 +124,7 @@ Jobs are grouped by company name. Multiple roles at the same company will be dis
 - degree: "High School Diploma"
   active: true
   uni: "Springfield High School"
-  year: "2015 &mdash; 2019"
+  year: "2015 &ndash; 2019"
   location: "Springfield, IL"
 ```
 
@@ -259,7 +259,7 @@ Same as Experience section - grouped by organization, sorted by date.
 - project: "Closed Source Project"                        # Required: Project name
   active: true                                 # Required: Set to false to hide
   role: "Maintainer"                           # Required: Your role in the project
-  duration: "May 2021 &mdash; Present"        # Required: Time period (as display text)
+  duration: "May 2021 &ndash; Present"        # Required: Time period (as display text)
   url: "https://www.example.com/"              # Optional: Project URL
   description:                                 # Required: Project description
 
@@ -267,7 +267,7 @@ Same as Experience section - grouped by organization, sorted by date.
 - project: "Open Source Dashboard"
   active: true
   role: "Lead Developer"
-  duration: "Jan 2023 &mdash; Jun 2024"
+  duration: "Jan 2023 &ndash; Jun 2024"
   url: "https://github.com/username/dashboard"
   description: "Built a real-time analytics dashboard using React and Node.js, serving 10K+ users daily."
 
@@ -275,7 +275,7 @@ Same as Experience section - grouped by organization, sorted by date.
 - project: "University Capstone Project"
   active: true
   role: "Team Lead"
-  duration: "Sep 2022 &mdash; May 2023"
+  duration: "Sep 2022 &ndash; May 2023"
   url: ""
   description: "Developed an inventory management system for local businesses."
 ```
@@ -364,7 +364,7 @@ Same as Experience section - grouped by organization, sorted by date.
 - organization: "Internet Sociaity"  # Required: Organization name
   active: true                                 # Required: Set to false to hide
   role: "Mentor"                              # Required: Your role/position
-  year: "July 2022 &mdash; Present"          # Required: Time period (as display text)
+  year: "July 2022 &ndash; Present"          # Required: Time period (as display text)
   url: "https://example.com/"         # Optional: Organization URL
   summary:                                     # Required: Description of involvement
 
@@ -372,7 +372,7 @@ Same as Experience section - grouped by organization, sorted by date.
 - organization: "IEEE Computer Society"
   active: true
   role: "Member"
-  year: "2020 &mdash; Present"
+  year: "2020 &ndash; Present"
   url: "https://www.computer.org/"
   summary: "Active participant in local chapter events and technical workshops."
 
@@ -380,7 +380,7 @@ Same as Experience section - grouped by organization, sorted by date.
 - organization: "Local Chamber of Commerce"
   active: true
   role: "Board Member"
-  year: "2021 &mdash; 2023"
+  year: "2021 &ndash; 2023"
   url: ""
   summary: "Served on the technology committee, advising on digital transformation initiatives."
 ```
@@ -535,7 +535,7 @@ intro: "Your professional summary or elevator pitch goes here. This is the Engli
 
 **For display text fields (year, duration):**
 - Use any text format you want
-- Use `&mdash;` for em dash (—)
+- Use `&ndash;` for em dash (—)
 - Use `&amp;` for ampersand (&)
 - HTML entities needed because YAML interprets special characters
 
@@ -558,7 +558,7 @@ Nearly all entries have an `active: true/false` field:
 name: "Bachelor's Degree: Computer Science"
 
 # HTML entities for display text
-duration: "2020 &mdash; 2023"              # em dash
+duration: "2020 &ndash; 2023"              # em dash
 organization: "Smith &amp; Associates"      # ampersand
 
 # URLs don't need quotes (unless they contain special YAML characters)

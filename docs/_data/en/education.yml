@@ -6,7 +6,7 @@
 - degree: ""          # Required: Degree name and details (e.g., "Bachelor of Science in Computer Science")
   active: true        # Required: Set to false to hide this entry
   uni: ""             # Required: University/institution name
-  year: ""            # Required: Time period (as display text, e.g., "Sep 2020 &mdash; June 2024" or "2015 &mdash; 2019")
+  year: ""            # Required: Time period (as display text, e.g., "Sep 2020 &ndash; June 2024" or "2015 &ndash; 2019")
   location: ""        # Required: Location of institution (e.g., "City, State" or "City, Country")
   awards:             # Optional: List of awards/honors received (use this OR the single award field below)
     - award: ""       # Award or honor (can add multiple items)

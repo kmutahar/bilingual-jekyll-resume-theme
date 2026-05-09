@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "bilingual-jekyll-resume-theme"
-  spec.version       = "0.5.0"
+  spec.version       = "0.5.1"
   spec.authors       = ["Khaldoon Mutahar"]
   spec.email         = ["contact@mutahar.me"]
 
@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
 
   # --- PLUGIN DEPENDENCIES ---
   spec.add_runtime_dependency "jekyll-feed", "~> 0.17"
-  spec.add_runtime_dependency "jekyll-seo-tag", "~> 2.8"
+  spec.add_runtime_dependency "jekyll-seo-tag", "~> 2.9"
   spec.add_runtime_dependency "jekyll-sitemap", "~> 1.4"
   spec.add_runtime_dependency "jekyll-redirect-from", "~> 0.16"
   spec.add_runtime_dependency "logger", "~> 1.7"  # Future-proof: 'logger' will be removed from the Ruby 3.5.0+ standard library.

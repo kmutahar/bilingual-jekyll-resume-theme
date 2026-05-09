@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.5.1] - 2026-05-09
+
+### Changed
+* Create dependabot.yml ([`7fbe6bb`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/7fbe6bb0ed32903468ff6abb11d2f789bda224aa))
+
+
+### Fixed
+* Replace em dash with en dash in HTML and YAML files ([`2f33ecd`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/2f33ecdd167a3f358c362aaeb2e78ea541623baf))
+
 ## [0.5.0] - 2025-11-06
 
 ### Added
@@ -125,6 +134,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[0.5.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.3.0...v0.3.1

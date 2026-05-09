@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.5.2] - 2026-05-09
+
+### Added
+* Add GitHub Actions workflow for publishing Ruby gem ([`0f8fd88`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/0f8fd889776fbc4be385c9c55fcbc6dbc04c2938))
+
+
+### Changed
+* Update GitHub Actions workflow for publishing Ruby gem with improved comments and version compatibility ([`5c2095c`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/5c2095ca4818c34fc75bd214e43f527ba3d4db18))
+
 ## [0.5.1] - 2026-05-09
 
 ### Changed
@@ -134,6 +143,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[0.5.2]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.1...0.5.2
 [0.5.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.3.1...v0.4.0

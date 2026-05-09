@@ -1,29 +1,54 @@
 name: Publish Gem
 
+# This workflow automates the process of building and pushing your gem to RubyGems.org.
 on:
+  # Trigger 1: Automatically runs whenever you push a tag starting with 'v' (e.g., v1.1.0)
   push:
     tags:
       - 'v*'
-  workflow_dispatch: # This adds the manual "Run workflow" button in GitHub
+  # Trigger 2: Allows you to manually run this workflow from the GitHub "Actions" tab
+  workflow_dispatch:
 
 jobs:
   build:
+    name: Build and Push Gem
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    
+    # 1. Check out the repository code. 
+    # v4 is used to ensure compatibility with Node.js 24 runners (avoiding deprecation warnings).
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. Set up the Ruby environment.
+    # setup-ruby is the official way to manage Ruby versions in GitHub Actions.
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.2' 
-        
+        ruby-version: '3.2' # You can update this to '3.3' or higher as your project evolves
+        bundler-cache: true # Optional: Automatically runs 'bundle install' and caches gems
+
+    # 3. Authenticate and Publish.
+    # Since we are in a headless CI environment, we manually create the credentials file
+    # that the 'gem' command-line tool expects to find.
     - name: Publish to RubyGems
       run: |
+        # Create the .gem directory in the runner's home folder
         mkdir -p $HOME/.gem
+        
+        # Create a credentials file and set strict permissions (required by RubyGems)
         touch $HOME/.gem/credentials
         chmod 0600 $HOME/.gem/credentials
+        
+        # Write the API key into the credentials file in YAML format
         printf -- "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}\n" > $HOME/.gem/credentials
+        
+        # Build the gem based on your .gemspec file
         gem build *.gemspec
+        
+        # Push the generated .gem file to RubyGems.org
+        # Using a wildcard (*) ensures it grabs the versioned file we just built
         gem push *.gem
       env:
+        # Pulls the secret you stored in GitHub Settings > Secrets and variables > Actions
         RUBYGEMS_API_KEY: "${{ secrets.RUBYGEMS_API_KEY }}"

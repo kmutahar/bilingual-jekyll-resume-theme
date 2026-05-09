@@ -1,0 +1,29 @@
+name: Publish Gem
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch: # This adds the manual "Run workflow" button in GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2' 
+        
+    - name: Publish to RubyGems
+      run: |
+        mkdir -p $HOME/.gem
+        touch $HOME/.gem/credentials
+        chmod 0600 $HOME/.gem/credentials
+        printf -- "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}\n" > $HOME/.gem/credentials
+        gem build *.gemspec
+        gem push *.gem
+      env:
+        RUBYGEMS_API_KEY: "${{ secrets.RUBYGEMS_API_KEY }}"

@@ -9,6 +9,9 @@ on:
   # Trigger 2: Allows you to manually run this workflow from the GitHub "Actions" tab
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build and Push Gem

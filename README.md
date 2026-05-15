@@ -2,17 +2,17 @@
 
 [![Latest release](https://img.shields.io/github/v/release/kmutahar/bilingual-jekyll-resume-theme?display_name=tag)](https://github.com/kmutahar/bilingual-jekyll-resume-theme/releases) [![Gem Version](https://badge.fury.io/rb/bilingual-jekyll-resume-theme.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/bilingual-jekyll-resume-theme)
 
-A flexible Jekyll theme for creating clean, data-driven, bilingual (English & Arabic) resume/CV websites. Created and maintained by Khaldoon Mutahar. See the latest version on the [Releases page](https://github.com/kmutahar/bilingual-jekyll-resume-theme/releases).
+A flexible Jekyll theme for creating clean, data-driven, multilingual resume/CV websites (including LTR and RTL languages). Created and maintained by Khaldoon Mutahar. See the latest version on the [Releases page](https://github.com/kmutahar/bilingual-jekyll-resume-theme/releases).
 Inspired by and originally forked from [Joel Glovier’s resume template](https://github.com/jglovier/resume-template/). Joel’s version was a basic English-only theme with limited customization (e.g., no section reordering); this project has since evolved into a fully separate theme authored by Khaldoon.
 
 ## Features
 
-- **Bilingual support**: Separate layouts for English (`resume-en.html`) and Arabic (`resume-ar.html`) with full RTL support
+- **Multilingual support**: Unified `resume-multi.html` layout with dynamic `lang` and `dir`
 - **Data-driven architecture**: All resume content stored in YAML files, supporting multiple data paths and versioning
 - **12 resume sections**: Experience, Education, Certifications, Courses, Volunteering, Projects, Skills, Recognition, Associations, Languages, Links, Interests
 - **Print-friendly**: Optimized for PDF generation and printing
 - **SEO ready**: Built-in support for multilingual SEO, sitemap, and feed generation
-- **Arabic month support**: Arabic date formatting included out of the box (`_data/ar/months.yml`)
+- **Localized UI and dates**: Translation dictionaries in `_data/languages/*.yml` for labels, month names, and present text
 
 ## Quick Start
 
@@ -41,10 +41,10 @@ bundle install
    - English data: Copy files from `docs/_data/en/` to your `_data/en/` directory (includes `header.yml` for the intro paragraph)
    - Arabic data: Copy files from `docs/_data/ar/` to your `_data/ar/` directory (includes `header.yml` for the Arabic intro paragraph)
 
-3. **Create resume pages**: Create pages using the `resume-en` and `resume-ar` layouts:
+3. **Create resume pages**: Create pages using the `resume-multi` layout:
 ```yaml
 ---
-layout: resume-en
+layout: resume-multi
 permalink: /resume/en/
 lang: en
 t_id: resume
@@ -81,10 +81,10 @@ Complete guide to the theme's styling system, how to customize colors/fonts, and
 
 ```
 bilingual-jekyll-resume-theme/
-├── _layouts/          # HTML templates (default, resume-en, resume-ar, profile)
+├── _layouts/          # HTML templates (default, resume-multi, resume-en, resume-ar, profile)
 ├── _includes/          # Reusable components (sections, headers, analytics)
 ├── _sass/             # SCSS stylesheets (RTL support, print styles)
-├── _data/             # Theme data (includes ar/months.yml)
+├── _data/             # Theme data (includes languages/*.yml dictionaries)
 ├── assets/            # CSS, images, favicons
 └── docs/              # Documentation and sample files
     ├── _data/         # Sample data files (copy to your site's _data/)
@@ -95,15 +95,21 @@ bilingual-jekyll-resume-theme/
 
 ### Data Paths
 
-**Recommended approach (for beginners):** Use language-specific folders. The theme supports separate data paths for English and Arabic:
+Use `languages` in your site's `_config.yml` as the source of truth:
 ```yaml
-active_resume_path_en: "en"  # Uses _data/en/* (recommended)
-active_resume_path_ar: "ar"  # Uses _data/ar/* (recommended)
+languages:
+  en:
+    dir: ltr
+    data_path: en
+  ar:
+    dir: rtl
+    data_path: ar
+  es:
+    dir: ltr
+    data_path: es
 ```
-
-This is the recommended approach even if you're only using one language, as it keeps your data organized and makes it easy to add more languages later. **Advanced users:** You can place files directly in `_data/` (root) by setting these to empty strings, but this is not recommended for beginners.
-
-See the [Configuration Guide](docs/CONFIG_GUIDE.md#data-source-active_resume_path_en_ar) for details.
+Each page sets `lang`, and `resume-multi` resolves direction and data path automatically.
+For backward compatibility, `active_resume_path_en` and `active_resume_path_ar` are still supported.
 
 ### Sample Files
 
@@ -112,9 +118,9 @@ The theme includes sample data files in `docs/_data/en/` and `docs/_data/ar/` th
 - Required vs optional field explanations
 - Multiple examples per section
 
-### Arabic Month Support
+### Localized Date Support
 
-The theme includes `_data/ar/months.yml` with Arabic month names already configured. You don't need to create this file manually—it's included in the theme.
+The theme includes `_data/languages/` dictionaries with month arrays and present aliases. Add your own language dictionary there to localize date output and current-role text.
 
 ## Development
 

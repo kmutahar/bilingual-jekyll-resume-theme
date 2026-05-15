@@ -45,16 +45,15 @@ html[dir="rtl"] {
     }
 
     .icon-link-item {
-      // flip spacing for RTL
-      margin-right: 5px;
-      margin-left: 0;
+      margin-inline-end: 5px;
+      margin-inline-start: 0;
     }
   }
 
   // Lists
   .resume-item-list {
-    padding-right: 1.2rem;
-    padding-left: 0;
+    padding-inline-end: 1.2rem;
+    padding-inline-start: 0;
   }
 
   // Languages table tweaks

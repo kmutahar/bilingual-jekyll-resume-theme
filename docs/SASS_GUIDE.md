@@ -134,14 +134,14 @@ Purpose: Resume-specific components and typography.
 ---
 
 ### 7) `_resume-rtl.scss`
-Purpose: Arabic/RTL overrides scoped to `html[dir="rtl"]`.
+Purpose: RTL overrides scoped to `html[dir="rtl"]`.
 - Sets Arabic-friendly font stack (Cairo, Noto Naskh Arabic)
 - Applies Arabic fonts to headings and content blocks
 - Right-aligns key text blocks
 - Flips floats (e.g., header title, social links) for RTL
 - Adjusts lists and the languages table for RTL direction
 
-Loaded only by `cv-ar.scss`.
+Loaded by `cv-ar.scss` and applied whenever the page root has `dir="rtl"`.
 
 ---
 
@@ -167,7 +167,24 @@ Purpose: Small shared bits across pages.
 
 - Responsive: Mixins `media_larger_than_mobile` and `media_mobile` (600px breakpoint) provide simple adjustments (e.g., stacking → floats).
 - Print: Dedicated `@media print` blocks in `_resume.scss` keep the output compact and readable (smaller fonts, non-stacking languages table, print-only helpers).
-- RTL: `_resume-rtl.scss` is loaded only by the Arabic entrypoint; overrides are scoped under `html[dir="rtl"]` to avoid affecting LTR pages.
+- RTL: `_resume-rtl.scss` is loaded by the RTL entrypoint; overrides are scoped under `html[dir="rtl"]` to avoid affecting LTR pages.
+
+### Dynamic RTL Styling Methodology
+
+With the unified `resume-multi` layout, directional styling automatically adapts based on the HTML `dir` attribute. 
+
+You can apply these strategies when customizing or contributing:
+
+1. **CSS Logical Properties**: Instead of physical properties like `margin-left` or `text-align: right`, use `margin-inline-start` and `text-align: start`. The browser automatically swaps these based on the `dir` attribute. This is the preferred method for basic spacing and alignment.
+
+2. **SCSS Mixin**: For complex layout inversions (e.g., specific flexbox or grid reordering), use the built-in RTL mixin:
+   ```scss
+   @mixin rtl {
+     html[dir="rtl"] & { @content; }
+   }
+   ```
+   This keeps component styling centralized rather than maintaining separate RTL files.
+   The theme defines this in `_sass/_mixins.scss`, and core resume components already use it for direction-aware float behavior.
 
 ---
 

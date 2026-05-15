@@ -1,0 +1,219 @@
+{% assign lang = page.lang | default: site.default_lang | default: 'en' %}
+{% assign lang_config = site.languages[lang] %}
+{% assign i18n = site.data.languages[lang] | default: site.data.languages.en %}
+{% assign ui = i18n.ui | default: i18n.UI %}
+
+{% assign dir = 'ltr' %}
+{% if lang == 'ar' %}
+    {% assign dir = 'rtl' %}
+{% endif %}
+{% if lang_config and lang_config.dir %}
+    {% assign dir = lang_config.dir %}
+{% endif %}
+
+{% assign data_path_string = '' %}
+{% if lang_config and lang_config.data_path %}
+    {% assign data_path_string = lang_config.data_path %}
+{% elsif lang == 'en' and site.active_resume_path_en %}
+    {% assign data_path_string = site.active_resume_path_en %}
+{% elsif lang == 'ar' and site.active_resume_path_ar %}
+    {% assign data_path_string = site.active_resume_path_ar %}
+{% else %}
+    {% assign data_path_string = lang %}
+{% endif %}
+
+{% if data_path_string == '' or data_path_string == nil %}
+    {% assign resume_data = site.data %}
+{% else %}
+    {% assign path_parts = data_path_string | split: '.' %}
+    {% assign data_object = site.data %}
+    {% for part in path_parts %}
+        {% assign data_object = data_object[part] %}
+    {% endfor %}
+    {% assign resume_data = data_object %}
+{% endif %}
+
+{% assign localized_name = site.name %}
+{% if site.names and site.names[lang] %}
+    {% assign localized_name = site.names[lang] %}
+{% elsif lang == 'ar' and site.name_ar %}
+    {% assign localized_name = site.name_ar %}
+{% endif %}
+
+{% assign localized_title = site.resume_title %}
+{% if site.resume_titles and site.resume_titles[lang] %}
+    {% assign localized_title = site.resume_titles[lang] %}
+{% elsif lang == 'ar' and site.resume_title_ar %}
+    {% assign localized_title = site.resume_title_ar %}
+{% endif %}
+
+{% assign localized_address = site.contact_info.address %}
+{% if site.contact_info.addresses and site.contact_info.addresses[lang] %}
+    {% assign localized_address = site.contact_info.addresses[lang] %}
+{% elsif lang == 'ar' and site.contact_info.address_ar %}
+    {% assign localized_address = site.contact_info.address_ar %}
+{% endif %}
+
+{% assign show_intro = false %}
+{% if site.resume_header_intro and site.resume_header_intro[lang] == true %}
+    {% assign show_intro = true %}
+{% elsif lang == 'ar' and site.resume_header_intro_ar == true %}
+    {% assign show_intro = true %}
+{% elsif lang != 'ar' and site.resume_header_intro_en == true %}
+    {% assign show_intro = true %}
+{% endif %}
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="{{ dir }}">
+    <head>
+        {% include shared-head.html %}
+
+        {% if lang_config and lang_config.font_url %}
+            <link href="{{ lang_config.font_url }}" rel="stylesheet" type="text/css">
+        {% elsif lang == 'ar' and site.resume_theme == 'default' %}
+            <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+        {% elsif dir != 'rtl' %}
+            <link href="https://fonts.googleapis.com/css?family=Lora:400,700%7COpen+Sans:400,300,800,700" rel="stylesheet" type="text/css">
+        {% endif %}
+
+        {% if dir == 'rtl' %}
+            <link rel="stylesheet" type="text/css" href="{{ 'assets/css/cv-ar.css' | relative_url }}">
+        {% else %}
+            <link rel="stylesheet" type="text/css" href="{{ 'assets/css/cv.css' | relative_url }}">
+        {% endif %}
+
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ 'assets/favicon/resume/apple-touch-icon.png' | relative_url }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ 'assets/favicon/resume/favicon-32x32.png' | relative_url }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ 'assets/favicon/resume/favicon-16x16.png' | relative_url }}">
+        <link rel="manifest" href="{{ 'assets/favicon/resume/site.webmanifest' | relative_url }}">
+
+        {% include hreflang.html %}
+        {% seo %}
+        {% include analytics-head.html %}
+    </head>
+
+    <body class="theme-{% if site.resume_theme %}{{ site.resume_theme }}{% endif %}">
+        {% include analytics-body.html %}
+
+        <div class="wrapper" itemscope itemtype="http://schema.org/Person">
+            <meta itemprop="telephone" content="{{ site.contact_info.phone }}" />
+            <meta itemprop="address" content="{{ localized_address }}" />
+
+            <header class="page-header">
+
+                {% if site.resume_avatar == true %}
+                    <a href="{{ '/' | relative_url }}" title="{{ ui.home | default: 'Homepage' }}" target="_blank" rel="noopener">
+                        <img src="{{ '/assets/images/Profile-min.jpg' | relative_url }}" alt="{{ ui.photo_alt | default: 'profile photo' }}" class="avatar no-print" itemprop="image">
+                    </a>
+                {% endif %}
+
+                <h1 class="header-name" itemprop="name">
+                    {{ localized_name.first }} {{ localized_name.middle }} {{ localized_name.last }}
+                </h1>
+
+                {% if site.display_header_contact_info == true %}
+                    <div class="header-contact-info">
+                        <p>
+                            {% if site.enable_live == true %}
+                                {% if site.contact_info.phone_live %}
+                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone_live | remove: ' ' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone_live }}</a>
+                                {% endif %}
+                            {% else %}
+                                {% if site.contact_info.phone %}
+                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone | remove: ' ' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone }}</a>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if site.enable_live == true %}
+                                {% if site.contact_info.email_live %}
+                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;{{ site.contact_info.email_live }}
+                                {% endif %}
+                            {% else %}
+                                {% if site.contact_info.email %}
+                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;{{ site.contact_info.email }}
+                                {% endif %}
+                            {% endif %}
+
+                            {% if localized_address %}
+                                &nbsp;&nbsp;{% include vendors/lineicons-v4.0/postcard.svg %}&nbsp;{{ localized_address }}
+                            {% endif %}
+
+                            {% if site.contact_info.dob %}
+                                &nbsp;&nbsp;{{ ui.date_of_birth | default: 'DoB:' }}&nbsp;{% include date-formatter.html date=site.contact_info.dob lang=lang style='MDY' %}
+                            {% endif %}
+
+                            {% assign active_languages = resume_data.languages | where: 'active', true %}
+                            {% if site.resume_section.lang_header and active_languages.size > 0 %}
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span style="white-space: nowrap;">
+                                    <strong>{{ ui.languages | default: 'Languages:' }}</strong>
+                                    {% assign list_separator = ui.list_separator | default: ', ' %}
+                                    {% for language_item in active_languages %}
+                                        {{ language_item.language }} ({{ language_item.descrp_short }}){% unless forloop.last %}{{ list_separator }}{% endunless %}
+                                    {% endfor %}
+                                </span>
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endif %}
+
+                <div class="title-bar no-print">
+                    <h2 class="header-title" itemprop="jobTitle">{{ localized_title }}</h2>
+
+                    {% if site.social_links %}
+                        <ul class="social-links">
+                            {% include social-links.html %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                {% if show_intro %}
+                <div class="executive-summary" itemprop="description">
+                    <p>{{ resume_data.header.intro }}</p>
+                </div>
+                {% endif %}
+
+                {% if site.resume_looking_for_work == true %}
+                    <a href="mailto:{{ site.contact_info.email }}" class="contact-button no-print" itemprop="email">{{ ui.contact_me | default: 'Contact me' }}</a>
+                {% elsif site.resume_looking_for_work == false %}
+                    <a class="contact-button not-looking no-print">{{ ui.not_looking_for_work | default: "I'm not looking for work right now." }}</a>
+                {% endif %}
+            </header>
+
+            {%- for section_name in site.resume_section_order -%}
+                {% include resume-section-multi.html section_name=section_name lang=lang ui=ui %}
+            {%- endfor -%}
+
+            {% if site.resume_print_social_links %}
+                <section class="content-section print-only">
+                    <header class="section-header">
+                        <h2>{{ ui.social_links | default: 'Social Links' }}</h2>
+                    </header>
+                    <div class="resume-item">
+                        {% include print-social-links.html %}
+                    </div>
+                </section>
+            {% endif %}
+
+            <footer class="page-footer no-print">
+                <p class="footer-line">
+                    {{ ui.page_last_generated_on | default: 'This page was last generated on' }} {{ "now" | date: "%Y-%m-%d" }} {{ ui.at | default: 'at' }} {{ "now" | date: "%H:%M:%S" }}Z.
+                </p>
+                <p class="copyright">{{ site.title }} &copy; 2018 - {{ "now" | date: "%Y" }}</p>
+            </footer>
+
+            {% if site.enable_live == false %}
+                <footer class="page-footer print-only">
+                    <p class="footer-line">
+                        {{ ui.cv_last_generated_on | default: 'This CV was last generated on' }} {{ "now" | date: "%Y-%m-%d" }} {{ ui.at | default: 'at' }} {{ "now" | date: "%H:%M:%S" }}Z.
+                        <br>
+                        <a href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" target="_blank" rel="noopener noreferrer" style="font-weight: 100; color: #999;">
+                            {{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}
+                        </a>
+                    </p>
+                </footer>
+            {% endif %}
+        </div>
+
+        {{ content }}
+    </body>
+</html>

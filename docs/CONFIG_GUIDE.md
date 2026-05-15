@@ -193,6 +193,19 @@ Choose one (do not enable both):
 
 ---
 
+## Languages Dictionary
+
+The `languages` object is the central source of truth for supported languages and their text direction (LTR/RTL).
+
+```yaml
+languages:
+  en:
+    dir: ltr
+  ar:
+    dir: rtl
+```
+
+
 ## Jekyll build settings
 
 - plugins (required): jekyll-feed, jekyll-seo-tag, jekyll-sitemap, jekyll-redirect-from
@@ -292,6 +305,12 @@ social_links:
 authors: []
 resume_theme: default
 analytics:
+
+languages:
+  en:
+    dir: ltr
+  ar:
+    dir: rtl
   # gtm: GTM-XXXXXXX
   # ga: true
   # gtag: G-XXXXXXXXXX

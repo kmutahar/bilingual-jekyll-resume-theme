@@ -1,0 +1,50 @@
+{% assign input_value = include.date | append: '' | strip %}
+{% assign input_value_downcase = input_value | downcase %}
+{% assign style = include.style | default: 'MY' %}
+{% assign lang = include.lang | default: 'en' %}
+
+{% assign lang_data = site.data.languages[lang] | default: site.data.languages.en %}
+{% assign en_data = site.data.languages.en %}
+{% assign ui = lang_data.ui | default: lang_data.UI %}
+{% assign present_output = ui.present | default: 'Present' %}
+
+{% assign present_aliases = lang_data.present_values | default: en_data.present_values %}
+{% assign is_present = false %}
+{% for alias in present_aliases %}
+    {% assign alias_downcase = alias | append: '' | downcase %}
+    {% if input_value_downcase == alias_downcase %}
+        {% assign is_present = true %}
+    {% endif %}
+{% endfor %}
+{% if input_value_downcase == 'present' or input_value_downcase == 'حتى الآن' %}
+    {% assign is_present = true %}
+{% endif %}
+
+{% if is_present %}
+    {{ present_output }}
+{% else %}
+    {% assign month_number = input_value | date: '%m' %}
+    {% assign year_number = input_value | date: '%Y' %}
+    {% assign day_number = input_value | date: '%-d' %}
+    {% assign month_index = month_number | plus: 0 | minus: 1 %}
+
+    {% assign months = lang_data.months %}
+    {% if months == nil or months.size == 0 %}
+        {% assign months = en_data.months %}
+    {% endif %}
+
+    {% assign month_name = months[month_index] %}
+    {% if month_name %}
+        {% if style == 'MDY' %}
+            {{ month_name }} {{ day_number }}, {{ year_number }}
+        {% else %}
+            {{ month_name }} {{ year_number }}
+        {% endif %}
+    {% else %}
+        {% if style == 'MDY' %}
+            {{ input_value | date: '%B %-d, %Y' }}
+        {% else %}
+            {{ input_value | date: '%B %Y' }}
+        {% endif %}
+    {% endif %}
+{% endif %}

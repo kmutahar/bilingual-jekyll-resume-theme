@@ -69,6 +69,9 @@
 
       @include mixins.media_larger_than_mobile {
         float: left;
+        @include mixins.rtl {
+          float: right;
+        }
         margin: 0;
       }
     }
@@ -93,13 +96,16 @@
 
   @include mixins.media_larger_than_mobile {
     float: right;
+    @include mixins.rtl {
+      float: left;
+    }
     border-top: none;
     padding-top: 0;
   }
 
   .icon-link-item {
     display: inline-block;
-    margin-left: 5px;
+    margin-inline-start: 5px;
   }
 
   .icon-link {
@@ -197,7 +203,8 @@
     border-collapse: separate;
     border-spacing: 1rem 0.5rem; /* horizontal gap, vertical gap */
     table-layout: fixed; /* let columns share available width */
-    margin: 0 0 0.5rem 0;
+    margin-block: 0 0.5rem;
+    margin-inline: 0;
   }
 
   .languages-table tbody {

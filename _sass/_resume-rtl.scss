@@ -66,4 +66,10 @@ html[dir="rtl"] {
   .page-footer {
     text-align: center; // keep centered
   }
+
+  // Dark mode toggle positioning for RTL
+  .dark-mode-toggle {
+    right: auto;
+    left: 1.25rem;
+  }
 }

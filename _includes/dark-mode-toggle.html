@@ -1,0 +1,177 @@
+<!-- Dark Mode Toggle Button (Two-state: System Default vs Pinned Override) -->
+<button
+  id="dark-mode-toggle"
+  class="dark-mode-toggle no-print"
+  type="button"
+  aria-label="Switch to dark mode"
+  title="Switch to dark mode"
+  aria-pressed="false"
+  data-pinned="false"
+>
+  <!-- Sun Icon: Visible in dark mode / indicates switching to light mode -->
+  <svg
+    class="dark-mode-icon dark-mode-icon-sun"
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+
+  <!-- Moon Icon: Visible in light mode / indicates switching to dark mode -->
+  <svg
+    class="dark-mode-icon dark-mode-icon-moon"
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<script>
+  (function () {
+    var toggleBtn = document.getElementById('dark-mode-toggle');
+    if (!toggleBtn) return;
+
+    var metaTheme = document.querySelector('meta[name="color-scheme"]');
+
+    function getSystemTheme() {
+      if (window.matchMedia) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      return 'light';
+    }
+
+    function getSavedTheme() {
+      try {
+        var val = localStorage.getItem('color-scheme');
+        if (val === 'dark' || val === 'light') {
+          return val;
+        }
+        return null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function isArabicRTL() {
+      var docEl = document.documentElement;
+      var dir = docEl.getAttribute('dir');
+      var lang = docEl.getAttribute('lang') || docEl.lang;
+      return dir === 'rtl' || lang === 'ar';
+    }
+
+    function syncState() {
+      var saved = getSavedTheme();
+      if (saved !== null) {
+        document.documentElement.setAttribute('data-color-scheme', saved);
+        document.documentElement.setAttribute('data-theme', saved);
+        if (metaTheme) {
+          metaTheme.setAttribute('content', saved);
+        }
+      } else {
+        document.documentElement.removeAttribute('data-color-scheme');
+        document.documentElement.removeAttribute('data-theme');
+        if (metaTheme) {
+          metaTheme.setAttribute('content', 'light dark');
+        }
+      }
+    }
+
+    function updateUI() {
+      var saved = getSavedTheme();
+      var isPinned = (saved !== null);
+      var effectiveTheme = isPinned ? saved : getSystemTheme();
+      var isRTL = isArabicRTL();
+      var label = '';
+
+      toggleBtn.setAttribute('data-pinned', isPinned ? 'true' : 'false');
+      toggleBtn.setAttribute('aria-pressed', isPinned ? 'true' : 'false');
+      toggleBtn.setAttribute('data-current-theme', effectiveTheme);
+
+      if (isPinned) {
+        label = isRTL
+          ? 'إعادة ضبط المظهر إلى الوضع التلقائي للنظام'
+          : 'Reset to system theme';
+      } else {
+        var nextTheme = (effectiveTheme === 'dark') ? 'light' : 'dark';
+        if (isRTL) {
+          label = (nextTheme === 'dark')
+            ? 'تبديل إلى الوضع الداكن'
+            : 'تبديل إلى الوضع الفاتح';
+        } else {
+          label = (nextTheme === 'dark')
+            ? 'Switch to dark mode'
+            : 'Switch to light mode';
+        }
+      }
+
+      toggleBtn.setAttribute('aria-label', label);
+      toggleBtn.setAttribute('title', label);
+    }
+
+    function toggleTheme() {
+      var saved = getSavedTheme();
+      if (saved !== null) {
+        // Currently pinned -> reset to system default
+        try {
+          localStorage.removeItem('color-scheme');
+        } catch (e) {}
+        syncState();
+      } else {
+        // Currently unpinned -> pin opposite of current system setting
+        var systemTheme = getSystemTheme();
+        var targetTheme = (systemTheme === 'dark') ? 'light' : 'dark';
+        try {
+          localStorage.setItem('color-scheme', targetTheme);
+        } catch (e) {}
+        syncState();
+      }
+      updateUI();
+    }
+
+    toggleBtn.addEventListener('click', toggleTheme);
+
+    if (window.matchMedia) {
+      var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      var mqListener = function () {
+        if (!getSavedTheme()) {
+          updateUI();
+        }
+      };
+      if (darkQuery.addEventListener) {
+        darkQuery.addEventListener('change', mqListener);
+      } else if (darkQuery.addListener) {
+        darkQuery.addListener(mqListener);
+      }
+    }
+
+    syncState();
+    updateUI();
+  })();
+</script>

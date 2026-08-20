@@ -159,6 +159,10 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
     <body class="theme-{% if site.resume_theme %}{{ site.resume_theme }}{% endif %}">
 
         <div class="wrapper" itemscope itemtype="http://schema.org/Person">
+            {% if site.resume_dark_mode == "enabled" %}
+                {% include dark-mode-toggle.html %}
+            {% endif %}
+
             <meta itemprop="telephone" content="{{ site.contact_info.phone }}" />
             <meta itemprop="address" content="{{ site.contact_info.address }}" />
 

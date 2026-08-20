@@ -24,6 +24,7 @@ This guide assumes basic familiarity with Jekyll and Liquid, but includes exampl
   - [social-links.html](#9-social-linkshtml)
   - [print-social-links.html](#10-print-social-linkshtml)
   - [vendors/ (SVG icon packs)](#11-vendors-svg-icon-packs)
+  - [dark-mode-toggle.html](#12-dark-mode-togglehtml)
 - [Dynamic section rendering (resume-section-*.html)](#dynamic-section-rendering-resume-section-html)
   - [How it works](#how-it-works)
   - [Section list and flags](#section-list-and-flags)
@@ -270,6 +271,36 @@ Purpose: Namespaced, vendored icons used across the theme.
 To add a new icon:
 1. Drop a proper, minimal SVG (no script, no external refs) into the correct subfolder.
 2. Reference it from an include with `{% include vendors/lineicons-v5.0/<name>.svg %}`.
+
+---
+
+### 12) dark-mode-toggle.html
+Purpose: Self-contained dark mode toggle button rendered conditionally in both resume layouts.
+- Outputs a fixed-position circular button (top-right for LTR, top-left for RTL) with inline sun/moon SVG icons.
+- Implements a **two-state** finite state machine:
+  - **System Default** — follows the OS `prefers-color-scheme` preference automatically. No `localStorage` entry.
+  - **Pinned** — forces light or dark regardless of OS. Saves `"light"` or `"dark"` to `localStorage["color-scheme"]`.
+- Includes an `addEventListener("change")` listener on `matchMedia("(prefers-color-scheme: dark)")` so the button icon updates in real-time if the user changes their OS theme while in System Default mode.
+- Fully accessible: keyboard focusable, dynamic `aria-label` and `title` updated on state changes, bilingual labels (English and Arabic).
+- Hides automatically in print/PDF output via `.no-print`.
+
+Configuration: Controlled by `resume_dark_mode` in `_config.yml`. Only rendered when set to `enabled`.
+
+```yaml
+# _config.yml
+resume_dark_mode: enabled  # renders toggle in both EN and AR layouts
+# resume_dark_mode: auto   # CSS-only system detection (default, no toggle)
+```
+
+The include is conditionally pulled into both `resume-en.html` and `resume-ar.html`:
+
+```liquid
+{% if site.resume_dark_mode == "enabled" %}
+  {% include dark-mode-toggle.html %}
+{% endif %}
+```
+
+Used by: `resume-en.html` and `resume-ar.html`.
 
 ---
 

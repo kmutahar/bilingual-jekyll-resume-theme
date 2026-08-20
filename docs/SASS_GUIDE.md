@@ -22,6 +22,7 @@ A contributor- and user-friendly tour of the theme's styling system: how styles 
   - [_resume-rtl.scss](#7-_resume-rtlscss)
   - [_profile.scss](#8-_profilescss)
   - [_all-pages.scss](#9-_all-pagesscss)
+  - [_dark-mode.scss](#10-_dark-modescss)
 - [Responsive, print, and RTL strategy](#responsive-print-and-rtl-strategy)
 - [Variables reference](#variables-reference)
 - [Mixins reference](#mixins-reference)
@@ -160,6 +161,38 @@ Used by `assets/css/main.scss` entrypoint.
 Purpose: Small shared bits across pages.
 - SVG icon defaults and header contact icon sizing
 - Footer styles (shared with `.page-footer` in resume)
+
+---
+
+### 10) `_dark-mode.scss`
+Purpose: Dark mode color token system and toggle button styles.
+
+This partial is the single source of truth for all theming colors. It defines CSS custom properties on `:root` for the light palette and overrides them for dark mode via two mechanisms:
+
+1. **Automatic** — `@media (prefers-color-scheme: dark)` picks up the user's OS preference with no JavaScript.
+2. **Manual pin** — `[data-color-scheme="dark"]` / `[data-color-scheme="light"]` attributes on `<html>` are set by the `dark-mode-toggle.html` JS when the user pins a preference.
+
+It also includes:
+- **Print reset** — overrides all tokens back to black-on-white under `@media print`, ensuring PDFs are always clean regardless of the active theme.
+- **Toggle button styles** — `.dark-mode-toggle` component: fixed-position, circular, with sun/moon icon visibility rules per theme state and RTL flip via `html[dir="rtl"]`.
+
+Key CSS custom properties defined:
+
+| Token | Purpose |
+|---|---|
+| `--bg-color` | Page/html background |
+| `--text-color` | Primary body text |
+| `--text-muted` | Secondary/muted text (e.g., footer) |
+| `--border-color` | Section borders |
+| `--card-bg` | Button and card backgrounds |
+| `--link-color` | Link default color |
+| `--link-hover` | Link hover color |
+| `--accent-color` | Focus rings and UI accent |
+| `--button-bg/text/hover-*` | Contact and CV button states |
+| `--icon-fill` | SVG icon fill |
+| `--selection-bg/color` | Text selection highlight |
+
+Loaded by: `assets/css/cv.scss`, `assets/css/cv-ar.scss`, and `assets/css/main.scss`.
 
 ---
 

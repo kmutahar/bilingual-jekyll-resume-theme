@@ -146,7 +146,7 @@ active_resume_path_ar: ""
 ## Rendering flow inside resume layouts
 
 ### 1) Head, SEO, analytics
-- Shared meta from `shared-head.html`
+- Shared meta from `shared-head.html` — includes `<meta name="color-scheme" content="light dark">` and an inline FOUC-prevention script that reads `localStorage["color-scheme"]` and applies the saved theme attribute before first paint
 - Resume-specific head from `resume-head-*.html` (CSS, fonts, favicons)
 - `{% seo %}` prints SEO meta and Open Graph/Twitter cards
 - `analytics-head.html` adds GTM or GA4; `analytics-body.html` adds GTM `<noscript>` in the body
@@ -249,6 +249,11 @@ resume_section_order:
 
 # Print behavior
 resume_print_social_links: true
+
+# Dark mode (controls whether a toggle button is rendered)
+# "auto" (default): CSS-only system detection, no toggle button
+# "enabled": renders an interactive toggle button in both EN and AR layouts
+resume_dark_mode: auto
 
 # Active data subtree for resume_data (separate for each language)
 active_resume_path_en: "en"

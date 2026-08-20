@@ -5,11 +5,11 @@ $container-width: 980px !default;
 $grid-gutter: 10px !default;
 
 // Colors
-$white: #fff;
-$black: #333;
+$white: var(--bg-color, #fff);
+$black: var(--text-color, #333);
 
 // Styles
-$text_color: $black;
+$text_color: var(--text-color, #333);
 
 // Font stack
 $body-font: Helvetica,

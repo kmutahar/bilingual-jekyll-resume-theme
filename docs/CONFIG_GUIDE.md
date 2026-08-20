@@ -16,6 +16,7 @@ Make your site render correctly with this theme. This guide matches the shipped 
 - [Social links](#social-links)
 - [Analytics](#analytics)
 - [Design and authors](#design-and-authors)
+- [Dark Mode](#dark-mode)
 - [Jekyll build settings](#jekyll-build-settings)
 - [Full example config](#full-example-config)
 - [FAQs](#faqs)
@@ -193,6 +194,86 @@ Choose one (do not enable both):
 
 ---
 
+## Dark Mode
+
+The theme features built-in, accessible dark mode support with automatic system preference detection via `prefers-color-scheme` and an optional interactive two-state manual toggle.
+
+### Configuration (`resume_dark_mode`)
+
+Configure dark mode behavior in your `_config.yml` using the `resume_dark_mode` option:
+
+```yaml
+# Dark mode configuration (options: auto | enabled)
+resume_dark_mode: auto
+```
+
+#### Accepted Values
+
+- **`auto`** (default):
+  - Pure CSS-first system detection via `@media (prefers-color-scheme: dark)` and `:root { color-scheme: light dark; }`.
+  - Automatically switches between light and dark palettes to match the visitor's operating system / browser theme.
+  - **No toggle button is rendered in the HTML**, resulting in zero JavaScript runtime overhead and no layout shifts.
+  - If `resume_dark_mode` is omitted or not defined, the theme safely defaults to `auto`.
+
+- **`enabled`**:
+  - Full automatic system detection **plus** an interactive floating toggle button rendered on resume pages (`resume-en.html` and `resume-ar.html`).
+  - Allows visitors to manually override their system color scheme.
+  - Preference is persisted across visits and pages via `localStorage`.
+
+### Two-State Toggle & State Machine
+
+When `resume_dark_mode: enabled` is configured, the toggle operates as a predictable two-state finite state machine (FSM):
+
+1. **State A: System Default (Unpinned)**
+   - Initial state when no preference is stored in `localStorage` (`color-scheme` key is `null`).
+   - The theme strictly follows the visitor's OS setting (`prefers-color-scheme`).
+   - Live media query listeners (`window.matchMedia`) dynamically update toggle accessibility labels if the OS theme shifts during the session.
+   - Clicking the toggle transitions to **State B (Pinned)**, forcing the *opposite* of the active system theme (e.g., clicking on a light OS pins dark mode).
+
+2. **State B: Forced Override (Pinned)**
+   - The chosen scheme (`"dark"` or `"light"`) is saved in `localStorage` under the key `color-scheme`.
+   - The `<html>` element receives `data-color-scheme` and `data-theme` attributes, and `<meta name="color-scheme">` is updated to match.
+   - Clicking the toggle again clears the `localStorage` key and transitions back to **State A (System Default)**.
+
+### Anti-FOUC (Flash of Unstyled Content) Prevention
+
+To eliminate any visual flash or layout shift for returning visitors:
+- A synchronous, non-deferred `<script>` tag is executed in the document `<head>` (via `_includes/shared-head.html`) immediately after `<meta name="color-scheme" content="light dark">`.
+- It reads `localStorage.getItem('color-scheme')` before DOM rendering starts and synchronously applies `data-color-scheme` / `data-theme` to the root element.
+
+### Bilingual Accessibility & RTL Parity
+
+The toggle component is designed for WCAG 2.1 AA compliance:
+- **Keyboard navigation**: Fully focusable with a high-contrast `:focus-visible` focus ring; toggles via <kbd>Enter</kbd> or <kbd>Space</kbd>.
+- **Screen readers**: Dynamic `aria-label` and `title` attributes announce the current action and target theme state in both English (LTR) and Arabic (RTL):
+  - **English (LTR)**:
+    - Unpinned (System Light): `"Switch to dark mode"`
+    - Unpinned (System Dark): `"Switch to light mode"`
+    - Pinned: `"Reset to system theme"`
+  - **Arabic (RTL)**:
+    - Unpinned (System Light): `"تبديل إلى الوضع الداكن"`
+    - Unpinned (System Dark): `"تبديل إلى الوضع الفاتح"`
+    - Pinned: `"إعادة ضبط المظهر إلى الوضع التلقائي للنظام"`
+- **RTL positioning**: In Arabic layouts (`resume-ar.html`), the toggle automatically repositions to the top-left (`left: 1.5rem`) to maintain balanced spacing relative to RTL content.
+
+### Print Media Behavior
+
+When printing or exporting to PDF:
+- The toggle button is automatically hidden via the `.no-print` class and `@media print { display: none !important; }`.
+- Print styles enforce a clean white background (`--bg-color: #ffffff !important`) and crisp black text (`--text-color: #000000 !important`), overriding both dark mode and manual pins.
+
+### Liquid Integration Example
+
+Theme layouts include the toggle conditionally using Liquid:
+
+```liquid
+{% if site.resume_dark_mode == "enabled" %}
+  {% include dark-mode-toggle.html %}
+{% endif %}
+```
+
+---
+
 ## Jekyll build settings
 
 - plugins (required): jekyll-feed, jekyll-seo-tag, jekyll-sitemap, jekyll-redirect-from
@@ -291,6 +372,7 @@ social_links:
 # Theme & analytics
 authors: []
 resume_theme: default
+# resume_dark_mode: auto  # Options: auto (default: CSS system detection), enabled (manual toggle button)
 analytics:
   # gtm: GTM-XXXXXXX
   # ga: true
@@ -334,3 +416,7 @@ exclude:
   - Enable `resume_header_intro_en: true` or `resume_header_intro_ar: true` in `_config.yml`, and create `_data/en/header.yml` (or `_data/ar/header.yml` for Arabic) in your active data path with an `intro:` field. You can copy sample files from `docs/_data/en/header.yml` and `docs/_data/ar/header.yml`.
 - Data for EN/AR lives in different folders.
   - Point `active_resume_path_en` and `active_resume_path_ar` at the right subtrees (e.g., `en` and `ar`).
+- How do I enable the interactive dark mode toggle?
+  - Set `resume_dark_mode: enabled` in your `_config.yml`. By default (`auto` or omitted), dark mode adapts automatically to the user's OS preference without rendering a toggle button.
+- Why doesn't dark mode apply when printing or saving to PDF?
+  - Resumes are optimized for clean physical and PDF printing with high-contrast black text on a pure white background. Dark mode tokens and the toggle button are automatically suppressed in print stylesheets.

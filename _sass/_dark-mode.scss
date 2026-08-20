@@ -1,0 +1,365 @@
+// ==========================================================================
+// Dark Mode System Tokens & Overrides
+// bilingual-jekyll-resume-theme
+// ==========================================================================
+
+:root {
+  color-scheme: light dark;
+
+  // --- Background & Primary Typography ---
+  --bg-color: #ffffff;
+  --text-color: #333;
+  --text-muted: #999;
+  --text-light: #646464;
+  --border-color: #c7c7c7;
+  --card-bg: #efefef;
+
+  // --- Links & Navigation ---
+  --link-color: #333;
+  --link-hover: #9c9c9c;
+  --link-hover-color: var(--link-hover);
+
+  // --- Accent & Brand Colors ---
+  --accent-color: #3064a9;
+  --accent-hover: #307EA9;
+  --accent-hover-color: var(--accent-hover);
+  --social-hover-color: var(--accent-hover);
+  --about-color: var(--text-light);
+
+  // --- Footer ---
+  --footer-text-color: var(--text-muted);
+  --footer-link-color: var(--link-color);
+
+  // --- Icons & Graphics ---
+  --icon-fill: #333;
+  --icon-fill-muted: #BBB;
+  --icon-fill-dark: #000;
+  --icon-hover-fill: var(--icon-fill-dark);
+  --header-icon-fill: var(--icon-fill-dark);
+
+  // --- Buttons (.contact-button, .cv-button) ---
+  --button-bg: #efefef;
+  --button-text: #333;
+  --button-hover-bg: #333;
+  --button-hover-text: #fff;
+
+  // --- Text Selection ---
+  --selection-bg: rgba(51, 51, 51, .8);
+  --selection-color: #fff;
+
+  // --- Dark Mode Toggle Component Tokens ---
+  --toggle-btn-bg: transparent;
+  --toggle-btn-border: var(--border-color);
+  --toggle-btn-color: var(--text-color);
+  --toggle-btn-hover-bg: var(--button-bg);
+  --toggle-btn-focus-ring: var(--accent-color);
+}
+
+// --------------------------------------------------------------------------
+// Automatic System Dark Mode (@media prefers-color-scheme)
+// --------------------------------------------------------------------------
+@media (prefers-color-scheme: dark) {
+  :root:not([data-color-scheme="light"]):not([data-theme="light"]) {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --text-muted: #888888;
+    --text-light: #aaaaaa;
+    --border-color: #333333;
+    --card-bg: #1e1e1e;
+
+    --link-color: #e0e0e0;
+    --link-hover: #ffffff;
+    --link-hover-color: var(--link-hover);
+
+    --accent-color: #6ba4e8;
+    --accent-hover: #8cbcf3;
+    --accent-hover-color: var(--accent-hover);
+    --social-hover-color: var(--accent-hover);
+    --about-color: var(--text-light);
+
+    --footer-text-color: var(--text-muted);
+    --footer-link-color: var(--link-color);
+
+    --icon-fill: #e0e0e0;
+    --icon-fill-muted: #666666;
+    --icon-fill-dark: #ffffff;
+    --icon-hover-fill: var(--icon-fill-dark);
+    --header-icon-fill: var(--icon-fill-dark);
+
+    --button-bg: #2a2a2a;
+    --button-text: #e0e0e0;
+    --button-hover-bg: #444444;
+    --button-hover-text: #ffffff;
+
+    --selection-bg: rgba(107, 164, 232, .5);
+    --selection-color: #ffffff;
+
+    --toggle-btn-border: var(--border-color);
+    --toggle-btn-color: var(--text-color);
+    --toggle-btn-hover-bg: var(--button-bg);
+    --toggle-btn-focus-ring: var(--accent-color);
+  }
+}
+
+// --------------------------------------------------------------------------
+// Forced Dark Override (Pinned via toggle or explicit attribute)
+// --------------------------------------------------------------------------
+:root[data-color-scheme="dark"],
+:root[data-theme="dark"],
+[data-color-scheme="dark"],
+[data-theme="dark"],
+html.dark {
+  color-scheme: dark;
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --text-muted: #888888;
+  --text-light: #aaaaaa;
+  --border-color: #333333;
+  --card-bg: #1e1e1e;
+
+  --link-color: #e0e0e0;
+  --link-hover: #ffffff;
+  --link-hover-color: var(--link-hover);
+
+  --accent-color: #6ba4e8;
+  --accent-hover: #8cbcf3;
+  --accent-hover-color: var(--accent-hover);
+  --social-hover-color: var(--accent-hover);
+  --about-color: var(--text-light);
+
+  --footer-text-color: var(--text-muted);
+  --footer-link-color: var(--link-color);
+
+  --icon-fill: #e0e0e0;
+  --icon-fill-muted: #666666;
+  --icon-fill-dark: #ffffff;
+  --icon-hover-fill: var(--icon-fill-dark);
+  --header-icon-fill: var(--icon-fill-dark);
+
+  --button-bg: #2a2a2a;
+  --button-text: #e0e0e0;
+  --button-hover-bg: #444444;
+  --button-hover-text: #ffffff;
+
+  --selection-bg: rgba(107, 164, 232, .5);
+  --selection-color: #ffffff;
+
+  --toggle-btn-border: var(--border-color);
+  --toggle-btn-color: var(--text-color);
+  --toggle-btn-hover-bg: var(--button-bg);
+  --toggle-btn-focus-ring: var(--accent-color);
+}
+
+// --------------------------------------------------------------------------
+// Forced Light Override (Pinned via toggle on dark OS)
+// --------------------------------------------------------------------------
+:root[data-color-scheme="light"],
+:root[data-theme="light"],
+[data-color-scheme="light"],
+[data-theme="light"],
+html.light {
+  color-scheme: light;
+  --bg-color: #ffffff;
+  --text-color: #333;
+  --text-muted: #999;
+  --text-light: #646464;
+  --border-color: #c7c7c7;
+  --card-bg: #efefef;
+
+  --link-color: #333;
+  --link-hover: #9c9c9c;
+  --link-hover-color: var(--link-hover);
+
+  --accent-color: #3064a9;
+  --accent-hover: #307EA9;
+  --accent-hover-color: var(--accent-hover);
+  --social-hover-color: var(--accent-hover);
+  --about-color: var(--text-light);
+
+  --footer-text-color: var(--text-muted);
+  --footer-link-color: var(--link-color);
+
+  --icon-fill: #333;
+  --icon-fill-muted: #BBB;
+  --icon-fill-dark: #000;
+  --icon-hover-fill: var(--icon-fill-dark);
+  --header-icon-fill: var(--icon-fill-dark);
+
+  --button-bg: #efefef;
+  --button-text: #333;
+  --button-hover-bg: #333;
+  --button-hover-text: #fff;
+
+  --selection-bg: rgba(51, 51, 51, .8);
+  --selection-color: #fff;
+
+  --toggle-btn-border: var(--border-color);
+  --toggle-btn-color: var(--text-color);
+  --toggle-btn-hover-bg: var(--button-bg);
+  --toggle-btn-focus-ring: var(--accent-color);
+}
+
+// --------------------------------------------------------------------------
+// Print Media Override (Always clean light background for printing)
+// --------------------------------------------------------------------------
+@media print {
+  :root,
+  :root[data-color-scheme="dark"],
+  :root[data-color-scheme="light"],
+  :root[data-theme="dark"],
+  :root[data-theme="light"],
+  [data-color-scheme="dark"],
+  [data-theme="dark"],
+  html.dark,
+  html.light {
+    color-scheme: light !important;
+    --bg-color: #ffffff !important;
+    --text-color: #000000 !important;
+    --text-muted: #666 !important;
+    --text-light: #444 !important;
+    --border-color: #c7c7c7 !important;
+    --card-bg: #fff !important;
+
+    --link-color: #000 !important;
+    --link-hover: #000 !important;
+    --link-hover-color: #000 !important;
+
+    --accent-color: #000 !important;
+    --accent-hover: #000 !important;
+    --accent-hover-color: #000 !important;
+    --social-hover-color: #000 !important;
+    --about-color: #444 !important;
+
+    --footer-text-color: #666 !important;
+    --footer-link-color: #000 !important;
+
+    --icon-fill: #000 !important;
+    --icon-fill-muted: #666 !important;
+    --icon-fill-dark: #000 !important;
+    --icon-hover-fill: #000 !important;
+    --header-icon-fill: #000 !important;
+
+    --button-bg: #fff !important;
+    --button-text: #000 !important;
+    --button-hover-bg: #fff !important;
+    --button-hover-text: #000 !important;
+
+    --selection-bg: transparent !important;
+    --selection-color: #000 !important;
+  }
+
+  html,
+  body {
+    background-color: #fff !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .dark-mode-toggle,
+  #dark-mode-toggle {
+    display: none !important;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Toggle Button Component Styling
+// --------------------------------------------------------------------------
+.dark-mode-toggle {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: var(--bg-color);
+  color: var(--toggle-btn-color);
+  border: 1px solid var(--toggle-btn-border);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: var(--toggle-btn-hover-bg);
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--toggle-btn-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .dark-mode-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke: currentColor;
+    transition: transform 0.3s ease;
+  }
+
+  // Baseline Light Mode: Show Moon, Hide Sun
+  .dark-mode-icon-sun {
+    display: none;
+  }
+  .dark-mode-icon-moon {
+    display: block;
+  }
+}
+
+// Media Query System Dark Mode (when not overridden to Light)
+@media (prefers-color-scheme: dark) {
+  :root:not([data-color-scheme="light"]):not([data-theme="light"]) {
+    .dark-mode-toggle {
+      .dark-mode-icon-sun {
+        display: block;
+      }
+      .dark-mode-icon-moon {
+        display: none;
+      }
+    }
+  }
+}
+
+// Pinned Dark Override: Show Sun, Hide Moon
+:root[data-color-scheme="dark"],
+:root[data-theme="dark"],
+[data-color-scheme="dark"],
+[data-theme="dark"],
+html.dark {
+  .dark-mode-toggle {
+    .dark-mode-icon-sun {
+      display: block;
+    }
+    .dark-mode-icon-moon {
+      display: none;
+    }
+  }
+}
+
+// Pinned Light Override: Show Moon, Hide Sun
+:root[data-color-scheme="light"],
+:root[data-theme="light"],
+[data-color-scheme="light"],
+[data-theme="light"],
+html.light {
+  .dark-mode-toggle {
+    .dark-mode-icon-sun {
+      display: none;
+    }
+    .dark-mode-icon-moon {
+      display: block;
+    }
+  }
+}
+
+// RTL layout positioning
+html[dir="rtl"] {
+  .dark-mode-toggle {
+    right: auto;
+    left: 1.25rem;
+  }
+}

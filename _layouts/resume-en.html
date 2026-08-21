@@ -1,147 +1,32 @@
-{% comment %}
+{%- comment -%}
 =============================================================================
-DYNAMIC DATA LOADER FOR JEKYLL
+ENGLISH RESUME LAYOUT (resume-en.html)
 =============================================================================
-This entire block dynamically sets the 'resume_data' variable.
-Its goal is to find the correct data folder (or "data object") based on the 
-'active_resume_path_en' variable set in your _config.yml file.
+Purpose:
+  Primary resume layout for English (LTR) curriculum vitae rendering.
+  Loads data via data-loader.html, establishes Schema.org Person microdata,
+  renders header contact info, dynamic sections, and footers.
 
-The rest of the template can then use 'resume_data' 
-(e.g., 'resume_data.experience', 'resume_data.links') without 
-caring *where* that data actually came from.
-{% endcomment %}
+YAML Frontmatter Expectations:
+  - layout: resume-en
+  - title: Page title (optional, defaults to site.title / person's name)
+  - t_id: Translation group identifier (e.g. "resume") to link with Arabic version
+  - lang: en (default)
+  - dir: ltr (default)
 
-{% comment %}
-    STEP 1: Get the path string from the config file.
-    'site.active_resume_path_en' reads the value from _config.yml.
-    We assign it to a new, shorter variable called 'data_path_string'.
-{% endcomment %}
-{% assign data_path_string = site.active_resume_path_en %}
+Semantic Landmark Structure:
+  - Skip navigation link ({% include skip-link.html %})
+  - Header banner: <header class="page-header" role="banner">
+  - Primary content: <main id="main-content" role="main">
+  - Footers: <footer class="page-footer" role="contentinfo"> (screen and print)
 
-{% comment %}
-    STEP 2: Check if the path is empty.
-    This 'if' statement checks if 'data_path_string' is either an
-    empty string ("") or 'nil' (which means it wasn't defined at all).
-    This is our "default" or "fallback" case for files in the root _data/ folder.
-{% endcomment %}
-{% if data_path_string == "" or data_path_string == nil %}
-    
-    {% comment %}
-        FALLBACK CASE: The path was empty.
-        We assign 'resume_data' to be the top-level 'site.data' object.
-        This means the rest of the template will look for files directly in 
-        the _data/ folder (e.g., 'site.data.experience' from _data/experience.yml).
-    {% endcomment %}
-    {% assign resume_data = site.data %}
-    
-    {% else %}
-    
-    {% comment %}
-        ACTIVE CASE: A path was provided (e.g., "en" or "ProjectManager").
-        Now we need to "drill down" to find the correct data object.
-    {% endcomment %}
-    
-    {% comment %}
-        STEP 3: Split the path string into parts.
-        The 'split: "."' filter takes the string and breaks it into an
-        array (a list) using the dot '.' as the separator.
-        If data_path_string = "2025-06.20250621-PM"
-        Then path_parts = ["2025-06", "20250621-PM"]
-        If data_path_string = "en"
-        Then path_parts = ["en"]
-    {% endcomment %}
-    {% assign path_parts = data_path_string | split: '.' %}
-    
-    {% comment %}
-        STEP 4: Set the starting point for our loop.
-        We create a temporary variable 'data_object' and set it to the 
-        very top of the data tree, 'site.data'. This is the object
-        we will "drill down" into.
-    {% endcomment %}
-    {% assign data_object = site.data %}
-    
-    {% comment %}
-        STEP 5: The Loop.
-        This 'for' loop iterates over the 'path_parts' array we created.
-        For each 'part' in the list, it will run the code inside.
-    {% endcomment %}
-    {% for part in path_parts %}
-        
-        {% comment %}
-            THE CORE LOGIC: Drilling Down with Bracket Notation.
-            
-            This is the most important line. It re-assigns 'data_object'
-            to be a *child* of itself, using the current 'part' as the key.
-            
-            It uses BRACKET NOTATION: data_object[part]
-            
-            WHY BRACKET NOTATION?
-            In Liquid, you can access data in two ways:
-            1. Dot Notation:    site.data.en
-            2. Bracket Notation: site.data['en']
-            
-            Dot notation fails if the key starts with a number (like "2025-06").
-            Liquid sees 'site.data.2025-06' and gets confused.
-            
-            Bracket notation *always* works because it treats the key as a
-            string, no matter what it contains. 'site.data['2025-06']' is valid.
-            
-            Since our 'part' variable holds a string, 'data_object[part]' is
-            the perfect way to safely access the next level down.
-            
-            HOW THE LOOP WORKS (Example: Your path is _data/2025-06/20250621-PM/)
-            
-            - Your config string is: data_path_string = "2025-06.20250621-PM"
-            - The split array is:   path_parts = ["2025-06", "20250621-PM"]
-            
-            - Before loop: data_object = site.data
-            
-            - Loop 1: 
-            - part = "2025-06"
-            - code runs: data_object = data_object["2025-06"]
-            - result:    data_object = site.data['2025-06']
-            
-            - Loop 2:
-            - part = "20250621-PM"
-            - code runs: data_object = data_object["20250621-PM"]
-            - result:    data_object = site.data['2025-06']['20250621-PM']
-            
-            - Loop ends.
-        {% endcomment %}
-        {% assign data_object = data_object[part] %}
-    
-    {% endfor %}
-    
-    {% comment %}
-        STEP 6: Final Assignment.
-        
-        After the loop has finished, 'data_object' holds our target folder 
-        (e.g., site.data.en or site.data['2025-06']['20250621-PM']).
-        
-        We now assign this final object to the 'resume_data' variable that
-        the rest of the template will use.
-    {% endcomment %}
-    {% assign resume_data = data_object %}
-
-{% endif %}
-
-{% comment %}
+Dynamic Section Mechanics:
+  - Loads data object via {% include data-loader.html lang="en" %}.
+  - Loops over site.resume_section_order array from _config.yml.
+  - Dynamically includes resume-section-en.html for each listed section name.
 =============================================================================
-DYNAMIC DATA LOADER ENDS
-=============================================================================
-
-From this point on, you can just use 'resume_data' variable.
-
-- If config was empty (""):
-resume_data.experience == site.data.experience
-
-- If config was "en":
-resume_data.experience == site.data.en.experience
-
-- If config was "2025-06.20250621-PM":
-resume_data.experience == site.data['2025-06']['20250621-PM'].experience
-{% endcomment %}
-
+{%- endcomment -%}
+{% include data-loader.html lang="en" %}
 <!DOCTYPE html>
 <html lang="en">
     <!-- This page was last updated on {{ "now" | date: "%Y-%m-%d %H:%M:%S" }}Z -->
@@ -156,56 +41,59 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
         {% include analytics-head.html %}
     </head>
 
-    <body class="theme-{% if site.resume_theme %}{{ site.resume_theme }}{% endif %}">
+    <body class="theme-{% if site.resume_theme %}{{ site.resume_theme | escape }}{% endif %}">
+        <!-- Skip to content link (WCAG 2.1 AA SC 2.4.1 Bypass Blocks) -->
+        {% include skip-link.html %}
 
-        <div class="wrapper" itemscope itemtype="http://schema.org/Person">
+        <div class="wrapper" itemscope itemtype="https://schema.org/Person">
             {% if site.resume_dark_mode == "enabled" %}
                 {% include dark-mode-toggle.html %}
             {% endif %}
 
-            <meta itemprop="telephone" content="{{ site.contact_info.phone }}" />
-            <meta itemprop="address" content="{{ site.contact_info.address }}" />
+            {% if site.enable_live == true %}
+                {%- assign header_phone = site.contact_info.phone_live | default: site.contact_info.phone -%}
+                {%- assign header_email = site.contact_info.email_live | default: site.contact_info.email -%}
+            {% else %}
+                {%- assign header_phone = site.contact_info.phone -%}
+                {%- assign header_email = site.contact_info.email -%}
+            {% endif %}
 
-            <header class="page-header">
+            <meta itemprop="telephone" content="{{ header_phone | escape }}" />
+            <meta itemprop="address" content="{{ site.contact_info.address | escape }}" />
+
+            <header class="page-header" role="banner">
 
                 {% if site.resume_avatar == true %}
                     <!-- You can turn off the avatar in _config.yml by setting to false -->
-                    <a href="{{ '/'  | relative_url }}" title="Homepage" target="_blank" rel="noopener">
-                        <img src="{{ '/assets/images/Profile-min.jpg' | relative_url }}" alt="my photo" class="avatar no-print" itemprop="image">
+                    <a href="{{ '/'  | relative_url }}" title="Homepage" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ '/assets/images/Profile-min.jpg' | relative_url }}" alt="{{ site.name.first | escape }} {{ site.name.last | escape }}" class="avatar no-print" itemprop="image">
                     </a>
                 {% endif %}
 
                 <!-- Your name is defined in the _config.yml file -->
                 <h1 class="header-name" itemprop="name">
-                    {{ site.name.first }} {{ site.name.middle }} {{ site.name.last }}
+                    {%- if site.name.first or site.name.last -%}
+                        {{ site.name.first | escape }}{% if site.name.middle %} {{ site.name.middle | escape }}{% endif %} {{ site.name.last | escape }}
+                    {%- else -%}
+                        {{ site.title | escape }}
+                    {%- endif -%}
                 </h1>
 
                 {% if site.display_header_contact_info == true %}
                     <!-- To display contact info here, change `display_header_contact_info` value in _config.yml to true -->
                     <div class="header-contact-info">
                         <p>
-                            {% if site.enable_live == true %}
-                                {% if site.contact_info.phone_live %}
-                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone_live | remove: ' ' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone_live }}</a>
-                                {% endif %}
-                            {% else %}
-                                {% if site.contact_info.phone %}
-                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone | remove: ' ' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone }}</a>
-                                {% endif %}
+                            {% if header_phone %}
+                                {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ header_phone | remove: ' ' | escape }}" dir="ltr" class="header-phone-link">{{ header_phone | escape }}</a>
                             {% endif %}
 
-                            {% if site.enable_live == true %}
-                                {% if site.contact_info.email_live %}
-                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;{{ site.contact_info.email_live }}
-                                {% endif %}
-                            {% else %}
-                                {% if site.contact_info.email %}
-                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;{{ site.contact_info.email }}
-                                {% endif %}
+                            {% if header_email %}
+                                {%- assign safe_header_email = header_email | escape -%}
+                                {% if header_phone %}&nbsp;&nbsp;{% endif %}{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;{{ safe_header_email }}
                             {% endif %}
 
                             {% if site.contact_info.address %}
-                                &nbsp;&nbsp;{% include vendors/lineicons-v4.0/postcard.svg %}&nbsp;{{ site.contact_info.address }}
+                                &nbsp;&nbsp;{% include vendors/lineicons-v4.0/postcard.svg %}&nbsp;{{ site.contact_info.address | escape }}
                             {% endif %}
 
                             {% if site.contact_info.dob %}
@@ -215,10 +103,10 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                             {% assign active_languages = resume_data.languages | where: "active", true %}
                             {% if site.resume_section.lang_header and active_languages.size > 0 %}
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <span style="white-space: nowrap;">
+                                <span class="header-languages-inline">
                                     <strong>Languages:</strong>
                                     {% for lang in active_languages %}
-                                        {{ lang.language }} ({{ lang.descrp_short }}){% unless forloop.last %}, {% endunless %}
+                                        {{ lang.language | escape }} ({{ lang.descrp_short | escape }}){% unless forloop.last %}, {% endunless %}
                                     {% endfor %}
                                 </span>
                             {% endif %}
@@ -228,7 +116,7 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
 
                 <div class="title-bar no-print">
                     <!-- Your title is also defined in the _config.yml file -->
-                    <h2 class="header-title" itemprop="jobTitle">{{ site.resume_title }}</h2>
+                    <h2 class="header-title" itemprop="jobTitle">{{ site.resume_title | escape }}</h2>
 
                     <!-- This is the markup for the icon links; moved out to an include because it's very verbose, and you shouldn't ever need to edit the markup (unless you want to re-order the icons); if you want to customize which links appear, define them in the _config.yml file -->
                     {% if site.social_links %}
@@ -241,59 +129,62 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
 
                 {% if site.resume_header_intro_en == true %}
                 <div class="executive-summary" itemprop="description">
-                    <p>{{ resume_data.header.intro }}</p>
+                    <p>{{ resume_data.header.intro | escape }}</p>
                 </div>
                 {% endif %}
 
                 {% if site.resume_looking_for_work == true %}
-                    <a href="mailto:{{ site.contact_info.email }}" class="contact-button no-print" itemprop="email">Contact me</a>
+                    <a href="mailto:{{ header_email | default: site.contact_info.email | escape }}" class="contact-button no-print" itemprop="email">Contact me</a>
                 {% elsif site.resume_looking_for_work == false %}
-                    <a class="contact-button not-looking no-print">I'm not looking for work right now.</a>
+                    <span class="contact-button not-looking no-print" role="status">I'm not looking for work right now.</span>
                 {% else %}
                 {% endif %}
             </header>
 
-            {% comment %}
-            =============================================================================
-              DYNAMIC SECTION RENDERING
-            =============================================================================
-              Loop through resume_section_order from _config.yml and render each section.
-              This allows you to customize section order without editing the layout.
-            {% endcomment %}
-            {%- for section_name in site.resume_section_order -%}
-                {% include resume-section-en.html section_name=section_name %}
-            {%- endfor -%}
+            <!-- Main Landmark for Resume Content -->
+            <main id="main-content" role="main">
+                {% comment %}
+                =============================================================================
+                  DYNAMIC SECTION RENDERING
+                =============================================================================
+                  Loop through resume_section_order from _config.yml and render each section.
+                  This allows you to customize section order without editing the layout.
+                {% endcomment %}
+                {%- for section_name in site.resume_section_order -%}
+                    {% include resume-section-en.html section_name=section_name %}
+                {%- endfor -%}
 
-            {% if site.resume_print_social_links %}
-                <!-- begin Print Social Links -->
-                <section class="content-section print-only">
+                {% if site.resume_print_social_links %}
+                    <!-- begin Print Social Links -->
+                    <section class="content-section print-only">
 
-                    <header class="section-header">
-                        <h2>Social Links</h2>
-                    </header>
+                        <header class="section-header">
+                            <h2>Social Links</h2>
+                        </header>
 
-                    <div class="resume-item">
-                        {% include print-social-links.html %}
-                    </div>
+                        <div class="resume-item">
+                            {% include print-social-links.html %}
+                        </div>
 
-                </section>
-                <!-- end Print Social Links -->
-            {% endif %}
+                    </section>
+                    <!-- end Print Social Links -->
+                {% endif %}
+            </main>
 
-            <footer class="page-footer no-print">
+            <footer class="page-footer no-print" role="contentinfo">
                 <p class="footer-line">
                     This page was last generated on {{ "now" | date: "%Y-%m-%d" }} at {{ "now" | date: "%H:%M:%S" }}Z.
                 </p>
-                <p class="copyright">{{ site.title }} &copy; 2018 - {{ "now" | date: "%Y" }}</p>
+                <p class="copyright">{{ site.title | escape }} &copy; 2018 - {{ "now" | date: "%Y" }}</p>
             </footer>
 
             {% if site.enable_live == false %}
-                <footer class="page-footer print-only">
+                <footer class="page-footer print-only" role="contentinfo">
                     <p class="footer-line">
                         This CV was last generated on {{ "now" | date: "%Y-%m-%d" }} at {{ "now" | date: "%H:%M:%S" }}Z.
                         <br>
-                        <a href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" target="_blank" rel="noopener noreferrer" style="font-weight: 100; color: #999;">
-                            {{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}
+                        <a href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url | escape }}" target="_blank" rel="noopener noreferrer" class="print-footer-url">
+                            {{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url | escape }}
                         </a>
                     </p>
                 </footer>

@@ -1,9 +1,27 @@
+{%- comment -%}
+=============================================================================
+ANALYTICS BODY SNIPPET (GTM NOSCRIPT FALLBACK)
+=============================================================================
+Purpose:
+  Renders the Google Tag Manager <noscript> fallback iframe immediately after
+  the opening <body> tag. If GTM is not configured, this include renders
+  nothing.
+
+Configuration (in _config.yml):
+  analytics:
+    gtm: "GTM-XXXXXXX"
+
+Usage:
+  {% include analytics-body.html %}
+=============================================================================
+{%- endcomment -%}
+
 {%- if site.analytics.gtm -%}
 
-    <!-- Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript fallback) -->
     <noscript>
         <iframe
-            src="https://www.googletagmanager.com/ns.html?id={{ site.analytics.gtm }}"
+            src="https://www.googletagmanager.com/ns.html?id={{ site.analytics.gtm | escape }}"
             height="0"
             width="0"
             style="display:none;visibility:hidden">
@@ -11,18 +29,14 @@
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-{%- else  -%}
+{%- elsif site.analytics.gtag or site.analytics.ga -%}
 
-    {%- if site.analytics.ga  -%}
+    {%- comment -%}
+    Google Analytics (gtag.js) operates entirely in <head>; no body snippet is required.
+    {%- endcomment -%}
 
-        {%- comment -%}
-        No Google Analytics gtag.js exists for body so this section will return a blank.
-        {%- endcomment -%}
+{%- else -%}
 
-    {%- endif -%}
-
-{%- else  -%}
-
-    <!-- No Analytics Added -->
+    <!-- No Analytics Configured -->
 
 {%- endif -%}

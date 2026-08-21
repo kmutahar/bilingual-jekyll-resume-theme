@@ -1,31 +1,62 @@
+{%- comment -%}
+=============================================================================
+ANALYTICS HEAD SNIPPET (GTM / GA4)
+=============================================================================
+Purpose:
+  Injects tracking and measurement scripts (Google Tag Manager or Google Analytics 4)
+  into the document <head>. Includes built-in privacy protections:
+  - Do Not Track (DNT) browser signal compliance.
+  - IP Anonymization enabled by default for GA4.
+
+Configuration (in _config.yml):
+  analytics:
+    gtm: "GTM-XXXXXXX"       # Google Tag Manager container ID (takes priority)
+    gtag: "G-XXXXXXXXXX"     # Google Analytics 4 measurement ID
+    ga: true                 # Legacy GA flag
+
+Usage:
+  {% include analytics-head.html %}
+=============================================================================
+{%- endcomment -%}
+
 {%- if site.analytics.gtm -%}
 
-    <!-- Google Tag Manager -->
+    <!-- Google Tag Manager (Head) -->
     <script>
-        (function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({
-                'gtm.start': new Date().getTime(),
-                event: 'gtm.js'
-            });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', '{{ site.analytics.gtm }}');
+        // Respect user Do Not Track (DNT) browser settings
+        if (navigator.doNotTrack !== "1" && window.doNotTrack !== "1") {
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', '{{ site.analytics.gtm | escape }}');
+        }
     </script>
-
     <!-- End Google Tag Manager -->
 
-{%- else -%}
+{%- elsif site.analytics.gtag or site.analytics.ga -%}
+    {%- comment -%} Resolve tracking ID from analytics.gtag string or fallback to analytics.ga string {%- endcomment -%}
+    {%- assign tracking_id = site.analytics.gtag -%}
+    {%- if tracking_id == nil or tracking_id == "" or tracking_id == true -%}
+        {%- if site.analytics.ga != true -%}
+            {%- assign tracking_id = site.analytics.ga -%}
+        {%- endif -%}
+    {%- endif -%}
 
-    {%- if site.analytics.ga -%}
-
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analytics.gtag }}"></script>
-        <script>
+    {%- if tracking_id and tracking_id != "" and tracking_id != true -%}
+    <!-- Global site tag (gtag.js) - Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ tracking_id | escape }}"></script>
+    <script>
+        // Respect user Do Not Track (DNT) browser settings
+        if (navigator.doNotTrack !== "1" && window.doNotTrack !== "1") {
             window.dataLayer = window.dataLayer || [];
 
             function gtag() {
@@ -33,9 +64,11 @@
             }
 
             gtag('js', new Date());
-            gtag('config', '{{ site.analytics.gtag }}');
-        </script>
-
+            // Configure GA4 with IP anonymization for user privacy
+            gtag('config', '{{ tracking_id | escape }}', { 'anonymize_ip': true });
+        }
+    </script>
+    <!-- End Global site tag (gtag.js) -->
     {%- endif -%}
 
 {%- endif -%}

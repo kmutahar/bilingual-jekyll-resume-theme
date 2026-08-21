@@ -1,11 +1,32 @@
+{%- comment -%}
+=============================================================================
+DEFAULT BASE LAYOUT (default.html)
+=============================================================================
+Purpose:
+  Serves as the root HTML document skeleton for general site pages, profile
+  landing pages, documentation, and error pages.
+
+YAML Frontmatter Expectations:
+  - layout: default (or omitted for base layout)
+  - title: Page title (used by jekyll-seo-tag)
+  - lang: Language code ('en', 'ar', etc. Defaults to site.lang or 'en')
+  - dir: Text direction ('ltr', 'rtl'. Auto-enabled if lang is 'ar')
+  - t_id: Translation group ID for multilingual hreflang generation
+  - noindex: Set true to block search engine indexing
+
+Semantic Landmark Structure:
+  - Skip navigation link ({% include skip-link.html %})
+  - Analytics body noscript ({% include analytics-body.html %})
+  - Primary content landmark: <main id="main-content" role="main" class="main-content">
+  - Accessible footer landmark: <footer role="contentinfo">
+
+Direction & Language Handling:
+  - Dynamically evaluates page.lang / site.lang.
+  - Injects dir="rtl" when Arabic language or RTL direction is detected.
+=============================================================================
+{%- endcomment -%}
 <!DOCTYPE html>
-<html lang="en">
-    {%- comment -%}
-    <!-- Layout: Default wrapper used by most pages.
-         - Purpose: Provide shared head includes, analytics, page content slot, and footer.
-         - Notes: Keep Liquid tags (e.g., {% seo %}) intact to avoid breaking Jekyll rendering.
-    -->
-    {%- endcomment -%}
+<html lang="{{ page.lang | default: site.lang | default: 'en' | escape }}"{% if page.dir == 'rtl' or page.lang == 'ar' or site.lang == 'ar' %} dir="rtl"{% endif %}>
     <!-- This page was last updated on {{ "now" | date: "%Y-%m-%d %H:%M:%S" }}Z -->
 
     <head>
@@ -23,21 +44,26 @@
 
         {% if site.social_links.mastodon %}
         <!-- rel="me" for Mastodon verification / IndieAuth -->
-        <link rel="me" href="{{ site.social_links.mastodon }}">
+        <link rel="me" href="{{ site.social_links.mastodon | escape }}">
         {% endif %}
     </head>
 
     <body>
+        <!-- Skip to content link (WCAG 2.1 AA SC 2.4.1 Bypass Blocks) -->
+        {% include skip-link.html %}
+
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}
 
-        <!-- Main content injected by Jekyll pages/layouts -->
-        {{ content }}
+        <!-- Main content landmark injected by Jekyll pages/layouts -->
+        <main id="main-content" role="main" class="main-content">
+            {{ content }}
+        </main>
 
         <!-- Footer: site title and copyright range -->
-        <footer>
+        <footer role="contentinfo">
             <p class="copyright">
-                {{ site.title }} &copy; 2018 - {{ "now" | date: "%Y" }}
+                {{ site.title | escape }} &copy; 2018 - {{ "now" | date: "%Y" }}
             </p>
         </footer>
     </body>

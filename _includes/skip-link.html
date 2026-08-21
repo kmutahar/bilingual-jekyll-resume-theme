@@ -1,0 +1,22 @@
+{%- comment -%}
+=============================================================================
+SKIP TO MAIN CONTENT LINK (ACCESSIBILITY / A11Y)
+=============================================================================
+Purpose:
+  Provides keyboard and screen reader users a direct bypass mechanism to jump
+  past repetitive headers directly to <main id="main-content"> (WCAG 2.1 AA
+  SC 2.4.1 Bypass Blocks).
+
+Localization:
+  - English: "Skip to main content"
+  - Arabic: "تخطي إلى المحتوى الرئيسي" (when Arabic layout or RTL is active)
+
+Usage:
+  {% include skip-link.html %}
+=============================================================================
+{%- endcomment -%}
+{%- if page.layout == 'resume-ar' or page.lang == 'ar' or page.dir == 'rtl' or is_arabic == true or site.lang == 'ar' -%}
+<a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+{%- else -%}
+<a href="#main-content" class="skip-link">Skip to main content</a>
+{%- endif -%}

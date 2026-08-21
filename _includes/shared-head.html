@@ -1,7 +1,28 @@
+{%- comment -%}
+=============================================================================
+SHARED HEAD METADATA & FOUC PREVENTION
+=============================================================================
+Purpose:
+  Provides essential baseline metadata, viewport scaling, dark mode FOUC
+  prevention script, favicons, canonical URL, and robots meta tags across all
+  layouts (default.html, resume-en.html, resume-ar.html).
+
+Usage:
+  {% include shared-head.html %}
+=============================================================================
+{%- endcomment -%}
+
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<!-- Viewport setup allowing user pinch-to-zoom (WCAG 2.1 AA SC 1.4.4 Resize Text) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- Declares browser support for both light and dark color schemes -->
 <meta name="color-scheme" content="light dark">
+
+<!--
+  Synchronous FOUC (Flash of Unstyled Content) Prevention Script:
+  Executes before <body> is parsed to apply stored 'color-scheme' theme attributes.
+-->
 <script>
   (function() {
     try {

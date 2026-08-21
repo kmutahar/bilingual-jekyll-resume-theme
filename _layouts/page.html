@@ -1,0 +1,27 @@
+---
+layout: default
+---
+{%- comment -%}
+=============================================================================
+STANDARD PAGE LAYOUT (page.html)
+=============================================================================
+Purpose:
+  Renders generic Markdown/HTML pages with a consistent page header, title,
+  and content article wrapper, wrapped in the 'default' layout shell.
+
+YAML Frontmatter Expectations:
+  - layout: page
+  - title: Page heading title (optional, displayed in <h1 class="page-title">)
+  - lang / dir: Language and text direction (passed to default layout)
+=============================================================================
+{%- endcomment -%}
+<article class="page-container">
+  {% if page.title %}
+  <header class="page-header">
+    <h1 class="page-title">{{ page.title | escape }}</h1>
+  </header>
+  {% endif %}
+  <div class="page-content">
+    {{ content }}
+  </div>
+</article>

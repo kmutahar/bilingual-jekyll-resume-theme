@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides context and guidance to AI coding assistants (Claude, Gemini, etc.) when working with this repository.
+This file provides context and guidance to AI coding assistants (Claude, Warp, Gemini, Cursor, etc.) when working with this repository.
 
 ---
 
@@ -26,7 +26,7 @@ This file provides context and guidance to AI coding assistants (Claude, Gemini,
 
 ## Project Overview
 
-**bilingual-jekyll-resume-theme** is a Ruby gem / Jekyll theme (v0.5.2) for building clean, data-driven, bilingual (English & Arabic) resume/CV websites. Created and maintained by **Khaldoon Mutahar** (MIT License).
+**bilingual-jekyll-resume-theme** is a Ruby gem / Jekyll theme (v0.6.1) for building clean, data-driven, bilingual (English & Arabic) resume/CV websites. Created and maintained by **Khaldoon Mutahar** (MIT License).
 
 ### Key Links
 - **RubyGems**: https://rubygems.org/gems/bilingual-jekyll-resume-theme
@@ -82,10 +82,10 @@ bundle exec jekyll clean
 gem build bilingual-jekyll-resume-theme.gemspec
 
 # Install the built gem locally for testing (version from gemspec)
-gem install bilingual-jekyll-resume-theme-0.5.2.gem
+gem install bilingual-jekyll-resume-theme-0.6.1.gem
 
 # Publish gem to RubyGems.org (requires authentication)
-gem push bilingual-jekyll-resume-theme-0.5.2.gem
+gem push bilingual-jekyll-resume-theme-0.6.1.gem
 ```
 
 ### Testing & Verification
@@ -183,6 +183,7 @@ bilingual-jekyll-resume-theme/
 │   ├── hreflang.html           # Multilingual SEO alternate links (<link rel="alternate">)
 │   ├── analytics-head.html     # Google Analytics/GTM in <head>
 │   ├── analytics-body.html     # Google Analytics/GTM in <body>
+│   ├── dark-mode-toggle.html   # Dark mode toggle button component
 │   └── vendors/                # Bundled external assets
 │       ├── lineicons-v4.0/     # Icon set v4.0 (if used)
 │       └── lineicons-v5.0/     # Icon set v5.0 (if used)
@@ -196,7 +197,8 @@ bilingual-jekyll-resume-theme/
 │   ├── _normalize.scss         # CSS reset
 │   ├── _mixins.scss            # Reusable SCSS mixins
 │   ├── _profile.scss           # Profile/landing page styles
-│   └── _all-pages.scss         # Global cross-page styles
+│   ├── _all-pages.scss         # Global cross-page styles
+│   └── _dark-mode.scss         # Dark mode color tokens and toggle styles
 │
 ├── assets/
 │   └── css/
@@ -215,6 +217,7 @@ bilingual-jekyll-resume-theme/
 │   ├── LAYOUTS_GUIDE.md        # Layout architecture and data flow
 │   ├── SASS_GUIDE.md           # Styling system and customization
 │   ├── PROJECT_OVERVIEW.md     # High-level project overview
+│   ├── FUTURE_FEATURES.md      # Future features roadmap and enhancement proposals
 │   └── _data/                  # Sample data files for consuming sites
 │       ├── en/                 # English samples (copy to your _data/en/)
 │       ├── ar/                 # Arabic samples (copy to your _data/ar/)
@@ -231,7 +234,6 @@ bilingual-jekyll-resume-theme/
 ├── CHANGELOG.md                # Version history (Keep a Changelog format)
 ├── README.md                   # User-facing documentation
 ├── CLAUDE.md                   # This file (AI assistant guidance)
-├── WARP.md                     # Guidance for Warp terminal AI
 ├── LICENSE.txt                 # MIT License
 ├── CODE_OF_CONDUCT.md          # Community guidelines
 ├── SECURITY.md                 # Security policy and vulnerability reporting
@@ -250,7 +252,7 @@ Only files matching these patterns are included in the published gem (see `gemsp
 - `LICENSE`, `README`, `CHANGELOG`, `CODE_OF_CONDUCT` — License and documentation
 - `docs/` — Complete documentation and samples
 
-Excluded from gem: `.git/`, `.github/`, `.gitignore`, `Gemfile`, `Gemfile.lock`, `cliff.toml`, `WARP.md`, `CLAUDE.md`
+Excluded from gem: `.git/`, `.github/`, `.gitignore`, `Gemfile`, `Gemfile.lock`, `cliff.toml`, `CLAUDE.md`
 
 ---
 
@@ -338,25 +340,40 @@ See `docs/DATA_GUIDE.md` for full field reference and examples.
 
 | Key | Type | Purpose |
 |---|---|---|
-| `social_links` | Array | Social media profiles (Twitter, LinkedIn, GitHub, etc.) |
-| `social_links[].platform` | String | Platform name (twitter, linkedin, github, mastodon, etc.) |
-| `social_links[].url` | String | Profile URL |
-| `social_links[].mastodon_verify` | Boolean | Enable Mastodon verification (optional) |
+| `social_links` | Hash | Key-value mapping of social platform names to profile URLs |
+| `social_links.github` | String | GitHub profile URL |
+| `social_links.linkedin` | String | LinkedIn profile URL |
+| `social_links.twitter` | String | Twitter / X profile URL |
+| `social_links.mastodon` | String | Mastodon profile URL (supports `rel="me"` verification) |
+| `social_links.telegram` | String | Telegram profile / chat URL |
+| `social_links.medium` | String | Medium profile URL |
+| `social_links.dribbble` | String | Dribbble profile URL |
+| `social_links.facebook` | String | Facebook profile URL |
+| `social_links.instagram` | String | Instagram profile URL |
+| `social_links.website` | String | Personal or portfolio website URL |
+| `social_links.whatsapp` | String | WhatsApp chat link |
+| `social_links.devto` | String | Dev.to profile URL |
+| `social_links.flickr` | String | Flickr profile URL |
+| `social_links.pinterest` | String | Pinterest profile URL |
+| `social_links.youtube` | String | YouTube channel or video URL |
+| `resume_print_social_links` | Boolean | Print-only textual URL echoes for social links |
 
 ### Analytics & SEO
 
 | Key | Type | Purpose |
 |---|---|---|
-| `google_analytics.id` | String | Google Analytics tracking ID (optional) |
-| `google_tag_manager.id` | String | Google Tag Manager ID (optional) |
+| `analytics.gtm` | String | Google Tag Manager container ID (e.g. `GTM-XXXXXXX`) |
+| `analytics.ga` | Boolean | Enable Google Analytics 4 tracking (`true`) |
+| `analytics.gtag` | String | Google Analytics 4 Measurement ID (e.g. `G-XXXXXXXXXX`) |
 | `lang` | String | Primary language code (e.g., `en`, `ar`) |
 | `description` | String | Short site description for SEO |
 
-### Styling
+### Styling & Dark Mode
 
 | Key | Type | Purpose |
 |---|---|---|
-| `resume_theme` | String | Color theme variant (if implemented) |
+| `resume_theme` | String | Color theme variant (defaults to `default`) |
+| `resume_dark_mode` | String | Dark mode mode: `auto` (system preference) or `enabled` (interactive toggle) |
 
 See `docs/CONFIG_GUIDE.md` for the complete reference and detailed examples.
 
@@ -411,7 +428,7 @@ The `bilingual-jekyll-resume-theme.gemspec` file defines:
 
 ```ruby
 spec.name          = "bilingual-jekyll-resume-theme"
-spec.version       = "0.5.2"                    # Current version (update before release)
+spec.version       = "0.6.1"                    # Current version (update before release)
 spec.authors       = ["Khaldoon Mutahar"]
 spec.email         = ["contact@mutahar.me"]
 spec.license       = "MIT"
@@ -423,8 +440,8 @@ spec.homepage      = "https://www.mutahr.me/bilingual-jekyll-resume-theme"
 
 1. **Update version** in `bilingual-jekyll-resume-theme.gemspec`
 2. **Build locally**: `gem build bilingual-jekyll-resume-theme.gemspec`
-3. **Test locally**: `gem install bilingual-jekyll-resume-theme-0.5.2.gem`
-4. **Push to RubyGems**: `gem push bilingual-jekyll-resume-theme-0.5.2.gem` (requires auth)
+3. **Test locally**: `gem install bilingual-jekyll-resume-theme-0.6.1.gem`
+4. **Push to RubyGems**: `gem push bilingual-jekyll-resume-theme-0.6.1.gem` (requires auth)
 5. **Tag release** on GitHub with version number
 
 ### File Inclusion Filter
@@ -466,6 +483,7 @@ Gemspec includes metadata for discoverability:
 | Includes | `docs/INCLUDES_GUIDE.md` | Include system, adding sections |
 | SASS/SCSS | `docs/SASS_GUIDE.md` | Styling system, overrides without forking |
 | Project Overview | `docs/PROJECT_OVERVIEW.md` | High-level architecture overview |
+| Future Features | `docs/FUTURE_FEATURES.md` | Future roadmap and enhancement proposals |
 
 ---
 
@@ -475,8 +493,8 @@ Gemspec includes metadata for discoverability:
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| 0.5.x | ✅ Supported | Current stable release branch |
-| < 0.5 | ❌ Unsupported | Legacy; please upgrade |
+| 0.6.x | ✅ Supported | Current stable release branch |
+| < 0.6 | ❌ Unsupported | Legacy; please upgrade |
 
 ### Dependency Monitoring
 
@@ -501,7 +519,7 @@ Do **NOT** use GitHub Issues for security reports. Instead:
 
 GitHub Actions workflow: `.github/workflows/publish.yml`
 - Automatically publishes gem to RubyGems when releases are published
-- Requires authentication via `RUBYGEMS_AUTH_TOKEN` secret
+- Requires authentication via `RUBYGEMS_API_KEY` secret
 
 ### Dependency Management
 

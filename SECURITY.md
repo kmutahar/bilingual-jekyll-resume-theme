@@ -8,7 +8,8 @@ The following versions of `bilingual-jekyll-resume-theme` currently receive secu
 
 | Version | Supported          | Notes                               |
 | ------- | ------------------ | ----------------------------------- |
-| 0.5.x   | :white_check_mark: | Current stable release branch.      |
+| 0.6.x   | :white_check_mark: | Current stable release branch (0.6.1+). |
+| 0.5.x   | :white_check_mark: | Maintenance branch; critical security patches only. |
 | < 0.5   | :x:                | Legacy branches; please upgrade.    |
 
 ## Our Dependency Monitoring

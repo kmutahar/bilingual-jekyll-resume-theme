@@ -67,7 +67,7 @@ social_links:
 # The active resume data path to use.
 # Enter the full path using dots as separators, without the _data/ prefix and without the .yml file names at the end.
 active_resume_path_en: "en" # Path to English data (empty = root _data/)
-active_resume_path_ar: "ar" # ath to Arabic data (empty = root _data/)
+active_resume_path_ar: "ar" # Path to Arabic data (empty = root _data/)
 
 # Header and intro
 resume_avatar: true # Show profile picture
@@ -171,7 +171,6 @@ exclude:
   - "*.gemspec"
   - netlify.toml
   - vercel.json
-  - WARP.md
   - scripts/
 
 # Page defaults

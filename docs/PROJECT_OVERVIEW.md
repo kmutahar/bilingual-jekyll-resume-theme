@@ -23,6 +23,7 @@
    - Active/inactive flags per entry across all sections
 
 4. Design and UX
+   - Dark mode support: Automatic OS preference detection with optional interactive toggle (`resume_dark_mode: enabled`)
    - Print-friendly styling (print-only/no-print classes); optional print-only social links block
    - Social links integration via `_includes/social-links.html` (GitHub, LinkedIn, X, YouTube, etc.)
    - SVG icon set via Lineicons (bundled in `_includes/vendors/lineicons-*`)
@@ -42,18 +43,19 @@
 ## Project structure
 
 - `_layouts/`: HTML templates (`default.html`, `resume-en.html`, `resume-ar.html`, `profile.html`)
-- `_includes/`: Reusable components (sections, headers, social links, analytics, `hreflang.html`, SVG vendors)
-- `_sass/`: SCSS stylesheets (base, layout, resume, RTL, print)
+- `_includes/`: Reusable components (sections, headers, social links, analytics, `dark-mode-toggle.html`, `hreflang.html`, SVG vendors)
+- `_sass/`: SCSS stylesheets (base, layout, resume, RTL, print, `_dark-mode.scss`)
 - `_data/`: Theme data files (Arabic month names in `ar/months.yml`)
 - `assets/`: CSS, images, favicons
-- `docs/`: Documentation (config, data, includes, layouts, SASS guides) and sample `_data/` content
+- `docs/`: Documentation (config, data, includes, layouts, SASS guides, roadmap) and sample `_data/` content
 
 ## Notable implementation details
 
 1. Dynamic data loading: In both `resume-en.html` and `resume-ar.html`, Liquid bracket notation iterates over a dot-separated path to resolve nested data objects (handles numeric or hyphenated keys like `"2025-06"`).
 2. Conditional rendering: Sections render from `resume_section_order` and respect per-section toggles and data availability; optional header intro blocks (`resume_header_intro_en`/`_ar`).
 3. Date formatting: Arabic dates via `_includes/ar-date.html` with month name lookup from `_data/ar/months.yml`.
-4. Print behavior: Print-only URL echoes for links and optional print-only social links block.
+4. Print behavior: Print-only URL echoes for links and optional print-only social links block. Dark mode tokens and interactive toggles are suppressed in print output for high-contrast paper/PDF rendering.
+5. Dark mode theming: CSS Custom Properties (`var(--bg-color)`, `var(--text-color)`) provide seamless switching with `data-theme` attribute binding and zero Flash of Unstyled Content (FOUC).
 
 ## Documentation
 
@@ -63,6 +65,7 @@ Includes guides for:
 - Includes (`docs/INCLUDES_GUIDE.md`)
 - Layouts (`docs/LAYOUTS_GUIDE.md`)
 - SASS (`docs/SASS_GUIDE.md`)
+- Future Features Roadmap (`docs/FUTURE_FEATURES.md`)
 
 Sample data is provided under `docs/_data/en/` and `docs/_data/ar/` and a sample `_config` at `docs/_data/_config.sample.yml`.
 

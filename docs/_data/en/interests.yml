@@ -2,12 +2,16 @@
 # File: _data/interests.yml
 # Personal interests and hobbies
 
-# Simple list of interests/hobbies
-# Note: No active/inactive toggle - if it's in the file, it shows
+# List of interests/hobbies
+# Note: Supports active: true / active: false toggle
 # Each entry represents one interest
 
 - description: ""  # Required: Interest description
+  active: true      # Optional: Set to false to hide this entry
 
 - description: ""
+  active: true
 
 - description: ""
+  active: true
+

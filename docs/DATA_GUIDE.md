@@ -49,7 +49,7 @@ Highlights:
 11. [Links](#links)
 12. [Interests](#interests)
 13. [Header Intro](#header-intro)
-14. [General Guidlines](#general-guidelines)
+14. [General Guidelines](#general-guidelines)
 
 ---
 

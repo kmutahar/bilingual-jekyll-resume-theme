@@ -398,7 +398,6 @@ exclude:
   - "*.gemspec"
   - netlify.toml
   - vercel.json
-  - WARP.md
   - scripts/
 ```
 

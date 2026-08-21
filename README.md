@@ -8,6 +8,7 @@ Inspired by and originally forked from [Joel Glovier’s resume template](https:
 ## Features
 
 - **Bilingual support**: Separate layouts for English (`resume-en.html`) and Arabic (`resume-ar.html`) with full RTL support
+- **Dark mode support**: Automatic OS preference detection with optional interactive toggle button
 - **Data-driven architecture**: All resume content stored in YAML files, supporting multiple data paths and versioning
 - **12 resume sections**: Experience, Education, Certifications, Courses, Volunteering, Projects, Skills, Recognition, Associations, Languages, Links, Interests
 - **Print-friendly**: Optimized for PDF generation and printing
@@ -131,7 +132,7 @@ bundle exec jekyll serve
 gem build bilingual-jekyll-resume-theme.gemspec
 ```
 
-For more details, see [WARP.md](WARP.md) or the [Development section](#development) below.
+For more details, see the [documentation guides](docs/) or [CLAUDE.md](CLAUDE.md).
 
 ## Requirements
 
@@ -154,8 +155,8 @@ The theme is available as open source under the terms of the [MIT License](LICEN
 
 - 📖 Check the [documentation guides](docs/) for detailed information
 - 🐛 Report issues on [GitHub Issues](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues)
-- 💡 See [project_overview.md](project_overview.md) for a high-level architecture overview
+- 💡 See [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) for a high-level architecture overview
 
 ---
 
-**Created by Khaldoon Mutahar** | Version 0.4.0 | MIT License
+**Created by Khaldoon Mutahar** | Version 0.6.1 | MIT License

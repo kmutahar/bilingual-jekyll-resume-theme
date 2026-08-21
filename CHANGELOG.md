@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.6.0] - 2026-08-21
+
+### Added
+* Add CLAUDE.md for AI coding assistant guidance and project documentation ([`d68bb03`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/d68bb031043eb88dc7bc6eaaa30a00867f7f7afc))
+
+
+### Changed
+* Add dark mode toggle with system preference detection ([`2dcb813`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/2dcb8135817d05f97d8705ea09bfb326d244cd3d))
+
+* Enhance CLAUDE.md with comprehensive project documentation and guidance for AI assistants ([`b3facba`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/b3facba6cac2caf853d3f70243dd8a9a2f87ab53))
+
+* Revise SECURITY.md with version support and monitoring ([`34c78a0`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/34c78a08ee5e96fd0667b9896c07f6e18e380dd0))
+
+* Potential fix for code scanning alert no. 1: Workflow does not contain permissions ([`915f9e7`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/915f9e77982a962e3eda844263d65b5a4ffb849b))
+
 ## [0.5.2] - 2026-05-09
 
 ### Added
@@ -143,7 +158,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
-[0.5.2]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.1...0.5.2
+[0.6.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.2...v0.6.0
+[0.5.2]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.3.1...v0.4.0

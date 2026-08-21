@@ -1,0 +1,66 @@
+{%- comment -%}
+=============================================================================
+DYNAMIC DATA LOADER FOR JEKYLL
+=============================================================================
+Purpose:
+  Dynamically resolves and sets the 'resume_data' object and contextual
+  helpers for resume and page templates based on language and configuration.
+
+Parameters:
+  - lang: Optional language identifier ('en' or 'ar', defaults to page.lang/site.lang/'en')
+  - path: Optional explicit dot-separated data path (e.g., 'en', 'ar', '2025-06.pm')
+
+Sets the following Liquid variables for consuming layouts and includes:
+  - resume_data: The resolved data hash/object from site.data
+  - data_source: Alias to resume_data (for interface contract conformance)
+  - is_arabic:   Boolean flag (true if requested lang is 'ar', page is RTL, or site.lang is 'ar')
+  - contact:     Alias to site.contact_info
+  - sections:    Alias to site.resume_section
+
+Usage:
+  {% include data-loader.html lang="en" %}
+  {% include data-loader.html lang="ar" %}
+  {% include data-loader.html path="custom.data.path" %}
+=============================================================================
+{%- endcomment -%}
+
+{%- comment -%} Determine effective language with fallback cascade {%- endcomment -%}
+{%- assign _req_lang = include.lang | default: page.lang | default: site.lang | default: "en" -%}
+
+{%- comment -%} Set is_arabic boolean flag for downstream layout and date formatting {%- endcomment -%}
+{%- if _req_lang == "ar" or page.dir == "rtl" or page.lang == "ar" or site.lang == "ar" -%}
+  {%- assign is_arabic = true -%}
+  {%- assign _is_arabic = true -%}
+{%- else -%}
+  {%- assign is_arabic = false -%}
+  {%- assign _is_arabic = false -%}
+{%- endif -%}
+
+{%- comment -%} Determine target data path from include parameter or site configuration {%- endcomment -%}
+{%- assign _data_path = include.path -%}
+{%- if _data_path == nil or _data_path == "" -%}
+  {%- if _is_arabic -%}
+    {%- assign _data_path = site.active_resume_path_ar | default: "ar" -%}
+  {%- else -%}
+    {%- assign _data_path = site.active_resume_path_en | default: "en" -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- comment -%} Resolve dot-separated path in site.data using Liquid bracket notation {%- endcomment -%}
+{%- if _data_path == "" or _data_path == nil -%}
+  {%- assign resume_data = site.data -%}
+{%- else -%}
+  {%- assign _parts = _data_path | split: '.' -%}
+  {%- assign _obj = site.data -%}
+  {%- for _part in _parts -%}
+    {%- if _part != "" and _obj -%}
+      {%- assign _obj = _obj[_part] -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- assign resume_data = _obj | default: site.data -%}
+{%- endif -%}
+
+{%- comment -%} Set interface contract aliases for templates {%- endcomment -%}
+{%- assign data_source = resume_data -%}
+{%- assign contact = site.contact_info -%}
+{%- assign sections = site.resume_section -%}

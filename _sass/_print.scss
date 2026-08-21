@@ -1,0 +1,286 @@
+// ==========================================================================
+// Print Stylesheet
+// bilingual-jekyll-resume-theme
+// ==========================================================================
+//
+// Optimized for PDF generation and physical paper printing (A4 / US Letter).
+// Provides crisp high-contrast black text on pure white background,
+// hides interactive navigation / controls, prevents awkward page breaks,
+// and ensures consistent rendering in both LTR and RTL orientations.
+
+@use "mixins";
+@use "variables";
+
+// --------------------------------------------------------------------------
+// 1. Screen Visibility Defaults for Print Helpers
+// --------------------------------------------------------------------------
+// Hide print-only elements during standard screen rendering
+.print-only,
+.print-only-inline {
+  display: none !important;
+}
+
+// --------------------------------------------------------------------------
+// 2. Page Setup & Geometry
+// --------------------------------------------------------------------------
+@page {
+  margin: variables.$print-page-margin;
+  size: auto;
+}
+
+// --------------------------------------------------------------------------
+// 3. Print Media Rules
+// --------------------------------------------------------------------------
+@media print {
+  // ------------------------------------------------------------------------
+  // A. Color & Background Reset (High Contrast & Eco-friendly)
+  // ------------------------------------------------------------------------
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: variables.$print-text-color !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  html,
+  body {
+    background-color: variables.$print-bg-color !important;
+    color: variables.$print-text-color !important;
+    font-size: variables.$print-font-size;
+    line-height: variables.$print-line-height;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  // ------------------------------------------------------------------------
+  // B. Visibility Controls
+  // ------------------------------------------------------------------------
+  // Elements to hide completely when printing
+  .no-print,
+  .dark-mode-toggle,
+  #dark-mode-toggle,
+  #theme-toggle,
+  .skip-link,
+  .contact-button,
+  .avatar.no-print,
+  .title-bar.no-print {
+    display: none !important;
+  }
+
+  // Elements to reveal exclusively during printing
+  .print-only {
+    display: block !important;
+  }
+
+  .print-only-inline {
+    display: inline !important;
+  }
+
+  // ------------------------------------------------------------------------
+  // C. Modern Page-Break & Fragmentation Controls
+  // ------------------------------------------------------------------------
+  // Prevent splitting individual resume entries across page cuts
+  .resume-item,
+  .resume-header,
+  .page-header,
+  .section-header,
+  .contact-list,
+  .languages-table,
+  .languages-table tr,
+  .languages-table tbody {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  // Prevent orphan headings at the bottom of a page
+  h1,
+  h2,
+  h3,
+  h4,
+  .section-header,
+  .resume-item-title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  // Prevent typographic orphans and widows in paragraphs and lists
+  p,
+  li,
+  .resume-item-copy,
+  .resume-item-list {
+    orphans: 3;
+    widows: 3;
+  }
+
+  // ------------------------------------------------------------------------
+  // D. Layout & Structural Sizing
+  // ------------------------------------------------------------------------
+  .wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .page-header {
+    padding: 0.5rem 0 0.2rem;
+
+    .header-name {
+      @include mixins.sans_bold;
+      font-size: 2rem;
+      line-height: 1.1;
+      margin: 0 0 0.25rem;
+      text-align: center;
+    }
+
+    .header-contact-info {
+      @include mixins.sans;
+      font-size: 0.875rem;
+      text-align: center;
+      line-height: 1.3;
+
+      p {
+        margin: 0.2rem 0;
+      }
+    }
+  }
+
+  .section-header {
+    @include mixins.section_border_thin;
+    margin-bottom: 0.75rem;
+    padding: 0.2rem 0;
+
+    h2 {
+      font-size: 1.2rem;
+      line-height: 1.4rem;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  .content-section {
+    margin: 0 0 1rem;
+
+    .resume-item {
+      margin-bottom: 0.85rem;
+    }
+
+    .resume-item-title {
+      font-size: 15px;
+      line-height: 1.2;
+      margin: 0 0 0.35rem;
+    }
+
+    .resume-item-details {
+      font-size: 12px;
+      margin: 0 0 0.35rem;
+      line-height: 1.2;
+      font-style: italic;
+
+      &.award-title {
+        font-size: 11px;
+      }
+    }
+
+    .resume-item-copy {
+      margin: 0.35rem 0 0;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .resume-item-list {
+      margin: 0.35rem 0 0;
+      padding-left: 1.2rem;
+
+      li {
+        font-size: 12px;
+        line-height: 1.35;
+        margin-bottom: 0.2rem;
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // E. Links & URL Annotations
+  // ------------------------------------------------------------------------
+  a {
+    color: variables.$print-text-color !important;
+    text-decoration: none !important;
+    border-bottom: none !important;
+  }
+
+  .print-footer-url {
+    font-weight: normal;
+    color: variables.$print-text-muted;
+    font-size: 0.8rem;
+  }
+
+  // ------------------------------------------------------------------------
+  // F. Languages Table (Two-Column Non-Stacking Print Layout)
+  // ------------------------------------------------------------------------
+  .languages-table {
+    display: table !important;
+    table-layout: fixed !important;
+    border-collapse: separate !important;
+    border-spacing: 1rem 0.25rem !important;
+    width: 100% !important;
+
+    tbody {
+      display: table-row-group !important;
+    }
+
+    tr {
+      display: table-row !important;
+    }
+
+    td {
+      display: table-cell !important;
+      width: 50% !important;
+      vertical-align: top !important;
+      padding: 0.25rem 0.5rem !important;
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // G. Footer Layout in Print
+  // ------------------------------------------------------------------------
+  .page-footer {
+    border-top: 1px solid variables.$print-border-color;
+    padding-top: 0.5rem;
+    margin-bottom: 0;
+    text-align: center;
+
+    .footer-line {
+      font-size: 0.75rem;
+      color: variables.$print-text-muted;
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // H. RTL Alignment in Print (Arabic Resumes)
+  // ------------------------------------------------------------------------
+  html[dir="rtl"] {
+    .content-section,
+    .content-section .resume-item-title,
+    .content-section .resume-item-details,
+    .content-section .resume-item-copy {
+      text-align: right;
+    }
+
+    .resume-item-list {
+      padding-right: 1.2rem;
+      padding-left: 0;
+    }
+
+    .page-header .header-name,
+    .page-header .header-contact-info,
+    .page-footer {
+      text-align: center;
+    }
+  }
+}

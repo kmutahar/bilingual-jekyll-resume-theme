@@ -1,12 +1,19 @@
-// RTL and Arabic typography overrides for the resume layout
-// ---------------------------------------/
+// ==========================================================================
+// RTL & Arabic Layout Overrides
+// bilingual-jekyll-resume-theme
+// ==========================================================================
+//
+// Applied when <html dir="rtl"> is active (e.g., Arabic resumes).
+// Mirrors horizontal alignments, flips margins/paddings, and applies
+// the Arabic Cairo / Noto Naskh font stack.
 
 @use "mixins";
+@use "variables";
 
 html[dir="rtl"] {
   body {
     direction: rtl;
-    font-family: 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif;
+    font-family: variables.$font-arabic;
   }
 
   // Headings and common typographic elements
@@ -16,7 +23,7 @@ html[dir="rtl"] {
   .content-section .resume-item-title,
   .content-section .resume-item-details,
   .content-section .resume-item-copy {
-    font-family: 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif;
+    font-family: variables.$font-arabic;
   }
 
   // Global alignment defaults
@@ -27,7 +34,7 @@ html[dir="rtl"] {
     text-align: right;
   }
 
-  // Header tweaks
+  // Header layout mirroring
   .page-header {
     .title-bar {
       .header-title {
@@ -38,33 +45,32 @@ html[dir="rtl"] {
     }
   }
 
-  // Social links on the opposite side in wide viewports
+  // Social links mirrored to opposite side on wide viewports
   .social-links {
     @include mixins.media_larger_than_mobile {
       float: left;
     }
 
     .icon-link-item {
-      // flip spacing for RTL
       margin-right: 5px;
       margin-left: 0;
     }
   }
 
-  // Lists
+  // Resume item list indentation (mirrored for RTL)
   .resume-item-list {
     padding-right: 1.2rem;
     padding-left: 0;
   }
 
-  // Languages table tweaks
+  // Languages table RTL text flow
   .languages-table {
     direction: rtl;
   }
 
-  // Footer alignment
+  // Footer centered alignment
   .page-footer {
-    text-align: center; // keep centered
+    text-align: center;
   }
 
   // Dark mode toggle positioning for RTL
@@ -73,3 +79,4 @@ html[dir="rtl"] {
     left: 1.25rem;
   }
 }
+

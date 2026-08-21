@@ -1,8 +1,12 @@
 ---
 ---
 
-// "Reset" styles and SCSS reusable components
-// Arabic CV entrypoint: load base styles then RTL overrides
+// ==========================================================================
+// Arabic CV / Resume Stylesheet Entrypoint (RTL)
+// bilingual-jekyll-resume-theme -> assets/css/cv-ar.css
+// ==========================================================================
+
+// 1. Reset, mixins, variables, and dark mode tokens
 @use "normalize";
 @use "mixins";
 @use "variables";
@@ -18,3 +22,7 @@
 
 // RTL-specific overrides and Arabic typography
 @use "resume-rtl";
+
+// Print Styles
+@use "print";
+

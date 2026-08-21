@@ -1,22 +1,29 @@
-// Mixins
-// ---------------------------------------/
+// ==========================================================================
+// SCSS Mixins & Helper Functions
+// bilingual-jekyll-resume-theme
+// ==========================================================================
 
+// --------------------------------------------------------------------------
+// CSS Shapes & Transitions (Standard Syntax)
+// --------------------------------------------------------------------------
+
+/// Applies standard border-radius to an element.
+/// @param {Length} $radius - Border radius value (e.g. 3px, 50%, 100px)
 @mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-  -moz-border-radius: $radius;
   border-radius: $radius;
 }
 
+/// Applies standard transition property to an element.
+/// @param {String} $value - Transition declaration (e.g. all 0.2s ease)
 @mixin transition($value) {
-  -webkit-transition: $value;
-  -moz-transition: $value;
   transition: $value;
 }
 
-// Clearfix
-//
-// Clears floats via mixin (avoid using as a class).
+// --------------------------------------------------------------------------
+// Layout & Clearing
+// --------------------------------------------------------------------------
 
+/// Clearfix: Clears floated child elements via pseudo-elements.
 @mixin clearfix {
   &:before {
     display: table;
@@ -30,82 +37,105 @@
   }
 }
 
-// media querie tools
+// --------------------------------------------------------------------------
+// Media Query Tools
+// --------------------------------------------------------------------------
 
+/// Media query: Max-width constraint.
+/// @param {Length} $screen_width - Maximum viewport width
 @mixin media_max($screen_width) {
   @media (max-width: $screen_width) {
     @content;
   }
 }
 
+/// Media query: Min-width constraint.
+/// @param {Length} $screen_width - Minimum viewport width
 @mixin media_min($screen_width) {
   @media (min-width: $screen_width) {
     @content;
   }
 }
 
+/// Media query: Applies styles to viewports wider than mobile (>= 600px).
 @mixin media_larger_than_mobile {
   @media (min-width: 600px) {
     @content;
   }
 }
 
+/// Media query: Applies styles to mobile viewports (<= 600px).
 @mixin media_mobile {
   @media (max-width: 600px) {
     @content;
   }
 }
 
-// type utilities
+// --------------------------------------------------------------------------
+// Typography Utilities
+// --------------------------------------------------------------------------
 
+/// Primary sans-serif font stack
 @mixin sans {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+/// Sans-serif with light weight (300)
 @mixin sans_light {
   @include sans;
   font-weight: 300;
 }
 
+/// Sans-serif with regular weight (400)
 @mixin sans_regular {
   @include sans;
   font-weight: 400;
 }
 
+/// Sans-serif with bold weight (700)
 @mixin sans_bold {
   @include sans;
   font-weight: 700;
 }
 
+/// Sans-serif with extra bold weight (800)
 @mixin sans_extrabold {
   @include sans;
   font-weight: 800;
 }
 
+/// Primary serif font stack
 @mixin serif {
   font-family: "Lora", "Minion Pro", Palatino, Georgia, serif;
 }
 
+/// Serif with regular weight (400)
 @mixin serif_regular {
   @include serif;
   font-weight: 400;
 }
 
+/// Serif with bold weight (700)
 @mixin serif_bold {
   @include serif;
   font-weight: 700;
 }
 
-// layout
+// --------------------------------------------------------------------------
+// Section Border Styles
+// --------------------------------------------------------------------------
 
+/// Thick section header border divider
 @mixin section_border {
   border-top: 4px solid var(--border-color, #c7c7c7);
   border-bottom: 2px solid var(--border-color, #c7c7c7);
   padding: .2rem 0 .4rem;
 }
 
+/// Thin section header border divider (used in print / compact views)
 @mixin section_border_thin {
   border-top: 1px solid var(--border-color, #c7c7c7);
   border-bottom: 1px solid var(--border-color, #c7c7c7);
   padding: .2rem 0 .2rem;
 }
+

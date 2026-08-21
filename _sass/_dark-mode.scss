@@ -2,21 +2,32 @@
 // Dark Mode System Tokens & Overrides
 // bilingual-jekyll-resume-theme
 // ==========================================================================
+//
+// CSS Custom Property Token Cascading Hierarchy:
+// 1. Base Level (:root): Light mode design tokens (default fallback).
+// 2. System Level (@media (prefers-color-scheme: dark)): Dark tokens activated
+//    automatically when OS/browser is in dark mode and no user override is pinned.
+// 3. Pinned Dark Level ([data-color-scheme="dark"]): User explicitly pinned dark.
+// 4. Pinned Light Level ([data-color-scheme="light"]): User explicitly pinned light
+//    even if OS/browser is in dark mode.
+// 5. Print Level (@media print): Always forces eco-friendly black-on-white tokens
+//    and suppresses dark mode toggle controls.
+// ==========================================================================
 
 :root {
   color-scheme: light dark;
 
   // --- Background & Primary Typography ---
   --bg-color: #ffffff;
-  --text-color: #333;
-  --text-muted: #999;
+  --text-color: #333333;
+  --text-muted: #767676; // WCAG AA compliant (4.54:1 on #ffffff)
   --text-light: #646464;
   --border-color: #c7c7c7;
   --card-bg: #efefef;
 
   // --- Links & Navigation ---
-  --link-color: #333;
-  --link-hover: #9c9c9c;
+  --link-color: #333333;
+  --link-hover: #555555; // WCAG AA compliant (7.46:1 on #ffffff)
   --link-hover-color: var(--link-hover);
 
   // --- Accent & Brand Colors ---
@@ -31,21 +42,21 @@
   --footer-link-color: var(--link-color);
 
   // --- Icons & Graphics ---
-  --icon-fill: #333;
-  --icon-fill-muted: #BBB;
-  --icon-fill-dark: #000;
+  --icon-fill: #333333;
+  --icon-fill-muted: #767676;
+  --icon-fill-dark: #000000;
   --icon-hover-fill: var(--icon-fill-dark);
   --header-icon-fill: var(--icon-fill-dark);
 
   // --- Buttons (.contact-button, .cv-button) ---
   --button-bg: #efefef;
-  --button-text: #333;
-  --button-hover-bg: #333;
-  --button-hover-text: #fff;
+  --button-text: #333333;
+  --button-hover-bg: #333333;
+  --button-hover-text: #ffffff;
 
   // --- Text Selection ---
   --selection-bg: rgba(51, 51, 51, .8);
-  --selection-color: #fff;
+  --selection-color: #ffffff;
 
   // --- Dark Mode Toggle Component Tokens ---
   --toggle-btn-bg: transparent;
@@ -160,39 +171,46 @@ html.dark {
 html.light {
   color-scheme: light;
   --bg-color: #ffffff;
-  --text-color: #333;
-  --text-muted: #999;
+  --text-color: #333333;
+  --text-muted: #767676; // WCAG AA compliant (4.54:1 on #ffffff)
   --text-light: #646464;
   --border-color: #c7c7c7;
   --card-bg: #efefef;
 
-  --link-color: #333;
-  --link-hover: #9c9c9c;
+  // --- Links & Navigation ---
+  --link-color: #333333;
+  --link-hover: #555555; // WCAG AA compliant (7.46:1 on #ffffff)
   --link-hover-color: var(--link-hover);
 
+  // --- Accent & Brand Colors ---
   --accent-color: #3064a9;
   --accent-hover: #307EA9;
   --accent-hover-color: var(--accent-hover);
   --social-hover-color: var(--accent-hover);
   --about-color: var(--text-light);
 
+  // --- Footer ---
   --footer-text-color: var(--text-muted);
   --footer-link-color: var(--link-color);
 
-  --icon-fill: #333;
-  --icon-fill-muted: #BBB;
-  --icon-fill-dark: #000;
+  // --- Icons & Graphics ---
+  --icon-fill: #333333;
+  --icon-fill-muted: #767676;
+  --icon-fill-dark: #000000;
   --icon-hover-fill: var(--icon-fill-dark);
   --header-icon-fill: var(--icon-fill-dark);
 
+  // --- Buttons (.contact-button, .cv-button) ---
   --button-bg: #efefef;
-  --button-text: #333;
-  --button-hover-bg: #333;
-  --button-hover-text: #fff;
+  --button-text: #333333;
+  --button-hover-bg: #333333;
+  --button-hover-text: #ffffff;
 
+  // --- Text Selection ---
   --selection-bg: rgba(51, 51, 51, .8);
-  --selection-color: #fff;
+  --selection-color: #ffffff;
 
+  // --- Dark Mode Toggle Component Tokens ---
   --toggle-btn-border: var(--border-color);
   --toggle-btn-color: var(--text-color);
   --toggle-btn-hover-bg: var(--button-bg);

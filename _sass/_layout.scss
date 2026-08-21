@@ -1,78 +1,107 @@
-// Layout styles
-// ---------------------------------------/
-
-// Layout from Primer (https://github.com/primer/primer/blob/master/scss/_layout.scss)
-
-// Fixed-width, centered column for site content.
+// ==========================================================================
+// Layout Styles & Structural Components
+// bilingual-jekyll-resume-theme
+// ==========================================================================
+//
+// Defines responsive grid containers, WCAG accessible utilities (screen reader
+// only text, skip-to-content links), and template utility classes that replace
+// inline style declarations.
+// ==========================================================================
 
 @use "mixins";
 @use "variables";
 
+// --------------------------------------------------------------------------
+// 1. Container Styles
+// --------------------------------------------------------------------------
+
+/// Fixed/Fluid centered container for site content
 .container {
-  width: variables.$container-width;
+  max-width: variables.$container-width;
+  width: 100%;
   margin-right: auto;
   margin-left: auto;
+  padding-right: variables.$spacing-md;
+  padding-left: variables.$spacing-md;
   @include mixins.clearfix;
 }
 
-// Grid system
-//
-// Create rows with `.columns` to clear the floated columns and outdent the
-// padding on `.column`s with negative margin for alignment.
-
-.columns {
-  margin-right: -(variables.$grid-gutter);
-  margin-left: -(variables.$grid-gutter);
-  @include mixins.clearfix;
+/// Generic page container (used by page.html and 404.html layouts)
+.page-container {
+  max-width: variables.$content-max-width;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
 }
 
-// Base class for every column (requires a column width from below)
-.column {
-  float: left;
-  padding-right: variables.$grid-gutter;
-  padding-left: variables.$grid-gutter;
+// --------------------------------------------------------------------------
+// 2. Accessibility (a11y) Utilities & Skip Navigation
+// --------------------------------------------------------------------------
+
+/// Screen Reader Only (Visually Hidden) Utility (WCAG 2.1 AA)
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
-// Column widths
-.one-third {
-  width: 33.333333%;
+/// Skip to Main Content Navigation Link (WCAG 2.1 AA SC 2.4.1 Bypass Blocks)
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 9999;
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  background-color: var(--text-color, #333333);
+  color: var(--bg-color, #ffffff);
+  border: 2px solid var(--accent-color, #3064a9);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: top 0.15s ease-in-out;
+
+  &:focus {
+    top: 1rem;
+    outline: 3px solid var(--accent-color, #3064a9);
+    outline-offset: 2px;
+  }
 }
 
-.two-thirds {
-  width: 66.666667%;
+// RTL support for Arabic layouts
+[dir="rtl"] .skip-link,
+html[lang="ar"] .skip-link {
+  right: 1rem;
+  left: auto;
 }
 
-.one-fourth {
-  width: 25%;
+// --------------------------------------------------------------------------
+// 3. Template Utility Classes (Semantic Replacements for Inline Styles)
+// --------------------------------------------------------------------------
+
+.header-phone-link {
+  text-decoration: none;
+  color: inherit;
 }
 
-.one-half {
-  width: 50%;
+.header-languages-inline {
+  white-space: nowrap;
 }
 
-.three-fourths {
-  width: 75%;
+.resume-item-title-inline {
+  display: inline-block;
 }
 
-.one-fifth {
-  width: 20%;
+.print-footer-url {
+  font-weight: normal;
+  color: var(--text-muted, #767676);
 }
 
-.four-fifths {
-  width: 80%;
-}
 
-// Single column hack
-.single-column {
-  padding-right: variables.$grid-gutter;
-  padding-left: variables.$grid-gutter;
-}
-
-// Equal width columns via table sorcery.
-.table-column {
-  display: table-cell;
-  width: 1%;
-  padding-right: variables.$grid-gutter;
-  padding-left: variables.$grid-gutter;
-  vertical-align: top;
-}

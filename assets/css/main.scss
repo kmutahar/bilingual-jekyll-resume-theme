@@ -1,7 +1,25 @@
---- 
---- 
-// "Reset" styles and SCSS reusable components
+---
+---
+
+// ==========================================================================
+// Main Site Stylesheet Entrypoint
+// bilingual-jekyll-resume-theme -> assets/css/main.css
+// ==========================================================================
+
+// 1. Reset, mixins, variables, and dark mode tokens
 @use "normalize";
+@use "mixins";
+@use "variables";
 @use "dark-mode";
+
+// Generic site base & layout styles
+@use "base";
+@use "layout";
+
+// Layouts & Profile
 @use "profile";
 @use "all-pages";
+
+// Print Styles
+@use "print";
+

@@ -1,7 +1,12 @@
 ---
 ---
 
-// "Reset" styles and SCSS reusable components
+// ==========================================================================
+// English CV / Resume Stylesheet Entrypoint (LTR)
+// bilingual-jekyll-resume-theme -> assets/css/cv.css
+// ==========================================================================
+
+// 1. Reset, mixins, variables, and dark mode tokens
 @use "normalize";
 @use "mixins";
 @use "variables";
@@ -13,5 +18,8 @@
 
 // Layouts
 @use "resume";
-
 @use "all-pages";
+
+// Print Styles
+@use "print";
+

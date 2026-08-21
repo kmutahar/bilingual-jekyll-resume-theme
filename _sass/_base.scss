@@ -1,12 +1,18 @@
-// Base styles
-// ---------------------------------------/
+// ==========================================================================
+// Base Global Styles
+// bilingual-jekyll-resume-theme
+// ==========================================================================
+//
+// Baseline reset, box-sizing defaults, body typography, centered container
+// wrapper, clearfix helpers, and selection highlight tokens.
+// ==========================================================================
 
 @use "mixins";
 @use "variables";
 
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -21,40 +27,20 @@ body {
   line-height: 1.5;
 }
 
-.wrapper:before,
-.wrapper:after {
-  content: "";
-  display: table;
-}
-
-.wrapper:after {
-  clear: both;
-}
-
+// Centered content wrapper container
 .wrapper {
-  max-width: 800px;
+  max-width: variables.$content-max-width;
   padding: 0 24px;
   margin: 0 auto;
-  zoom: 1;
+  @include mixins.clearfix;
 }
 
-// clearfix (now called group,
-// via http://css-tricks.com/snippets/css/clear-fix/)
-.group:before,
-.group:after {
-  content: "";
-  display: table;
-}
-
-.group:after {
-  clear: both;
-}
-
+// Utility group container with clearfix
 .group {
-  zoom: 1;
-  /* For IE 6/7 (trigger hasLayout) */
+  @include mixins.clearfix;
 }
 
+// Text selection highlight styling
 ::-moz-selection {
   background: var(--selection-bg, rgba(51, 51, 51, .8));
   color: var(--selection-color, #fff);
@@ -66,3 +52,4 @@ body {
   color: var(--selection-color, #fff);
   text-shadow: none;
 }
+

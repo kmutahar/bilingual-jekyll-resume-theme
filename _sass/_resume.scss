@@ -1,10 +1,24 @@
-// Resume styles
-// ---------------------------------------/
-
-// util
+// ==========================================================================
+// Resume Styles (LTR Base Layout)
+// bilingual-jekyll-resume-theme
+// ==========================================================================
+//
+// Component Structure:
+//   1. Section Headers (.section-header): Bold titles with dual-border accents.
+//   2. Page Header (.page-header): Avatar, name, contact info, and title bar.
+//   3. Social Links (.social-links): Icon navigation list in header.
+//   4. Contact Buttons (.contact-button): Call-to-action & job status badges.
+//   5. Content Sections (.content-section): Item titles, dates, descriptions,
+//      and responsive 2-column language grid.
+//   6. Page Footer (.page-footer): Generation timestamps and copyright.
+// ==========================================================================
 
 @use "mixins";
 @use "variables";
+
+// --------------------------------------------------------------------------
+// 1. Section Header Styles
+// --------------------------------------------------------------------------
 
 .section-header {
   @include mixins.section_border;
@@ -19,7 +33,9 @@
   }
 }
 
-// page header styles
+// --------------------------------------------------------------------------
+// 2. Page Header Styles
+// --------------------------------------------------------------------------
 
 .page-header {
   padding: 1.5rem 0;
@@ -81,6 +97,10 @@
   }
 }
 
+// --------------------------------------------------------------------------
+// 3. Social Links Header Component
+// --------------------------------------------------------------------------
+
 .social-links {
   margin: 0;
   padding: 0;
@@ -106,7 +126,7 @@
     display: inline-block;
 
     &:hover .icon path {
-      fill: var(--icon-fill, #333);
+      fill: var(--icon-fill, #333333);
       @include mixins.transition(all .2s ease);
     }
   }
@@ -115,6 +135,10 @@
     height: 28px;
   }
 }
+
+// --------------------------------------------------------------------------
+// 4. Contact Buttons
+// --------------------------------------------------------------------------
 
 .contact-button {
   @include mixins.border-radius(3px);
@@ -126,13 +150,13 @@
   width: 220px;
   font-size: 1.375rem;
   @include mixins.sans_light;
-  color: var(--button-text, #333);
+  color: var(--button-text, #333333);
   line-height: 55px;
   @include mixins.transition(all .2s ease);
 
   &:hover {
-    background-color: var(--button-hover-bg, #333);
-    color: var(--button-hover-text, #fff);
+    background-color: var(--button-hover-bg, #333333);
+    color: var(--button-hover-text, #ffffff);
   }
 
   &.not-looking {
@@ -140,7 +164,9 @@
   }
 }
 
-// resume content styles
+// --------------------------------------------------------------------------
+// 5. Resume Content Sections
+// --------------------------------------------------------------------------
 
 .content-section {
   margin: 0 0 3rem;
@@ -172,13 +198,13 @@
   .resume-item-copy,
   .resume-item-list {
     a {
-      color: var(--link-color, #333);
+      color: var(--link-color, #333333);
       text-decoration: none;
       border-bottom: 1px solid;
 
       &:hover {
         border-bottom: none;
-        color: var(--link-hover, #9c9c9c);
+        color: var(--link-hover, #555555); // WCAG AA compliant >= 4.5:1
       }
     }
   }
@@ -190,10 +216,11 @@
   .resume-item-copy-license-cert-id {
     font-weight: normal;
   }
+
   /* Languages table (responsive, flexible spacing) */
   .languages-table {
     width: 100%;
-    /* use separate border spacing to create visible gaps between TDs */
+    /* Use separate border spacing to create visible gaps between TDs */
     border-collapse: separate;
     border-spacing: 1rem 0.5rem; /* horizontal gap, vertical gap */
     table-layout: fixed; /* let columns share available width */
@@ -215,13 +242,13 @@
     line-height: 1.25;
   }
 
-  /* move typography here so markup stays clean */
+  /* Typography for language entries */
   .languages-table .resume-item-details {
     font-weight: 700;
     font-size: 14px;
   }
 
-  /* Make the table stack into single-column blocks on narrow viewports */
+  /* Stack into single-column blocks on narrow mobile viewports */
   @include mixins.media_mobile {
     .languages-table,
     .languages-table tbody,
@@ -231,34 +258,15 @@
       width: 100%;
     }
 
-    .languages-table tr { margin-bottom: 0.5rem; }
-  }
-
-  /* Print-specific: keep two columns side-by-side (do not stack) */
-  @media print {
-    .languages-table {
-      display: table;
-      table-layout: fixed;
-      border-collapse: separate;
-      border-spacing: 1rem 0.5rem;
-      width: 100%;
-      page-break-inside: avoid;
-    }
-
-    .languages-table tbody { display: table-row-group; }
-
-    .languages-table tr { display: table-row; }
-
-    .languages-table td {
-      display: table-cell !important;
-      width: 50%;
-      vertical-align: top;
-      padding: 0.4rem 0.8rem;
+    .languages-table tr {
+      margin-bottom: 0.5rem;
     }
   }
 }
 
-// footer styles
+// --------------------------------------------------------------------------
+// 6. Page Footer Styles
+// --------------------------------------------------------------------------
 
 .page-footer {
   border-top: 4px solid var(--border-color, #c7c7c7);
@@ -269,79 +277,12 @@
   .footer-line {
     margin: 0;
     font-size: .875rem;
-    color: var(--text-muted, #999);
+    color: var(--text-muted, #767676); // WCAG AA compliant >= 4.5:1
 
-    >a {
+    > a {
       font-weight: 700;
-      color: var(--link-color, #333);
+      color: var(--link-color, #333333);
     }
   }
 }
 
-.print-only,
-.print-only-inline {
-  display: none !important
-}
-
-@media print {
-  .no-print {
-    display: none !important
-  }
-
-  .print-only {
-    display: block !important
-  }
-
-  .print-only-inline {
-    display: inline !important
-  }
-
-  body {
-    font-size: 12px;
-    line-height: 1rem;
-  }
-
-  .page-header {
-    padding: 1rem 0 .2rem;
-
-    .header-name {
-      @include mixins.sans_bold;
-      font-size: 2rem;
-      margin: 0 0 .2rem;
-    }
-  }
-
-  .section-header {
-    @include mixins.section_border_thin;
-    margin-bottom: 1rem;
-
-    h2 {
-      font-size: 1.2rem;
-      line-height: 1.5rem;
-    }
-  }
-
-  .content-section {
-    margin: 0 0 1rem;
-
-    .resume-item {
-      margin-bottom: 1rem;
-    }
-
-    .resume-item-title {
-      font-size: 16px;
-      line-height: .7em;
-    }
-
-    .resume-item-details {
-      font-size: 12px;
-      margin: 0 0 .75rem;
-      line-height: .7em;
-      font-style: italic;
-
-      &.award-title {
-        font-size: 11px;
-      }
-    }
-  }
-}

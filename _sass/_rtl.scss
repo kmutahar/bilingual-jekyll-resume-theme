@@ -1,0 +1,9 @@
+// ==========================================================================
+// RTL Stylesheet Forwarder
+// bilingual-jekyll-resume-theme
+// ==========================================================================
+//
+// Alias / forwarder for _resume-rtl.scss to maintain backward compatibility
+// for external themes or build pipelines referencing _rtl.scss directly.
+
+@forward "resume-rtl";

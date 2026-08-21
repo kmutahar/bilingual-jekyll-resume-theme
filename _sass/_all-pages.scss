@@ -1,25 +1,45 @@
-/* SVG Icons */
+// ==========================================================================
+// Shared All-Pages Styles & Global Elements
+// bilingual-jekyll-resume-theme
+// ==========================================================================
+//
+// Shared styles across all layouts (default, resume-en, resume-ar, profile):
+//   1. Scoped SVG icons with fill transitions and dark mode token mappings.
+//   2. Global footer line and copyright typography with WCAG AA contrast.
+// ==========================================================================
 
+// --------------------------------------------------------------------------
+// 1. Scoped SVG Icons
+// --------------------------------------------------------------------------
+
+// Scoped SVG icon styling (avoids polluting unrelated SVGs like theme toggles)
 .svg-icon,
-svg {
-  fill: var(--icon-fill-muted, #BBB);
+.icon-link svg,
+.social-links svg {
+  fill: var(--icon-fill-muted, #767676);
   width: 30px;
+  height: auto;
+  transition: fill 0.2s ease;
 }
 
 .svg-icon:hover,
-svg:hover {
-  fill: var(--icon-fill-dark, #000);
+.icon-link:hover svg,
+.social-links a:hover svg {
+  fill: var(--icon-fill-dark, #000000);
 }
 
-/* Following only apply to the resume header contact info icons */
-.header-contact-info>p>svg {
+// Header contact info inline icons
+.header-contact-info > p > svg,
+.header-contact-info svg {
   width: 20px;
-  fill: var(--icon-fill-dark, #000);
+  height: 20px;
+  fill: var(--header-icon-fill, #000000);
   vertical-align: middle;
 }
 
-
-/* Footer */
+// --------------------------------------------------------------------------
+// 2. Global Footer Styling
+// --------------------------------------------------------------------------
 
 footer,
 .page-footer {
@@ -31,11 +51,12 @@ footer,
   .copyright {
     margin: 0;
     font-size: .875rem;
-    color: var(--text-muted, #999);
+    color: var(--text-muted, #767676); // WCAG AA compliant >= 4.5:1
 
-    >a {
+    > a {
       font-weight: 700;
-      color: var(--link-color, #333);
+      color: var(--link-color, #333333);
     }
   }
 }
+

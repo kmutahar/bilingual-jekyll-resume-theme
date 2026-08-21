@@ -1,3 +1,24 @@
+{%- comment -%}
+=============================================================================
+DARK MODE TOGGLE BUTTON & CLIENT CONTROLLER
+=============================================================================
+Purpose:
+  Provides an accessible floating theme toggle button with a two-state logic
+  system (System Default vs. User Pinned Override):
+  - State 1 (Unpinned / System Default): Automatically tracks OS/browser theme.
+  - State 2 (Pinned): User explicitly selected dark or light mode, saved in localStorage.
+  - Clicking when pinned resets the preference back to System Default.
+
+Localization & Accessibility:
+  - English & Arabic localized aria-label and tooltip titles.
+  - Dynamic aria-pressed and data-pinned attributes.
+  - Hidden in print stylesheets via '.no-print'.
+
+Usage:
+  {% include dark-mode-toggle.html %}
+=============================================================================
+{%- endcomment -%}
+
 <!-- Dark Mode Toggle Button (Two-state: System Default vs Pinned Override) -->
 <button
   id="dark-mode-toggle"
@@ -54,12 +75,19 @@
 </button>
 
 <script>
+  /**
+   * Dark Mode State Machine & Theme Controller IIFE
+   */
   (function () {
     var toggleBtn = document.getElementById('dark-mode-toggle');
     if (!toggleBtn) return;
 
     var metaTheme = document.querySelector('meta[name="color-scheme"]');
 
+    /**
+     * Detects OS / browser color scheme preference via media query.
+     * @returns {'dark' | 'light'} The active system theme.
+     */
     function getSystemTheme() {
       if (window.matchMedia) {
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -67,6 +95,10 @@
       return 'light';
     }
 
+    /**
+     * Safely retrieves user-pinned theme preference from localStorage.
+     * @returns {'dark' | 'light' | null} Saved theme or null if unpinned/restricted.
+     */
     function getSavedTheme() {
       try {
         var val = localStorage.getItem('color-scheme');
@@ -75,17 +107,25 @@
         }
         return null;
       } catch (e) {
+        // Fallback for sandboxed iframes or Safari private browsing
         return null;
       }
     }
 
+    /**
+     * Checks if current document is in Arabic / RTL mode.
+     * @returns {boolean} True if RTL orientation or Arabic language.
+     */
     function isArabicRTL() {
       var docEl = document.documentElement;
       var dir = docEl.getAttribute('dir');
       var lang = docEl.getAttribute('lang') || docEl.lang;
-      return dir === 'rtl' || lang === 'ar';
+      return dir === 'rtl' || (lang && lang.toLowerCase().startsWith('ar'));
     }
 
+    /**
+     * Synchronizes DOM attributes and meta tags with current effective state.
+     */
     function syncState() {
       var saved = getSavedTheme();
       if (saved !== null) {
@@ -103,6 +143,9 @@
       }
     }
 
+    /**
+     * Updates toggle button ARIA attributes, labels, and icons.
+     */
     function updateUI() {
       var saved = getSavedTheme();
       var isPinned = (saved !== null);
@@ -135,6 +178,11 @@
       toggleBtn.setAttribute('title', label);
     }
 
+    /**
+     * Toggles theme state on button click:
+     * - If pinned: resets to system default (removes localStorage key).
+     * - If unpinned: pins opposite of current system setting.
+     */
     function toggleTheme() {
       var saved = getSavedTheme();
       if (saved !== null) {
@@ -155,8 +203,10 @@
       updateUI();
     }
 
+    // Attach click event listener
     toggleBtn.addEventListener('click', toggleTheme);
 
+    // Listen for OS color-scheme preference changes while in unpinned mode
     if (window.matchMedia) {
       var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
       var mqListener = function () {
@@ -171,6 +221,7 @@
       }
     }
 
+    // Initialize state and UI on script execution
     syncState();
     updateUI();
   })();

@@ -1,75 +1,91 @@
-<!-- and guess where these are defined? Yup, you guessed it: the _config.yml file -->
+{%- comment -%}
+=============================================================================
+PRINT SOCIAL LINKS COMPONENT
+=============================================================================
+Purpose:
+  Renders a printable list of active social links with full plaintext URLs,
+  allowing paper and PDF readers to read and click links.
+
+Configuration:
+  - site.resume_print_social_links: Boolean toggle in _config.yml.
+  - site.social_links: Key-value map of platform URLs.
+
+Usage:
+  {% include print-social-links.html %}
+=============================================================================
+{%- endcomment -%}
+
 {% if site.resume_print_social_links %}
 <ul>
 
     {% if site.social_links.github %}
         <!-- GitHub link -->
-        <li><strong>Github</strong>: {{ site.social_links.github }}</li>
-    {% endif %}
-
-    {% if site.social_links.twitter %}
-        <!-- Twitter link -->
-        <li><strong>Twitter</strong>: {{ site.social_links.twitter }}</li>
-    {% endif %}
-
-    {% if site.social_links.medium %}
-        <!-- Medium link -->
-        <li><strong>Medium</strong>: {{ site.social_links.medium }}</li>
-    {% endif %}
-
-    {% if site.social_links.dribbble %}
-        <!-- Dribbble link -->
-        <li><strong>Dribbble</strong>: {{ site.social_links.dribbble }}</li>
-    {% endif %}
-
-    {% if site.social_links.facebook %}
-        <!-- Facebook link -->
-        <li><strong>Facebook</strong>: {{ site.social_links.facebook }}</li>
+        <li><strong>GitHub</strong>: <a href="{{ site.social_links.github | escape }}" aria-label="GitHub: {{ site.social_links.github | escape }}" title="GitHub">{{ site.social_links.github | escape }}</a></li>
     {% endif %}
 
     {% if site.social_links.linkedin %}
         <!-- LinkedIn link -->
-        <li><strong>LinkedIn</strong>: {{ site.social_links.linkedin }}</li>
+        <li><strong>LinkedIn</strong>: <a href="{{ site.social_links.linkedin | escape }}" aria-label="LinkedIn: {{ site.social_links.linkedin | escape }}" title="LinkedIn">{{ site.social_links.linkedin | escape }}</a></li>
+    {% endif %}
+
+    {% if site.social_links.twitter %}
+        <!-- Twitter / X link -->
+        <li><strong>X (Twitter)</strong>: <a href="{{ site.social_links.twitter | escape }}" aria-label="X (Twitter): {{ site.social_links.twitter | escape }}" title="X (Twitter)">{{ site.social_links.twitter | escape }}</a></li>
+    {% endif %}
+
+    {% if site.social_links.medium %}
+        <!-- Medium link -->
+        <li><strong>Medium</strong>: <a href="{{ site.social_links.medium | escape }}" aria-label="Medium: {{ site.social_links.medium | escape }}" title="Medium">{{ site.social_links.medium | escape }}</a></li>
+    {% endif %}
+
+    {% if site.social_links.dribbble %}
+        <!-- Dribbble link -->
+        <li><strong>Dribbble</strong>: <a href="{{ site.social_links.dribbble | escape }}" aria-label="Dribbble: {{ site.social_links.dribbble | escape }}" title="Dribbble">{{ site.social_links.dribbble | escape }}</a></li>
+    {% endif %}
+
+    {% if site.social_links.facebook %}
+        <!-- Facebook link -->
+        <li><strong>Facebook</strong>: <a href="{{ site.social_links.facebook | escape }}" aria-label="Facebook: {{ site.social_links.facebook | escape }}" title="Facebook">{{ site.social_links.facebook | escape }}</a></li>
     {% endif %}
 
     {% if site.social_links.instagram %}
         <!-- Instagram link -->
-        <li><strong>Instagram</strong>: {{ site.social_links.instagram }}</li>
+        <li><strong>Instagram</strong>: <a href="{{ site.social_links.instagram | escape }}" aria-label="Instagram: {{ site.social_links.instagram | escape }}" title="Instagram">{{ site.social_links.instagram | escape }}</a></li>
     {% endif %}
 
     {% if site.social_links.website %}
         <!-- Website link -->
-        <li><strong>Website</strong>: {{ site.social_links.website }}</li>
+        <li><strong>Website</strong>: <a href="{{ site.social_links.website | escape }}" aria-label="Website: {{ site.social_links.website | escape }}" title="Website">{{ site.social_links.website | escape }}</a></li>
     {% endif %}
 
     {% if site.social_links.whatsapp %}
-        <!-- Whatsapp link -->
-        <li><strong>Whatsapp</strong>: {{ site.social_links.whatsapp }}</li>
+        <!-- WhatsApp link -->
+        <li><strong>WhatsApp</strong>: <a href="{{ site.social_links.whatsapp | escape }}" aria-label="WhatsApp: {{ site.social_links.whatsapp | escape }}" title="WhatsApp">{{ site.social_links.whatsapp | escape }}</a></li>
     {% endif %}
 
     {% if site.social_links.devto %}
-        <!-- Devto link -->
-        <li><strong>Devto</strong>: {{ site.social_links.devto }}</li>
+        <!-- Dev.to link -->
+        <li><strong>Dev.to</strong>: <a href="{{ site.social_links.devto | escape }}" aria-label="Dev.to: {{ site.social_links.devto | escape }}" title="Dev.to">{{ site.social_links.devto | escape }}</a></li>
     {% endif %}
 
     {% if site.social_links.flickr %}
         <!-- Flickr link -->
-        <li><strong>Flickr</strong>: {{ site.social_links.flickr }}</li>
+        <li><strong>Flickr</strong>: <a href="{{ site.social_links.flickr | escape }}" aria-label="Flickr: {{ site.social_links.flickr | escape }}" title="Flickr">{{ site.social_links.flickr | escape }}</a></li>
     {% endif %}
 
     {% if site.social_links.pinterest %}
         <!-- Pinterest link -->
-        <li><strong>Pinterest</strong>: {{ site.social_links.pinterest }}</li>
+        <li><strong>Pinterest</strong>: <a href="{{ site.social_links.pinterest | escape }}" aria-label="Pinterest: {{ site.social_links.pinterest | escape }}" title="Pinterest">{{ site.social_links.pinterest | escape }}</a></li>
     {% endif %}
 
     {% if site.social_links.telegram %}
         <!-- Telegram link -->
-        <li><strong>Telegram</strong>: {{ site.social_links.telegram }}</li>
+        <li><strong>Telegram</strong>: <a href="{{ site.social_links.telegram | escape }}" aria-label="Telegram: {{ site.social_links.telegram | escape }}" title="Telegram">{{ site.social_links.telegram | escape }}</a></li>
     {% endif %}
 
     {% if site.social_links.youtube %}
-        <!-- Youtube link -->
-        <li><strong>Youtube</strong>: {{ site.social_links.youtube }}</li>
+        <!-- YouTube link -->
+        <li><strong>YouTube</strong>: <a href="{{ site.social_links.youtube | escape }}" aria-label="YouTube: {{ site.social_links.youtube | escape }}" title="YouTube">{{ site.social_links.youtube | escape }}</a></li>
     {% endif %}
 
 </ul>

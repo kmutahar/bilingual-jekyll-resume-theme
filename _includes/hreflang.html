@@ -23,7 +23,7 @@ It only runs if a 't_id' (Translation ID) is set in the page's front matter.
       Print an 'alternate' tag for each page, using its
       'lang' (e.g., "en", "ar") and its full 'url'.
     {% endcomment %}
-    <link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.url | absolute_url }}" />
+    <link rel="alternate" hreflang="{{ t.lang | escape }}" href="{{ t.url | absolute_url | escape }}" />
   {% endfor %}
 
   {% comment %}
@@ -38,7 +38,7 @@ It only runs if a 't_id' (Translation ID) is set in the page's front matter.
        language doesn't match any of our versions.
   {% endcomment %}
   {% if default_page %}
-    <link rel="alternate" hreflang="x-default" href="{{ default_page.url | absolute_url }}" />
+    <link rel="alternate" hreflang="x-default" href="{{ default_page.url | absolute_url | escape }}" />
   {% endif %}
 
 {% endif %}

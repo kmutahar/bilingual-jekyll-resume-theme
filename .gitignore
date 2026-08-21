@@ -1,6 +1,36 @@
+# Ruby & Jekyll build artifacts
 *.gem
-.bundle
-.jekyll-cache
-.sass-cache
-_site
+.bundle/
+vendor/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+_site/
 Gemfile.lock
+
+# Environment & credentials
+.env
+.env.*
+.gem/
+
+# IDE & Editor caches
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating System artifacts
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+tmp/
+log/
+
+# Agent metadata and audit workspaces
+.agents/
+ORIGINAL_REQUEST.md
+PROJECT.md
+

@@ -1,372 +1,438 @@
 {% comment %}
-  Arabic version of resume-section-en.html with Arabic section titles and "حتى الآن" for Present.
-  Usage: {% include resume-section-ar.html section_name="experience" %}
+=============================================================================
+RESUME SECTION COMPONENT (ARABIC / RTL)
+=============================================================================
+Purpose:
+  Renders a single resume content section in Arabic (RTL) based on the
+  'section_name' parameter and configuration flags in site.resume_section.*.
+
+Parameters:
+  - section_name: String identifying which section to render.
+    Supported values: 'experience', 'education', 'certifications', 'courses',
+    'volunteering', 'projects', 'skills', 'recognition', 'associations',
+    'interests', 'languages', 'links'.
+
+Data Dependencies:
+  - resume_data: Resolved Arabic dataset object (from data-loader.html).
+  - site.resume_section.<section_name>: Boolean toggle to enable/disable section.
+  - site.enable_summary: Boolean toggle to show/hide role and course summaries.
+
+Localization & Formatting:
+  - Uses Arabic section headings and "حتى الآن" for ongoing roles/dates.
+  - Dates are formatted via `{% include ar-date.html %}` using Arabic month names.
+
+Schema.org Annotations:
+  Provides structured microdata (Organization, CollegeOrUniversity, CreativeWork, etc.)
+  for search engines and resume scrapers.
+
+Usage:
+  {% include resume-section-ar.html section_name="experience" %}
+=============================================================================
 {% endcomment %}
 
+{%- comment -%} ================= 1. EXPERIENCE / الخبرات العملية ================= {%- endcomment -%}
 {% if include.section_name == "experience" and site.resume_section.experience %}
-    <!-- begin Experience -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>الخبرات العملية</h2>
-        </header>
+    {%- assign active_jobs = resume_data.experience | where: "active", true -%}
+    {%- if active_jobs.size > 0 -%}
+        <!-- begin Experience -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>الخبرات العملية</h2>
+            </header>
 
-        {%- assign active_jobs = resume_data.experience | where: "active", true -%}
-        {%- assign groups = active_jobs | group_by: "company" -%}
+            {%- comment -%} Group positions by company to display multi-role tenures together {%- endcomment -%}
+            {%- assign groups = active_jobs | group_by: "company" -%}
+            {%- for group in groups -%}
+                <div class="resume-item" itemscope itemprop="worksFor" itemtype="https://schema.org/Organization">
+                    <h3 class="resume-item-title" itemprop="name">{{ group.name | escape }}</h3>
 
-        {%- for group in groups -%}
-            <div class="resume-item" itemscope itemprop="worksFor" itemtype="http://schema.org/Organization">
-                <h3 class="resume-item-title" itemprop="name">{{ group.name }}</h3>
-
-                {%- assign roles = group.items | sort: "startdate" | reverse -%}
-                {%- for role in roles -%}
-                    <h4 class="resume-item-details" itemprop="description">
-                        {{ role.position }} &bull;
-                        {%- if role.durations -%}
-                            {%- for time in role.durations -%} {{ time.duration }} {%- endfor -%}
-                        {%- else -%}
-                            {% include ar-date.html date=role.startdate style="MY" %} &ndash;
-                            {%- if role.enddate and role.enddate != 'Present' and role.enddate != 'حتى الآن' -%}
-                                {% include ar-date.html date=role.enddate style="MY" %}
+                    {%- comment -%} Sort individual roles by startdate descending {%- endcomment -%}
+                    {%- assign roles = group.items | sort: "startdate" | reverse -%}
+                    {%- for role in roles -%}
+                        <h4 class="resume-item-details" itemprop="description">
+                            {{ role.position | escape }} &bull;
+                            {%- if role.durations -%}
+                                {%- for time in role.durations -%} {{ time.duration | escape }} {%- endfor -%}
                             {%- else -%}
-                                حتى الآن
+                                {% include ar-date.html date=role.startdate style="MY" %} &ndash;
+                                {%- if role.enddate and role.enddate != 'Present' and role.enddate != 'حتى الآن' -%}
+                                    {% include ar-date.html date=role.enddate style="MY" %}
+                                {%- else -%}
+                                    حتى الآن
+                                {%- endif -%}
                             {%- endif -%}
+                            {%- if role.location -%}
+                                &bull; {{ role.location | escape }}
+                            {%- endif -%}
+                        </h4>
+
+                        {%- if site.enable_summary == true and role.summary -%}
+                            <div class="resume-item-copy">{{ role.summary | escape }}</div>
                         {%- endif -%}
-                        {%- if role.location -%}
-                            &bull; {{ role.location }}
-                        {%- endif -%}
-                    </h4>
+                    {%- endfor -%}
+                </div><!-- end of grouped resume-item -->
+            {%- endfor -%}
+        </section>
+        <!-- end Experience -->
+    {%- endif -%}
 
-                    {%- if site.enable_summary == true and role.summary -%}
-                        <div class="resume-item-copy">{{ role.summary }}</div>
-                    {%- endif -%}
-                {%- endfor -%}
-            </div><!-- end of grouped resume-item -->
-        {%- endfor -%}
-    </section>
-    <!-- end Experience -->
-
-
+{%- comment -%} ================= 2. EDUCATION / التعليم ================= {%- endcomment -%}
 {% elsif include.section_name == "education" and site.resume_section.education %}
-    <!-- begin Education -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>التعليم</h2>
-        </header>
+    {%- assign active_edu = resume_data.education | where: "active", true -%}
+    {%- if active_edu.size > 0 -%}
+        <!-- begin Education -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>التعليم</h2>
+            </header>
 
-        {% for education in resume_data.education %}
-            {% if education.active == true %}
-                <div class="resume-item" itemscope itemprop="alumniOf" itemtype="http://schema.org/CollegeOrUniversity">
-                    <h3 class="resume-item-title" itemprop="name">{{ education.uni }}</h3>
-                    <h4 class="resume-item-details group" itemprop="description">{{ education.degree }} &bull; {{ education.year }} &bull; {{ education.location }}</h4>
+            {% for education in active_edu %}
+                <div class="resume-item" itemscope itemprop="alumniOf" itemtype="https://schema.org/CollegeOrUniversity">
+                    <h3 class="resume-item-title" itemprop="name">{{ education.uni | escape }}</h3>
+                    <h4 class="resume-item-details group" itemprop="description">{{ education.degree | escape }} &bull; {{ education.year | escape }} &bull; {{ education.location | escape }}</h4>
 
                     {% if education.award %}
-                        <h5 class="resume-item-details award-title" itemprop="description">{{ education.award }}</h5>
+                        <h5 class="resume-item-details award-title" itemprop="description">{{ education.award | escape }}</h5>
                     {% endif %}
 
-                    <div class="resume-item-copy" itemprop="description">
-                        <ul class="resume-item-list">
-                            {% for award in education.awards %}
-                                <li>{{ award.award }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                    {%- comment -%} Render awards list if non-empty {%- endcomment -%}
+                    {% if education.awards and education.awards.size > 0 %}
+                        <div class="resume-item-copy" itemprop="description">
+                            <ul class="resume-item-list">
+                                {%- for award in education.awards -%}
+                                    <li>{{ award.award | escape }}</li>
+                                {%- endfor -%}
+                            </ul>
+                        </div>
+                    {% endif %}
 
                     {% if education.summary %}
-                        <p class="resume-item-copy">{{ education.summary }}</p>
+                        <p class="resume-item-copy">{{ education.summary | escape }}</p>
                     {% endif %}
                 </div>
-            {% endif %}
-        {% endfor %}
-    </section>
-    <!-- end Education -->
+            {% endfor %}
+        </section>
+        <!-- end Education -->
+    {%- endif -%}
 
+{%- comment -%} ================= 3. LICENSES & CERTIFICATIONS / التراخيص والشهادات ================= {%- endcomment -%}
 {% elsif include.section_name == "certifications" and site.resume_section.certifications %}
-    <!-- begin Licenses & Certifications -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>التراخيص والشهادات</h2>
-        </header>
+    {%- assign active_certs = resume_data.certifications | where: "active", true -%}
+    {%- if active_certs.size > 0 -%}
+        <!-- begin Licenses & Certifications -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>التراخيص والشهادات</h2>
+            </header>
 
-        {% for certification in resume_data.certifications %}
-            {% if certification.active == true %}
+            {% for certification in active_certs %}
                 <div class="resume-item">
-                    <h3 class="resume-item-title" itemprop="award">{{ certification.name }}</h3>
+                    <h3 class="resume-item-title" itemprop="award">{{ certification.name | escape }}</h3>
                     <h4 class="resume-item-details">
-                        {{ certification.issuing_organization }} &bull; {% include ar-date.html date=certification.issue_date style="MDY" %}
+                        {{ certification.issuing_organization | escape }} &bull; {% include ar-date.html date=certification.issue_date style="MDY" %}
                         {% if certification.expiration %} &ndash; {% include ar-date.html date=certification.expiration style="MDY" %} {% endif %}
                         &bull;
                         {% if certification.credential_id %}
                             <span class="resume-item-copy-license-cert-id">معرّف الاعتماد:
                             {% if certification.credential_url %}
-                                <a href="{{ certification.credential_url }}" target="_blank" rel="noopener nofollow noreferrer">{{ certification.credential_id }}</a>
-                                <span class="print-only-inline">&nbsp;({{ certification.credential_url }})</span>
-                            </span>
+                                <a href="{{ certification.credential_url | escape }}" target="_blank" rel="noopener nofollow noreferrer">{{ certification.credential_id | escape }}</a>
+                                <span class="print-only-inline">&nbsp;({{ certification.credential_url | escape }})</span>
                             {% else %}
-                                {{ certification.credential_id }}
+                                {{ certification.credential_id | escape }}
                             {% endif %}
+                            </span>
                         {% endif %}
                     </h4>
                 </div>
-            {% endif %}
-        {% endfor %}
-    </section>
-    <!-- end Licenses & Certifications -->
+            {% endfor %}
+        </section>
+        <!-- end Licenses & Certifications -->
+    {%- endif -%}
 
+{%- comment -%} ================= 4. COURSES / الدورات ================= {%- endcomment -%}
 {% elsif include.section_name == "courses" and site.resume_section.courses %}
-    <!-- begin Courses -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>الدورات</h2>
-        </header>
+    {%- assign active_courses = resume_data.courses | where: "active", true -%}
+    {%- if active_courses.size > 0 -%}
+        <!-- begin Courses -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>الدورات</h2>
+            </header>
 
-        {% for course in resume_data.courses %}
-            {% if course.active == true %}
+            {% for course in active_courses %}
                 <div class="resume-item">
-                    <h3 class="resume-item-title" itemprop="award">{{ course.name }}</h3>
+                    <h3 class="resume-item-title" itemprop="award">{{ course.name | escape }}</h3>
                     <h4 class="resume-item-details">
-                        {{ course.issuing_organization }} &bull; {% include ar-date.html date=course.startdate style="MDY" %}
+                        {{ course.issuing_organization | escape }} &bull; {% include ar-date.html date=course.startdate style="MDY" %}
                         {% if course.enddate %} &ndash; {% include ar-date.html date=course.enddate style="MDY" %} {% endif %}
                     </h4>
 
-                    {% if site.enable_summary == true %}
-                        <p class="resume-item-copy">{{ course.summary }}</p>
+                    {% if site.enable_summary == true and course.summary %}
+                        <p class="resume-item-copy">{{ course.summary | escape }}</p>
                     {% endif %}
 
                     {% if course.credential_id %}
                         <p class="resume-item-copy">معرّف الاعتماد:
                             {% if course.credential_url %}
-                                <a href="{{ course.credential_url }}" target="_blank" rel="noopener nofollow noreferrer">{{ course.credential_id }}</a>
-                                <span class="print-only-inline">&nbsp;({{ course.credential_url }})</span>
+                                <a href="{{ course.credential_url | escape }}" target="_blank" rel="noopener nofollow noreferrer">{{ course.credential_id | escape }}</a>
+                                <span class="print-only-inline">&nbsp;({{ course.credential_url | escape }})</span>
                             {% else %}
-                                {{ course.credential_id }}
+                                {{ course.credential_id | escape }}
                             {% endif %}
                         </p>
                     {% endif %}
                 </div>
-            {% endif %}
-        {% endfor %}
-    </section>
-    <!-- end Courses -->
+            {% endfor %}
+        </section>
+        <!-- end Courses -->
+    {%- endif -%}
 
+{%- comment -%} ================= 5. VOLUNTEERING / الأعمال التطوعية ================= {%- endcomment -%}
 {% elsif include.section_name == "volunteering" and site.resume_section.volunteering %}
-    <!-- begin Volunteering -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>الأعمال التطوعية</h2>
-        </header>
+    {%- assign active_vol = resume_data.volunteering | where: "active", true -%}
+    {%- if active_vol.size > 0 -%}
+        <!-- begin Volunteering -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>الأعمال التطوعية</h2>
+            </header>
 
-        {%- assign active_vol = resume_data.volunteering | where: "active", true -%}
-        {%- assign vgroups = active_vol | group_by: "company" -%}
+            {%- comment -%} Group volunteering roles by organization {%- endcomment -%}
+            {%- assign vgroups = active_vol | group_by: "company" -%}
+            {%- for vgroup in vgroups -%}
+                <div class="resume-item" itemscope itemprop="worksFor" itemtype="https://schema.org/Organization">
+                    <h3 class="resume-item-title" itemprop="name">{{ vgroup.name | escape }}</h3>
 
-        {%- for vgroup in vgroups -%}
-            <div class="resume-item" itemscope itemprop="worksFor" itemtype="http://schema.org/Organization">
-                <h3 class="resume-item-title" itemprop="name">{{ vgroup.name }}</h3>
-
-                {%- assign vroles = vgroup.items | sort: "startdate" | reverse -%}
-                {%- for v in vroles -%}
-                    <h4 class="resume-item-details" itemprop="description">
-                        {{ v.position }} &bull;
-                        {%- if v.durations -%}
-                            {%- for time in v.durations -%} {{ time.duration }} {%- endfor -%}
-                        {%- else -%}
-                            {% include ar-date.html date=v.startdate style="MY" %} &ndash;
-                            {%- if v.enddate and v.enddate != 'Present' and v.enddate != 'حتى الآن' -%}
-                                {% include ar-date.html date=v.enddate style="MY" %}
+                    {%- assign vroles = vgroup.items | sort: "startdate" | reverse -%}
+                    {%- for v in vroles -%}
+                        <h4 class="resume-item-details" itemprop="description">
+                            {{ v.position | escape }} &bull;
+                            {%- if v.durations -%}
+                                {%- for time in v.durations -%} {{ time.duration | escape }} {%- endfor -%}
                             {%- else -%}
-                                حتى الآن
+                                {% include ar-date.html date=v.startdate style="MY" %} &ndash;
+                                {%- if v.enddate and v.enddate != 'Present' and v.enddate != 'حتى الآن' -%}
+                                    {% include ar-date.html date=v.enddate style="MY" %}
+                                {%- else -%}
+                                    حتى الآن
+                                {%- endif -%}
                             {%- endif -%}
-                        {%- endif -%}
-                        {%- if v.location -%}
-                            &bull; {{ v.location }}
-                        {%- endif -%}
-                    </h4>
+                            {%- if v.location -%}
+                                &bull; {{ v.location | escape }}
+                            {%- endif -%}
+                        </h4>
 
-                    {%- if site.enable_summary == true and v.summary -%}
-                        <div class="resume-item-copy">{{ v.summary }}</div>
-                    {%- endif -%}
-                {%- endfor -%}
-            </div><!-- end of grouped volunteering item -->
-        {%- endfor -%}
-    </section>
-    <!-- end Volunteering -->
+                        {%- if site.enable_summary == true and v.summary -%}
+                            <div class="resume-item-copy">{{ v.summary | escape }}</div>
+                        {%- endif -%}
+                    {%- endfor -%}
+                </div><!-- end of grouped volunteering item -->
+            {%- endfor -%}
+        </section>
+        <!-- end Volunteering -->
+    {%- endif -%}
 
+{%- comment -%} ================= 6. PROJECTS / المشاريع ================= {%- endcomment -%}
 {% elsif include.section_name == "projects" and site.resume_section.projects %}
-    <!-- begin Projects -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>المشاريع</h2>
-        </header>
+    {%- assign active_projects = resume_data.projects | where: "active", true -%}
+    {%- if active_projects.size > 0 -%}
+        <!-- begin Projects -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>المشاريع</h2>
+            </header>
 
-        {% for project in resume_data.projects %}
-            {% if project.active == true %}
-                <div class="resume-item" itemscope itemtype="http://schema.org/CreativeWork">
-                    <meta itemprop="creator" content="{{ site.name.first }} {{ site.name.middle }} {{ site.name.last }}" itemtype="http://schema.org/Person" />
-                    <h3 class="resume-item-title" itemprop="name" style="display: inline-block;">
+            {% for project in active_projects %}
+                <div class="resume-item" itemscope itemtype="https://schema.org/CreativeWork">
+                    <meta itemprop="creator" content="{{ site.name.first | escape }} {{ site.name.middle | escape }} {{ site.name.last | escape }}" itemtype="https://schema.org/Person" />
+                    <h3 class="resume-item-title resume-item-title-inline" itemprop="name">
                         {% if project.url %}
-                            <a href="{{ project.url }}" target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ project.project }}</a>
+                            <a href="{{ project.url | escape }}" target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ project.project | escape }}</a>
                         {% else %}
-                            {{ project.project }}
+                            {{ project.project | escape }}
                         {% endif %}
                     </h3>
 
+                    {%- comment -%} Print URL annotation for physical / PDF exports {%- endcomment -%}
                     {% if project.url %}
-                        <span class="print-only-inline" style="display: inline;">&nbsp;{{ project.url }}</span>
+                        <span class="print-only-inline">&nbsp;{{ project.url | escape }}</span>
                     {% endif %}
 
-                    <h4 class="resume-item-details" itemprop="description">{{ project.role }} &bull; {{ project.duration }}</h4>
-                    <p class="resume-item-copy">{{ project.description }}</p>
+                    <h4 class="resume-item-details" itemprop="description">{{ project.role | escape }} &bull; {{ project.duration | escape }}</h4>
+                    {% if project.description %}
+                        <p class="resume-item-copy">{{ project.description | escape }}</p>
+                    {% endif %}
                 </div>
-            {% endif %}
-        {% endfor %}
-    </section>
-    <!-- end Projects -->
+            {% endfor %}
+        </section>
+        <!-- end Projects -->
+    {%- endif -%}
 
+{%- comment -%} ================= 7. SKILLS / المهارات ================= {%- endcomment -%}
 {% elsif include.section_name == "skills" and site.resume_section.skills %}
-    <!-- begin Skills -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>المهارات</h2>
-        </header>
+    {%- assign active_skills = resume_data.skills | where: "active", true -%}
+    {%- if active_skills.size > 0 -%}
+        <!-- begin Skills -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>المهارات</h2>
+            </header>
 
-        {% for skill in resume_data.skills %}
-            {% if skill.active == true %}
+            {% for skill in active_skills %}
                 <div class="resume-item">
-                    <h4 class="resume-item-details">{{ skill.skill }}</h4>
+                    <h4 class="resume-item-details">{{ skill.skill | escape }}</h4>
                     {% if skill.description %}
-                        <p class="resume-item-copy">{{ skill.description }}</p>
+                        <p class="resume-item-copy">{{ skill.description | escape }}</p>
                     {% endif %}
                 </div>
-            {% endif %}
-        {% endfor %}
-    </section>
-    <!-- end Skills -->
+            {% endfor %}
+        </section>
+        <!-- end Skills -->
+    {%- endif -%}
 
+{%- comment -%} ================= 8. RECOGNITION & AWARDS / الجوائز والتكريم ================= {%- endcomment -%}
 {% elsif include.section_name == "recognition" and site.resume_section.recognition %}
-    <!-- begin Recognition -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>الجوائز والتكريم</h2>
-        </header>
+    {%- assign active_recog = resume_data.recognitions | where: "active", true -%}
+    {%- if active_recog.size > 0 -%}
+        <!-- begin Recognition -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>الجوائز والتكريم</h2>
+            </header>
 
-        {% for recognition in resume_data.recognitions %}
-            {% if recognition.active == true %}
+            {% for recognition in active_recog %}
                 <div class="resume-item">
-                    <h3 class="resume-item-title" itemprop="award">{{ recognition.award }}</h3>
-                    <h4 class="resume-item-details">{{ recognition.organization }} &bull; {{ recognition.year }}</h4>
+                    <h3 class="resume-item-title" itemprop="award">{{ recognition.award | escape }}</h3>
+                    <h4 class="resume-item-details">{{ recognition.organization | escape }} &bull; {{ recognition.year | escape }}</h4>
                     {% if recognition.summary %}
-                        <p class="resume-item-copy">{{ recognition.summary }}</p>
+                        <p class="resume-item-copy">{{ recognition.summary | escape }}</p>
                     {% endif %}
                 </div>
-            {% endif %}
-        {% endfor %}
-    </section>
-    <!-- end Recognition -->
+            {% endfor %}
+        </section>
+        <!-- end Recognition -->
+    {%- endif -%}
 
+{%- comment -%} ================= 9. ASSOCIATIONS / العضويات ================= {%- endcomment -%}
 {% elsif include.section_name == "associations" and site.resume_section.associations %}
-    <!-- begin Associations -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>العضويات</h2>
-        </header>
+    {%- assign active_assoc = resume_data.associations | where: "active", true -%}
+    {%- if active_assoc.size > 0 -%}
+        <!-- begin Associations -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>العضويات</h2>
+            </header>
 
-        {% for association in resume_data.associations %}
-            {% if association.active == true %}
-                <div class="resume-item" itemscope itemprop="memberOf" itemtype="http://schema.org/Organization">
-                    <h3 class="resume-item-title" itemprop="name" style="display: inline-block;">
+            {% for association in active_assoc %}
+                <div class="resume-item" itemscope itemprop="memberOf" itemtype="https://schema.org/Organization">
+                    <h3 class="resume-item-title resume-item-title-inline" itemprop="name">
                         {% if association.url %}
-                            <a href="{{ association.url }}" target="_blank" rel="noopener nofollow noreferrer">{{ association.organization }}</a>
+                            <a href="{{ association.url | escape }}" target="_blank" rel="noopener nofollow noreferrer">{{ association.organization | escape }}</a>
                         {% else %}
-                            {{ association.organization }}
+                            {{ association.organization | escape }}
                         {% endif %}
                     </h3>
 
                     {% if association.url %}
-                        <span class="print-only-inline" style="display: inline;">&nbsp;{{ association.url }}</span>
+                        <span class="print-only-inline">&nbsp;{{ association.url | escape }}</span>
                     {% endif %}
 
-                    <h4 class="resume-item-details" itemprop="description">{{ association.role }} &bull; {{ association.year }}</h4>
+                    <h4 class="resume-item-details" itemprop="description">{{ association.role | escape }} &bull; {{ association.year | escape }}</h4>
                     {% if association.summary %}
-                        <p class="resume-item-copy">{{ association.summary }}</p>
+                        <p class="resume-item-copy">{{ association.summary | escape }}</p>
                     {% endif %}
                 </div>
-            {% endif %}
-        {% endfor %}
-    </section>
-    <!-- end Associations -->
+            {% endfor %}
+        </section>
+        <!-- end Associations -->
+    {%- endif -%}
 
+{%- comment -%} ================= 10. OUTSIDE INTERESTS / الاهتمامات الخارجية ================= {%- endcomment -%}
 {% elsif include.section_name == "interests" and site.resume_section.interests %}
-    <!-- begin Interests -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>الاهتمامات الخارجية</h2>
-        </header>
+    {%- comment -%} Filter interests where active is not explicitly false {%- endcomment -%}
+    {%- assign active_interests = resume_data.interests | where_exp: "item", "item.active != false" -%}
+    {%- if active_interests.size > 0 -%}
+        <!-- begin Interests -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>الاهتمامات الخارجية</h2>
+            </header>
 
-        <div class="resume-item">
-            <ul class="resume-item-list">
-                {% for interest in resume_data.interests %}
-                    <li>{{ interest.description }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </section>
-    <!-- end Interests -->
+            <div class="resume-item">
+                <ul class="resume-item-list">
+                    {% for interest in active_interests %}
+                        {% if interest.description and interest.description != "" %}
+                            <li>{{ interest.description | escape }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        <!-- end Interests -->
+    {%- endif -%}
 
+{%- comment -%} ================= 11. LANGUAGES / اللغات ================= {%- endcomment -%}
 {% elsif include.section_name == "languages" and site.resume_section.languages and site.resume_section.lang_header == false %}
-    <!-- begin Languages -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>اللغات</h2>
-        </header>
+    {%- assign active_languages = resume_data.languages | where: "active", true -%}
+    {%- if active_languages.size > 0 -%}
+        <!-- begin Languages -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>اللغات</h2>
+            </header>
 
-        {%- assign active_languages = resume_data.languages | where: "active", true -%}
-        <table class="languages-table">
-            <tbody>
-                {%- for lang in active_languages -%}
-                    {%- assign mod = forloop.index0 | modulo: 2 -%}
-                    {%- if mod == 0 -%}
-                        <tr>
-                    {%- endif -%}
-
-                    <td class="lang-cell">
-                        <p class="lang-entry">
-                            <span class="resume-item-details">{{ lang.language }}</span>
-                            &ndash;
-                            <span class="resume-item-copy">{{ lang.description }}</span>
-                        </p>
-                    </td>
-
-                    {%- if mod == 1 or forloop.last -%}
-                        {%- if forloop.last and mod == 0 -%}
-                            <td class="lang-cell"></td>
+            {%- comment -%} 2-column table layout: row breaks on odd indices and last element {%- endcomment -%}
+            <table class="languages-table">
+                <tbody>
+                    {%- for lang in active_languages -%}
+                        {%- assign mod = forloop.index0 | modulo: 2 -%}
+                        {%- if mod == 0 -%}
+                            <tr>
                         {%- endif -%}
-                        </tr>
-                    {%- endif -%}
-                {%- endfor -%}
-            </tbody>
-        </table>
-    </section>
-    <!-- end Languages -->
 
+                        <td class="lang-cell">
+                            <p class="lang-entry">
+                                <span class="resume-item-details">{{ lang.language | escape }}</span>
+                                &ndash;
+                                <span class="resume-item-copy">{{ lang.description | escape }}</span>
+                            </p>
+                        </td>
+
+                        {%- if mod == 1 or forloop.last -%}
+                            {%- if forloop.last and mod == 0 -%}
+                                <td class="lang-cell"></td>
+                            {%- endif -%}
+                            </tr>
+                        {%- endif -%}
+                    {%- endfor -%}
+                </tbody>
+            </table>
+        </section>
+        <!-- end Languages -->
+    {%- endif -%}
+
+{%- comment -%} ================= 12. ADDITIONAL LINKS / روابط إضافية ================= {%- endcomment -%}
 {% elsif include.section_name == "links" and site.resume_section.links %}
-    <!-- begin Links -->
-    <section class="content-section">
-        <header class="section-header">
-            <h2>روابط إضافية</h2>
-        </header>
+    {%- assign active_links = resume_data.links | where: "active", true -%}
+    {%- if active_links.size > 0 -%}
+        <!-- begin Links -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2>روابط إضافية</h2>
+            </header>
 
-        <div class="resume-item">
-            <ul class="resume-item-list">
-                {% for link in resume_data.links %}
-                    {% if link.active == true %}
+            <div class="resume-item">
+                <ul class="resume-item-list">
+                    {% for link in active_links %}
                         <li>
-                            <a href={{ link.url }} target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ link.description }}</a>
-                            <span class="print-only-inline">&nbsp;{{ link.url }}</span>
+                            <a href="{{ link.url | escape }}" target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ link.description | escape }}</a>
+                            <span class="print-only-inline">&nbsp;{{ link.url | escape }}</span>
                         </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-    </section>
-    <!-- end Links -->
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        <!-- end Links -->
+    {%- endif -%}
 
 {% endif %}

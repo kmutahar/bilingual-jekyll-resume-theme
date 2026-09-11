@@ -140,8 +140,7 @@ resume_theme: default # Theme variant (currently only "default")
 analytics:
   # Google Tag Manager (recommended):
   # gtm: GTM-XXXXXXX
-  # OR Google Analytics 4:
-  # ga: true
+  # OR Google Analytics 4 (set measurement ID directly):
   # gtag: G-XXXXXXXXXX
 
 # ==============================================================================

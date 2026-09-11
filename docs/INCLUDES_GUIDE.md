@@ -151,13 +151,12 @@ analytics:
 
 # Or use GA4 via gtag.js
 analytics:
-  ga: true            # enables the gtag block
-  gtag: G-XXXXXXXXXX  # your GA measurement ID
+  gtag: G-XXXXXXXXXX  # your GA measurement ID (or legacy ga: G-XXXXXXXXXX)
 ```
 
 Behavior:
 - If `site.analytics.gtm` is set → injects GTM head snippet.
-- Else if `site.analytics.ga` is true → injects GA4 gtag.js using `site.analytics.gtag`.
+- Else if `site.analytics.gtag` (or `site.analytics.ga`) is set → injects GA4 gtag.js using the measurement ID.
 
 ---
 
@@ -442,7 +441,6 @@ analytics:
 - Google Analytics 4 (gtag.js)
 ```yaml
 analytics:
-  ga: true
   gtag: G-XXXXXXXXXX
 ```
 `analytics-head.html` injects the head snippet; `analytics-body.html` adds the GTM `<noscript>` fallback in the body.

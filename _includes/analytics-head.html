@@ -16,15 +16,21 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', '{{ site.analytics.gtm }}');
     </script>
-
     <!-- End Google Tag Manager -->
 
 {%- else -%}
 
-    {%- if site.analytics.ga -%}
+    {%- assign ga_id = nil -%}
+    {%- if site.analytics.gtag and site.analytics.gtag != "" -%}
+        {%- assign ga_id = site.analytics.gtag -%}
+    {%- elsif site.analytics.ga and site.analytics.ga != true and site.analytics.ga != "" -%}
+        {%- assign ga_id = site.analytics.ga -%}
+    {%- endif -%}
+
+    {%- if ga_id -%}
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analytics.gtag }}"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga_id }}"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
 
@@ -33,7 +39,7 @@
             }
 
             gtag('js', new Date());
-            gtag('config', '{{ site.analytics.gtag }}');
+            gtag('config', '{{ ga_id }}');
         </script>
 
     {%- endif -%}

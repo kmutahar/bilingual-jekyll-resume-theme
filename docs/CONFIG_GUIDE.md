@@ -182,8 +182,7 @@ Choose one (do not enable both):
 - Google Tag Manager (recommended):
   - analytics.gtm: GTM-XXXXXXX (adds head script + `<noscript>` body iframe)
 - Google Analytics 4 (gtag.js):
-  - analytics.ga: true
-  - analytics.gtag: G-XXXXXXXXXX
+  - analytics.gtag: G-XXXXXXXXXX (directly configure your measurement ID)
 
 ---
 
@@ -375,7 +374,6 @@ resume_theme: default
 # resume_dark_mode: auto  # Options: auto (default: CSS system detection), enabled (manual toggle button)
 analytics:
   # gtm: GTM-XXXXXXX
-  # ga: true
   # gtag: G-XXXXXXXXXX
 
 # Jekyll

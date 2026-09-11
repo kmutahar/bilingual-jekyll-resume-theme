@@ -157,6 +157,8 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
     </head>
 
     <body class="theme-{% if site.resume_theme %}{{ site.resume_theme }}{% endif %}">
+        <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
+        {% include analytics-body.html %}
 
         <div class="wrapper" itemscope itemtype="https://schema.org/Person">
             {% if site.resume_dark_mode == "enabled" %}

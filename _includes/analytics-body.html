@@ -1,5 +1,4 @@
 {%- if site.analytics.gtm -%}
-
     <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe
@@ -10,19 +9,4 @@
         </iframe>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
-
-{%- else  -%}
-
-    {%- if site.analytics.ga  -%}
-
-        {%- comment -%}
-        No Google Analytics gtag.js exists for body so this section will return a blank.
-        {%- endcomment -%}
-
-    {%- endif -%}
-
-{%- else  -%}
-
-    <!-- No Analytics Added -->
-
 {%- endif -%}

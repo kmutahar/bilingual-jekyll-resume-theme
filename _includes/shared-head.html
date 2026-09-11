@@ -29,8 +29,6 @@
 <link rel="icon" type="image/png" sizes="16x16" href="{{ site.favicon_16 | default: 'assets/favicon/resume/favicon-16x16.png' | relative_url }}">
 <link rel="manifest" href="{{ 'assets/favicon/resume/site.webmanifest' | relative_url }}">
 
-<link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-
 {% if page.noindex == true -%}
 <meta name="robots" content="noindex noarchive nosnippet noimageindex">
 {%- else -%}

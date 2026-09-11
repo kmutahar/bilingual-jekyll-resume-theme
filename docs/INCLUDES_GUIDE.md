@@ -103,8 +103,8 @@ Purpose: Common `<head>` tags used by all layouts.
 - Charset, IE compatibility, viewport
 - Inline FOUC-prevention dark mode script
 - Complete favicon suite with `relative_url` (supports `site.favicon`, `site.apple_touch_icon`, `site.favicon_32`, `site.favicon_16`, and `site.webmanifest`)
-- Canonical URL: `{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}`
 - Robots meta: respects `page.noindex: true`
+- Note: Canonical URLs, page titles, Open Graph, and JSON-LD metadata are emitted via `{% seo %}` (`jekyll-seo-tag`) in the layout templates.
 
 When to edit: rarely. Safe place to add global meta tags that apply across the site.
 

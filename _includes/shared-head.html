@@ -20,8 +20,14 @@
   })();
 </script>
 
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
+<!-- Favicons -->
+{% assign favicon_path = site.favicon | default: 'assets/favicon/resume/favicon.ico' %}
+<link rel="shortcut icon" href="{{ favicon_path | relative_url }}" type="image/x-icon">
+<link rel="icon" href="{{ favicon_path | relative_url }}" type="image/x-icon">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ site.apple_touch_icon | default: 'assets/favicon/resume/apple-touch-icon.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ site.favicon_32 | default: 'assets/favicon/resume/favicon-32x32.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ site.favicon_16 | default: 'assets/favicon/resume/favicon-16x16.png' | relative_url }}">
+<link rel="manifest" href="{{ 'assets/favicon/resume/site.webmanifest' | relative_url }}">
 
 <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 

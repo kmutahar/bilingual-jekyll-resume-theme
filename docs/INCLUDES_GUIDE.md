@@ -101,7 +101,8 @@ Most resume includes read from `resume_data.<section>` (e.g., `experience`, `ski
 ### 1) shared-head.html
 Purpose: Common `<head>` tags used by all layouts.
 - Charset, IE compatibility, viewport
-- Favicon fallbacks
+- Inline FOUC-prevention dark mode script
+- Complete favicon suite with `relative_url` (supports `site.favicon`, `site.apple_touch_icon`, `site.favicon_32`, `site.favicon_16`, and `site.webmanifest`)
 - Canonical URL: `{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}`
 - Robots meta: respects `page.noindex: true`
 
@@ -121,7 +122,6 @@ Used by: `default.html`.
 Purpose: Head assets for the English resume.
 - Google Fonts (Lora / Open Sans)
 - `assets/css/cv.css`
-- Resume favicons
 - `{% include hreflang.html %}` to output alternate language links
 
 Used by: `resume-en.html`.
@@ -132,7 +132,6 @@ Used by: `resume-en.html`.
 Purpose: Head assets for the Arabic resume.
 - Cairo font (good Arabic legibility) when `site.resume_theme == 'default'`
 - `assets/css/cv-ar.css` (RTL-aware CSS)
-- Resume favicons
 - `{% include hreflang.html %}`
 
 Used by: `resume-ar.html`.

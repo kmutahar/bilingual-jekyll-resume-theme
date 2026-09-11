@@ -9,6 +9,12 @@ url: "https://your-domain.com" # Your site's URL the base hostname & protocol fo
 baseurl: "" # Leave empty unless using a subdirectory
 timezone: UTC # Your timezone
 
+# Favicon customization (Optional - defaults to theme bundled assets)
+# favicon: "assets/favicon/resume/favicon.ico"
+# apple_touch_icon: "assets/favicon/resume/apple-touch-icon.png"
+# favicon_32: "assets/favicon/resume/favicon-32x32.png"
+# favicon_16: "assets/favicon/resume/favicon-16x16.png"
+
 # ==============================================================================
 # PERSONAL INFORMATION (Required - your name and titles)
 # ==============================================================================

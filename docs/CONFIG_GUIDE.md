@@ -85,6 +85,10 @@ That’s enough to render a working resume using data from `_data/`.
 - timezone: Set to your region (e.g., `UTC`, `Etc/GMT`, `America/New_York`).
 - resume_avatar: true/false to show/hide the profile image.
 - display_header_contact_info: true/false to show/hide contact row in header.
+- favicon: Path to custom `.ico` file (optional, defaults to `assets/favicon/resume/favicon.ico`).
+- apple_touch_icon: Path to custom 180x180 Apple touch icon (optional, defaults to `assets/favicon/resume/apple-touch-icon.png`).
+- favicon_32: Path to custom 32x32 PNG favicon (optional, defaults to `assets/favicon/resume/favicon-32x32.png`).
+- favicon_16: Path to custom 16x16 PNG favicon (optional, defaults to `assets/favicon/resume/favicon-16x16.png`).
 
 ---
 

@@ -99,7 +99,7 @@
                             <span class="resume-item-copy-license-cert-id">معرّف الاعتماد:
                             {% if certification.credential_url %}
                                 <a href="{{ certification.credential_url }}" target="_blank" rel="noopener nofollow noreferrer">{{ certification.credential_id }}</a>
-                                <span class="print-only-inline">&nbsp;({{ certification.credential_url }})</span>
+                                <span class="print-only-inline" dir="ltr">&nbsp;({{ certification.credential_url }})</span>
                             </span>
                             {% else %}
                                 {{ certification.credential_id }}
@@ -136,7 +136,7 @@
                         <p class="resume-item-copy">معرّف الاعتماد:
                             {% if course.credential_url %}
                                 <a href="{{ course.credential_url }}" target="_blank" rel="noopener nofollow noreferrer">{{ course.credential_id }}</a>
-                                <span class="print-only-inline">&nbsp;({{ course.credential_url }})</span>
+                                <span class="print-only-inline" dir="ltr">&nbsp;({{ course.credential_url }})</span>
                             {% else %}
                                 {{ course.credential_id }}
                             {% endif %}
@@ -210,7 +210,7 @@
                     </h3>
 
                     {% if project.url %}
-                        <span class="print-only-inline" style="display: inline;">&nbsp;{{ project.url }}</span>
+                        <span class="print-only-inline" dir="ltr" style="display: inline;">&nbsp;{{ project.url }}</span>
                     {% endif %}
 
                     <h4 class="resume-item-details" itemprop="description">{{ project.role }} &bull; {{ project.duration }}</h4>
@@ -281,7 +281,7 @@
                     </h3>
 
                     {% if association.url %}
-                        <span class="print-only-inline" style="display: inline;">&nbsp;{{ association.url }}</span>
+                        <span class="print-only-inline" dir="ltr" style="display: inline;">&nbsp;{{ association.url }}</span>
                     {% endif %}
 
                     <h4 class="resume-item-details" itemprop="description">{{ association.role }} &bull; {{ association.year }}</h4>
@@ -359,8 +359,8 @@
                 {% for link in resume_data.links %}
                     {% if link.active == true %}
                         <li>
-                            <a href={{ link.url }} target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ link.description }}</a>
-                            <span class="print-only-inline">&nbsp;{{ link.url }}</span>
+                            <a href="{{ link.url }}" target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ link.description }}</a>
+                            <span class="print-only-inline" dir="ltr">&nbsp;{{ link.url }}</span>
                         </li>
                     {% endif %}
                 {% endfor %}

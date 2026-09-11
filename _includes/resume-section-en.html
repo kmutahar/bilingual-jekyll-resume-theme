@@ -358,7 +358,7 @@
                 {% for link in resume_data.links %}
                     {% if link.active == true %}
                         <li>
-                            <a href={{ link.url }} target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ link.description }}</a>
+                            <a href="{{ link.url }}" target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ link.description }}</a>
                             <span class="print-only-inline">&nbsp;{{ link.url }}</span>
                         </li>
                     {% endif %}

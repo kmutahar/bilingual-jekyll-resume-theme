@@ -158,13 +158,26 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
 
     <body class="theme-{% if site.resume_theme %}{{ site.resume_theme }}{% endif %}">
 
-        <div class="wrapper" itemscope itemtype="http://schema.org/Person">
+        <div class="wrapper" itemscope itemtype="https://schema.org/Person">
             {% if site.resume_dark_mode == "enabled" %}
                 {% include dark-mode-toggle.html %}
             {% endif %}
 
+            {% if site.enable_live == true and site.contact_info.phone_live %}
+            <meta itemprop="telephone" content="{{ site.contact_info.phone_live }}" />
+            {% elsif site.contact_info.phone %}
             <meta itemprop="telephone" content="{{ site.contact_info.phone }}" />
+            {% endif %}
+
+            {% if site.enable_live == true and site.contact_info.email_live %}
+            <meta itemprop="email" content="{{ site.contact_info.email_live }}" />
+            {% elsif site.contact_info.email %}
+            <meta itemprop="email" content="{{ site.contact_info.email }}" />
+            {% endif %}
+
+            {% if site.contact_info.address %}
             <meta itemprop="address" content="{{ site.contact_info.address }}" />
+            {% endif %}
 
             <header class="page-header">
 
@@ -186,21 +199,21 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                         <p>
                             {% if site.enable_live == true %}
                                 {% if site.contact_info.phone_live %}
-                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone_live | remove: ' ' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone_live }}</a>
+                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone_live | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone_live }}</a>
                                 {% endif %}
                             {% else %}
                                 {% if site.contact_info.phone %}
-                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone | remove: ' ' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone }}</a>
+                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone }}</a>
                                 {% endif %}
                             {% endif %}
 
                             {% if site.enable_live == true %}
                                 {% if site.contact_info.email_live %}
-                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;{{ site.contact_info.email_live }}
+                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;<a href="mailto:{{ site.contact_info.email_live }}" style="text-decoration: none; color: inherit;">{{ site.contact_info.email_live }}</a>
                                 {% endif %}
                             {% else %}
                                 {% if site.contact_info.email %}
-                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;{{ site.contact_info.email }}
+                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;<a href="mailto:{{ site.contact_info.email }}" style="text-decoration: none; color: inherit;">{{ site.contact_info.email }}</a>
                                 {% endif %}
                             {% endif %}
 
@@ -246,7 +259,11 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                 {% endif %}
 
                 {% if site.resume_looking_for_work == true %}
-                    <a href="mailto:{{ site.contact_info.email }}" class="contact-button no-print" itemprop="email">Contact me</a>
+                    {% assign contact_email = site.contact_info.email %}
+                    {% if site.enable_live == true and site.contact_info.email_live %}
+                        {% assign contact_email = site.contact_info.email_live %}
+                    {% endif %}
+                    <a href="mailto:{{ contact_email }}" class="contact-button no-print" itemprop="email">Contact me</a>
                 {% elsif site.resume_looking_for_work == false %}
                     <a class="contact-button not-looking no-print">I'm not looking for work right now.</a>
                 {% else %}

@@ -271,8 +271,8 @@ resume_print_social_links: true
 
 Resume sections are dynamically rendered through [`../_includes/resume-section-en.html`](../_includes/resume-section-en.html) and [`../_includes/resume-section-ar.html`](../_includes/resume-section-ar.html).
 
-> [!IMPORTANT]
-> The section key in `resume_section` and `resume_section_order` is **`recognition`** (singular), while the corresponding YAML data file is named **`recognitions.yml`** (plural).
+> [!NOTE]
+> The canonical section key in `resume_section` and `resume_section_order` is **`recognitions`** (plural), matching the YAML data file **`recognitions.yml`**. The legacy singular key **`recognition`** remains supported as a backward-compatible fallback until `v1.0.0`.
 
 ```yaml
 # Section toggles (true to display, false to hide)
@@ -285,7 +285,7 @@ resume_section:
   projects: true
   associations: true
   skills: true
-  recognition: false     # Toggles data loaded from recognitions.yml
+  recognitions: false    # Toggles data loaded from recognitions.yml (legacy 'recognition' supported)
   languages: false
   lang_header: true      # Renders compact language chips in header instead of full section
   interests: false
@@ -301,7 +301,7 @@ resume_section_order:
   - projects
   - associations
   - skills
-  - recognition
+  - recognitions
   - languages
   - interests
   - links
@@ -489,7 +489,7 @@ resume_section:
   projects: true
   associations: true
   skills: true
-  recognition: false
+  recognitions: false
   languages: false
   lang_header: true
   interests: false
@@ -504,7 +504,7 @@ resume_section_order:
   - projects
   - associations
   - skills
-  - recognition
+  - recognitions
   - languages
   - interests
   - links
@@ -560,7 +560,7 @@ defaults: []
 1. Ensure `resume_section.<name>: true` is set in `_config.yml`.
 2. Confirm the section name exists in `resume_section_order`.
 3. Check your YAML data file (e.g., [`_data/en/experience.yml`](_data/en/experience.yml)) and verify that items have `active: true`.
-4. Remember that the recognition section toggle is named `recognition`, but the data file is named `recognitions.yml`.
+4. The recognition section toggle is named `recognitions` (matching `recognitions.yml`), with legacy singular `recognition` supported as a fallback.
 
 ### How do I display language proficiency chips in the header?
 Set `resume_section.lang_header: true` and ensure [`_data/en/languages.yml`](_data/en/languages.yml) contains active language items. If you prefer a full Languages section at the bottom, set `resume_section.lang_header: false` and `resume_section.languages: true`.

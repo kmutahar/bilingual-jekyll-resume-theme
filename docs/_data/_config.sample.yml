@@ -131,7 +131,6 @@ resume_print_social_links: true      # Render text list of social links in physi
 # 8. RESUME SECTIONS TOGGLE & RENDER ORDER
 # ==============================================================================
 # Section master toggles (true to render, false to hide):
-# Note: 'recognition' toggles data loaded from 'recognitions.yml'.
 resume_section:
   associations: true
   certifications: true
@@ -143,7 +142,7 @@ resume_section:
   languages: false
   links: false
   projects: true
-  recognition: false                 # Reads data from recognitions.yml
+  recognitions: false
   skills: false
   volunteering: true
 
@@ -158,7 +157,7 @@ resume_section_order:
   - projects
   - associations
   - skills
-  - recognition
+  - recognitions
   - languages
   - interests
   - links

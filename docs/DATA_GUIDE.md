@@ -282,10 +282,10 @@ active_resume_path_ar: "ar" # Points to _data/ar/
 ### 8. Recognition (`recognitions.yml`)
 
 - **Files:** [`_data/en/recognitions.yml`](_data/en/recognitions.yml) / [`_data/ar/recognitions.yml`](_data/ar/recognitions.yml)
-- **Config Toggle:** `resume_section.recognition: true`
+- **Config Toggle:** `resume_section.recognitions: true`
 
-> [!IMPORTANT]
-> In `_config.yml`, the toggle and render order key is **`recognition`** (singular), but the data file must be named **`recognitions.yml`** (plural).
+> [!NOTE]
+> The canonical configuration toggle and render order key is **`recognitions`** (plural), directly matching the data file **`recognitions.yml`**. The legacy singular key `recognition` is supported as a backward-compatible fallback until `v1.0.0`.
 
 ```yaml
 - award: "Innovator of the Year"
@@ -555,7 +555,7 @@ All resume items support the boolean `active:` flag:
 | Volunteering | `volunteering` | `volunteering` | `volunteering.yml` |
 | Projects | `projects` | `projects` | `projects.yml` |
 | Skills | `skills` | `skills` | `skills.yml` |
-| **Recognition** | **`recognition`** | **`recognition`** | **`recognitions.yml`** |
+| Recognition | `recognitions` *(legacy: `recognition`)* | `recognitions` *(legacy: `recognition`)* | `recognitions.yml` |
 | Associations | `associations` | `associations` | `associations.yml` |
 | Languages | `languages` / `lang_header` | `languages` | `languages.yml` |
 | Links | `links` | `links` | `links.yml` |

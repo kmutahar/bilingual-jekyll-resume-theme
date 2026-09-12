@@ -32,7 +32,7 @@
 
 ### 4. Dynamic Section Rendering (12 Standard Sections)
 Sections render dynamically via the sequence defined in `site.resume_section_order`:
-- `experience`, `education`, `certifications`, `courses`, `volunteering`, `projects`, `skills`, `recognition`, `associations`, `languages`, `links`, `interests`, plus `header` (executive summary).
+- `experience`, `education`, `certifications`, `courses`, `volunteering`, `projects`, `skills`, `recognitions` (with legacy `recognition` fallback), `associations`, `languages`, `links`, `interests`, plus `header` (executive summary).
 
 ### 5. Universal Dark Mode & Modern Theming
 - Managed by [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss) with centralized CSS custom properties on `:root`.

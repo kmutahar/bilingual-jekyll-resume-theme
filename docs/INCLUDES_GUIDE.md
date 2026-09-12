@@ -282,7 +282,7 @@ Inside [`../_includes/resume-section-en.html`](../_includes/resume-section-en.ht
 | `volunteering` | `volunteering` | `volunteering.yml` | `resume_data.volunteering` |
 | `projects` | `projects` | `projects.yml` | `resume_data.projects` |
 | `skills` | `skills` | `skills.yml` | `resume_data.skills` |
-| **`recognition`** | **`recognition`** | **`recognitions.yml`** | `resume_data.recognitions` |
+| `recognitions` *(legacy: `recognition`)* | `recognitions` *(legacy: `recognition`)* | `recognitions.yml` | `resume_data.recognitions` |
 | `associations` | `associations` | `associations.yml` | `resume_data.associations` |
 | `languages` | `languages` | `languages.yml` | `resume_data.languages` |
 | `links` | `links` | `links.yml` | `resume_data.links` |

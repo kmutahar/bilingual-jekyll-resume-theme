@@ -173,7 +173,7 @@ Inside `_includes/resume-section-en.html` and `_includes/resume-section-ar.html`
 5. `volunteering`
 6. `projects`
 7. `skills`
-8. `recognition`
+8. `recognitions`
 9. `associations`
 10. `interests`
 11. `languages`

@@ -240,7 +240,16 @@
     </section>
     <!-- end Skills -->
 
-{% elsif include.section_name == "recognition" and site.resume_section.recognition %}
+{% elsif include.section_name == "recognitions" or include.section_name == "recognition" %}
+    {% assign section_active = false %}
+    {% if site.resume_section.recognitions != nil %}
+        {% if site.resume_section.recognitions == true %}
+            {% assign section_active = true %}
+        {% endif %}
+    {% elsif site.resume_section.recognition == true %}
+        {% assign section_active = true %}
+    {% endif %}
+    {% if section_active %}
     <!-- begin Recognition -->
     <section class="content-section">
         <header class="section-header">
@@ -260,6 +269,7 @@
         {% endfor %}
     </section>
     <!-- end Recognition -->
+    {% endif %}
 
 {% elsif include.section_name == "associations" and site.resume_section.associations %}
     <!-- begin Associations -->

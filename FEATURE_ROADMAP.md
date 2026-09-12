@@ -10,11 +10,11 @@
 
 ## Executive Summary & Historical Audit Archival
 
-This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **19 active, uncompleted features** organized across four sequential implementation phases:
+This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **20 active, uncompleted features** organized across four sequential implementation phases:
 1. **Priority 1 (Quick Wins & Visual Polish):** High-visibility, low-friction UX improvements (5 active features).
 2. **Priority 2 (Core Functional & Architectural):** Data richness, typography, print fidelity, and accessibility (6 active features).
 3. **Priority 3 (Interoperability, Tooling & CI/CD):** Industry schema standards, validation tooling, and test pipelines (3 active features).
-4. **Priority 4 (Ecosystem Expansion):** Generic internationalization, chronology views, contact mechanisms, and telemetry (5 active features).
+4. **Priority 4 (Ecosystem Expansion):** Generic internationalization, chronology views, contact mechanisms, telemetry, and v1.0.0 deprecation retirement (6 active features).
 
 ### Historical Remediation Archival Notice
 In accordance with repository governance and engineering hygiene rules, **all 18 completed remediation tasks (P0.1 through P0.16, P1.4 Configurable Avatar, and P2.4 Universal Dark Mode & Error Suite) have been audited, verified in git history up to release `v0.7.0`, and purged from active roadmap phases**. 
@@ -26,7 +26,7 @@ For complete historical records, commit SHAs, root cause analyses, before-and-af
 
 ## 1. Active Features Master Matrix
 
-All 19 active features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
+All 20 active features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
 
 | Phase | ID | Feature Title | Canonical Issue | Auto-Closing Reference | Effort | Demand | Time Est. | Target Files Key |
 |---|---|---|---|---|---|---|---|---|
@@ -49,6 +49,7 @@ All 19 active features are mapped below with their canonical GitHub issue refere
 | **P4** | **4.3** | Secure Contact Form Integration (Formspree/Netlify) | [#20](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/20) | `Closes #20` | ⭐⭐⭐ | Low-Med | 3–4 hrs | `_includes/contact-form.html`, layouts, SCSS |
 | **P4** | **4.4** | Privacy-First Resume Engagement Analytics | [#17](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/17) | `Closes #17` | ⭐⭐⭐ | Low-Med | 3–4 hrs | `assets/js/resume-analytics.js`, analytics body |
 | **P4** | **4.5** | Resume Comparison & A/B Testing View | [#23](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/23) | `Closes #23` | ⭐⭐⭐ | Low | 4–5 hrs | `_layouts/resume-comparison.html`, `_comparison.scss` |
+| **P4** | **4.6** | Deprecation Retirement & Legacy Fallbacks Cleanup | [#214](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214) | `Closes #214` | ⭐ | High | 1–2 hrs | `_includes/resume-section-*.html`, layouts, docs |
 
 *(Note on Canonical References: Issue #204 is canonical for Expanded Social Media, superseding redundant duplicates #36–#190. Issue #206 is canonical for Automated CI/CD Pipeline, superseding redundant duplicates #38–#192).*
 
@@ -56,7 +57,7 @@ All 19 active features are mapped below with their canonical GitHub issue refere
 
 ## 2. Architecture & Dependency Flow
 
-The diagram below illustrates the architectural relationships, token flows, and sequential dependencies connecting all 19 active features across the four priority phases.
+The diagram below illustrates the architectural relationships, token flows, and sequential dependencies connecting all 20 active features across the four priority phases.
 
 ```mermaid
 flowchart TD
@@ -89,6 +90,7 @@ flowchart TD
         F43["4.3 Secure Contact Form (Formspree/Netlify)<br/>#20"]
         F44["4.4 Privacy Engagement Analytics<br/>#17"]
         F45["4.5 Resume Comparison & A/B View<br/>#23"]
+        F46["4.6 Deprecation Retirement (v1.0.0)<br/>#214"]
     end
 
     %% Dependencies & Synergies
@@ -105,6 +107,7 @@ flowchart TD
     F27 -->|Accessible Focus Rings| F12
     F27 -->|ARIA Standards| F43
     F33 -->|Schema Validation Gate| F32
+    F33 -->|Schema Validation Gate| F46
     F31 -->|Interoperable Resume Data| F45
 ```
 
@@ -2232,6 +2235,108 @@ Styling in `_sass/_comparison.scss`:
 
 ---
 
+### Feature 4.6: Deprecation Retirement & Legacy Fallbacks Cleanup (v1.0.0 Horizon)
+
+- **Canonical Issue:** [#214](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214)
+- **Auto-Closing Reference:** `Closes #214`
+- **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214`
+- **Concept & User Demand Rationale:**  
+  As the theme approaches its `v1.0.0` major release milestone, accumulated backward-compatibility aliases and legacy fallbacks must be retired. Maintaining legacy aliases across templates incurs Liquid evaluation overhead, bloats template logic, complicates documentation, and introduces subtle configuration ambiguity (e.g. conflicting singular vs plural keys). Retiring all audited fallback aliases enforces a clean, predictable, and fully standardized configuration schema.
+- **Effort / Impact / Demand:** Effort: ⭐ (1–2 hrs) | Impact: ⭐⭐⭐⭐ (Major Architecture Cleanup) | Demand: High
+
+#### Audited Deprecations Scheduled for v1.0.0 Retirement
+
+| Deprecated Key / Pattern | Canonical Replacement | Location / Scope | Impact |
+|---|---|---|---|
+| `resume_section.recognition` (singular) | `resume_section.recognitions` | `_config.yml` | Standardizes all section toggles to plural |
+| `resume_section_order: - recognition` | `resume_section_order: - recognitions` | `_config.yml` | Standardizes render sequence keys to plural |
+| `site.resume_dark_mode` | `site.dark_mode` | `_config.yml`, layouts | Consolidates dark mode under single top-level key |
+| `site.avatar` | `site.avatar_url` | `_config.yml`, `_includes/avatar.html` | Removes redundant avatar path fallback |
+| `site.resume_header_intro` | `_data/<lang>/header.yml` (`intro`) | `_config.yml`, layouts | Enforces bilingual, data-driven bio summaries |
+| `analytics.ga` (Universal Analytics) | `analytics.gtag` (GA4) or `analytics.gtm` | `_config.yml`, `_includes/analytics-head.html` | Retires deprecated and shut-down Google UA tracking |
+
+#### Exact Target Files
+- **Files to Modify:**
+  - `_includes/resume-section-en.html`: Simplify recognition branch strictly to `{% elsif include.section_name == "recognitions" and site.resume_section.recognitions %}`.
+  - `_includes/resume-section-ar.html`: Mirror simplified `recognitions` branch in Arabic dispatcher.
+  - `_layouts/default.html`: Remove `site.resume_dark_mode` checks; verify `site.dark_mode` exclusively.
+  - `_layouts/resume-en.html`: Remove `site.resume_dark_mode` and fallback `site.resume_header_intro`.
+  - `_layouts/resume-ar.html`: Mirror dark mode and header intro simplifications.
+  - `_includes/avatar.html`: Remove `site.avatar` fallback; read `site.avatar_url` directly.
+  - `_includes/analytics-head.html`: Remove legacy Universal Analytics (`analytics.ga`) script injection.
+  - `docs/CONFIG_GUIDE.md`: Remove deprecated alias rows and legacy fallback notes.
+  - `docs/_data/_config.sample.yml`: Remove commented legacy aliases (`resume_dark_mode`, etc.).
+
+#### Architecture & Implementation
+
+##### 1. Cleaned Resume Section Dispatchers
+In `_includes/resume-section-en.html` and `_includes/resume-section-ar.html`:
+```liquid
+{% elsif include.section_name == "recognitions" and site.resume_section.recognitions %}
+    <!-- begin Recognition -->
+    <section class="content-section">
+        <header class="section-header">
+            <h2>Recognition</h2>
+        </header>
+
+        {% for recognition in resume_data.recognitions %}
+            {% if recognition.active == true %}
+                <div class="resume-item">
+                    <h3 class="resume-item-title" itemprop="award">{{ recognition.award }}</h3>
+                    <h4 class="resume-item-details">{{ recognition.organization }} &bull; {{ recognition.year }}</h4>
+                    {% if recognition.summary %}
+                        <p class="resume-item-copy">{{ recognition.summary }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </section>
+    <!-- end Recognition -->
+```
+
+##### 2. Streamlined Dark Mode Conditional
+In `_layouts/default.html`, `_layouts/resume-en.html`, and `_layouts/resume-ar.html`:
+```liquid
+{% if site.dark_mode == "enabled" or site.dark_mode == true %}
+    {% include dark-mode-toggle.html %}
+{% endif %}
+```
+
+##### 3. Data-Only Bio Resolution
+In `_layouts/resume-en.html` and `_layouts/resume-ar.html`:
+```liquid
+{% if site.resume_header_intro_en == true and resume_data.header.intro %}
+    <p class="resume-header-intro">{{ resume_data.header.intro }}</p>
+{% endif %}
+```
+
+##### 4. Avatar Resolution
+In `_includes/avatar.html`:
+```liquid
+{% assign avatar_raw = site.avatar_url | default: '/assets/images/Profile-min.jpg' %}
+```
+
+#### Acceptance Criteria & Verification
+- [ ] Section dispatcher only renders recognitions when `resume_section_order` contains `recognitions` and `resume_section.recognitions: true`.
+- [ ] Dark mode toggle only activates via `dark_mode: enabled` or `dark_mode: true`.
+- [ ] No occurrences of `resume_dark_mode`, `resume_header_intro`, or `analytics.ga` remain in theme templates or sample configs.
+- [ ] Automated schema validation script (`bin/validate-resume`) reports warning or error if deprecated keys are encountered.
+- [ ] **Bash Verification Command:**
+  ```bash
+  # Verify zero references to retired legacy keys in templates
+  ! grep -rnE "site\.resume_dark_mode|site\.resume_header_intro|site\.resume_section\.recognition[^s]|analytics\.ga" _includes/ _layouts/ && \
+  bundle exec jekyll build --config docs/_data/_config.sample.yml && \
+  echo "v1.0.0 deprecation retirement verified cleanly."
+  ```
+
+#### Git Workflow Specification
+- **Branch:** `feature/v1-deprecation-retirement`
+- **PR Title:** `feat(core): retire legacy compatibility fallbacks for v1.0.0 release`
+- **Conventional Commit:** `feat(core): remove deprecated aliases for recognitions, dark mode, avatar, and UA (Closes #214)`
+- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214`
+
+---
+
 ## 7. Cross-Cutting Configuration & Target Files Index
 
 ### 7.1 Unified Target Files Manifest
@@ -2294,6 +2399,7 @@ Documentation Files to Create or Update (12 Files):
 | `resume_contact_form` | Boolean | `false` | 4.3 | Enable secure visitor contact form |
 | `contact_form.provider` | String | `"formspree"` | 4.3 | Contact form backend provider (`formspree`, `netlify`, `getform`) |
 | `resume_engagement_analytics`| Boolean | `false` | 4.4 | Enable privacy-preserving print and click event dispatching |
+| `resume_section.recognitions`| Boolean | `false` | 4.6 | Standardized plural toggle for awards & recognitions section |
 
 ---
 

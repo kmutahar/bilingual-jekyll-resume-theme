@@ -1,0 +1,50 @@
+{%- comment -%}
+Include: Reusable Avatar Component
+- Purpose: Render accessible, configurable profile picture.
+- Parameters:
+  - lang: Optional language code ('en' | 'ar'). Defaults to page.lang or site.lang or 'en'.
+  - link: Optional boolean to override link rendering.
+  - class: Optional extra CSS classes.
+{%- endcomment -%}
+
+{% assign current_lang = include.lang | default: page.lang | default: site.lang | default: 'en' %}
+
+{% assign avatar_raw = site.avatar_url | default: site.avatar | default: '/assets/images/Profile-min.jpg' %}
+{% if avatar_raw contains "://" %}
+  {% assign avatar_src = avatar_raw %}
+{% else %}
+  {% assign avatar_src = avatar_raw | relative_url %}
+{% endif %}
+
+{% if current_lang == 'ar' %}
+  {% capture name_ar %}{{ site.name_ar.first }}{% if site.name_ar.middle %} {{ site.name_ar.middle }}{% endif %}{% if site.name_ar.last %} {{ site.name_ar.last }}{% endif %}{% endcapture %}
+  {% assign name_ar = name_ar | strip %}
+  {% assign avatar_alt = site.avatar_alt_ar | default: site.avatar_alt | default: name_ar | default: 'الصورة الشخصية' %}
+  {% assign link_title = site.title | default: 'الصفحة الرئيسية' %}
+{% else %}
+  {% capture name_en %}{{ site.name.first }}{% if site.name.middle %} {{ site.name.middle }}{% endif %}{% if site.name.last %} {{ site.name.last }}{% endif %}{% endcapture %}
+  {% assign name_en = name_en | strip %}
+  {% assign avatar_alt = site.avatar_alt_en | default: site.avatar_alt | default: name_en | default: 'Profile photo' %}
+  {% assign link_title = site.title | default: 'Homepage' %}
+{% endif %}
+
+{% assign render_link = true %}
+{% if site.avatar_link == false or include.link == false %}
+  {% assign render_link = false %}
+{% endif %}
+
+{% if render_link %}
+  {% assign avatar_link_raw = site.avatar_link | default: '/' %}
+  {% if avatar_link_raw contains "://" %}
+    {% assign avatar_href = avatar_link_raw %}
+  {% else %}
+    {% assign avatar_href = avatar_link_raw | relative_url %}
+  {% endif %}
+  {% assign avatar_target = site.avatar_link_target | default: '_self' %}
+
+  <a href="{{ avatar_href }}" title="{{ link_title }}" class="avatar-link no-print"{% if avatar_target != '_self' %} target="{{ avatar_target }}" rel="noopener"{% endif %}>
+    <img src="{{ avatar_src }}" alt="{{ avatar_alt }}" class="avatar no-print{% if include.class %} {{ include.class }}{% endif %}" itemprop="image">
+  </a>
+{% else %}
+  <img src="{{ avatar_src }}" alt="{{ avatar_alt }}" class="avatar no-print{% if include.class %} {{ include.class }}{% endif %}" itemprop="image">
+{% endif %}

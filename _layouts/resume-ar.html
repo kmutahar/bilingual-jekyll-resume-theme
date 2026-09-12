@@ -193,10 +193,8 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
             <header class="page-header">
 
                 {% if site.resume_avatar == true %}
-                    <!-- You can turn off the avatar in _config.yml by setting to false -->
-                    <a href="{{ '/'  | relative_url }}" title="الصفحة الرئيسية" target="_blank" rel="noopener">
-                        <img src="{{ '/assets/images/Profile-min.jpg' | relative_url }}" alt="صورتي" class="avatar no-print" itemprop="image">
-                    </a>
+                    <!-- You can turn off the avatar in _config.yml by setting resume_avatar to false -->
+                    {% include avatar.html lang="ar" %}
                 {% endif %}
 
                 <!-- Your name is defined in the _config.yml file -->

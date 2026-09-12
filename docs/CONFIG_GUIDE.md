@@ -83,7 +83,12 @@ That’s enough to render a working resume using data from `_data/`.
 - description: Short site description/tagline (used by SEO tags).
 - baseurl: Keep empty unless deploying under a subdirectory (e.g., `/resume`).
 - timezone: Set to your region (e.g., `UTC`, `Etc/GMT`, `America/New_York`).
-- resume_avatar: true/false to show/hide the profile image.
+- resume_avatar: true/false to show/hide the profile picture.
+- avatar_url: Path or full URL to your avatar image (e.g., `assets/images/me.jpg` or `https://example.com/avatar.jpg`). Defaults to `/assets/images/Profile-min.jpg`.
+- avatar_alt_en: Custom English image alt text (optional, defaults to English full name).
+- avatar_alt_ar: Custom Arabic image alt text (optional, defaults to Arabic full name).
+- avatar_link: Custom URL for the clickable avatar link (defaults to `/`). Set to `false` to disable link wrapping.
+- avatar_link_target: Target attribute for the avatar link (defaults to `_self` for accessible in-site navigation; use `_blank` for new tab).
 - display_header_contact_info: true/false to show/hide contact row in header.
 - favicon: Path to custom `.ico` file (optional, defaults to `assets/favicon/resume/favicon.ico`).
 - apple_touch_icon: Path to custom 180x180 Apple touch icon (optional, defaults to `assets/favicon/resume/apple-touch-icon.png`).
@@ -129,6 +134,11 @@ active_resume_path_ar: ""
 ## Header and contact
 
 - resume_avatar (bool): Show/hide avatar in the header.
+- avatar_url (string): Custom image source path (relative like `assets/images/photo.jpg` or absolute URL like `https://example.com/avatar.jpg`). Defaults to `/assets/images/Profile-min.jpg`.
+- avatar_alt_en (string): Custom accessible alt text for the English resume (falls back to `avatar_alt`, English full name, or `"Profile photo"`).
+- avatar_alt_ar (string): Custom accessible alt text for the Arabic resume (falls back to `avatar_alt`, Arabic full name, or `"الصورة الشخصية"`).
+- avatar_link (string | bool): URL for the clickable avatar image (defaults to `/`). Set to `false` to display the avatar as a standalone unlinked image.
+- avatar_link_target (string): Link target attribute. Defaults to `_self` (recommended for standard in-site navigation). Can be set to `_blank` to open in a new tab.
 - resume_header_intro_en (bool): Enable/disable the English intro paragraph below name/title. When enabled, reads from `resume_data.header.intro` (create `_data/en/header.yml` with an `intro:` field). **Recommended:** Use `_data/en/header.yml` for English.
 - resume_header_intro_ar (bool): Enable/disable the Arabic intro paragraph below name/title. When enabled, reads from `resume_data.header.intro` (create `_data/ar/header.yml` with an `intro:` field). **Recommended:** Use `_data/ar/header.yml` for Arabic.
 - resume_looking_for_work (bool | omitted):

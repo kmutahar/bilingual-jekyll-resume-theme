@@ -25,6 +25,7 @@ This guide assumes basic familiarity with Jekyll and Liquid, but includes exampl
   - [print-social-links.html](#10-print-social-linkshtml)
   - [vendors/ (SVG icon packs)](#11-vendors-svg-icon-packs)
   - [dark-mode-toggle.html](#12-dark-mode-togglehtml)
+  - [avatar.html](#13-avatarhtml)
 - [Dynamic section rendering (resume-section-*.html)](#dynamic-section-rendering-resume-section-html)
   - [How it works](#how-it-works)
   - [Section list and flags](#section-list-and-flags)
@@ -298,7 +299,34 @@ The include is conditionally pulled into both `resume-en.html` and `resume-ar.ht
 {% endif %}
 ```
 
-Used by: `resume-en.html` and `resume-ar.html`.
+Used by: `resume-en.html`, `resume-ar.html`, and `default.html`.
+
+---
+
+### 13) avatar.html
+Purpose: Reusable, accessible profile picture component supporting configurable image source, language-aware alt text, and flexible link wrapping.
+- Computes image URL from `site.avatar_url` (with fallback to `site.avatar` and default `/assets/images/Profile-min.jpg`).
+- Defensively supports both local repository assets (via `relative_url`) and external CDN/HTTP URLs without URL mangling.
+- Provides language-aware accessible alt text:
+  - English: `site.avatar_alt_en` → `site.avatar_alt` → English full name → `"Profile photo"`
+  - Arabic: `site.avatar_alt_ar` → `site.avatar_alt` → Arabic full name → `"الصورة الشخصية"`
+- Wraps image in a link (`<a>`) pointing to `site.avatar_link` (defaults to `/`) with `site.avatar_link_target` (defaults to `_self` for WCAG-compliant in-site navigation).
+- Setting `site.avatar_link: false` or passing `link=false` to the include renders a clean standalone `<img>` without an enclosing `<a>`.
+- Preserves Schema.org microdata (`itemprop="image"`) and print suppression (`class="avatar no-print"`).
+
+Parameters:
+- `lang`: Optional language code (`'en'` | `'ar'`). Defaults to `page.lang`, `site.lang`, or `'en'`.
+- `link`: Optional boolean to override link rendering (`link=false`).
+- `class`: Optional extra CSS class names.
+
+Example usage:
+```liquid
+{% include avatar.html lang="en" %}
+{% include avatar.html lang="ar" %}
+{% include avatar.html link=false %}
+```
+
+Used by: `resume-en.html`, `resume-ar.html`, and custom pages.
 
 ---
 

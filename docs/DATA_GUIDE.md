@@ -1,625 +1,45 @@
-# Data Structure Documentation
+# Data Structure Guide (`_data/`)
 
-This document explains all data file structures used by the bilingual Jekyll resume theme. Each section of your resume is stored in a separate YAML file in the `_data/` directory.
+This document provides complete documentation and YAML schemas for all resume data files used by the bilingual Jekyll resume theme. Each section of your resume is stored as a separate YAML file in the `_data/` directory.
 
-**For beginners:** All your resume content (experience, education, skills, etc.) goes in YAML files in the `_data/` folder. 
-
-**Recommended approach:** Use language-specific folders (`_data/en/` for English and `_data/ar/` for Arabic). This is the recommended approach even if you're only using one language, as it makes it easier to add more languages in the future and keeps your data organized. 
-
-**Advanced users:** If you prefer, you can place files directly in `_data/` (root), but you'll need to set `active_resume_path_en: ""` and `active_resume_path_ar: ""` in your `_config.yml`.
-
-You can copy sample files from `docs/_data/en/` and `docs/_data/ar/` to get started. The theme reads these files and displays them on your resume pages.
-
-Key Features:
-
-1. Complete coverage of all 12 data types with commented YAML examples
-2. Clear explanations of how each field is used and displayed
-3. Multiple examples per section showing different use cases
-4. Important notes like the certification courses field being for personal record-keeping only (never displayed)
-5. Display format descriptions so users understand how their data will appear
-6. General guidelines section covering:
-    * Date formats (ISO format vs display text)
-    * Active/inactive flags
-    * Required vs optional fields
-    * Special characters in YAML
-    * File locations
-    * How to enable/disable sections in _config.yml
-
-Highlights:
-
-* Experience & Volunteering: Explained the grouping by company and the alternative durations field for non-continuous periods
-* Education: Clarified the difference between single award field and awards list
-* Certifications: Emphasized that nested courses are NOT displayed (personal record-keeping only)
-* Languages: Explained the two display modes (section vs header) and the descrp_short field purpose
-* Dates: Clear distinction between ISO dates for auto-formatting and display text for manual control
-* HTML Entities: Explained when to use &ndash; and &amp;
+---
 
 ## Table of Contents
 
-1. [Experience](#experience)
-2. [Education](#education)
-3. [Certifications](#certifications)
-4. [Courses](#courses)
-5. [Volunteering](#volunteering)
-6. [Projects](#projects)
-7. [Skills](#skills)
-8. [Recognition](#recognition)
-9. [Associations](#associations)
-10. [Languages](#languages)
-11. [Links](#links)
-12. [Interests](#interests)
-13. [Header Intro](#header-intro)
-14. [Error Pages](#error-pages)
-15. [General Guidlines](#general-guidelines)
+- [Overview & Folder Architecture](#overview--folder-architecture)
+- [Resume Content Sections](#resume-content-sections)
+  - [1. Experience (`experience.yml`)](#1-experience-experienceyml)
+  - [2. Education (`education.yml`)](#2-education-educationyml)
+  - [3. Certifications (`certifications.yml`)](#3-certifications-certificationsyml)
+  - [4. Courses (`courses.yml`)](#4-courses-coursesyml)
+  - [5. Volunteering (`volunteering.yml`)](#5-volunteering-volunteeringyml)
+  - [6. Projects (`projects.yml`)](#6-projects-projectsyml)
+  - [7. Skills (`skills.yml`)](#7-skills-skillsyml)
+  - [8. Recognition (`recognitions.yml`)](#8-recognition-recognitionsyml)
+  - [9. Associations (`associations.yml`)](#9-associations-associationsyml)
+  - [10. Languages (`languages.yml`)](#10-languages-languagesyml)
+  - [11. Links (`links.yml`)](#11-links-linksyml)
+  - [12. Interests (`interests.yml`)](#12-interests-interestsyml)
+- [Header & Executive Summary (`header.yml`)](#header--executive-summary-headeryml)
+- [Error Pages Data (`error_pages.yml`)](#error-pages-data-error_pagesyml)
+- [General Guidelines](#general-guidelines)
+  - [Date Formats & ISO Standards](#date-formats--iso-standards)
+  - [Active / Inactive Visibility Flags](#active--inactive-visibility-flags)
+  - [YAML Formatting & Special Characters](#yaml-formatting--special-characters)
+  - [Section Mapping Summary](#section-mapping-summary)
 
 ---
 
-## Experience
+## Overview & Folder Architecture
 
-**File:** `_data/en/experience.yml` (English) or `_data/ar/experience.yml` (Arabic)
+> [!TIP]
+> **Recommended Structure:** Always organize your data into language-specific folders: `_data/en/` for English and `_data/ar/` for Arabic. Starter templates can be copied directly from [`_data/en/`](_data/en/) and [`_data/ar/`](_data/ar/).
 
-**Recommended:** Use `_data/en/experience.yml` for English and `_data/ar/experience.yml` for Arabic. This keeps your data organized and makes it easy to add more languages later.
-
-Jobs are grouped by company name. Multiple roles at the same company will be displayed together. Roles are sorted by `startdate` (most recent first).
-
-```yaml
-# Each entry represents a role/position
-- company: "Freelance, Self-employed"          # Required: Company/organization name
-  position: "Wordpress Developer"              # Required: Job title/position
-  startdate: 2018-05-01                        # Required: Start date (YYYY-MM-DD format)
-  enddate: 2018-08-31                          # Optional: End date (YYYY-MM-DD) or "Present" for current roles
-  location: "Remote"                           # Optional: Job location
-  active: true                                 # Required: Set to false to hide this entry
-  notes:                                       # Optional: Personal notes (not displayed on resume)
-  summary:                                     # Optional: Job description (only shown if enable_summary is true in _config.yml)
-
-# Example with multiple duration periods (alternative to startdate/enddate)
-- company: "State University"
-  position: "Lecturer"
-  durations:                                   # Alternative: Use this instead of startdate/enddate for non-continuous periods
-    - duration: "Jun 2020 &ndash; Jan 2021"    # Display text for first period
-    - duration: "&amp; Jun 2022 &ndash; Dec 2022"  # Display text for second period
-  location: "Semenyih, Malaysia"
-  active: true
-  notes:
-  summary:
-
-# Example of current position
-- company: "Acme Corporation"
-  position: "Senior Developer"
-  startdate: 2020-03-15
-  enddate: Present                             # Use "Present" for ongoing positions
-  location: "New York, NY"
-  active: true
-  notes: "Remember to update this quarterly"
-  summary: "Led development team of 5 engineers building cloud infrastructure."
-```
-
-**Display Format:** 
-- Company name appears as a heading
-- Multiple roles at same company are grouped together
-- Each role shows: Position • Date Range • Location
-- Dates auto-format as "Mon YYYY" (e.g., "May 2018")
-
----
-
-## Education
-
-**File:** `_data/en/education.yml` (English) or `_data/ar/education.yml` (Arabic)
-
-**Recommended:** Use `_data/en/education.yml` for English and `_data/ar/education.yml` for Arabic.
-
-```yaml
-- degree: "Bachelor of Business"  # Required: Degree name and details
-  active: true                                 # Required: Set to false to hide this entry
-  uni: "State University"     # Required: University/institution name
-  year: "Sep 2020 &ndash; June 2024"           # Required: Time period (as display text)
-  location: "Sana'a, Yemen"                    # Required: Location of institution
-  awards:                                      # Optional: List of awards/honors received
-    - award: "Deans List (2021-2022)"
-    - award: "Deans List (2020-2021)"
-  award: "Graduated with Honors"              # Optional: Single award (alternative to awards list)
-  summary:                                     # Optional: Additional description
-
-# Minimal example
-- degree: "High School Diploma"
-  active: true
-  uni: "Springfield High School"
-  year: "2015 &ndash; 2019"
-  location: "Springfield, IL"
-```
-
-**Display Format:**
-- University name as heading
-- Second line: Degree • Year • Location
-- Awards listed as bullet points
-- Summary paragraph (if provided)
-
----
-
-## Certifications
-
-**File:** `_data/en/certifications.yml` (English) or `_data/ar/certifications.yml` (Arabic)
-
-**Recommended:** Use `_data/en/certifications.yml` for English and `_data/ar/certifications.yml` for Arabic.
-
-```yaml
-- name: "Business Certificate"        # Required: Certification name
-  active: false                                # Required: Set to true to display on resume
-  issuing_organization: "State Univerisity" # Required: Organization that issued the certification
-  credential_id: "ABC123XYZ"                   # Optional: Credential/certificate ID number
-  credential_url: "https://example.com/cert/ABC123XYZ" # Optional: URL to verify credential
-  issue_date: 2024-03-15                       # Required: Date issued (YYYY-MM-DD format)
-  expiration: 2027-03-15                       # Optional: Expiration date (YYYY-MM-DD format)
-  courses:                                     # Optional: INTERNAL USE ONLY - not displayed on resume
-    - name: "Accounting for Business"       # These nested courses are for personal record-keeping
-      active: false                            # They link courses to their parent certification
-      issuing_organization: "State Univerisity"  # but are never shown on the final resume
-      credential_id: "COURSE123"
-      credential_url: "https://example.com/course/COURSE123"
-      issue_date: 2024-01-10
-      expiration:
-
-# Example with credential ID but no URL
-- name: "AWS Certified Solutions Architect"
-  active: true
-  issuing_organization: "Amazon Web Services"
-  credential_id: "AWS-CSA-2024-1234"
-  credential_url: ""                           # Empty if no verification URL exists
-  issue_date: 2024-06-01
-  expiration: 2027-06-01
-```
-
-**Display Format:**
-- Certification name as heading
-- Organization • Issue Date — Expiration Date •
-- Credential ID: [clickable link if URL provided] (URL shown in print)
-
-**Important Note:** The `courses` field within certifications is for **personal record-keeping only** and will **never be displayed** on your resume. Use the separate `courses.yml` file for courses you want to display.
-
----
-
-## Courses
-
-**File:** `_data/en/courses.yml` (English) or `_data/ar/courses.yml` (Arabic)
-
-**Recommended:** Use `_data/en/courses.yml` for English and `_data/ar/courses.yml` for Arabic.
-
-```yaml
-- name: "Certificate of Course Completion"  # Required: Course name
-  active: true                                 # Required: Set to false to hide this entry
-  issuing_organization: "ABC Academy"  # Required: Organization providing the course
-  credential_id: "MC-DRW-2025-456"            # Optional: Credential/certificate ID
-  credential_url: "https://academy.example.com/verify/456"  # Optional: URL to verify credential
-  startdate: 2025-02-03                        # Required: Course start date (YYYY-MM-DD format)
-  enddate: 2025-02-06                          # Optional: Course end date (YYYY-MM-DD format)
-  expiration:                                  # Optional: Credential expiration date
-  notes:                                       # Optional: Personal notes (not displayed)
-  summary:                                     # Optional: Course description (only shown if enable_summary is true)
-
-# Example without credential
-- name: "Introduction to Machine Learning"
-  active: true
-  issuing_organization: "Stanford Online"
-  credential_id: ""
-  credential_url: ""
-  startdate: 2024-09-01
-  enddate: 2024-12-15
-  summary: "Comprehensive introduction to ML algorithms and practical applications."
-```
-
-**Display Format:**
-- Course name as heading
-- Organization • Start Date — End Date
-- Summary paragraph (if provided and enabled)
-- Credential ID with link (if provided)
-
----
-
-## Volunteering
-
-**File:** `_data/en/volunteering.yml` (English) or `_data/ar/volunteering.yml` (Arabic)
-
-**Recommended:** Use `_data/en/volunteering.yml` for English and `_data/ar/volunteering.yml` for Arabic.
-
-Structure is identical to Experience section. Volunteer positions are grouped by organization.
-
-```yaml
-- company: "Red Cross"           # Required: Organization name
-  position: "First Aid"                          # Required: Role/position title
-  startdate: 2011-11-01                        # Required: Start date (YYYY-MM-DD)
-  enddate: 2013-01-31                          # Optional: End date or "Present"
-  location: "Springfield, IL"                # Optional: Location
-  active: false                                # Required: Set to true to display
-  notes:                                       # Optional: Personal notes (not displayed)
-  summary:                                     # Optional: Description of volunteer work
-
-# Example with durations (alternative date format)
-- company: "Local Food Bank"
-  position: "Volunteer Coordinator"
-  durations:
-    - duration: "Summer 2022"
-    - duration: "&amp; Winter 2021"
-  location: "Austin, TX"
-  active: true
-  summary: "Organized food distribution events serving 500+ families monthly."
-```
-
-**Display Format:**
-Same as Experience section - grouped by organization, sorted by date.
-
----
-
-## Projects
-
-**File:** `_data/en/projects.yml` (English) or `_data/ar/projects.yml` (Arabic)
-
-**Recommended:** Use `_data/en/projects.yml` for English and `_data/ar/projects.yml` for Arabic.
-
-```yaml
-- project: "Closed Source Project"                        # Required: Project name
-  active: true                                 # Required: Set to false to hide
-  role: "Maintainer"                           # Required: Your role in the project
-  duration: "May 2021 &ndash; Present"        # Required: Time period (as display text)
-  url: "https://www.example.com/"              # Optional: Project URL
-  description:                                 # Required: Project description
-
-# Complete example
-- project: "Open Source Dashboard"
-  active: true
-  role: "Lead Developer"
-  duration: "Jan 2023 &ndash; Jun 2024"
-  url: "https://github.com/username/dashboard"
-  description: "Built a real-time analytics dashboard using React and Node.js, serving 10K+ users daily."
-
-# Example without URL
-- project: "University Capstone Project"
-  active: true
-  role: "Team Lead"
-  duration: "Sep 2022 &ndash; May 2023"
-  url: ""
-  description: "Developed an inventory management system for local businesses."
-```
-
-**Display Format:**
-- Project name as heading (clickable if URL provided)
-- Role • Duration
-- Description paragraph
-- URL shown in parentheses on printed version
-
----
-
-## Skills
-
-**File:** `_data/en/skills.yml` (English) or `_data/ar/skills.yml` (Arabic)
-
-**Recommended:** Use `_data/en/skills.yml` for English and `_data/ar/skills.yml` for Arabic.
-
-```yaml
-- skill: "Organizational leadership"           # Required: Skill name/title
-  active: true                                 # Required: Set to false to hide
-  description: "I have several years of experience leading organizations from community groups to business departments. From public speaking, to mentoring, to coordination of people and events, I can lead in any context."  # Required: Detailed description
-
-# Multiple examples
-- skill: "Full-Stack Web Development"
-  active: true
-  description: "Expert in JavaScript, React, Node.js, and PostgreSQL. Built and deployed 20+ production applications."
-
-- skill: "Technical Writing"
-  active: true
-  description: "Created comprehensive documentation for APIs, user guides, and technical specifications."
-
-- skill: "Legacy Skill"
-  active: false                                # This will not appear on resume
-  description: "Old technology no longer relevant to current career goals."
-```
-
-**Display Format:**
-- Skill name as subheading
-- Description as paragraph
-
----
-
-## Recognition
-
-**File:** `_data/en/recognitions.yml` (English) or `_data/ar/recognitions.yml` (Arabic)
-
-**Recommended:** Use `_data/en/recognitions.yml` for English and `_data/ar/recognitions.yml` for Arabic.
-
-```yaml
-- award: "Outstanding Achievement"             # Required: Award name
-  active: true                                 # Required: Set to false to hide
-  organization: "Springfield Young Professionals"  # Required: Awarding organization
-  year: "2010, 2014"                          # Required: Year(s) received (can be multiple)
-  summary: "Awarded the Outstanding Achievement award for contributions made to the community and professional accomplishments."  # Required: Award description
-
-# Multiple year format example
-- award: "Employee of the Quarter"
-  active: true
-  organization: "Acme Corporation"
-  year: "Q2 2023, Q4 2023"
-  summary: "Recognized for exceptional performance and dedication to team success."
-
-# Single award example
-- award: "Dean's List"
-  active: true
-  organization: "State University"
-  year: "2019, 2020, 2021, 2022"
-  summary: "Maintained GPA above 3.5 for four consecutive years."
-```
-
-**Display Format:**
-- Award name as heading
-- Organization • Year
-- Summary paragraph
-
----
-
-## Associations
-
-**File:** `_data/en/associations.yml` (English) or `_data/ar/associations.yml` (Arabic)
-
-**Recommended:** Use `_data/en/associations.yml` for English and `_data/ar/associations.yml` for Arabic.
-
-```yaml
-- organization: "Internet Sociaity"  # Required: Organization name
-  active: true                                 # Required: Set to false to hide
-  role: "Mentor"                              # Required: Your role/position
-  year: "July 2022 &ndash; Present"          # Required: Time period (as display text)
-  url: "https://example.com/"         # Optional: Organization URL
-  summary:                                     # Required: Description of involvement
-
-# Complete example
-- organization: "IEEE Computer Society"
-  active: true
-  role: "Member"
-  year: "2020 &ndash; Present"
-  url: "https://www.computer.org/"
-  summary: "Active participant in local chapter events and technical workshops."
-
-# Example without URL
-- organization: "Local Chamber of Commerce"
-  active: true
-  role: "Board Member"
-  year: "2021 &ndash; 2023"
-  url: ""
-  summary: "Served on the technology committee, advising on digital transformation initiatives."
-```
-
-**Display Format:**
-- Organization name as heading (clickable if URL provided)
-- Role • Year
-- Summary paragraph
-- URL shown in parentheses on printed version
-
----
-
-## Languages
-
-**File:** `_data/en/languages.yml` (English) or `_data/ar/languages.yml` (Arabic)
-
-**Recommended:** Use `_data/en/languages.yml` for English and `_data/ar/languages.yml` for Arabic.
-
-```yaml
-- language: English                            # Required: Language name
-  active: true                                 # Required: Set to false to hide
-  description: "Native proficiency"            # Required: Full proficiency description
-  descrp_short: "Native"                       # Required: Short form for header display
-
-# Multiple examples
-- language: Arabic
-  active: true
-  description: "Professional working proficiency"
-  descrp_short: "Professional"
-
-- language: Spanish
-  active: true
-  description: "Limited working proficiency"
-  descrp_short: "Limited"
-
-- language: French
-  active: false                                # Not currently displayed
-  description: "Elementary proficiency"
-  descrp_short: "Elementary"
-```
-
-**Display Format:**
-- Languages section displays in a two-column table
-- Each entry shows: Language — Description
-- If `lang_header` is enabled in `_config.yml`, languages appear in the page header instead
-
-**Proficiency Levels (suggested):**
-- Native / Bilingual
-- Professional working proficiency
-- Limited working proficiency  
-- Elementary proficiency
-
----
-
-## Links
-
-**File:** `_data/en/links.yml` (English) or `_data/ar/links.yml` (Arabic)
-
-**Recommended:** Use `_data/en/links.yml` for English and `_data/ar/links.yml` for Arabic.
-
-```yaml
-- description: "Resume"       # Required: Link description/title
-  active: true                                 # Required: Set to false to hide
-  url: "https://example.com/"       # Required: URL
-
-# Multiple examples
-- description: "Personal Blog"
-  active: true
-  url: "https://myblog.com"
-
-- description: "Portfolio Website"
-  active: true
-  url: "https://portfolio.example.com"
-
-- description: "GitHub Profile"
-  active: true
-  url: "https://github.com/username"
-
-- description: "Old Website"
-  active: false                                # This link will not appear
-  url: "https://old-site.com"
-```
-
-**Display Format:**
-- Bulleted list of clickable links
-- URL shown in parentheses on printed version
-
----
-
-## Interests
-
-**File:** `_data/en/interests.yml` (English) or `_data/ar/interests.yml` (Arabic)
-
-**Recommended:** Use `_data/en/interests.yml` for English and `_data/ar/interests.yml` for Arabic.
-
-Simple list of interests/hobbies.
-
-```yaml
-- description: "Human rights and world affairs"  # Required: Interest description
-
-- description: "Photography and visual storytelling"
-
-- description: "Hiking and outdoor adventures"
-
-- description: "Playing guitar and songwriting"
-
-- description: "Reading science fiction and philosophy"
-```
-
-**Display Format:**
-- Simple bulleted list under "Outside Interests" heading
-- No active/inactive toggle - if it's in the file, it shows
-
----
-
-## Header Intro
-
-**File:** `_data/en/header.yml` (English) or `_data/ar/header.yml` (Arabic)
-
-**Recommended:** Use `_data/en/header.yml` for English and `_data/ar/header.yml` for Arabic.
-
-Contains the executive summary/intro paragraph that appears below your name and title in the resume header.
-
-```yaml
-# Header intro paragraph
-# Enable this in _config.yml with: resume_header_intro_en: true (for English)
-# or resume_header_intro_ar: true (for Arabic)
-
-intro: "Your professional summary or elevator pitch goes here. This is the English version."
-```
-
-**Display Format:**
-- Appears as a paragraph below your name, title, and social links
-- Only shows if `resume_header_intro_en: true` (English) or `resume_header_intro_ar: true` (Arabic) is set in `_config.yml`
-- Supports basic HTML formatting
-
-**Important:** 
-- Create separate files for each language: `_data/en/header.yml` for English and `_data/ar/header.yml` for Arabic
-- Sample files are available in `docs/_data/en/header.yml` and `docs/_data/ar/header.yml`
-
----
-
-## Error Pages
-
-**File:** `_data/error_pages.yml`
-
-This file provides centralized English and Arabic titles, descriptions, and action button labels for HTTP error pages (`404.html`, `403.html`, `500.html`).
-
-```yaml
-labels:
-  home: "Home / الرئيسية"
-  resume_en: "Resume (EN)"
-  resume_ar: "السيرة الذاتية (عربي)"
-  reload: "Reload Page / إعادة تحميل الصفحة"
-
-"404":
-  title_en: "Page Not Found"
-  desc_en: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
-  title_ar: "الصفحة غير موجودة"
-  desc_ar: "ربما تمت إزالة الصفحة التي تبحث عنها، أو تم تغيير اسمها، أو أنها غير متوفرة مؤقتاً."
-
-"403":
-  title_en: "Access Forbidden"
-  desc_en: "You do not have permission to access the requested resource or directory."
-  title_ar: "الوصول محظور"
-  desc_ar: "ليس لديك الصلاحية اللازمة للوصول إلى هذا المورد أو الدليل المطلوب."
-
-"500":
-  title_en: "Internal Server Error"
-  desc_en: "The server encountered an unexpected condition that prevented it from fulfilling the request. Please try again later."
-  title_ar: "خطأ داخلي في الخادم"
-  desc_ar: "واجه الخادم ظرفاً غير متوقع منعه من إكمال الطلب. يرجى المحاولة مرة أخرى لاحقاً."
-
-"503":
-  title_en: "Service Unavailable"
-  desc_en: "The server is currently unable to handle the request due to maintenance or capacity overload."
-  title_ar: "الخدمة غير متوفرة مؤقتاً"
-  desc_ar: "الخادم غير قادر على معالجة الطلب حالياً بسبب الصيانة أو زيادة الحمل."
-```
-
----
-
-## General Guidelines
-
-### Date Formats
-
-**For startdate/enddate fields:**
-- Always use ISO format: `YYYY-MM-DD` (e.g., `2024-03-15`)
-- These auto-format to "Mon YYYY" in English (e.g., "Mar 2024")
-- Arabic layout uses custom date formatting via `ar-date.html` which reads from `site.data.ar.months`
-- **Note:** The theme already includes `_data/ar/months.yml` with Arabic month names, so you don't need to create this file manually.
-
-**For display text fields (year, duration):**
-- Use any text format you want
-- Use `&ndash;` for em dash (—)
-- Use `&amp;` for ampersand (&)
-- HTML entities needed because YAML interprets special characters
-
-### Active Flag
-
-Nearly all entries have an `active: true/false` field:
-- `true` = entry appears on resume
-- `false` = entry hidden but kept in your records
-
-### Optional vs Required
-
-- **Required** fields must have a value (can be empty string `""` for optional-marked fields)
-- **Optional** fields can be omitted or left empty
-- If a required field is empty, that section may not render correctly
-
-### Special Characters in YAML
-
-```yaml
-# Use quotes for strings with special characters
-name: "Bachelor's Degree: Computer Science"
-
-# HTML entities for display text
-duration: "2020 &ndash; 2023"              # em dash
-organization: "Smith &amp; Associates"      # ampersand
-
-# URLs don't need quotes (unless they contain special YAML characters)
-url: https://example.com
-```
-
-### File Location
-
-**Recommended approach (for beginners):** Place all data files in language-specific folders (`_data/en/` and `_data/ar/`). This is the recommended approach even if you're only using one language, as it:
-- Keeps your data organized
-- Makes it easy to add more languages in the future
-- Follows the same structure as the sample files
-
-**Advanced approach:** You can place files directly in `_data/` (root), but you'll need to set `active_resume_path_en: ""` and `active_resume_path_ar: ""` in your `_config.yml`. This approach is not recommended for beginners.
-
-**Recommended structure (use language folders):**
-```
+```text
 _data/
-├── en/
-│   ├── header.yml        # Executive summary/intro paragraph
+├── ar/
+│   ├── months.yml            # (Bundled in theme root _data/ar/months.yml)
+│   ├── header.yml
 │   ├── experience.yml
 │   ├── education.yml
 │   ├── certifications.yml
@@ -632,48 +52,512 @@ _data/
 │   ├── languages.yml
 │   ├── links.yml
 │   └── interests.yml
-└── ar/
-    ├── header.yml        # Executive summary/intro paragraph (Arabic)
-    ├── experience.yml
-    ├── education.yml
-    └── ... (same files as en/)
+├── en/
+│   ├── header.yml
+│   ├── experience.yml
+│   ├── education.yml
+│   ├── certifications.yml
+│   ├── courses.yml
+│   ├── volunteering.yml
+│   ├── projects.yml
+│   ├── skills.yml
+│   ├── recognitions.yml
+│   ├── associations.yml
+│   ├── languages.yml
+│   ├── links.yml
+│   └── interests.yml
+└── error_pages.yml           # (Bundled in theme root _data/error_pages.yml)
 ```
 
-**Note:** The theme includes `_data/ar/months.yml` in the theme itself (not in your site), so Arabic month names are available automatically. You don't need to create this file in your site's `_data/` folder.
-
-**Sample files:** You can copy sample data files from `docs/_data/en/` and `docs/_data/ar/` to get started. These contain commented examples showing the structure for each section type.
-
-### Enabling Sections in _config.yml
-
-To control which sections appear on your resume, edit `_config.yml`:
+In your site's `_config.yml` (see [`CONFIG_GUIDE.md`](CONFIG_GUIDE.md) and [`_data/_config.sample.yml`](_data/_config.sample.yml)), point the active data paths to these folders:
 
 ```yaml
-resume_section:
-  experience: true
-  education: true
-  certifications: true
-  courses: true
-  volunteering: true
-  projects: true
-  skills: true
-  recognition: true
-  associations: true
-  interests: true
-  languages: true
-  links: true
-  lang_header: false  # If true, languages show in header instead of separate section
-
-resume_section_order:
-  - experience
-  - education
-  - certifications
-  - skills
-  - projects
-  - volunteering
-  - recognition
-  - associations
-  - languages
-  - links
-  - interests
-
+active_resume_path_en: "en" # Points to _data/en/
+active_resume_path_ar: "ar" # Points to _data/ar/
 ```
+
+---
+
+## Resume Content Sections
+
+### 1. Experience (`experience.yml`)
+
+- **Files:** [`_data/en/experience.yml`](_data/en/experience.yml) / [`_data/ar/experience.yml`](_data/ar/experience.yml)
+- **Config Toggle:** `resume_section.experience: true`
+- **Behavior:** Roles are grouped by `company` name. Multiple positions at the same employer appear together, sorted by `startdate` (most recent first).
+
+```yaml
+# Standard role entry with ISO dates
+- company: "Acme Corporation"
+  position: "Senior Product Manager"
+  startdate: 2022-03-01
+  enddate: Present # Use "Present" for ongoing roles
+  location: "San Francisco, CA"
+  active: true
+  summary: "Led cross-functional team of 12 engineers delivering enterprise AI products."
+
+# Role with custom non-continuous duration strings
+- company: "State University"
+  position: "Adjunct Lecturer"
+  durations:
+    - duration: "Jun 2020 &ndash; Jan 2021"
+    - duration: "&amp; Jun 2022 &ndash; Dec 2022"
+  location: "Austin, TX"
+  active: true
+  summary: "Taught undergraduate courses in software architecture and human-computer interaction."
+```
+
+**Display Format:**
+- Company name appears as a prominent section item heading.
+- Multiple roles at the same company are automatically grouped together.
+- Each role displays: **Position • Date Range • Location**.
+- Structured ISO dates auto-format as `"Mon YYYY"` in English (e.g., `"Mar 2022"`) and localized Arabic months via [`../_includes/ar-date.html`](../_includes/ar-date.html) in Arabic layouts.
+- Summary paragraph displays below the role details when provided and `enable_summary: true` is configured in `_config.yml`.
+
+---
+
+### 2. Education (`education.yml`)
+
+- **Files:** [`_data/en/education.yml`](_data/en/education.yml) / [`_data/ar/education.yml`](_data/ar/education.yml)
+- **Config Toggle:** `resume_section.education: true`
+
+```yaml
+- degree: "M.S. in Computer Science"
+  uni: "Stanford University"
+  year: "Sep 2018 &ndash; Jun 2020"
+  location: "Stanford, CA"
+  active: true
+  awards:
+    - award: "Graduate Research Fellowship"
+    - award: "Dean's Honors List (2019)"
+  summary: "Specialized in distributed systems and natural language processing."
+
+- degree: "B.S. in Software Engineering"
+  uni: "State University"
+  year: "2014 &ndash; 2018"
+  location: "Seattle, WA"
+  active: true
+  award: "Graduated Magna Cum Laude"
+```
+
+**Display Format:**
+- University/institution name appears as a heading.
+- Second line displays: **Degree • Year • Location**.
+- Honors and achievements are rendered as bulleted points under the degree (supporting both single `award` and multiple `awards` lists).
+- Summary paragraph displays beneath honors when provided.
+
+---
+
+### 3. Certifications (`certifications.yml`)
+
+- **Files:** [`_data/en/certifications.yml`](_data/en/certifications.yml) / [`_data/ar/certifications.yml`](_data/ar/certifications.yml)
+- **Config Toggle:** `resume_section.certifications: true`
+
+```yaml
+# Example with verification credential and URL
+- name: "AWS Certified Solutions Architect &ndash; Professional"
+  issuing_organization: "Amazon Web Services"
+  credential_id: "AWS-PSA-987654"
+  credential_url: "https://aws.amazon.com/verification"
+  issue_date: 2023-04-15
+  expiration: 2026-04-15
+  active: true
+
+# Example with nested courses for personal record-keeping
+- name: "Business Certificate in Financial Management"
+  active: true
+  issuing_organization: "State University Executive Education"
+  credential_id: "ABC123XYZ"
+  credential_url: "https://example.com/cert/ABC123XYZ"
+  issue_date: 2024-03-15
+  expiration: 2027-03-15
+  courses: # Optional: INTERNAL USE ONLY - not displayed on resume
+    - name: "Accounting for Corporate Business"
+      active: true
+      issuing_organization: "State University"
+      credential_id: "COURSE123"
+      credential_url: "https://example.com/course/COURSE123"
+      issue_date: 2024-01-10
+      expiration:
+```
+
+> [!IMPORTANT]
+> The nested `courses:` list within certification entries is designed strictly for **personal record-keeping and linking coursework to parent credentials**. It is **never rendered** on the generated resume. To display coursework visibly on your resume, use [`courses.yml`](#4-courses-coursesyml).
+
+**Display Format:**
+- Certification name appears as a bold heading.
+- Second line displays: **Issuing Organization • Issue Date — Expiration Date**.
+- Credential ID is rendered as a clickable link if `credential_url` is provided, and the full destination URL is printed in parentheses in physical and PDF outputs.
+
+---
+
+### 4. Courses (`courses.yml`)
+
+- **Files:** [`_data/en/courses.yml`](_data/en/courses.yml) / [`_data/ar/courses.yml`](_data/ar/courses.yml)
+- **Config Toggle:** `resume_section.courses: true`
+
+```yaml
+- name: "Deep Learning Specialization"
+  issuing_organization: "DeepLearning.AI / Coursera"
+  credential_id: "COURSERA-DL-1234"
+  credential_url: "https://coursera.org/verify/COURSERA-DL-1234"
+  startdate: 2024-01-10
+  enddate: 2024-03-20
+  active: true
+  summary: "Comprehensive sequence covering CNNs, RNNs, Transformers, and optimization algorithms."
+```
+
+**Display Format:**
+- Course name appears as a heading.
+- Second line displays: **Issuing Organization • Start Date — End Date**.
+- Summary paragraph displays if provided and `enable_summary: true` is configured in `_config.yml`.
+- Credential ID displays with an interactive link when `credential_url` is provided.
+
+---
+
+### 5. Volunteering (`volunteering.yml`)
+
+- **Files:** [`_data/en/volunteering.yml`](_data/en/volunteering.yml) / [`_data/ar/volunteering.yml`](_data/ar/volunteering.yml)
+- **Config Toggle:** `resume_section.volunteering: true`
+
+```yaml
+- company: "Code for Good"
+  position: "Technical Mentor"
+  startdate: 2021-06-01
+  enddate: Present
+  location: "Remote"
+  active: true
+  summary: "Mentored aspiring engineers from underrepresented backgrounds on web development and open source contribution."
+```
+
+**Display Format:**
+- Same layout structure as the [Experience](#1-experience-experienceyml) section: grouped by organization name and sorted chronologically.
+- Displays: **Position • Date Range • Location** followed by the summary paragraph.
+
+---
+
+### 6. Projects (`projects.yml`)
+
+- **Files:** [`_data/en/projects.yml`](_data/en/projects.yml) / [`_data/ar/projects.yml`](_data/ar/projects.yml)
+- **Config Toggle:** `resume_section.projects: true`
+
+```yaml
+- project: "Open Source Data Pipeline"
+  role: "Author & Maintainer"
+  duration: "Jan 2023 &ndash; Present"
+  url: "https://github.com/yourusername/pipeline"
+  active: true
+  description: "High-throughput streaming ETL pipeline written in Go and Apache Kafka, processing 5M+ daily events."
+```
+
+**Display Format:**
+- Project title appears as a bold heading (rendered as a clickable link if `url` is specified).
+- Second line displays: **Role • Duration**.
+- Project description appears as a paragraph below.
+- In print and PDF versions, external URLs are automatically echoed in parentheses.
+
+---
+
+### 7. Skills (`skills.yml`)
+
+- **Files:** [`_data/en/skills.yml`](_data/en/skills.yml) / [`_data/ar/skills.yml`](_data/ar/skills.yml)
+- **Config Toggle:** `resume_section.skills: true`
+
+```yaml
+- skill: "Cloud Architecture & Infrastructure"
+  active: true
+  description: "Expert in AWS, GCP, Terraform, Docker, and Kubernetes. Designed and deployed multi-region high-availability infrastructure."
+
+- skill: "Product Strategy & Technical Leadership"
+  active: true
+  description: "Roadmapping, OKR tracking, cross-functional mentoring, agile sprint leadership, and stakeholder communication."
+```
+
+**Display Format:**
+- Skill name appears as a bold subheading (`<h3>`).
+- Description appears as a detailed narrative paragraph immediately below the subheading.
+
+---
+
+### 8. Recognition (`recognitions.yml`)
+
+- **Files:** [`_data/en/recognitions.yml`](_data/en/recognitions.yml) / [`_data/ar/recognitions.yml`](_data/ar/recognitions.yml)
+- **Config Toggle:** `resume_section.recognition: true`
+
+> [!IMPORTANT]
+> In `_config.yml`, the toggle and render order key is **`recognition`** (singular), but the data file must be named **`recognitions.yml`** (plural).
+
+```yaml
+- award: "Innovator of the Year"
+  organization: "Global Tech Summit"
+  year: "2023"
+  active: true
+  summary: "Awarded for exceptional contributions to open-source developer tooling and developer velocity."
+
+- award: "Dean's Excellence Award"
+  organization: "State University"
+  year: "2019, 2020"
+  active: true
+  summary: "Recognized for academic achievement and research excellence in computer engineering."
+```
+
+**Display Format:**
+- Award name appears as a bold heading.
+- Second line displays: **Awarding Organization • Year**.
+- Summary description appears as a paragraph.
+
+---
+
+### 9. Associations (`associations.yml`)
+
+- **Files:** [`_data/en/associations.yml`](_data/en/associations.yml) / [`_data/ar/associations.yml`](_data/ar/associations.yml)
+- **Config Toggle:** `resume_section.associations: true`
+
+```yaml
+- organization: "Association for Computing Machinery (ACM)"
+  role: "Senior Member"
+  year: "2019 &ndash; Present"
+  url: "https://www.acm.org"
+  active: true
+  summary: "Active contributor to SIGMOD working groups on data systems and data governance."
+```
+
+**Display Format:**
+- Organization name appears as a heading (clickable link if `url` is provided).
+- Second line displays: **Role • Year**.
+- Summary paragraph describes candidate involvement and leadership.
+- In print mode, the destination URL is echoed in parentheses.
+
+---
+
+### 10. Languages (`languages.yml`)
+
+- **Files:** [`_data/en/languages.yml`](_data/en/languages.yml) / [`_data/ar/languages.yml`](_data/ar/languages.yml)
+- **Config Toggles:**
+  - `resume_section.lang_header: true`: Renders compact language chips directly in the header.
+  - `resume_section.languages: true`: Renders a standalone two-column table section.
+
+```yaml
+- language: "English"
+  description: "Native / Bilingual proficiency"
+  descrp_short: "Native" # Used for compact header chips
+  active: true
+
+- language: "Arabic"
+  description: "Professional working proficiency"
+  descrp_short: "Professional"
+  active: true
+
+- language: "German"
+  description: "Elementary working proficiency"
+  descrp_short: "Elementary"
+  active: true
+```
+
+**Display Format:**
+- **Table Mode (`resume_section.languages: true`):** Renders a responsive two-column table in the main body. Each entry displays: **Language — Description**.
+- **Header Chips Mode (`resume_section.lang_header: true`):** Renders inline compact badges below the job title in the resume header using the `descrp_short` attribute.
+
+---
+
+### 11. Links (`links.yml`)
+
+- **Files:** [`_data/en/links.yml`](_data/en/links.yml) / [`_data/ar/links.yml`](_data/ar/links.yml)
+- **Config Toggle:** `resume_section.links: true`
+
+```yaml
+- description: "Technical Blog & Architecture Articles"
+  url: "https://blog.yourdomain.com"
+  active: true
+
+- description: "GitHub Open Source Dossier"
+  url: "https://github.com/yourusername"
+  active: true
+```
+
+**Display Format:**
+- Clean bulleted list of clickable text links.
+- External URLs are echoed in parentheses during print and PDF rendering.
+
+---
+
+### 12. Interests (`interests.yml`)
+
+- **Files:** [`_data/en/interests.yml`](_data/en/interests.yml) / [`_data/ar/interests.yml`](_data/ar/interests.yml)
+- **Config Toggle:** `resume_section.interests: true`
+
+```yaml
+- description: "Distributed systems research and open-source software"
+- description: "Landscape photography and digital storytelling"
+- description: "Long-distance trail running and mountaineering"
+```
+
+**Display Format:**
+- Unordered bulleted list under the "Outside Interests" section heading.
+- Does not require an active flag: any item listed in the file will render.
+
+---
+
+## Header & Executive Summary (`header.yml`)
+
+- **Files:** [`_data/en/header.yml`](_data/en/header.yml) / [`_data/ar/header.yml`](_data/ar/header.yml)
+- **Config Toggles:** `resume_header_intro_en: true` / `resume_header_intro_ar: true`
+
+Contains the executive bio summary rendered directly beneath the candidate name, job title, and social links bar:
+
+```yaml
+# _data/en/header.yml
+intro: >-
+  Results-oriented engineering leader with 10+ years of experience designing scalable distributed systems, cloud platforms, and bilingual consumer products. Passionate about developer tooling, accessibility, and high-performance architecture.
+```
+
+```yaml
+# _data/ar/header.yml
+intro: >-
+  قائد هندسي متميز يتمتع بخبرة تزيد عن 10 سنوات في تصميم الأنظمة الموزعة والمنصات السحابية والتطبيقات ثنائية اللغة. شغوف بأدوات المطورين ومعايير النفاذ الرقمي والبنى التحتية عالية الأداء.
+```
+
+**Display Format:**
+- Appears as a prominent narrative paragraph immediately below candidate name, title, contact row, and social links in the resume header.
+- Only displays when `resume_header_intro_en: true` (for English) or `resume_header_intro_ar: true` (for Arabic) is configured in `_config.yml`.
+- Fully supports basic HTML inline formatting (e.g., `<strong>`, `<em>`).
+
+---
+
+## Error Pages Data (`error_pages.yml`)
+
+- **File:** `_data/error_pages.yml` (Bundled in theme root)
+- **Consumed by:** [`../_layouts/error.html`](../_layouts/error.html)
+- **Consuming Pages:** `404.html`, `403.html`, `500.html`
+
+Centralized data repository powering the theme's bilingual HTTP error suite. It provides side-by-side English and Arabic headings, descriptions, and action button labels.
+
+### Data Schema
+
+```yaml
+# Action Button Labels
+labels:
+  home: "Home / الرئيسية"
+  resume_en: "Resume (EN)"
+  resume_ar: "السيرة الذاتية (عربي)"
+  reload: "Reload Page / إعادة تحميل الصفحة"
+
+# Status Code 404: Page Not Found
+"404":
+  title_en: "Page Not Found"
+  desc_en: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
+  title_ar: "الصفحة غير موجودة"
+  desc_ar: "ربما تمت إزالة الصفحة التي تبحث عنها، أو تم تغيير اسمها، أو أنها غير متوفرة مؤقتاً."
+
+# Status Code 403: Forbidden
+"403":
+  title_en: "Access Forbidden"
+  desc_en: "You do not have permission to access the requested resource or directory."
+  title_ar: "الوصول محظور"
+  desc_ar: "ليس لديك الصلاحية اللازمة للوصول إلى هذا المورد أو الدليل المطلوب."
+
+# Status Code 500: Server Error
+"500":
+  title_en: "Internal Server Error"
+  desc_en: "The server encountered an unexpected condition that prevented it from fulfilling the request. Please try again later."
+  title_ar: "خطأ داخلي في الخادم"
+  desc_ar: "واجه الخادم ظرفاً غير متوقع منعه من إكمال الطلب. يرجى المحاولة مرة أخرى لاحقاً."
+
+# Status Code 503: Service Unavailable
+"503":
+  title_en: "Service Unavailable"
+  desc_en: "The server is currently unable to handle the request due to maintenance or capacity overload."
+  title_ar: "الخدمة غير متوفرة مؤقتاً"
+  desc_ar: "الخادم غير قادر على معالجة الطلب حالياً بسبب الصيانة أو زيادة الحمل."
+```
+
+### Schema Field Reference
+
+| Field | Type | Description |
+|---|---|---|
+| `labels.home` | String | Label for the primary return button to domain root (`/`). |
+| `labels.resume_en` | String | Label for the navigation button to the English resume (`/resume/en/`). |
+| `labels.resume_ar` | String | Label for the navigation button to the Arabic resume (`/resume/ar/`). |
+| `labels.reload` | String | Label for the interactive reload button on server errors (`500`, `503`). |
+| `<code>.title_en` | String | English HTTP status error title (`<h1>`). |
+| `<code>.desc_en` | String | English explanatory error message. |
+| `<code>.title_ar` | String | Localized Arabic HTTP status error title (`<h2>`). |
+| `<code>.desc_ar` | String | Localized Arabic explanatory error message. |
+
+### Page Front-Matter Overrides
+
+Any page consuming `layout: error` can optionally override default copy via YAML front matter:
+
+```yaml
+---
+layout: error
+code: "404"
+title_en: "Custom English Error Heading"
+desc_en: "Custom English explanation."
+title_ar: "عنوان مخصص باللغة العربية"
+desc_ar: "توضيح مخصص باللغة العربية."
+show_reload: true # Force reload button to display even on 404
+---
+
+Optional custom Markdown content rendered inside `<div class="error-custom-content">`.
+```
+
+**Display Format:**
+- Centered, high-contrast numeric error badge (`404`, `403`, `500`, `503`).
+- Bilingual message block with English on the left (`lang="en"`) and RTL Arabic on the right (`lang="ar" dir="rtl"`), separated by a subtle vertical divider.
+- Interactive **"Reload Page / إعادة تحميل الصفحة"** button displayed automatically on `500` and `503` errors.
+- Navigation button group providing direct routes to Home (`/`), English Resume (`/resume/en/`), and Arabic Resume (`/resume/ar/`).
+- Seamlessly adapts to light and dark themes using theme design tokens.
+
+---
+
+## General Guidelines
+
+### Date Formats & ISO Standards
+
+1. **Structured Dates (`startdate`, `enddate`, `issue_date`):**
+   - Always specify dates in ISO format: `YYYY-MM-DD` (e.g., `2024-03-15`).
+   - English layouts auto-format dates as `"Mon YYYY"` (e.g., `"Mar 2024"`).
+   - Arabic layouts format dates via [`../_includes/ar-date.html`](../_includes/ar-date.html) using localized month names from [`../_data/ar/months.yml`](../_data/ar/months.yml).
+   - Use `"Present"` for ongoing positions.
+
+2. **Freeform Display Strings (`year`, `duration`):**
+   - Used in education, projects, and associations.
+   - Use HTML entities like `&ndash;` for en-dash (–) and `&amp;` for ampersand (&).
+
+### Active / Inactive Visibility Flags
+
+All resume items support the boolean `active:` flag:
+- `active: true`: Item renders on the resume.
+- `active: false`: Item is preserved in your YAML record but omitted from generated HTML.
+
+### YAML Formatting & Special Characters
+
+- Wrap values containing colons, quotes, or dashes in double quotes:
+  ```yaml
+  name: "AWS Certified: Solutions Architect"
+  ```
+- Multiline summaries should use YAML folded blocks (`>-`) or literal blocks (`|`):
+  ```yaml
+  summary: >-
+    First line of summary text that will flow continuously
+    without unwanted line breaks.
+  ```
+
+### Section Mapping Summary
+
+| Section Name | Config Key (`resume_section`) | Render Order Key (`resume_section_order`) | YAML File Name |
+|---|---|---|---|
+| Experience | `experience` | `experience` | `experience.yml` |
+| Education | `education` | `education` | `education.yml` |
+| Certifications | `certifications` | `certifications` | `certifications.yml` |
+| Courses | `courses` | `courses` | `courses.yml` |
+| Volunteering | `volunteering` | `volunteering` | `volunteering.yml` |
+| Projects | `projects` | `projects` | `projects.yml` |
+| Skills | `skills` | `skills` | `skills.yml` |
+| **Recognition** | **`recognition`** | **`recognition`** | **`recognitions.yml`** |
+| Associations | `associations` | `associations` | `associations.yml` |
+| Languages | `languages` / `lang_header` | `languages` | `languages.yml` |
+| Links | `links` | `links` | `links.yml` |
+| Interests | `interests` | `interests` | `interests.yml` |
+| Header Intro | `resume_header_intro_en` / `_ar` | *(rendered in header)* | `header.yml` |

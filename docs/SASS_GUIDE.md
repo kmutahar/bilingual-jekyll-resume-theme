@@ -1,325 +1,249 @@
-# SCSS/SASS Guide (_sass)
+# SCSS / SASS Architecture Guide (`_sass/`)
 
-A contributor- and user-friendly tour of the theme's styling system: how styles are organized, how entrypoints compile, what each partial does, and safe ways to customize or extend.
-
-**For beginners:** This guide explains how the theme's CSS/SCSS works. If you're new to CSS or just want to change colors/fonts, start with the [Customization recipes](#customization-recipes) section. You can override styles without modifying the theme files directly.
+A technical tour of the theme's styling system in [`../_sass/`](../_sass/) and entrypoint stylesheets in [`../assets/css/`](../assets/css/). This guide covers modern Dart Sass module architecture, the dark mode token system, RTL mirroring, WCAG 2.2 accessibility standards, and print optimization.
 
 ---
 
 ## Table of Contents
 
-- [How styles compile](#how-styles-compile)
-  - [Entrypoints and outputs](#entrypoints-and-outputs)
-  - [Why @use (not @import)](#why-use-not-import)
-  - [Overriding theme partials in a site](#overriding-theme-partials-in-a-site)
-- [File inventory (what each partial does)](#file-inventory-what-each-partial-does)
-  - [_variables.scss](#1-_variablesscss)
-  - [_mixins.scss](#2-_mixinsscss)
-  - [_normalize.scss](#3-_normalizescss)
-  - [_base.scss](#4-_basesscss)
-  - [_layout.scss](#5-_layoutscss)
-  - [_resume.scss](#6-_resumescss)
-  - [_resume-rtl.scss](#7-_resume-rtlscss)
-  - [_profile.scss](#8-_profilescss)
-  - [_all-pages.scss](#9-_all-pagesscss)
-  - [_dark-mode.scss](#10-_dark-modescss)
-- [Responsive, print, and RTL strategy](#responsive-print-and-rtl-strategy)
-- [Variables reference](#variables-reference)
-- [Mixins reference](#mixins-reference)
-- [Customization recipes](#customization-recipes)
-  - [Override variables without forking](#override-variables-without-forking)
-  - [Change fonts (EN/AR)](#change-fonts-enar)
-  - [Adjust layout container and grid](#adjust-layout-container-and-grid)
-  - [Tweak section borders and spacing](#tweak-section-borders-and-spacing)
-  - [Languages table spacing/print behavior](#languages-table-spacingprint-behavior)
-  - [Add a new SCSS partial](#add-a-new-scss-partial)
-  - [Theme variants hook](#theme-variants-hook)
-- [Pitfalls and tips](#pitfalls-and-tips)
+- [Entrypoints & Compilation Architecture](#entrypoints--compilation-architecture)
+  - [Stylesheet Entrypoints](#stylesheet-entrypoints)
+  - [Modern Dart Sass `@use` Architecture](#modern-dart-sass-use-architecture)
+  - [Overriding Partials in a Consuming Site](#overriding-partials-in-a-consuming-site)
+- [SCSS Partial Inventory](#scss-partial-inventory)
+  - [1. `_variables.scss`](#1-_variablesscss)
+  - [2. `_mixins.scss`](#2-_mixinsscss)
+  - [3. `_normalize.scss`](#3-_normalizescss)
+  - [4. `_base.scss`](#4-_basesscss)
+  - [5. `_layout.scss`](#5-_layoutscss)
+  - [6. `_resume.scss`](#6-_resumescss)
+  - [7. `_resume-rtl.scss`](#7-_resume-rtlscss)
+  - [8. `_profile.scss`](#8-_profilescss)
+  - [9. `_all-pages.scss`](#9-_all-pagesscss)
+  - [10. `_dark-mode.scss`](#10-_dark-modescss)
+- [The Dark Mode Token System](#the-dark-mode-token-system)
+  - [Design Tokens Table](#design-tokens-table)
+  - [Two-Tier Activation Mechanism](#two-tier-activation-mechanism)
+  - [Print Media Resets](#print-media-resets)
+- [WCAG 2.2 Accessibility & High-Contrast Standards](#wcag-22-accessibility--high-contrast-standards)
+- [Arabic (RTL) Layout Mechanics](#arabic-rtl-layout-mechanics)
 
 ---
 
-## How styles compile
+## Entrypoints & Compilation Architecture
 
-### Entrypoints and outputs
+### Stylesheet Entrypoints
 
-These three files are compiled by Jekyll/Sass into CSS. They live under `assets/css/` and contain front matter (`---`) so Jekyll treats them as entrypoints:
+Jekyll compiles files in [`../assets/css/`](../assets/css/) that start with YAML front matter into final static CSS assets:
 
-- `assets/css/cv.scss` → `assets/css/cv.css`
-  - English resume CSS
-- `assets/css/cv-ar.scss` → `assets/css/cv-ar.css`
-  - Arabic resume CSS (loads RTL overrides)
-- `assets/css/main.scss` → `assets/css/main.css`
-  - Profile/landing and general site styles
+| Source SCSS | Compiled Output CSS | Consuming Layouts |
+|---|---|---|
+| [`../assets/css/cv.scss`](../assets/css/cv.scss) | `assets/css/cv.css` | [`../_layouts/resume-en.html`](../_layouts/resume-en.html) |
+| [`../assets/css/cv-ar.scss`](../assets/css/cv-ar.scss) | `assets/css/cv-ar.css` | [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html) |
+| [`../assets/css/main.scss`](../assets/css/main.scss) | `assets/css/main.css` | [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html), [`../_layouts/error.html`](../_layouts/error.html) |
 
-Each entrypoint wires up modules from `_sass/` via `@use`.
+### Modern Dart Sass `@use` Architecture
 
-### Why @use (not @import)
+The theme exclusively utilizes modern Dart Sass `@use` instead of deprecated `@import`:
+- **Namespacing:** Variables and mixins are encapsulated (e.g., `variables.$white`, `@include mixins.clearfix`), preventing global pollution.
+- **Dependency Isolation:** Modules only load what they explicitly require.
 
-This theme uses modern Dart Sass `@use`:
-- Namespaces variables and mixins (e.g., `variables.$white`, `@include mixins.clearfix`)
-- Prevents accidental global leakage
-- Allows overriding `!default` variables by providing a replacement module earlier on the load path
+### Overriding Partials in a Consuming Site
 
-### Overriding theme partials in a site
-
-Jekyll adds both your site and the theme gem to Sass load paths. If your consuming site defines a file with the same logical path/name as the theme’s module (e.g., `_sass/variables.scss`), `@use "variables";` will resolve to your site’s copy first. This is the preferred way to override variables/mixins without forking.
-
-Notes:
-- Many variables are declared with `!default`, enabling safe overrides.
-- Because `@use` namespaces members, you still reference them as `variables.$name` inside modules that load `variables`.
-- You can also duplicate an entrypoint (e.g., copy `assets/css/cv.scss` into your site) and `@use` your customized modules.
+Because Jekyll prioritizes files in the consuming site's directory over gem theme assets, you can override any partial without forking the gem:
+1. Create a matching file in your local site (e.g., `_sass/_variables.scss`).
+2. Define your customized variables. Any variable marked `!default` in the theme will yield to your local values.
 
 ---
 
-## File inventory (what each partial does)
+## SCSS Partial Inventory
 
-### 1) `_variables.scss`
-Purpose: central constants.
-- Layout: `$container-width` (980px), `$grid-gutter` (10px)
-- Colors: `$white`, `$black`, `$text_color`
-- Typography stacks: `$body-font`, `$mono-font`
-- Sizes: `$body-font-size` (currently not consumed globally but available)
+### 1. `_variables.scss`
 
-Most are marked `!default` so sites can override.
-
----
-
-### 2) `_mixins.scss`
-Purpose: reusable helpers.
-- Utilities: `border-radius`, `transition`, `clearfix`
-- Media queries: `media_max($w)`, `media_min($w)`, `media_larger_than_mobile` (min-width: 600px), `media_mobile` (max-width: 600px)
-- Typography: `sans[_light|_regular|_bold|_extrabold]`, `serif[_regular|_bold]`
-- Layout accents: `section_border`, `section_border_thin`
-
-Used across base/layout/resume for consistent typography and spacing.
+- **File:** [`../_sass/_variables.scss`](../_sass/_variables.scss)
+- **Role:** Base layout widths, grid gutters, and font stacks.
+- **Key Variables:**
+  - `$container-width: 980px !default;` — Maximum resume container width.
+  - `$grid-gutter: 10px !default;` — Grid column padding and gutters.
+  - `$body-font`, `$mono-font` — Base fallback typography stacks.
 
 ---
 
-### 3) `_normalize.scss`
-Purpose: Normalize.css v8.0.1 for cross-browser baseline (headings, forms, interactive elements, etc.).
+### 2. `_mixins.scss`
+
+- **File:** [`../_sass/_mixins.scss`](../_sass/_mixins.scss)
+- **Role:** Breakpoint helpers, typography mixins, and border accents.
+- **Key Mixins:**
+  - `@mixin media_mobile` (`max-width: 600px`)
+  - `@mixin media_larger_than_mobile` (`min-width: 600px`)
+  - `@mixin sans`, `@mixin serif`, `@mixin section_border`
 
 ---
 
-### 4) `_base.scss`
-Purpose: Global element defaults and shell wrappers.
-- Universal `box-sizing: border-box`
-- `html` background; `body` typography (`@include mixins.serif`, `font-size: 16px`, `line-height: 1.5`)
-- `.wrapper` and `.group` clearfix patterns
-- Text selection colors
+### 3. `_normalize.scss`
+
+- **File:** [`../_sass/_normalize.scss`](../_sass/_normalize.scss)
+- **Role:** Normalize.css v8.0.1 browser baseline reset.
 
 ---
 
-### 5) `_layout.scss`
-Purpose: Container and light grid utilities.
-- `.container` centered fixed width (variables-driven)
-- `.columns` row wrapper
-- `.column` and width helpers: `.one-third`, `.two-thirds`, `.one-half`, `.three-fourths`, `.one-fifth`, `.four-fifths`
-- `.single-column` padding helper
-- `.table-column` equal-width table-cell columns
+### 4. `_base.scss`
+
+- **File:** [`../_sass/_base.scss`](../_sass/_base.scss)
+- **Role:** HTML and body defaults, box-sizing, and screen-reader accessibility classes.
+- **Key Features:**
+  - Universal `box-sizing: border-box`.
+  - `.sr-only` utility class for WCAG screen-reader announcements.
+  - Selection background and text styling.
 
 ---
 
-### 6) `_resume.scss`
-Purpose: Resume-specific components and typography.
-- Section headers with bold, condensed titles (`.section-header`)
-- Page header: avatar, name, contact row, title bar, executive summary
-- Social links bar (hoverable SVGs)
-- Contact CTA button (also supports a “not-looking” modifier)
-- Content sections:
-  - `.resume-item-title`, `.resume-item-details`, `.resume-item-copy`
-  - Link styling for readability and print
-  - Languages table: responsive block-on-mobile and print-optimized two-column layout
-- Footer and print-only utilities
-- Print media overrides (smaller typography; thinner section borders)
+### 5. `_layout.scss`
+
+- **File:** [`../_sass/_layout.scss`](../_sass/_layout.scss)
+- **Role:** Centered `.container` wrapper and responsive grid columns (`.one-third`, `.two-thirds`, `.one-half`, etc.).
 
 ---
 
-### 7) `_resume-rtl.scss`
-Purpose: Arabic/RTL overrides scoped to `html[dir="rtl"]`.
-- Sets Arabic-friendly font stack (Cairo, Noto Naskh Arabic)
-- Applies Arabic fonts to headings and content blocks
-- Right-aligns key text blocks
-- Flips floats (e.g., header title, social links) for RTL
-- Adjusts lists and the languages table for RTL direction
+### 6. `_resume.scss`
 
-Loaded only by `cv-ar.scss`.
-
----
-
-### 8) `_profile.scss`
-Purpose: Landing/profile page styles.
-- System sans font stack
-- Avatar, name, about text
-- Social links list
-- Prominent “CV” button
-
-Used by `assets/css/main.scss` entrypoint.
+- **File:** [`../_sass/_resume.scss`](../_sass/_resume.scss)
+- **Role:** English (LTR) resume styling.
+- **Components Styled:**
+  - Header: Avatar (`.avatar`), candidate name, contact info row, and social links bar.
+  - Contact CTA button (`.contact-button`) and "not looking" modifier.
+  - Section headers (`.section-header`) and item cards (`.resume-item`).
+  - Two-column responsive Languages table.
+  - Print-specific media overrides (`@media print`).
 
 ---
 
-### 9) `_all-pages.scss`
-Purpose: Small shared bits across pages.
-- SVG icon defaults and header contact icon sizing
-- Footer styles (shared with `.page-footer` in resume)
+### 7. `_resume-rtl.scss`
+
+- **File:** [`../_sass/_resume-rtl.scss`](../_sass/_resume-rtl.scss)
+- **Role:** RTL Arabic overrides scoped under `html[dir="rtl"]`.
+- **Key Overrides:**
+  - Sets Arabic font stacks (Cairo, Noto Naskh Arabic) with increased line-heights (`1.6`) to prevent diacritic clipping.
+  - Flips horizontal floats, text alignments, borders, and margins.
+  - Repositions timeline bullets and contact icons for natural RTL reading order.
 
 ---
 
-### 10) `_dark-mode.scss`
-Purpose: Dark mode color token system and toggle button styles.
+### 8. `_profile.scss`
 
-This partial is the single source of truth for all theming colors. It defines CSS custom properties on `:root` for the light palette and overrides them for dark mode via two mechanisms:
-
-1. **Automatic** — `@media (prefers-color-scheme: dark)` picks up the user's OS preference with no JavaScript.
-2. **Manual pin** — `[data-color-scheme="dark"]` / `[data-color-scheme="light"]` attributes on `<html>` are set by the `dark-mode-toggle.html` JS when the user pins a preference.
-
-It also includes:
-- **Print reset** — overrides all tokens back to black-on-white under `@media print`, ensuring PDFs are always clean regardless of the active theme.
-- **Toggle button styles** — `.dark-mode-toggle` component: fixed-position, circular, with sun/moon icon visibility rules per theme state and RTL flip via `html[dir="rtl"]`.
-
-Key CSS custom properties defined:
-
-| Token | Purpose |
-|---|---|
-| `--bg-color` | Page/html background |
-| `--text-color` | Primary body text |
-| `--text-muted` | Secondary/muted text (e.g., footer) |
-| `--border-color` | Section borders |
-| `--card-bg` | Button and card backgrounds |
-| `--link-color` | Link default color |
-| `--link-hover` | Link hover color |
-| `--accent-color` | Focus rings and UI accent |
-| `--button-bg/text/hover-*` | Contact and CV button states |
-| `--icon-fill` | SVG icon fill |
-| `--selection-bg/color` | Text selection highlight |
-
-Loaded by: `assets/css/cv.scss`, `assets/css/cv-ar.scss`, and `assets/css/main.scss`.
+- **File:** [`../_sass/_profile.scss`](../_sass/_profile.scss)
+- **Role:** Styles for the portfolio landing page layout ([`../_layouts/profile.html`](../_layouts/profile.html)).
+- **Scoping Guarantee:** Strictly scoped to `.profile-container` and `body.layout-profile`, ensuring profile card styles do not leak onto standard markdown pages.
 
 ---
 
-## Responsive, print, and RTL strategy
+### 9. `_all-pages.scss`
 
-- Responsive: Mixins `media_larger_than_mobile` and `media_mobile` (600px breakpoint) provide simple adjustments (e.g., stacking → floats).
-- Print: Dedicated `@media print` blocks in `_resume.scss` keep the output compact and readable (smaller fonts, non-stacking languages table, print-only helpers).
-- RTL: `_resume-rtl.scss` is loaded only by the Arabic entrypoint; overrides are scoped under `html[dir="rtl"]` to avoid affecting LTR pages.
-
----
-
-## Variables reference
-
-From `_variables.scss` (selected):
-
-- `$container-width` (default 980px): resume max width used by `.container`
-- `$grid-gutter` (default 10px): column padding and row negative margins
-- `$white`, `$black`, `$text_color`: core colors
-- `$body-font`, `$mono-font`: font stacks for base and code
-- `$body-font-size` (13px): available for consumers; base currently uses an explicit 16px
-
-All variables declared `!default` can be overridden by defining a `variables.scss` module in your site.
+- **File:** [`../_sass/_all-pages.scss`](../_sass/_all-pages.scss)
+- **Role:** Universal styles shared across all layouts.
+- **Key Features:**
+  - Contact SVG icon sizing and hover animations.
+  - Complete dark-mode-aware typography rules for markdown content in `.main-content` (headings, paragraphs, blockquotes, tables, lists, and code blocks).
 
 ---
 
-## Mixins reference
+### 10. `_dark-mode.scss`
 
-- `@include border-radius($radius)`
-- `@include transition($value)`
-- `@include clearfix`
-- `@include media_max($px)` / `@include media_min($px)`
-- `@include media_larger_than_mobile` (min-width: 600px)
-- `@include media_mobile` (max-width: 600px)
-- Typography:
-  - `@include sans[_light|_regular|_bold|_extrabold]`
-  - `@include serif[_regular|_bold]`
-- Accents: `@include section_border` / `@include section_border_thin`
+- **File:** [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss)
+- **Role:** Single source of truth for all color tokens, theme overrides, and the floating toggle button.
 
-Example:
+---
+
+## The Dark Mode Token System
+
+### Design Tokens Table
+
+All layout and resume styles reference CSS custom properties defined on `:root`:
+
+| CSS Custom Property | Light Mode Value | Dark Mode Value | Semantic Role |
+|---|---|---|---|
+| `--bg-color` | `#ffffff` | `#121212` | Main page and viewport background |
+| `--text-color` | `#222222` | `#e0e0e0` | Primary reading and heading typography |
+| `--text-muted` | `#666666` | `#a0a0a0` | Secondary copy, timestamps, and details |
+| `--border-color` | `#e5e5e5` | `#2d2d2d` | Section dividers and card borders |
+| `--card-bg` | `#f8f9fa` | `#1e1e1e` | Button backgrounds and code blocks |
+| `--link-color` | `#0969da` | `#58a6ff` | Interactive hyperlinks |
+| `--link-hover` | `#0550ae` | `#79b8ff` | Hyperlink hover states |
+| `--accent-color` | `#2563eb` | `#3b82f6` | Focus outlines and primary accents |
+| `--icon-fill` | `#4b5563` | `#9ca3af` | Social and contact SVG icon fill |
+| `--selection-bg` | `#b4d5fe` | `#1f6feb` | Text selection background |
+
+### Two-Tier Activation Mechanism
+
+1. **Automatic Detection:**
+   ```scss
+   @media (prefers-color-scheme: dark) {
+     :root:not([data-color-scheme="light"]) {
+       --bg-color: #121212;
+       --text-color: #e0e0e0;
+       // ...
+     }
+   }
+   ```
+2. **Explicit User Pin:**
+   ```scss
+   :root[data-color-scheme="dark"],
+   :root[data-theme="dark"] {
+     --bg-color: #121212;
+     --text-color: #e0e0e0;
+     // ...
+   }
+   ```
+
+### Print Media Resets
+
+When printing to physical paper or PDF, [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss) enforces a strict print reset:
+
 ```scss
-.my-cta {
-  @include sans_bold;
-  @include border-radius(4px);
-  @include transition(all .2s ease);
+@media print {
+  :root {
+    --bg-color: #ffffff !important;
+    --text-color: #000000 !important;
+    --border-color: #cccccc !important;
+    --card-bg: transparent !important;
+  }
+  .dark-mode-toggle {
+    display: none !important;
+  }
 }
 ```
 
 ---
 
-## Customization recipes
+## WCAG 2.2 Accessibility & High-Contrast Standards
 
-### Override variables without forking
-
-In your consuming site, add `_sass/variables.scss` with your values. Because the theme uses `!default`, your module will be used instead.
-
-```scss
-// _sass/variables.scss (in your site)
-$container-width: 900px !default;
-$grid-gutter: 16px !default;
-$text_color: #222 !default;
-```
-
-No other changes needed—entrypoints that `@use "variables";` will pick up your overrides.
-
-### Change fonts (EN/AR)
-
-- English resume and general pages inherit fonts from mixins.
-- Arabic resume sets fonts under `html[dir="rtl"]` in `_resume-rtl.scss`.
-
-Options:
-1) Override typography mixins in your own `_sass/mixins.scss` (advanced; ensure API compatibility), or
-2) Add a small override partial in your site and `@use` it from a copied entrypoint, for example:
-
-```scss
-// assets/css/cv.scss (copied into your site)
----
----
-@use "normalize";
-@use "mixins";
-@use "variables";
-@use "base";
-@use "layout";
-@use "resume";
-@use "all-pages";
-
-// Your tweaks
-html { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-```
-
-### Adjust layout container and grid
-
-- Change `$container-width`/`$grid-gutter` in your variables override.
-- Add more widths by extending `_layout.scss` in your site (e.g., `.one-sixth`, `.five-sixths`).
-
-### Tweak section borders and spacing
-
-Use the provided mixins:
-```scss
-.section-header { @include section_border_thin; }
-```
-Or override the values by redefining the mixins in a site module with identical names (advanced).
-
-### Languages table spacing/print behavior
-
-- Mobile stacking is controlled via `@include media_mobile` in `_resume.scss`.
-- Adjust `border-spacing` and padding in your site overrides to increase/decrease gaps.
-
-### Add a new SCSS partial
-
-1) Create `_sass/_your-partial.scss` in your site.
-2) If you want it across the resume, copy `assets/css/cv.scss` into your site and append `@use "your-partial";`.
-3) For Arabic resume only, copy `assets/css/cv-ar.scss` and import there.
-
-### Theme variants hook
-
-Layouts add `class="theme-{{ site.resume_theme }}"` to `<body>`. Target theme variants as:
-```scss
-body.theme-default .section-header h2 { /* variant-specific tweaks */ }
-```
-You can implement alternate themes by scoping rules under different `.theme-*` classes.
+- **Contrast Ratios:** All color tokens satisfy WCAG 2.2 Level AA requirements (minimum 4.5:1 contrast for normal text and 3:1 for large text).
+- **Focus Rings:** Interactive elements feature high-contrast visible focus outlines:
+  ```scss
+  :focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+  ```
+- **Screen-Reader Utility:**
+  ```scss
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+  ```
 
 ---
 
-## Pitfalls and tips
+## Arabic (RTL) Layout Mechanics
 
-- `@use` is namespaced: reference variables as `variables.$name` inside modules that load them.
-- Variable overrides require providing a module with the same logical name (e.g., `_sass/variables.scss`) in your site; you do not edit the theme gem.
-- Entry files must have front matter (`---`) or Jekyll won’t process them.
-- Keep print-specific rules in `@media print` to avoid regressions on screen.
-- For RTL tweaks, scope overrides under `html[dir="rtl"]` to avoid impacting LTR.
+1. **Root Direction:** RTL styles activate via `html[dir="rtl"]`.
+2. **Horizontal Mirroring:** Floating elements (avatar, social bar, job title) flip alignment.
+3. **Punctuation Isolation:** In Arabic templates, phone numbers and URLs are enclosed in `<span dir="ltr">` to prevent bidirectional punctuation flipping.

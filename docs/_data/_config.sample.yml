@@ -1,57 +1,96 @@
 # ==============================================================================
-# SITE IDENTITY & BASIC INFO (Required - customize these first)
+# BILINGUAL JEKYLL RESUME THEME - MASTER SAMPLE CONFIGURATION
+# ==============================================================================
+# This configuration file contains all supported settings for the theme.
+# Copy this file to your site's root as `_config.yml` and customize it.
+# Working defaults are uncommented. Optional and advanced overrides are commented.
+# ==============================================================================
+
+# ==============================================================================
+# 1. SITE IDENTITY & LOCALIZATION
 # ==============================================================================
 theme: bilingual-jekyll-resume-theme
 title: "Your Full Name"
-description: >- # this means to ignore newlines until "next key"
-  A brief description of your site or professional tagline
-url: "https://your-domain.com" # Your site's URL the base hostname & protocol for your site, e.g. http://example.com
-baseurl: "" # Leave empty unless using a subdirectory
-timezone: UTC # Your timezone
+description: >- # Ignore newlines until next key; used for SEO meta descriptions
+  A brief description of your site or professional tagline.
+url: "https://your-domain.com" # Full site URL (protocol + host), e.g. https://example.com
+baseurl: ""                    # Subpath if hosted in a subdirectory (e.g., /resume); keep "" if at root
+timezone: UTC                  # Timezone for date rendering (e.g., UTC, America/New_York, Asia/Riyadh)
 
-# Favicon customization (Optional - defaults to theme bundled assets)
+# Default site language and text direction (used in default and error layouts)
+# lang: "en"                   # Default: "en"
+# dir: "ltr"                   # Default: "ltr" (use "rtl" for right-to-left base layout)
+
+# ==============================================================================
+# 2. FAVICONS & WEB APP MANIFEST (Optional - defaults to theme bundled assets)
+# ==============================================================================
+# Override these with relative paths in your site repository if you provide custom icons:
 # favicon: "assets/favicon/resume/favicon.ico"
 # apple_touch_icon: "assets/favicon/resume/apple-touch-icon.png"
 # favicon_32: "assets/favicon/resume/favicon-32x32.png"
 # favicon_16: "assets/favicon/resume/favicon-16x16.png"
 
 # ==============================================================================
-# PERSONAL INFORMATION (Required - your name and titles)
+# 3. PERSONAL INFORMATION & TITLES (Required)
 # ==============================================================================
+# English Name (used in header and fallback alt text)
 name:
   first: "Your"
-  middle: "Middle"
+  middle: "Middle" # Optional
   last: "Lastname"
 
-name_ar: # Arabic name (optional if not using Arabic)
-  first: "Your"
-  middle: "Middle"
-  last: "Lastname"
+# Arabic Name (used in Arabic resume layout and Arabic alt text)
+name_ar:
+  first: "الاسم"
+  middle: "الأوسط" # Optional
+  last: "الأخير"
 
-resume_title: "Your Job Title" # English job title
-resume_title_ar: "مسماك الوظيفي" # Arabic job title (optional if not using Arabic)
+# Professional job titles
+resume_title: "Your Job Title"        # English job title
+resume_title_ar: "مسماك الوظيفي"      # Arabic job title
 
 # ==============================================================================
-# CONTACT INFORMATION (Required - at least email)
+# 4. PROFILE PICTURE / AVATAR SETTINGS
+# ==============================================================================
+# Master toggle for displaying profile picture in the resume header
+resume_avatar: true
+
+# Custom image source (relative path like 'assets/images/me.jpg' or full URL 'https://example.com/avatar.jpg')
+# Defaults to theme default '/assets/images/Profile-min.jpg' if not specified
+# avatar_url: "assets/images/Profile-min.jpg"
+
+# Accessible alt text overrides (defaults to English full name and Arabic full name)
+# avatar_alt_en: "Your Full Name"
+# avatar_alt_ar: "اسمك الكامل"
+# avatar_alt: "Profile photo"        # Universal fallback alt text
+
+# Clickable avatar link destination and behavior
+# Set to false to render as a plain standalone <img> without an <a> wrapper
+# avatar_link: "/"                   # Destination URL (default: "/")
+# avatar_link_target: "_self"        # Target attribute: "_self" (recommended) or "_blank"
+
+# ==============================================================================
+# 5. CONTACT INFORMATION (Required: at least email)
 # ==============================================================================
 contact_info:
-  email: "your.email@example.com"
-  phone: "+1 555 555 5555" # Optional
-  address: "Your City, Country" # Optional
-  address_ar: "مدينتك، دولتك" # Optional Arabic address
-  # Advanced: separate live contact info (shown when enable_live: true)
-  email_live: "live@example.com" # Optional
-  phone_live: "+1 555 000 0000" # Optional
-  # dob: 1990-01-01 # Optional date of birth
+  email: "your.email@example.com"    # Required for contact CTA button
+  phone: "+1 555 555 5555"           # Optional
+  address: "Your City, Country"      # Optional English address
+  address_ar: "مدينتك، دولتك"        # Optional Arabic address
+  # dob: 1990-01-01                  # Optional Date of Birth (YYYY-MM-DD)
+  #
+  # Advanced: alternate contact info used when enable_live: true
+  # email_live: "live@example.com"
+  # phone_live: "+1 555 000 0000"
 
 # ==============================================================================
-# SOCIAL LINKS (Optional - only add the ones you use using full URLs)
+# 6. SOCIAL MEDIA LINKS (Optional - only add platforms you actively use)
 # ==============================================================================
+# Supported platforms render interactive SVG icons on page and text in print:
 social_links:
   github: https://github.com/yourusername
   linkedin: https://www.linkedin.com/in/yourhandle/
-  # Add any of these you use (leave others commented or remove):
-  # twitter: https://twitter.com/yourhandle
+  twitter: https://twitter.com/yourhandle
   # telegram: https://t.me/yourhandle
   # medium: https://medium.com/@yourhandle
   # website: https://yourwebsite.com
@@ -63,53 +102,53 @@ social_links:
   # dribbble: https://dribbble.com/yourhandle
   # flickr: https://flickr.com/people/yourhandle
   # pinterest: https://pinterest.com/yourhandle
-  # mastodon: https://mastodon.social/@yourhandle
+  # mastodon: https://mastodon.social/@yourhandle # Emits <link rel="me"> in default layout
 
 # ==============================================================================
-# RESUME CONTENT SETTINGS (Configure what shows on your resume)
+# 7. RESUME DISPLAY & BEHAVIOR CONTROLS
 # ==============================================================================
+# Data source subpath within _data/ (dot-separated path, omitting _data/ prefix)
+active_resume_path_en: "en"          # Reads from _data/en/* (recommended)
+active_resume_path_ar: "ar"          # Reads from _data/ar/* (recommended)
 
-# Data source configuration (set to your _data path without prefix using dots as separators)
-# The active resume data path to use.
-# Enter the full path using dots as separators, without the _data/ prefix and without the .yml file names at the end.
-active_resume_path_en: "en" # Path to English data (empty = root _data/)
-active_resume_path_ar: "ar" # ath to Arabic data (empty = root _data/)
+# Header display toggles
+display_header_contact_info: true    # Show contact info row in header
+resume_header_intro_en: true         # Show English bio/intro below header (from _data/en/header.yml)
+resume_header_intro_ar: false        # Show Arabic bio/intro below header (from _data/ar/header.yml)
 
-# Header and intro
-resume_avatar: true # Show profile picture
-display_header_contact_info: true # Show contact info in header
-resume_header_intro_en: true # Show English intro paragraph below name/title in header
-resume_header_intro_ar: false # Show Arabic intro paragraph below name/title in header
+# Job search status button in header:
+# true  -> Display contact button linked to contact_info.email
+# false -> Display "I'm not looking for work" / "لست متاحاً للعمل حالياً" status pill
+# (omit or remove key entirely to display nothing)
+resume_looking_for_work: true
 
-# Job search status
-# use "true" to display the email contact button,
-# "false" to display an "I'm not looking for work" message,
-# or remove the resume_looking_for_work option entirely
-# to leave blank
-resume_looking_for_work: true # true = show contact button, false = "not looking", remove = blank
+# Content behavior
+enable_summary: false                # Show detailed summary/description for roles & courses
+enable_live: false                   # Use email_live & phone_live instead of standard contact info
+resume_print_social_links: true      # Render text list of social links in physical and PDF prints
 
-# Section toggles
-resume_section: # Optional sections (set to true to include):
+# ==============================================================================
+# 8. RESUME SECTIONS TOGGLE & RENDER ORDER
+# ==============================================================================
+# Section master toggles (true to render, false to hide):
+# Note: 'recognition' toggles data loaded from 'recognitions.yml'.
+resume_section:
   associations: true
   certifications: true
   courses: true
   education: true
   experience: true
   interests: false
-  lang_header: true # Show languages in header instead of separate section
+  lang_header: true                  # Show compact language chips in header instead of full section
   languages: false
   links: false
   projects: true
-  recognition: false
+  recognition: false                 # Reads data from recognitions.yml
   skills: false
   volunteering: true
 
-# Section display order
-# Order in which resume sections appear
-# List the section names in the order you want them to render.
-# Only sections with resume_section.<name>: true will actually display.
-# Available sections: experience, education, certifications, courses, volunteering, 
-#                     projects, skills, recognition, associations, interests, languages, links
+# Order in which resume sections appear on the page:
+# Only sections set to 'true' in resume_section above will actually render.
 resume_section_order:
   - experience
   - education
@@ -125,42 +164,52 @@ resume_section_order:
   - links
 
 # ==============================================================================
-# ADVANCED SETTINGS (Usually don't need to change these)
+# 9. STYLING, FONTS & DARK MODE
 # ==============================================================================
+# Dark Mode Configuration:
+# - "auto" (default): CSS-only system detection (prefers-color-scheme); zero JS, no toggle button
+# - "enabled" or true: Renders interactive floating toggle button with localStorage persistence
+dark_mode: auto
 
-# Resume behavior
-enable_summary: false # Show role/course summaries when available
-enable_live: false # Use "live" contact info vs regular contact info
-resume_print_social_links: true # Include social links on printed version
-
-# Design
-authors: [] # optional
-resume_theme: default # Theme variant (currently only "default")
-
-# Dark mode configuration:
-# - "auto" (default): Automatic dark mode based on user's OS/browser preference (no toggle button)
-# - "enabled": Adds an interactive floating toggle button (English LTR and Arabic RTL supported)
+# Legacy dark mode key (supported for backward compatibility):
 # resume_dark_mode: auto
 
-# Analytics (optional - choose one)
+# Visual theme variant (default: "default")
+resume_theme: default
+
+# Custom Arabic font stylesheet URL (for self-hosted or alternate CDN Arabic fonts)
+# font_ar_url: "https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+
+# Disable remote Google Fonts fetching (useful for offline/intranet builds or strict GDPR compliance)
+# disable_google_fonts: true
+
+# Optional authors metadata
+authors: []
+
+# ==============================================================================
+# 10. ANALYTICS (Optional - configure at most ONE provider)
+# ==============================================================================
 analytics:
-  # Google Tag Manager (recommended):
-  # gtm: GTM-XXXXXXX
-  # OR Google Analytics 4 (set measurement ID directly):
-  # gtag: G-XXXXXXXXXX
+  # Google Tag Manager (recommended - injects head script and noscript body iframe):
+  # gtm: "GTM-XXXXXXX"
+
+  # Google Analytics 4 (injects async gtag.js with measurement ID):
+  # gtag: "G-XXXXXXXXXX"
+
+  # Legacy Google Analytics Universal Analytics (GA):
+  # ga: "UA-XXXXXXXXX-X"
 
 # ==============================================================================
-# JEKYLL BUILD SETTINGS (Advanced users only)
+# 11. JEKYLL BUILD SETTINGS & PLUGINS
 # ==============================================================================
-
-# Required plugins
+# Required plugins (bundled as theme runtime dependencies)
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-redirect-from
 
-# File processing
+# File processing rules
 include:
   - _redirects
   - .well-known/
@@ -179,5 +228,5 @@ exclude:
   - WARP.md
   - scripts/
 
-# Page defaults
+# Front matter defaults (optional)
 defaults: []

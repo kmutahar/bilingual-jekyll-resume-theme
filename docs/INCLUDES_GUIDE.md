@@ -1,441 +1,221 @@
-# _includes Guide
+# `_includes` Component Guide
 
-A contributor- and user-friendly deep dive into how the theme’s `_includes/` directory works, how it connects to the rest of the theme, and how to extend or customize it safely.
-
-This guide assumes basic familiarity with Jekyll and Liquid, but includes examples you can copy/paste.
+A comprehensive architectural guide to the theme’s reusable component library in [`../_includes/`](../_includes/). This guide details component responsibilities, parameters, Liquid data flow, and step-by-step instructions for extending or overriding components.
 
 ---
 
 ## Table of Contents
 
-- [What are Jekyll includes?](#what-are-jekyll-includes)
-- [How includes fit into this theme](#how-includes-fit-into-this-theme)
-  - [Layouts that use includes](#layouts-that-use-includes)
-  - [Data flow and configuration](#data-flow-and-configuration)
-- [Include inventory (what each file does)](#include-inventory-what-each-file-does)
-  - [shared-head.html](#1-shared-headhtml)
-  - [main-head.html](#2-main-headhtml)
-  - [resume-head-en.html](#3-resume-head-enhtml)
-  - [resume-head-ar.html](#4-resume-head-arhtml)
-  - [analytics-head.html](#5-analytics-headhtml)
-  - [analytics-body.html](#6-analytics-bodyhtml)
-  - [hreflang.html](#7-hreflanghtml)
-  - [ar-date.html](#8-ar-datehtml)
-  - [social-links.html](#9-social-linkshtml)
-  - [print-social-links.html](#10-print-social-linkshtml)
-  - [vendors/ (SVG icon packs)](#11-vendors-svg-icon-packs)
-  - [dark-mode-toggle.html](#12-dark-mode-togglehtml)
-  - [avatar.html](#13-avatarhtml)
-- [Dynamic section rendering (resume-section-*.html)](#dynamic-section-rendering-resume-section-html)
-  - [How it works](#how-it-works)
-  - [Section list and flags](#section-list-and-flags)
-  - [Changing section order](#changing-section-order)
-  - [Adding a new section (step-by-step)](#adding-a-new-section-step-by-step)
+- [Overview & Architecture](#overview--architecture)
+- [Component Inventory](#component-inventory)
+  - [1. `shared-head.html`](#1-shared-headhtml)
+  - [2. `main-head.html`](#2-main-headhtml)
+  - [3. `resume-head-en.html`](#3-resume-head-enhtml)
+  - [4. `resume-head-ar.html`](#4-resume-head-arhtml)
+  - [5. `avatar.html`](#5-avatarhtml)
+  - [6. `dark-mode-toggle.html`](#6-dark-mode-togglehtml)
+  - [7. `ar-date.html`](#7-ar-datehtml)
+  - [8. `social-links.html`](#8-social-linkshtml)
+  - [9. `print-social-links.html`](#9-print-social-linkshtml)
+  - [10. `hreflang.html`](#10-hreflanghtml)
+  - [11. `analytics-head.html` & `analytics-body.html`](#11-analytics-headhtml--analytics-bodyhtml)
+  - [12. `vendors/` (SVG Icon Packs)](#12-vendors-svg-icon-packs)
 - [Multilingual SEO with hreflang](#multilingual-seo-with-hreflang)
-- [Analytics configuration](#analytics-configuration)
-- [Social links and icons](#social-links-and-icons)
-- [Customization recipes](#customization-recipes)
-  - [Swap fonts or CSS per language](#swap-fonts-or-css-per-language)
-  - [Add a new social network](#add-a-new-social-network)
-  - [Show languages in header vs its own section](#show-languages-in-header-vs-its-own-section)
-  - [Customize date formats (EN/AR)](#customize-date-formats-enar)
-- [Best practices](#best-practices)
+- [Dynamic Section Rendering Engine](#dynamic-section-rendering-engine)
+  - [How Section Dispatch Works](#how-section-dispatch-works)
+  - [Section Dispatch Inventory](#section-dispatch-inventory)
+  - [Adding a New Custom Section](#adding-a-new-custom-section)
+- [Customization Recipes](#customization-recipes)
+  - [Swap Remote Arabic Fonts](#swap-remote-arabic-fonts)
+  - [Add a New Social Network](#add-a-new-social-network)
+  - [Compact Language Header vs Dedicated Section](#compact-language-header-vs-dedicated-section)
 
 ---
 
-## What are Jekyll includes?
+## Overview & Architecture
 
-Jekyll includes are reusable partial templates you can insert into pages or layouts with `{% include file.html %}`. They help keep layouts clean, avoid duplication, and provide configurable building blocks.
+Jekyll includes are modular partial templates located in [`../_includes/`](../_includes/). In this theme, includes are utilized to:
+1. Guarantee **strict bilingual parity** between English (LTR) and Arabic (RTL) views.
+2. Abstract repetitive markup (headers, favicons, analytics, SVGs).
+3. Implement dynamic, data-driven section dispatching based on user configuration in [`_data/_config.sample.yml`](_data/_config.sample.yml).
 
-In this theme, includes are used for:
-- Shared `<head>` tags and assets
-- Analytics snippets
-- Language SEO tags
-- Social icons
-- Fine-grained rendering of resume sections in English and Arabic
+### Include Resolution in Layouts
 
-**For beginners:** Includes are like small reusable code snippets. Instead of copying the same HTML code in multiple places, you put it in an include file and reference it. The theme uses includes to organize code into logical pieces (like the header, social links, analytics, etc.).
-
----
-
-## How includes fit into this theme
-
-### Layouts that use includes
-
-Key layouts are in `_layouts/`:
-- `default.html` — Base wrapper for general pages (profile/landing, docs). Pulls in shared head, `main.css`, SEO, and analytics.
-- `resume-en.html` — English resume layout (LTR). Pulls in resume-specific head assets, SEO, analytics, and renders sections via `resume-section-en.html`.
-- `resume-ar.html` — Arabic resume layout (RTL). Similar to EN but with Arabic assets, RTL direction, and `resume-section-ar.html` for localized labels and dates.
-
-Typical include usage inside layouts:
-
-```
-{% include shared-head.html %}
-{% include main-head.html %}
-{% include resume-head-en.html %}
-{% include resume-head-ar.html %}
-{% include analytics-head.html %}
-{% include analytics-body.html %}
-{% include hreflang.html %}
-{% include social-links.html %}
-{% include print-social-links.html %}
+```text
+Layout (e.g., _layouts/resume-en.html)
+ ├── shared-head.html        (anti-FOUC script, metadata, favicon suite)
+ ├── resume-head-en.html     (Google Fonts, cv.css, hreflang)
+ ├── analytics-head.html     (GTM / GA4 tracking script)
+ ├── analytics-body.html     (GTM noscript fallback iframe)
+ ├── avatar.html             (accessible, configurable profile image)
+ ├── social-links.html       (interactive SVG social icons)
+ ├── resume-section-en.html  (dynamic section dispatcher loop)
+ ├── dark-mode-toggle.html   (interactive two-state theme toggle)
+ └── print-social-links.html (print-only plaintext contact listing)
 ```
 
-### Data flow and configuration
+---
 
-The resume layouts compute a `resume_data` object that points to the active data subtree in `_data/`, based on `active_resume_path_en` (for English) and `active_resume_path_ar` (for Arabic) configured in your site's `_config.yml`. This lets you organize multiple datasets (e.g., different roles/versions) and switch without editing templates.
+## Component Inventory
 
-Examples:
-- No path (empty or nil): `resume_data == site.data`
-- `active_resume_path_en: "en"`: `resume_data == site.data.en` (English layout)
-- `active_resume_path_ar: "ar"`: `resume_data == site.data.ar` (Arabic layout)
-- Nested path with dots: `active_resume_path_en: "2025-06.20250621-PM"` → `resume_data == site.data['2025-06']['20250621-PM']`
+### 1. `shared-head.html`
 
-Most resume includes read from `resume_data.<section>` (e.g., `experience`, `skills`, `languages`). Feature flags and ordering live in `_config.yml` (see "Dynamic section rendering" below).
-
-**For beginners:** The `resume_data` object is like a pointer to your data files. **Recommended:** Set `active_resume_path_en: "en"` and `active_resume_path_ar: "ar"` to use language-specific folders. This way, the theme will look for your data in `_data/en/experience.yml`, `_data/en/education.yml`, etc. for English, and `_data/ar/experience.yml`, etc. for Arabic. This keeps your English and Arabic data separate and organized, and is the recommended approach even if you're only using one language.
+- **Location:** [`../_includes/shared-head.html`](../_includes/shared-head.html)
+- **Consumed by:** [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
+- **Key Responsibilities:**
+  - Viewport, charset, and modern `color-scheme` metadata.
+  - **Inline Anti-FOUC Script:** Synchronously reads `localStorage.getItem('color-scheme')` before CSS renders to prevent theme flashing on reload.
+  - **Favicon Suite:** Emits high-resolution favicon links (`favicon`, `apple_touch_icon`, `favicon_32`, `favicon_16`) and webmanifest with `relative_url` filtering.
+  - **Robots Meta:** Automatically applies `noindex noarchive nosnippet noimageindex` when `page.noindex: true`.
 
 ---
 
-## Include inventory (what each file does)
+### 2. `main-head.html`
 
-### 1) shared-head.html
-Purpose: Common `<head>` tags used by all layouts.
-- Charset, IE compatibility, viewport
-- Inline FOUC-prevention dark mode script
-- Complete favicon suite with `relative_url` (supports `site.favicon`, `site.apple_touch_icon`, `site.favicon_32`, `site.favicon_16`, and `site.webmanifest`)
-- Robots meta: respects `page.noindex: true`
-- Note: Canonical URLs, page titles, Open Graph, and JSON-LD metadata are emitted via `{% seo %}` (`jekyll-seo-tag`) in the layout templates.
-
-When to edit: rarely. Safe place to add global meta tags that apply across the site.
+- **Location:** [`../_includes/main-head.html`](../_includes/main-head.html)
+- **Consumed by:** [`../_layouts/default.html`](../_layouts/default.html)
+- **Key Responsibilities:** Loads `assets/css/main.css` for landing pages, documentation, and error pages.
 
 ---
 
-### 2) main-head.html
-Purpose: CSS for non-resume pages.
-- Loads `assets/css/main.css`
+### 3. `resume-head-en.html`
 
-Used by: `default.html`.
-
----
-
-### 3) resume-head-en.html
-Purpose: Head assets for the English resume.
-- Google Fonts (Lora / Open Sans)
-- `assets/css/cv.css`
-- `{% include hreflang.html %}` to output alternate language links
-
-Used by: `resume-en.html`.
+- **Location:** [`../_includes/resume-head-en.html`](../_includes/resume-head-en.html)
+- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html)
+- **Key Responsibilities:**
+  - Enqueues Google Fonts (Lora and Open Sans).
+  - Enqueues English resume stylesheet (`assets/css/cv.css`).
+  - Calls `{% include hreflang.html %}` for SEO alternate links.
 
 ---
 
-### 4) resume-head-ar.html
-Purpose: Head assets for the Arabic resume.
-- Cairo font (good Arabic legibility) when `site.resume_theme == 'default'`
-- `assets/css/cv-ar.css` (RTL-aware CSS)
-- `{% include hreflang.html %}`
+### 4. `resume-head-ar.html`
 
-Used by: `resume-ar.html`.
-
----
-
-### 5) analytics-head.html
-Purpose: Add Google Tag Manager (GTM) or Google Analytics gtag to the head.
-
-Configuration options in `_config.yml`:
-
-```yaml
-# Use GTM (preferred if you already have a container)
-analytics:
-  gtm: GTM-XXXXXXX
-
-# Or use GA4 via gtag.js
-analytics:
-  gtag: G-XXXXXXXXXX  # your GA measurement ID (or legacy ga: G-XXXXXXXXXX)
-```
-
-Behavior:
-- If `site.analytics.gtm` is set → injects GTM head snippet.
-- Else if `site.analytics.gtag` (or `site.analytics.ga`) is set → injects GA4 gtag.js using the measurement ID.
+- **Location:** [`../_includes/resume-head-ar.html`](../_includes/resume-head-ar.html)
+- **Consumed by:** [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
+- **Key Responsibilities:**
+  - Supports self-hosted or alternate CDN fonts via `site.font_ar_url`.
+  - Enqueues Cairo Arabic font by default unless `site.disable_google_fonts: true` or `site.resume_theme == 'no-custom-fonts'`.
+  - Enqueues RTL Arabic stylesheet (`assets/css/cv-ar.css`).
+  - Calls `{% include hreflang.html %}`.
 
 ---
 
-### 6) analytics-body.html
-Purpose: Body-side analytics snippet.
-- If GTM is configured, outputs the `<noscript><iframe …></noscript>` fallback for users with JS disabled.
-- If GA-only, no body markup is needed (and this include produces no output).
+### 5. `avatar.html`
 
-Used by: `default.html` (and can be added to other layouts if needed) right after `<body>`.
-
----
-
-### 7) hreflang.html
-Purpose: Alternate language `<link rel="alternate" hreflang="…">` tags for multilingual SEO.
-
-Requirements per page:
-```yaml
-# In page front matter
-lang: en  # or ar, etc.
-t_id: resume  # any string that identifies the translation group
-```
-
-Behavior:
-- If `page.t_id` exists, it finds all pages with the same `t_id` and outputs an alternate link for each.
-- It also emits an `x-default` pointing to the English page if found, as a default fallback.
-
-Place: Already included by both resume head includes; can be used elsewhere if you have multilingual pages.
-
----
-
-### 8) ar-date.html
-Purpose: Arabic month name formatting for dates.
-
-Usage in templates:
-```liquid
-{% include ar-date.html date=object.startdate style="MY" %}
-{% include ar-date.html date=object.issue_date style="MDY" %}
-```
-
-- Parameters:
-  - `date`: the Date/Time value
-  - `style`: `MDY` → “Month Day, Year”; anything else → “Month Year”
-- Looks up the Arabic month name via `site.data.ar.months[m]`.
-
-Data requirement: The theme includes `_data/ar/months.yml` by default, so you don't need to create this file manually. The months are already defined in the theme.
-
-If you're using a custom data path structure, you can define months in one of these ways:
-```yaml
-# Option A: _data/ar.yml
-months:
-  "1": يناير
-  "2": فبراير
-  "3": مارس
-  "4": أبريل
-  "5": مايو
-  "6": يونيو
-  "7": يوليو
-  "8": أغسطس
-  "9": سبتمبر
-  "10": أكتوبر
-  "11": نوفمبر
-  "12": ديسمبر
-```
-or
-```yaml
-# Option B: _data/ar/months.yml (already included in theme)
-"1": يناير
-"2": فبراير
-# ...
-```
-
-**Note:** Since the theme already includes `_data/ar/months.yml`, you typically don't need to add this file unless you're using a completely custom data structure.
-
----
-
-### 9) social-links.html
-Purpose: Renders icon links (as `<li>` items) for social profiles, only if configured in `_config.yml` under `social_links`.
-
-Example config:
-```yaml
-social_links:
-  github: https://github.com/your-username
-  linkedin: https://www.linkedin.com/in/your-handle/
-  telegram: https://t.me/your-handle
-  twitter: https://twitter.com/your-handle
-  medium: https://medium.com/@your-handle
-  # ... others supported by default
-```
-
-- Each supported key emits a list item with an inline SVG icon from `vendors/lineicons-v5.0/`.
-- Safe for screen readers and printing; external links are `rel="noopener nofollow noreferrer"`.
-
-Used by: both resume layouts in the header’s social bar.
-
----
-
-### 10) print-social-links.html
-Purpose: Text-only list of social links for print/PDF.
-- Controlled by `_config.yml` flag `resume_print_social_links: true`.
-- Emits readable lines like “Github: https://github.com/…”.
-
-Used by: both resume layouts inside a print-only section at the end.
-
----
-
-### 11) vendors/ (SVG icon packs)
-Purpose: Namespaced, vendored icons used across the theme.
-- `vendors/lineicons-v4.0/` — Used for small header contact icons (e.g., phone, envelope, postcard)
-- `vendors/lineicons-v5.0/` — Used for social icons
-
-To add a new icon:
-1. Drop a proper, minimal SVG (no script, no external refs) into the correct subfolder.
-2. Reference it from an include with `{% include vendors/lineicons-v5.0/<name>.svg %}`.
-
----
-
-### 12) dark-mode-toggle.html
-Purpose: Self-contained dark mode toggle button rendered conditionally in both resume layouts.
-- Outputs a fixed-position circular button (top-right for LTR, top-left for RTL) with inline sun/moon SVG icons.
-- Implements a **two-state** finite state machine:
-  - **System Default** — follows the OS `prefers-color-scheme` preference automatically. No `localStorage` entry.
-  - **Pinned** — forces light or dark regardless of OS. Saves `"light"` or `"dark"` to `localStorage["color-scheme"]`.
-- Includes an `addEventListener("change")` listener on `matchMedia("(prefers-color-scheme: dark)")` so the button icon updates in real-time if the user changes their OS theme while in System Default mode.
-- Fully accessible: keyboard focusable, dynamic `aria-label` and `title` updated on state changes, bilingual labels (English and Arabic).
-- Hides automatically in print/PDF output via `.no-print`.
-
-Configuration: Controlled by `resume_dark_mode` in `_config.yml`. Only rendered when set to `enabled`.
-
-```yaml
-# _config.yml
-resume_dark_mode: enabled  # renders toggle in both EN and AR layouts
-# resume_dark_mode: auto   # CSS-only system detection (default, no toggle)
-```
-
-The include is conditionally pulled into both `resume-en.html` and `resume-ar.html`:
+- **Location:** [`../_includes/avatar.html`](../_includes/avatar.html)
+- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
+- **Parameters:**
+  - `lang`: Optional language code (`'en'` | `'ar'`). Defaults to `page.lang` or `'en'`.
+  - `link`: Optional boolean (`false` disables enclosing `<a>` wrapper).
+  - `class`: Optional additional CSS class names.
+- **Key Features:**
+  - **Image Resolution:** Reads `site.avatar_url` (or fallback `site.avatar`), defaulting to `/assets/images/Profile-min.jpg`. Correctly handles both local relative assets and external CDN URLs (`https://...`).
+  - **Bilingual Alt Text:** Dynamically evaluates `site.avatar_alt_en` (English) or `site.avatar_alt_ar` (Arabic), falling back to full candidate name or default string.
+  - **Accessible Link Wrapping:** Wraps image in `<a href="{{ avatar_href }}">` unless `site.avatar_link: false` or `include.link == false`.
 
 ```liquid
-{% if site.resume_dark_mode == "enabled" %}
-  {% include dark-mode-toggle.html %}
+{% comment %} Standard usage in layouts {% endcomment %}
+{% include avatar.html lang="en" %}
+{% include avatar.html lang="ar" %}
+
+{% comment %} Standalone unlinked image {% endcomment %}
+{% include avatar.html link=false class="avatar-large" %}
+```
+
+---
+
+### 6. `dark-mode-toggle.html`
+
+- **Location:** [`../_includes/dark-mode-toggle.html`](../_includes/dark-mode-toggle.html)
+- **Consumed by:** [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
+- **Inclusion Logic:** Rendered conditionally across layouts using:
+
+```liquid
+{% assign dark_mode_enabled = false %}
+{% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
+    {% assign dark_mode_enabled = true %}
+{% endif %}
+{% if page.dark_mode == false %}
+    {% assign dark_mode_enabled = false %}
+{% elsif page.dark_mode == true or page.dark_mode == "enabled" %}
+    {% assign dark_mode_enabled = true %}
+{% endif %}
+{% if dark_mode_enabled %}
+    {% include dark-mode-toggle.html %}
 {% endif %}
 ```
 
-Used by: `resume-en.html`, `resume-ar.html`, and `default.html`.
+- **Two-State Finite State Machine (FSM):**
+  - **System Default (Unpinned):** No `localStorage` entry; theme follows OS `prefers-color-scheme`. Dynamic `matchMedia` listener updates button visuals in real-time.
+  - **Pinned Override:** Saves `"dark"` or `"light"` to `localStorage['color-scheme']` and updates `data-theme` on `<html>`. Clicking again clears the pin and reverts to System Default.
+- **Accessibility:** High-contrast focus rings, keyboard activation (<kbd>Enter</kbd> / <kbd>Space</kbd>), and localized `aria-label` and `title` attributes in English and Arabic.
+- **Print Optimization:** Automatically suppressed in print output via `.no-print`.
 
 ---
 
-### 13) avatar.html
-Purpose: Reusable, accessible profile picture component supporting configurable image source, language-aware alt text, and flexible link wrapping.
-- Computes image URL from `site.avatar_url` (with fallback to `site.avatar` and default `/assets/images/Profile-min.jpg`).
-- Defensively supports both local repository assets (via `relative_url`) and external CDN/HTTP URLs without URL mangling.
-- Provides language-aware accessible alt text:
-  - English: `site.avatar_alt_en` → `site.avatar_alt` → English full name → `"Profile photo"`
-  - Arabic: `site.avatar_alt_ar` → `site.avatar_alt` → Arabic full name → `"الصورة الشخصية"`
-- Wraps image in a link (`<a>`) pointing to `site.avatar_link` (defaults to `/`) with `site.avatar_link_target` (defaults to `_self` for WCAG-compliant in-site navigation).
-- Setting `site.avatar_link: false` or passing `link=false` to the include renders a clean standalone `<img>` without an enclosing `<a>`.
-- Preserves Schema.org microdata (`itemprop="image"`) and print suppression (`class="avatar no-print"`).
+### 7. `ar-date.html`
 
-Parameters:
-- `lang`: Optional language code (`'en'` | `'ar'`). Defaults to `page.lang`, `site.lang`, or `'en'`.
-- `link`: Optional boolean to override link rendering (`link=false`).
-- `class`: Optional extra CSS class names.
+- **Location:** [`../_includes/ar-date.html`](../_includes/ar-date.html)
+- **Consumed by:** [`../_includes/resume-section-ar.html`](../_includes/resume-section-ar.html)
+- **Parameters:**
+  - `date`: An ISO date string (`YYYY-MM-DD`).
+  - `style`: `"MY"` (Month Year) or `"MDY"` (Month Day, Year).
+- **Behavior:** Extracts month number (1–12) and performs dictionary lookup in `site.data.ar.months` (bundled in [`../_data/ar/months.yml`](../_data/ar/months.yml)).
 
-Example usage:
 ```liquid
-{% include avatar.html lang="en" %}
-{% include avatar.html lang="ar" %}
-{% include avatar.html link=false %}
+{% include ar-date.html date=job.startdate style="MY" %}
 ```
-
-Used by: `resume-en.html`, `resume-ar.html`, and custom pages.
 
 ---
 
-## Dynamic section rendering (resume-section-*.html)
+### 8. `social-links.html`
 
-Two includes power all resume content:
-- `resume-section-en.html` — English labels and EN date formats
-- `resume-section-ar.html` — Arabic labels, RTL-aware, and Arabic date/“Present” logic
+- **Location:** [`../_includes/social-links.html`](../_includes/social-links.html)
+- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
+- **Supported Platforms:** 14 bundled platforms:
+  `github`, `linkedin`, `telegram`, `twitter`, `medium`, `dribbble`, `facebook`, `instagram`, `website`, `whatsapp`, `devto`, `flickr`, `pinterest`, `youtube`.
+- **Security & WCAG:** Emits `rel="noopener nofollow noreferrer"`, `target="_blank"`, dynamic `title`, `aria-label`, and `.sr-only` screen-reader spans.
 
-### How it works
+---
 
-Both files receive a parameter `section_name` and render the matching section if it’s enabled in `_config.yml`.
+### 9. `print-social-links.html`
 
-```liquid
-{% include resume-section-en.html section_name="experience" %}
-```
+- **Location:** [`../_includes/print-social-links.html`](../_includes/print-social-links.html)
+- **Consumed by:** Both resume layouts when `resume_print_social_links: true`.
+- **Behavior:** Generates a plaintext list of active social URLs wrapped in `<span dir="ltr">` to guarantee bidirectional punctuation integrity during physical and PDF printing.
 
-The resume layouts loop over `site.resume_section_order` and call the include once per item, so you only need to control ordering and flags in config.
+---
 
-### Section list and flags
+### 10. `hreflang.html`
 
-Supported `section_name` values (and their flags under `resume_section`):
-- `experience` → `resume_section.experience`
-- `education` → `resume_section.education`
-- `certifications` → `resume_section.certifications`
-- `courses` → `resume_section.courses`
-- `volunteering` → `resume_section.volunteering`
-- `projects` → `resume_section.projects`
-- `skills` → `resume_section.skills`
-- `recognition` → `resume_section.recognition`
-- `associations` → `resume_section.associations`
-- `interests` → `resume_section.interests`
-- `languages` → `resume_section.languages` (plus `resume_section.lang_header` controls header display)
-- `links` → `resume_section.links`
+- **Location:** [`../_includes/hreflang.html`](../_includes/hreflang.html)
+- **Consumed by:** `resume-head-en.html` and `resume-head-ar.html`.
+- **Behavior:** Queries `site.pages` matching the current page’s translation group (`page.t_id`), emitting `<link rel="alternate" hreflang="...">` tags and an `x-default` pointer to the English version. See [Multilingual SEO with hreflang](#multilingual-seo-with-hreflang) below for setup instructions.
 
-Global behavior:
-- Items are filtered by `active: true` in your data.
-- Experience/Volunteering are grouped by `company` and sorted by `startdate` desc.
-- “Present” handling: EN prints “Present”; AR prints “حتى الآن”. Array-based `durations` is also supported.
+---
 
-### Changing section order
+### 11. `analytics-head.html` & `analytics-body.html`
 
-In `_config.yml`:
-```yaml
-resume_section_order:
-  - experience
-  - education
-  - projects
-  - skills
-  - languages
-  - links
-```
-The layout loops this array and includes the matching block.
+- **Head Include:** Injects Google Tag Manager container or Google Analytics 4 (`gtag.js`) based on `site.analytics.gtm` or `site.analytics.gtag` in `_config.yml`.
+- **Body Include:** Injects `<noscript><iframe>` fallback for Google Tag Manager immediately after the opening `<body>` tag in [`../_layouts/default.html`](../_layouts/default.html).
 
-### Adding a new section (step-by-step)
+---
 
-Example: Add “publications”.
+### 12. `vendors/` (SVG Icon Packs)
 
-1) Data: create `_data/en/publications.yml` (or `_data/ar/publications.yml` for Arabic, or inside your active subtree) like:
-```yaml
-- active: true
-  title: Building Scalable Systems
-  venue: Journal of Systems
-  year: 2024
-  url: https://example.com/paper
-  summary: A brief sentence about the publication.
-```
-
-2) Enable and order it in `_config.yml`:
-```yaml
-resume_section:
-  publications: true
-resume_section_order:
-  - experience
-  - education
-  - publications
-  - skills
-```
-
-3) Render logic in EN include (`_includes/resume-section-en.html`): add a new branch, for example right before the closing `{% endif %}`:
-```liquid
-{% elsif include.section_name == "publications" and site.resume_section.publications %}
-<section class="content-section">
-  <header class="section-header">
-    <h2>Publications</h2>
-  </header>
-  {% for pub in resume_data.publications %}
-    {% if pub.active %}
-      <div class="resume-item">
-        <h3 class="resume-item-title" itemprop="headline">
-          {% if pub.url %}<a href="{{ pub.url }}" target="_blank" rel="noopener nofollow noreferrer">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}
-        </h3>
-        <h4 class="resume-item-details">{{ pub.venue }} &bull; {{ pub.year }}</h4>
-        {% if pub.summary %}<p class="resume-item-copy">{{ pub.summary }}</p>{% endif %}
-      </div>
-    {% endif %}
-  {% endfor %}
-</section>
-```
-
-4) Arabic include (`_includes/resume-section-ar.html`): add the mirrored branch with localized labels.
-
-That’s it—no layout changes needed. Your new section will render where you placed it in `resume_section_order`.
+Bundled scalable vector graphics:
+- `vendors/lineicons-v4.0/`: Contact row icons (envelope, phone, location pin).
+- `vendors/lineicons-v5.0/`: Social platform brand icons.
 
 ---
 
 ## Multilingual SEO with hreflang
 
+To ensure search engines index both English and Arabic versions properly and serve the right version to users based on their locale, the theme integrates automated `hreflang` generation via [`../_includes/hreflang.html`](../_includes/hreflang.html).
+
 Set `lang` and a shared `t_id` in both language pages (e.g., EN and AR resume pages):
+
 ```yaml
 ---
 layout: resume-en
@@ -444,6 +224,7 @@ lang: en
 t_id: resume
 ---
 ```
+
 ```yaml
 ---
 layout: resume-ar
@@ -452,96 +233,125 @@ lang: ar
 t_id: resume
 ---
 ```
-The `hreflang.html` include emits alternate links for all pages sharing the same `t_id`, and an `x-default` pointing to the English page if present.
+
+### How It Operates
+
+1. Searches `site.pages` for all pages that have the identical `t_id` value (e.g., `"resume"`).
+2. Generates an alternate link for each translation found:
+   ```html
+   <link rel="alternate" hreflang="en" href="https://your-domain.com/resume/en/" />
+   <link rel="alternate" hreflang="ar" href="https://your-domain.com/resume/ar/" />
+   ```
+3. Identifies the English page (`lang: en`) within the translation group and outputs the `x-default` fallback tag:
+   ```html
+   <link rel="alternate" hreflang="x-default" href="https://your-domain.com/resume/en/" />
+   ```
 
 ---
 
-## Analytics configuration
+## Dynamic Section Rendering Engine
 
-Pick one of the two:
+### How Section Dispatch Works
 
-- Google Tag Manager (recommended if you already use GTM)
-```yaml
-analytics:
-  gtm: GTM-XXXXXXX
-```
-- Google Analytics 4 (gtag.js)
-```yaml
-analytics:
-  gtag: G-XXXXXXXXXX
-```
-`analytics-head.html` injects the head snippet; `analytics-body.html` adds the GTM `<noscript>` fallback in the body.
+In both [`../_layouts/resume-en.html`](../_layouts/resume-en.html) and [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html), sections are rendered dynamically by looping through the array defined in `site.resume_section_order`:
 
----
-
-## Social links and icons
-
-Configure in `_config.yml`:
-```yaml
-social_links:
-  github: https://github.com/your-username
-  linkedin: https://www.linkedin.com/in/your-handle/
-  telegram: https://t.me/your-handle
-  twitter: https://twitter.com/your-handle
-  medium: https://medium.com/@your-handle
-  instagram: https://instagram.com/your-handle
-  website: https://yourdomain.tld
-  whatsapp: https://wa.me/123456789
-  devto: https://dev.to/your-handle
-  flickr: https://flickr.com/people/your-handle
-  pinterest: https://pinterest.com/your-handle
-  youtube: https://youtube.com/@your-handle
-```
-Only keys you set are rendered. Icons are included from `vendors/lineicons-v5.0/`.
-
-To add a network not yet supported (e.g., Mastodon):
-1. Add an SVG to `vendors/lineicons-v5.0/mastodon.svg`.
-2. Add a block to `social-links.html`:
 ```liquid
-{% if site.social_links.mastodon %}
-<li class="icon-link-item">
-  <a href="{{ site.social_links.mastodon }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer">
-    {% include vendors/lineicons-v5.0/mastodon.svg %}
-  </a>
-</li>
-{% endif %}
+{% for section in site.resume_section_order %}
+  {% include resume-section-en.html section_name=section %}
+{% endfor %}
 ```
-3. Optionally add a print-only line in `print-social-links.html`.
+
+Inside [`../_includes/resume-section-en.html`](../_includes/resume-section-en.html) and [`../_includes/resume-section-ar.html`](../_includes/resume-section-ar.html), an `{% if / elsif %}` dispatcher evaluates the requested section:
+
+```liquid
+{% if include.section_name == 'experience' and site.resume_section.experience != false and resume_data.experience %}
+  <!-- Renders Experience Section -->
+{% elsif include.section_name == 'education' and site.resume_section.education != false and resume_data.education %}
+  <!-- Renders Education Section -->
+...
+```
+
+### Section Dispatch Inventory
+
+| Section Name (`section_name`) | Config Toggle (`resume_section`) | Data File | Data Expression |
+|---|---|---|---|
+| `experience` | `experience` | `experience.yml` | `resume_data.experience` |
+| `education` | `education` | `education.yml` | `resume_data.education` |
+| `certifications` | `certifications` | `certifications.yml` | `resume_data.certifications` |
+| `courses` | `courses` | `courses.yml` | `resume_data.courses` |
+| `volunteering` | `volunteering` | `volunteering.yml` | `resume_data.volunteering` |
+| `projects` | `projects` | `projects.yml` | `resume_data.projects` |
+| `skills` | `skills` | `skills.yml` | `resume_data.skills` |
+| **`recognition`** | **`recognition`** | **`recognitions.yml`** | `resume_data.recognitions` |
+| `associations` | `associations` | `associations.yml` | `resume_data.associations` |
+| `languages` | `languages` | `languages.yml` | `resume_data.languages` |
+| `links` | `links` | `links.yml` | `resume_data.links` |
+| `interests` | `interests` | `interests.yml` | `resume_data.interests` |
 
 ---
 
-## Customization recipes
+### Adding a New Custom Section
 
-### Swap fonts or CSS per language
-- Edit `resume-head-en.html` to change the EN font stack or CSS file.
-- Edit `resume-head-ar.html` to change the AR font (Cairo by default) or CSS file.
-- Keep RTL-specific styles in `cv-ar.css` (it imports RTL overrides through SCSS).
+To add a new resume section (e.g., `publications`):
 
-### Add a new social network
-- See steps above under “Social links and icons”.
-
-### Show languages in header vs its own section
-- Header display uses `resume_section.lang_header` and reads active languages from `resume_data.languages`.
-- If you set `resume_section.lang_header: true`, the header prints a compact “Languages: EN (Fluent), …”.
-- If you also want a full “Languages” section, ensure `resume_section.languages: true`. If you only want it in the header, set the section flag to false or omit it from `resume_section_order`.
-
-### Customize date formats (EN/AR)
-- EN formatting uses Liquid date filters inside `resume-section-en.html` (e.g., `'%b %Y'`, `'%b %d, %Y'`). Adjust those if needed.
-- AR dates use `ar-date.html` which converts month names via `site.data.ar.months`. Ensure your Arabic months are defined (see “ar-date.html”).
-
----
-
-## Best practices
-
-- Prefer adding new functionality in `_includes/` rather than inlining complex markup in layouts.
-- Keep includes small and focused (one job per include).
-- Avoid hard-coding URLs; use `relative_url` and `absolute_url` filters.
-- Respect configuration-driven behavior:
-  - Feature flags under `resume_section.*`
-  - Section order via `resume_section_order`
-  - Data path via `active_resume_path_en` and `active_resume_path_ar`
-- Localize: if you add a section in EN, consider adding the AR counterpart with translated labels and RTL visual checks.
-- SVG hygiene: strip unnecessary attributes/metadata; keep icons lightweight.
-- Printing: if something is important for PDF/print, add a print-only variant similar to `print-social-links.html`.
+1. **Update English Dispatcher:** Add an `{% elsif %}` branch in [`../_includes/resume-section-en.html`](../_includes/resume-section-en.html):
+   ```liquid
+   {% elsif include.section_name == 'publications' and site.resume_section.publications != false and resume_data.publications %}
+     <section class="resume-section section-publications">
+       <h2 class="section-header">Publications</h2>
+       {% for item in resume_data.publications %}
+         {% if item.active != false %}
+           <div class="resume-item">
+             <h3 class="resume-item-title">{{ item.title }}</h3>
+             <p class="resume-item-details">{{ item.publisher }} • {{ item.year }}</p>
+           </div>
+         {% endif %}
+       {% endfor %}
+     </section>
+   ```
+2. **Update Arabic Dispatcher:** Add the mirrored RTL branch in [`../_includes/resume-section-ar.html`](../_includes/resume-section-ar.html) with localized headings.
+3. **Add Data:** Create `_data/en/publications.yml` and `_data/ar/publications.yml`.
+4. **Update Configuration:** Add `publications: true` to `resume_section` and add `- publications` to `resume_section_order` in `_config.yml`.
 
 ---
+
+## Customization Recipes
+
+### Swap Remote Arabic Fonts
+
+In your site’s `_config.yml`, specify a custom Google Fonts or self-hosted stylesheet:
+
+```yaml
+font_ar_url: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
+```
+
+### Add a New Social Network
+
+1. Place an optimized SVG in `_includes/vendors/lineicons-v5.0/newplatform.svg`.
+2. Add the Liquid block to [`../_includes/social-links.html`](../_includes/social-links.html):
+   ```liquid
+   {% if site.social_links.newplatform %}
+     <li class="icon-link-item">
+       <a href="{{ site.social_links.newplatform }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="New Platform" title="New Platform">
+         {% include vendors/lineicons-v5.0/newplatform.svg %}
+         <span class="sr-only">New Platform</span>
+       </a>
+     </li>
+   {% endif %}
+   ```
+3. Add the plaintext print entry in [`../_includes/print-social-links.html`](../_includes/print-social-links.html).
+
+### Compact Language Header vs Dedicated Section
+
+- For compact language chips under candidate titles in the header:
+  ```yaml
+  resume_section:
+    lang_header: true
+    languages: false
+  ```
+- For a full two-column languages table section:
+  ```yaml
+  resume_section:
+    lang_header: false
+    languages: true
+  ```

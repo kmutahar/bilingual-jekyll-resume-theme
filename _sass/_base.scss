@@ -66,3 +66,16 @@ body {
   color: var(--selection-color, #fff);
   text-shadow: none;
 }
+
+/* Visually hidden utility for screen readers (WCAG 2.1 AA) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

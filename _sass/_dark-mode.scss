@@ -297,6 +297,7 @@ html.light {
   .dark-mode-icon {
     width: 1.25rem;
     height: 1.25rem;
+    fill: none !important;
     stroke: currentColor;
     transition: transform 0.3s ease;
   }

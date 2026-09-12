@@ -1,6 +1,11 @@
-{% if site.resume_theme == 'default' %}
-    <!-- Arabic-friendly font (Cairo) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+{% if site.font_ar_url %}
+    <!-- Custom Arabic Font Stylesheet -->
+    <link rel="stylesheet" href="{{ site.font_ar_url | relative_url }}">
+{% elsif site.disable_google_fonts != true and site.resume_theme != 'no-custom-fonts' %}
+    <!-- Arabic-friendly font (Cairo) with preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 {% endif %}
 
 <link rel="stylesheet" type="text/css" href="{{ 'assets/css/cv-ar.css' | relative_url }}">

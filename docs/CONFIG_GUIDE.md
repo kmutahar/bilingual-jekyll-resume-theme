@@ -89,6 +89,8 @@ That’s enough to render a working resume using data from `_data/`.
 - apple_touch_icon: Path to custom 180x180 Apple touch icon (optional, defaults to `assets/favicon/resume/apple-touch-icon.png`).
 - favicon_32: Path to custom 32x32 PNG favicon (optional, defaults to `assets/favicon/resume/favicon-32x32.png`).
 - favicon_16: Path to custom 16x16 PNG favicon (optional, defaults to `assets/favicon/resume/favicon-16x16.png`).
+- font_ar_url: Custom CSS stylesheet URL for self-hosted or alternate CDN Arabic fonts (optional).
+- disable_google_fonts: Set to `true` to disable remote Google Fonts fetching for offline/intranet builds or GDPR compliance (optional).
 
 ---
 

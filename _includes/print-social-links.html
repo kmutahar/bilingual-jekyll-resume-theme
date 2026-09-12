@@ -1,75 +1,79 @@
 <!-- and guess where these are defined? Yup, you guessed it: the _config.yml file -->
 {% if site.resume_print_social_links %}
+{% assign is_ar = false %}
+{% if page.layout == "resume-ar" or page.lang == "ar" or page.language == "ar" or layout.lang == "ar" %}
+    {% assign is_ar = true %}
+{% endif %}
 <ul>
 
     {% if site.social_links.github %}
         <!-- GitHub link -->
-        <li><strong>Github</strong>: {{ site.social_links.github }}</li>
+        <li><strong>{% if is_ar %}جيت هاب (GitHub){% else %}GitHub{% endif %}</strong>: <span dir="ltr">{{ site.social_links.github }}</span></li>
     {% endif %}
 
     {% if site.social_links.twitter %}
         <!-- Twitter link -->
-        <li><strong>Twitter</strong>: {{ site.social_links.twitter }}</li>
+        <li><strong>{% if is_ar %}إكس / تويتر (X / Twitter){% else %}X (Twitter){% endif %}</strong>: <span dir="ltr">{{ site.social_links.twitter }}</span></li>
     {% endif %}
 
     {% if site.social_links.medium %}
         <!-- Medium link -->
-        <li><strong>Medium</strong>: {{ site.social_links.medium }}</li>
+        <li><strong>{% if is_ar %}ميديام (Medium){% else %}Medium{% endif %}</strong>: <span dir="ltr">{{ site.social_links.medium }}</span></li>
     {% endif %}
 
     {% if site.social_links.dribbble %}
         <!-- Dribbble link -->
-        <li><strong>Dribbble</strong>: {{ site.social_links.dribbble }}</li>
+        <li><strong>{% if is_ar %}دريبل (Dribbble){% else %}Dribbble{% endif %}</strong>: <span dir="ltr">{{ site.social_links.dribbble }}</span></li>
     {% endif %}
 
     {% if site.social_links.facebook %}
         <!-- Facebook link -->
-        <li><strong>Facebook</strong>: {{ site.social_links.facebook }}</li>
+        <li><strong>{% if is_ar %}فيسبوك (Facebook){% else %}Facebook{% endif %}</strong>: <span dir="ltr">{{ site.social_links.facebook }}</span></li>
     {% endif %}
 
     {% if site.social_links.linkedin %}
         <!-- LinkedIn link -->
-        <li><strong>LinkedIn</strong>: {{ site.social_links.linkedin }}</li>
+        <li><strong>{% if is_ar %}لينكد إن (LinkedIn){% else %}LinkedIn{% endif %}</strong>: <span dir="ltr">{{ site.social_links.linkedin }}</span></li>
     {% endif %}
 
     {% if site.social_links.instagram %}
         <!-- Instagram link -->
-        <li><strong>Instagram</strong>: {{ site.social_links.instagram }}</li>
+        <li><strong>{% if is_ar %}إنستغرام (Instagram){% else %}Instagram{% endif %}</strong>: <span dir="ltr">{{ site.social_links.instagram }}</span></li>
     {% endif %}
 
     {% if site.social_links.website %}
         <!-- Website link -->
-        <li><strong>Website</strong>: {{ site.social_links.website }}</li>
+        <li><strong>{% if is_ar %}الموقع الشخصي (Website){% else %}Website{% endif %}</strong>: <span dir="ltr">{{ site.social_links.website }}</span></li>
     {% endif %}
 
     {% if site.social_links.whatsapp %}
         <!-- Whatsapp link -->
-        <li><strong>Whatsapp</strong>: {{ site.social_links.whatsapp }}</li>
+        <li><strong>{% if is_ar %}واتساب (WhatsApp){% else %}WhatsApp{% endif %}</strong>: <span dir="ltr">{{ site.social_links.whatsapp }}</span></li>
     {% endif %}
 
     {% if site.social_links.devto %}
         <!-- Devto link -->
-        <li><strong>Devto</strong>: {{ site.social_links.devto }}</li>
+        <li><strong>{% if is_ar %}ديف تو (Dev.to){% else %}Dev.to{% endif %}</strong>: <span dir="ltr">{{ site.social_links.devto }}</span></li>
     {% endif %}
 
     {% if site.social_links.flickr %}
         <!-- Flickr link -->
-        <li><strong>Flickr</strong>: {{ site.social_links.flickr }}</li>
+        <li><strong>{% if is_ar %}فليكر (Flickr){% else %}Flickr{% endif %}</strong>: <span dir="ltr">{{ site.social_links.flickr }}</span></li>
     {% endif %}
 
     {% if site.social_links.pinterest %}
         <!-- Pinterest link -->
-        <li><strong>Pinterest</strong>: {{ site.social_links.pinterest }}</li>
+        <li><strong>{% if is_ar %}بينتيريست (Pinterest){% else %}Pinterest{% endif %}</strong>: <span dir="ltr">{{ site.social_links.pinterest }}</span></li>
     {% endif %}
 
     {% if site.social_links.telegram %}
         <!-- Telegram link -->
-        <li><strong>Telegram</strong>: {{ site.social_links.telegram }}</li>
+        <li><strong>{% if is_ar %}تيليجرام (Telegram){% else %}Telegram{% endif %}</strong>: <span dir="ltr">{{ site.social_links.telegram }}</span></li>
     {% endif %}
 
     {% if site.social_links.youtube %}
         <!-- Youtube link -->
-        <li><strong>Youtube</strong>: {{ site.social_links.youtube }}</li>
+        <li><strong>{% if is_ar %}يوتيوب (YouTube){% else %}YouTube{% endif %}</strong>: <span dir="ltr">{{ site.social_links.youtube }}</span></li>
     {% endif %}
 
 </ul>

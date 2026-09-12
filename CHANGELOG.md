@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.7.0] - 2026-09-12
+
+### Added
+* Add bilingual error suite (404, 403, 500) and reusable layout ([`4eab127`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/4eab127d8cc3a4cedccca89943482fd3a067ee14))
+
+
+### Changed
+* Enhance README and DATA_GUIDE with dark mode, typography, and error page details ([`8284ee7`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/8284ee7c0ffe351b823ad8ea0854b8e6d6afecd5))
+
+* Implement universal dark mode and isolate profile layout styles ([`853a9ac`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/853a9ac1eaf11aadec62f198f6b7e9cdb2d3c209))
+
+* Update analytics configuration to support direct measurement ID for Google Analytics 4 ([`dff8c3d`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/dff8c3d3ce3bfebf2ebb37d3ada348ed1a603f3c))
+
+* Integrate Google Tag Manager analytics snippet into resume layouts ([`54f5c96`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/54f5c9676766c2ee04cd44a9b64b1a3472ca4d70))
+
+* Enhance contact information handling and improve schema markup in resume layouts ([`caf726c`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/caf726c557e8289c991b6cb15acc3cc54504867e))
+
+
+### Fixed
+* Upgrade Arabic font loading and isolate print social links ([`ca6898b`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ca6898b883a5264dbee9088c849bfd6a00fdf079))
+
+* Scope global svg rules and add WCAG 2.1 AA accessible social links ([`d44dcb1`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/d44dcb15360ddd3c6e5eb42bc973564f882ee177))
+
+* Centralize modern favicon suite and resolve subdirectory 404s ([`943d565`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/943d5653d5cbfa5f6189b4975a74f2e981c6ceb1))
+
+* Add 'dir="ltr"' attribute to URLs for better text direction handling in resume sections ([`73da095`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/73da0959f2de2b7a6585d2c1c03fc59a4fa55f65))
+
+
+### Removed
+* Remove conflicting duplicate canonical tag from shared head ([`8f8b22b`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/8f8b22bfdea4e40371366db47bdddd98d412631a))
+
 ## [0.6.1] - 2026-08-21
 
 ### Changed

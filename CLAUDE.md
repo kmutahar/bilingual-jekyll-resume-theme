@@ -26,7 +26,7 @@ This file provides context and guidance to AI coding assistants (Claude, Gemini,
 
 ## Project Overview
 
-**bilingual-jekyll-resume-theme** is a Ruby gem / Jekyll theme (v0.5.2) for building clean, data-driven, bilingual (English & Arabic) resume/CV websites. Created and maintained by **Khaldoon Mutahar** (MIT License).
+**bilingual-jekyll-resume-theme** is a Ruby gem / Jekyll theme (v0.7.0) for building clean, data-driven, bilingual (English & Arabic) resume/CV websites. Created and maintained by **Khaldoon Mutahar** (MIT License).
 
 ### Key Links
 - **RubyGems**: https://rubygems.org/gems/bilingual-jekyll-resume-theme
@@ -82,10 +82,10 @@ bundle exec jekyll clean
 gem build bilingual-jekyll-resume-theme.gemspec
 
 # Install the built gem locally for testing (version from gemspec)
-gem install bilingual-jekyll-resume-theme-0.5.2.gem
+gem install bilingual-jekyll-resume-theme-0.7.0.gem
 
 # Publish gem to RubyGems.org (requires authentication)
-gem push bilingual-jekyll-resume-theme-0.5.2.gem
+gem push bilingual-jekyll-resume-theme-0.7.0.gem
 ```
 
 ### Testing & Verification
@@ -411,7 +411,7 @@ The `bilingual-jekyll-resume-theme.gemspec` file defines:
 
 ```ruby
 spec.name          = "bilingual-jekyll-resume-theme"
-spec.version       = "0.5.2"                    # Current version (update before release)
+spec.version       = "0.7.0"                    # Current version (update before release)
 spec.authors       = ["Khaldoon Mutahar"]
 spec.email         = ["contact@mutahar.me"]
 spec.license       = "MIT"
@@ -423,8 +423,8 @@ spec.homepage      = "https://www.mutahr.me/bilingual-jekyll-resume-theme"
 
 1. **Update version** in `bilingual-jekyll-resume-theme.gemspec`
 2. **Build locally**: `gem build bilingual-jekyll-resume-theme.gemspec`
-3. **Test locally**: `gem install bilingual-jekyll-resume-theme-0.5.2.gem`
-4. **Push to RubyGems**: `gem push bilingual-jekyll-resume-theme-0.5.2.gem` (requires auth)
+3. **Test locally**: `gem install bilingual-jekyll-resume-theme-0.7.0.gem`
+4. **Push to RubyGems**: `gem push bilingual-jekyll-resume-theme-0.7.0.gem` (requires auth)
 5. **Tag release** on GitHub with version number
 
 ### File Inclusion Filter
@@ -475,8 +475,9 @@ Gemspec includes metadata for discoverability:
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| 0.5.x | ✅ Supported | Current stable release branch |
-| < 0.5 | ❌ Unsupported | Legacy; please upgrade |
+| 0.7.x | ✅ Supported | Current stable release branch |
+| 0.6.x | ✅ Supported | Maintenance & security patches |
+| < 0.6 | ❌ Unsupported | Legacy; please upgrade |
 
 ### Dependency Monitoring
 

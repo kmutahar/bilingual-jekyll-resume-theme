@@ -7,11 +7,14 @@ Inspired by and originally forked from [Joel Glovier’s resume template](https:
 
 ## Features
 
-- **Bilingual support**: Separate layouts for English (`resume-en.html`) and Arabic (`resume-ar.html`) with full RTL support
+- **Bilingual support**: Separate layouts for English (`resume-en.html`) and Arabic (`resume-ar.html`) with full RTL support and Cairo typography
+- **Dark mode**: System preference detection (`prefers-color-scheme`) with optional interactive toggle, `localStorage` persistence, and zero-FOUC inline script
 - **Data-driven architecture**: All resume content stored in YAML files, supporting multiple data paths and versioning
 - **12 resume sections**: Experience, Education, Certifications, Courses, Volunteering, Projects, Skills, Recognition, Associations, Languages, Links, Interests
-- **Print-friendly**: Optimized for PDF generation and printing
-- **SEO ready**: Built-in support for multilingual SEO, sitemap, and feed generation
+- **WCAG 2.1 AA Accessible**: Full screen reader and keyboard accessibility with `.sr-only` labels and declarative aria attributes
+- **Modern favicon suite**: High-resolution favicons (Apple touch icon, 32x32, 16x16, webmanifest) with subpath-safe URLs and `_config.yml` override support
+- **Print-friendly**: Optimized for PDF generation and printing with bidirectional text isolation (`dir="ltr"`) for URLs
+- **SEO ready**: Built-in support for multilingual SEO, standardized canonical tags via `jekyll-seo-tag`, sitemaps, and feeds
 - **Arabic month support**: Arabic date formatting included out of the box (`_data/ar/months.yml`)
 
 ## Quick Start

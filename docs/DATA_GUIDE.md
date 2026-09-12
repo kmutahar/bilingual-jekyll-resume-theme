@@ -49,7 +49,8 @@ Highlights:
 11. [Links](#links)
 12. [Interests](#interests)
 13. [Header Intro](#header-intro)
-14. [General Guidlines](#general-guidelines)
+14. [Error Pages](#error-pages)
+15. [General Guidlines](#general-guidelines)
 
 ---
 
@@ -520,6 +521,46 @@ intro: "Your professional summary or elevator pitch goes here. This is the Engli
 **Important:** 
 - Create separate files for each language: `_data/en/header.yml` for English and `_data/ar/header.yml` for Arabic
 - Sample files are available in `docs/_data/en/header.yml` and `docs/_data/ar/header.yml`
+
+---
+
+## Error Pages
+
+**File:** `_data/error_pages.yml`
+
+This file provides centralized English and Arabic titles, descriptions, and action button labels for HTTP error pages (`404.html`, `403.html`, `500.html`).
+
+```yaml
+labels:
+  home: "Home / الرئيسية"
+  resume_en: "Resume (EN)"
+  resume_ar: "السيرة الذاتية (عربي)"
+  reload: "Reload Page / إعادة تحميل الصفحة"
+
+"404":
+  title_en: "Page Not Found"
+  desc_en: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
+  title_ar: "الصفحة غير موجودة"
+  desc_ar: "ربما تمت إزالة الصفحة التي تبحث عنها، أو تم تغيير اسمها، أو أنها غير متوفرة مؤقتاً."
+
+"403":
+  title_en: "Access Forbidden"
+  desc_en: "You do not have permission to access the requested resource or directory."
+  title_ar: "الوصول محظور"
+  desc_ar: "ليس لديك الصلاحية اللازمة للوصول إلى هذا المورد أو الدليل المطلوب."
+
+"500":
+  title_en: "Internal Server Error"
+  desc_en: "The server encountered an unexpected condition that prevented it from fulfilling the request. Please try again later."
+  title_ar: "خطأ داخلي في الخادم"
+  desc_ar: "واجه الخادم ظرفاً غير متوقع منعه من إكمال الطلب. يرجى المحاولة مرة أخرى لاحقاً."
+
+"503":
+  title_en: "Service Unavailable"
+  desc_en: "The server is currently unable to handle the request due to maintenance or capacity overload."
+  title_ar: "الخدمة غير متوفرة مؤقتاً"
+  desc_ar: "الخادم غير قادر على معالجة الطلب حالياً بسبب الصيانة أو زيادة الحمل."
+```
 
 ---
 

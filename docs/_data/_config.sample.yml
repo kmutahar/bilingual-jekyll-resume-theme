@@ -77,6 +77,9 @@ active_resume_path_ar: "ar" # ath to Arabic data (empty = root _data/)
 
 # Header and intro
 resume_avatar: true # Show profile picture
+resume_language_switcher: true # Enables the floating EN <-> AR toggle component (set to false to disable)
+resume_en_url: "/resume/en/" # Fallback English resume destination URL
+resume_ar_url: "/resume/ar/" # Fallback Arabic resume destination URL
 display_header_contact_info: true # Show contact info in header
 resume_header_intro_en: true # Show English intro paragraph below name/title in header
 resume_header_intro_ar: false # Show Arabic intro paragraph below name/title in header

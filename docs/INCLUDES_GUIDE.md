@@ -26,6 +26,7 @@ This guide assumes basic familiarity with Jekyll and Liquid, but includes exampl
   - [vendors/ (SVG icon packs)](#11-vendors-svg-icon-packs)
   - [dark-mode-toggle.html](#12-dark-mode-togglehtml)
   - [avatar.html](#13-avatarhtml)
+  - [language-switcher.html](#14-language-switcherhtml)
 - [Dynamic section rendering (resume-section-*.html)](#dynamic-section-rendering-resume-section-html)
   - [How it works](#how-it-works)
   - [Section list and flags](#section-list-and-flags)
@@ -327,6 +328,30 @@ Example usage:
 ```
 
 Used by: `resume-en.html`, `resume-ar.html`, and custom pages.
+
+### 14) language-switcher.html
+
+- **Purpose**: Render an accessible floating button allowing visitors to toggle between the English and Arabic versions of the resume.
+- **Enabled by**: `site.resume_language_switcher` (defaults to `true`; set to `false` to disable site-wide).
+- **Per-page toggle**: Set `language_switcher: false` in page front matter to suppress on a specific page.
+- **Automatic routing**: If pages define matching `t_id` and opposite `lang`, routes directly to the counterpart localized page.
+- **Fallback routing**: Falls back to `site.resume_en_url` (`/resume/en/`) and `site.resume_ar_url` (`/resume/ar/`).
+- **Accessibility**:
+  - Sets `role="navigation"` and `aria-label="Language Selector"` landmark.
+  - Localized `aria-label` attribute on the button ("التحويل إلى اللغة العربية" when on English, "Switch language to English" when on Arabic).
+  - Target language label ("عربي" on English, "EN" on Arabic).
+  - Keyboard focus ring with `:focus-visible`.
+- **Layout positioning & symmetry**:
+  - Left: `1.25rem`, Top: `1.25rem` in LTR (symmetrically opposite the dark mode toggle at right: `1.25rem`).
+  - Automatically mirrors to Right: `1.25rem`, Left: `auto` in RTL via `_sass/_resume-rtl.scss`.
+- **Print media**: Automatically hidden in print output and PDF generation via `.no-print`.
+
+Example usage:
+```liquid
+{% include language-switcher.html %}
+```
+
+Used by: `resume-en.html`, `resume-ar.html`, `default.html`.
 
 ---
 

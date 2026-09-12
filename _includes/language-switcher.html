@@ -1,0 +1,39 @@
+{%- comment -%}
+Include: Reusable Language Switcher Component
+- Invariant: Automatically discovers counterpart localized page via page.t_id or default paths.
+- Accessibility: Localized aria-label and title attributes with keyboard focus indicator.
+{%- endcomment -%}
+
+{% if site.resume_language_switcher != false and page.language_switcher != false and page.layout != 'error' %}
+  {% assign current_lang = page.lang | default: site.lang | default: 'en' %}
+  {% assign target_lang = 'ar' %}
+  {% if current_lang == 'ar' %}
+    {% assign target_lang = 'en' %}
+  {% endif %}
+
+  {% assign target_url = nil %}
+  {% if page.t_id %}
+    {% assign match = site.pages | where: "t_id", page.t_id | where: "lang", target_lang | first %}
+    {% if match %}
+      {% assign target_url = match.url | relative_url %}
+    {% endif %}
+  {% endif %}
+
+  {% unless target_url %}
+    {% if current_lang == 'ar' %}
+      {% assign target_url = site.resume_en_url | default: '/resume/en/' | relative_url %}
+    {% else %}
+      {% assign target_url = site.resume_ar_url | default: '/resume/ar/' | relative_url %}
+    {% endif %}
+  {% endunless %}
+
+  <div class="language-switcher no-print" role="navigation" aria-label="Language Selector">
+    <a href="{{ target_url }}"
+       class="lang-switch-btn"
+       aria-label="{% if current_lang == 'ar' %}Switch language to English{% else %}التحويل إلى اللغة العربية{% endif %}"
+       title="{% if current_lang == 'ar' %}English{% else %}العربية{% endif %}">
+      <span class="lang-icon" aria-hidden="true">🌐</span>
+      <span class="lang-label-target">{% if current_lang == 'ar' %}EN{% else %}عربي{% endif %}</span>
+    </a>
+  </div>
+{% endif %}

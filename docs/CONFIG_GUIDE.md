@@ -84,6 +84,9 @@ That’s enough to render a working resume using data from `_data/`.
 - baseurl: Keep empty unless deploying under a subdirectory (e.g., `/resume`).
 - timezone: Set to your region (e.g., `UTC`, `Etc/GMT`, `America/New_York`).
 - resume_avatar: true/false to show/hide the profile picture.
+- resume_language_switcher: true/false to enable or disable the floating EN <-> AR toggle component (defaults to `true`).
+- resume_en_url: Fallback English resume destination URL (defaults to `/resume/en/`).
+- resume_ar_url: Fallback Arabic resume destination URL (defaults to `/resume/ar/`).
 - avatar_url: Path or full URL to your avatar image (e.g., `assets/images/me.jpg` or `https://example.com/avatar.jpg`). Defaults to `/assets/images/Profile-min.jpg`.
 - avatar_alt_en: Custom English image alt text (optional, defaults to English full name).
 - avatar_alt_ar: Custom Arabic image alt text (optional, defaults to Arabic full name).
@@ -309,6 +312,41 @@ Theme layouts include the toggle conditionally using Liquid:
 
 ---
 
+## Interactive Language Switcher
+
+The theme includes a floating, accessible language switcher component (`_includes/language-switcher.html`) allowing visitors to seamlessly toggle between English and Arabic versions of the resume.
+
+### Configuration Keys
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `resume_language_switcher` | Boolean | `true` | Enables or disables the floating switcher across resume and default layouts. |
+| `resume_en_url` | String | `"/resume/en/"` | Fallback URL for navigating to the English resume. |
+| `resume_ar_url` | String | `"/resume/ar/"` | Fallback URL for navigating to the Arabic resume. |
+
+### Page-Level Overrides & Pairing
+
+- **Automatic counterpart resolution**: If pages define matching `t_id` and `lang` front-matter attributes, the switcher automatically routes between corresponding pages:
+  ```yaml
+  # On English page:
+  lang: en
+  t_id: resume
+  
+  # On Arabic page:
+  lang: ar
+  t_id: resume
+  ```
+- **Page suppression**: Set `language_switcher: false` in any page front matter to suppress rendering on that specific page.
+- **Error page handling**: The switcher is automatically suppressed on `layout: error` (404, 403, 500) pages because they already render both English and Arabic translations in a unified layout.
+
+### Viewport Positioning & Accessibility
+
+- **Symmetrical LTR / RTL coordinates**: In English layouts, the switcher floats at the top-left (`top: 1.25rem; left: 1.25rem`), symmetrically opposite the top-right dark mode toggle. In Arabic layouts (`resume-ar.html`), coordinates automatically flip to top-right (`right: 1.25rem; left: auto`), maintaining visual balance.
+- **WCAG Accessibility**: Provides localized `aria-label` ("التحويل إلى اللغة العربية" / "Switch language to English"), `role="navigation"`, and distinct focus ring indicators.
+- **Print suppression**: The switcher carries the `.no-print` class and is hidden from printed pages and PDF exports.
+
+---
+
 ## Jekyll build settings
 
 - plugins (required): jekyll-feed, jekyll-seo-tag, jekyll-sitemap, jekyll-redirect-from
@@ -356,6 +394,9 @@ contact_info:
 
 display_header_contact_info: true
 resume_avatar: true
+resume_language_switcher: true
+resume_en_url: "/resume/en/"
+resume_ar_url: "/resume/ar/"
 resume_header_intro_en: true  # Enable English intro (reads from resume_data.header.intro)
 resume_header_intro_ar: true  # Enable Arabic intro (reads from resume_data.header.intro)
 resume_looking_for_work: true

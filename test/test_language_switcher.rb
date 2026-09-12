@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'jekyll'
+require 'jekyll-seo-tag'
 require 'tmpdir'
 require 'fileutils'
 
@@ -146,6 +147,7 @@ class LanguageSwitcherTest
           'source' => site_dir,
           'destination' => dest_dir,
           'quiet' => true,
+          'plugins' => ['jekyll-seo-tag'],
           'resume_language_switcher' => true,
           'resume_en_url' => '/resume/en/',
           'resume_ar_url' => '/resume/ar/'

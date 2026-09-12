@@ -12,6 +12,7 @@ A comprehensive, contributor-friendly overview of `_layouts/` in this theme: wha
   - [profile.html](#2-_layoutsprofilehtml)
   - [resume-en.html](#3-_layoutsresume-enhtml)
   - [resume-ar.html](#4-_layoutsresume-arhtml)
+  - [error.html](#5-_layoutserrorhtml)
 - [Resume data loading (the `resume_data` object)](#resume-data-loading-the-resume_data-object)
   - [Configuring `active_resume_path_en` and `active_resume_path_ar`](#configuring-active_resume_path_en-and-active_resume_path_ar)
   - [Dot-path traversal and bracket-notation](#dot-path-traversal-and-bracket-notation)
@@ -83,6 +84,21 @@ Purpose: Arabic (RTL) resume layout. It mirrors `resume-en.html` with language-a
 - Localized header labels and CTA text
 - Renders sections via `{% include resume-section-ar.html section_name=... %}` with Arabic labels and date formatting (`ar-date.html`)
 - Optional print-only social links and footer timestamp (localized text)
+
+---
+
+### 5) `_layouts/error.html`
+
+Purpose: Reusable bilingual HTTP error page wrapper (extending `default.html`). Used by `404.html`, `403.html`, and `500.html`.
+
+Key responsibilities:
+- Reads `page.code` (e.g. `404`, `403`, `500`) and pulls bilingual titles, descriptions, and action labels from `_data/error_pages.yml`
+- Renders an accessible, high-contrast status code badge (`404`, `403`, `500`)
+- Renders an English error block (`lang="en"`) with heading and description
+- Renders an isolated RTL Arabic error block (`lang="ar" dir="rtl"`) with localized heading and description
+- Provides standard quick return paths: Home (`/`), Resume EN (`/resume/en/`), and Resume AR (`/resume/ar/`)
+- For `500` and `503` server errors, renders an interactive "Reload Page / إعادة تحميل الصفحة" button
+- Supports arbitrary front-matter overrides: `title_en`, `desc_en`, `title_ar`, `desc_ar`, `show_reload: true`
 
 ---
 

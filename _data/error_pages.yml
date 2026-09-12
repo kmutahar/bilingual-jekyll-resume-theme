@@ -1,0 +1,33 @@
+# Bilingual Error Page Definitions
+# bilingual-jekyll-resume-theme
+# Centralized English and Arabic content for HTTP error pages.
+
+labels:
+  home: "Home / الرئيسية"
+  resume_en: "Resume (EN)"
+  resume_ar: "السيرة الذاتية (عربي)"
+  reload: "Reload Page / إعادة تحميل الصفحة"
+
+"404":
+  title_en: "Page Not Found"
+  desc_en: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
+  title_ar: "الصفحة غير موجودة"
+  desc_ar: "ربما تمت إزالة الصفحة التي تبحث عنها، أو تم تغيير اسمها، أو أنها غير متوفرة مؤقتاً."
+
+"403":
+  title_en: "Access Forbidden"
+  desc_en: "You do not have permission to access the requested resource or directory."
+  title_ar: "الوصول محظور"
+  desc_ar: "ليس لديك الصلاحية اللازمة للوصول إلى هذا المورد أو الدليل المطلوب."
+
+"500":
+  title_en: "Internal Server Error"
+  desc_en: "The server encountered an unexpected condition that prevented it from fulfilling the request. Please try again later."
+  title_ar: "خطأ داخلي في الخادم"
+  desc_ar: "واجه الخادم ظرفاً غير متوقع منعه من إكمال الطلب. يرجى المحاولة مرة أخرى لاحقاً."
+
+"503":
+  title_en: "Service Unavailable"
+  desc_en: "The server is currently unable to handle the request due to maintenance or capacity overload."
+  title_ar: "الخدمة غير متوفرة مؤقتاً"
+  desc_ar: "الخادم غير قادر على معالجة الطلب حالياً بسبب الصيانة أو زيادة الحمل."

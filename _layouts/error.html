@@ -1,0 +1,61 @@
+---
+layout: default
+---
+{%- comment -%}
+Layout: Reusable bilingual HTTP error page layout.
+- Purpose: Render accessible, dark-mode-compatible bilingual error templates.
+- Consumes: site.data.error_pages, page.code, page.title_en/desc_en, page.title_ar/desc_ar
+{%- endcomment -%}
+
+{% assign code_str = page.code | default: "404" | append: "" %}
+{% assign error_data = site.data.error_pages[code_str] %}
+{% assign labels = site.data.error_pages.labels %}
+
+{% assign title_en = page.title_en | default: error_data.title_en | default: "Error" %}
+{% assign desc_en = page.desc_en | default: error_data.desc_en | default: "An error has occurred." %}
+{% assign title_ar = page.title_ar | default: error_data.title_ar | default: "حدث خطأ" %}
+{% assign desc_ar = page.desc_ar | default: error_data.desc_ar | default: "حدث خطأ أثناء معالجة طلبك." %}
+
+<div class="error-page">
+    <div class="error-code" aria-hidden="true">{{ code_str }}</div>
+
+    <div class="error-bilingual-group">
+        <!-- English Error Block -->
+        <div class="error-lang-block" lang="en">
+            <h1 class="error-title">{{ title_en }}</h1>
+            <p class="error-description">{{ desc_en }}</p>
+        </div>
+
+        <hr class="error-divider" aria-hidden="true">
+
+        <!-- Arabic Error Block -->
+        <div class="error-lang-block arabic" lang="ar" dir="rtl">
+            <h2 class="error-title">{{ title_ar }}</h2>
+            <p class="error-description">{{ desc_ar }}</p>
+        </div>
+    </div>
+
+    {% if content and content != "" %}
+    <div class="error-custom-content">
+        {{ content }}
+    </div>
+    {% endif %}
+
+    <!-- Quick Navigation Links -->
+    <nav class="error-actions" aria-label="Error page navigation">
+        {% if code_str == "500" or code_str == "503" or page.show_reload == true %}
+        <button type="button" class="error-btn primary" onclick="window.location.reload();">
+            {{ labels.reload | default: "Reload Page / إعادة تحميل الصفحة" }}
+        </button>
+        {% endif %}
+        <a href="{{ '/' | relative_url }}" class="error-btn{% unless code_str == '500' or code_str == '503' or page.show_reload == true %} primary{% endunless %}">
+            {{ labels.home | default: "Home / الرئيسية" }}
+        </a>
+        <a href="{{ '/resume/en/' | relative_url }}" class="error-btn">
+            {{ labels.resume_en | default: "Resume (EN)" }}
+        </a>
+        <a href="{{ '/resume/ar/' | relative_url }}" class="error-btn">
+            {{ labels.resume_ar | default: "السيرة الذاتية (عربي)" }}
+        </a>
+    </nav>
+</div>

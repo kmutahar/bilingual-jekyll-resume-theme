@@ -42,24 +42,26 @@ Layouts wrap pages. A page chooses a layout via its front matter (e.g., `layout:
 
 ### 1) `_layouts/default.html`
 
-Purpose: Base wrapper used by most non-resume pages.
+Purpose: Base wrapper used by most non-resume pages (profile landing, custom markdown pages, and `404.html`).
 
 Key responsibilities:
-- Pulls shared `<head>` tags via `{% include shared-head.html %}`
+- Pulls shared `<head>` tags via `{% include shared-head.html %}` (anti-FOUC script, meta tags, and favicons)
+- Dynamically sets `<html lang="..." dir="...">` supporting both LTR and RTL Arabic layouts
 - Loads site-wide CSS for non-resume pages via `{% include main-head.html %}` (which brings in `assets/css/main.css`)
+- Injects the universal dark mode toggle button (`dark-mode-toggle.html`) when `site.dark_mode` (or `site.resume_dark_mode`) is enabled
 - Emits SEO tags via `{% seo %}`
 - Injects analytics into the head (`analytics-head.html`) and adds the body `<noscript>` fallback (`analytics-body.html`)
-- Renders page content via `{{ content }}`
+- Renders page content inside an accessible `<main class="main-content" id="main-content">` landmark
 - Simple footer with copyright
 - Adds `<link rel="me">` using `site.social_links.mastodon` when present
 
-When to use: general pages (docs, landing, etc.).
+When to use: general pages (docs, landing, 404, etc.).
 
 ---
 
 ### 2) `_layouts/profile.html`
 
-Purpose: Thin wrapper that extends `default.html` and renders `{{ content }}`. Use it for the profile/landing page when you don’t need resume-specific scaffolding.
+Purpose: Thin wrapper that extends `default.html` with `.profile-container` to render centered profile cards and social links (`{{ content }}`). Use it for the profile/landing page when you don’t need resume-specific scaffolding.
 
 ---
 

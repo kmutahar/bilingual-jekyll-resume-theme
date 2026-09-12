@@ -203,13 +203,16 @@ Choose one (do not enable both):
 
 The theme features built-in, accessible dark mode support with automatic system preference detection via `prefers-color-scheme` and an optional interactive two-state manual toggle.
 
-### Configuration (`resume_dark_mode`)
+### Configuration (`dark_mode` / `resume_dark_mode`)
 
-Configure dark mode behavior in your `_config.yml` using the `resume_dark_mode` option:
+Configure dark mode behavior in your `_config.yml` using the universal `dark_mode` option (or backward-compatible `resume_dark_mode`):
 
 ```yaml
-# Dark mode configuration (options: auto | enabled)
-resume_dark_mode: auto
+# Site-wide dark mode configuration (options: auto | enabled | true | false)
+dark_mode: auto
+
+# Legacy key (also supported for backward compatibility):
+# resume_dark_mode: auto
 ```
 
 #### Accepted Values
@@ -218,12 +221,29 @@ resume_dark_mode: auto
   - Pure CSS-first system detection via `@media (prefers-color-scheme: dark)` and `:root { color-scheme: light dark; }`.
   - Automatically switches between light and dark palettes to match the visitor's operating system / browser theme.
   - **No toggle button is rendered in the HTML**, resulting in zero JavaScript runtime overhead and no layout shifts.
-  - If `resume_dark_mode` is omitted or not defined, the theme safely defaults to `auto`.
+  - If `dark_mode` (or `resume_dark_mode`) is omitted or not defined, the theme safely defaults to `auto`.
 
-- **`enabled`**:
-  - Full automatic system detection **plus** an interactive floating toggle button rendered on resume pages (`resume-en.html` and `resume-ar.html`).
-  - Allows visitors to manually override their system color scheme.
-  - Preference is persisted across visits and pages via `localStorage`.
+- **`enabled`** (or `true`):
+  - Full automatic system detection **plus** an interactive floating toggle button rendered site-wide across all layouts:
+    - Default & custom pages (`_layouts/default.html`)
+    - Profile / Landing page (`_layouts/profile.html`)
+    - English Resume (`_layouts/resume-en.html`)
+    - Arabic Resume (`_layouts/resume-ar.html`)
+    - Error pages (`404.html`)
+  - Allows visitors to manually override their system color scheme on any page.
+  - Preference is persisted across visits and all pages via `localStorage`.
+
+#### Per-Page Overrides (Front Matter)
+
+You can selectively enable or disable the toggle button on individual pages via YAML front matter:
+
+```yaml
+---
+layout: default
+title: "Custom Document"
+dark_mode: false # Suppress the toggle button on this specific page
+---
+```
 
 ### Two-State Toggle & State Machine
 

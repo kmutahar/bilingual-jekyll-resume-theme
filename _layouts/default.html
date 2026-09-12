@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}"{% if page.lang == 'ar' or site.lang == 'ar' or page.dir == 'rtl' or site.dir == 'rtl' %} dir="rtl"{% endif %}>
     {%- comment -%}
     <!-- Layout: Default wrapper used by most pages.
          - Purpose: Provide shared head includes, analytics, page content slot, and footer.
@@ -27,12 +27,27 @@
         {% endif %}
     </head>
 
-    <body>
+    <body class="layout-{{ page.layout | default: 'default' }}{% if page.class %} {{ page.class }}{% endif %}">
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}
 
+        {% assign dark_mode_enabled = false %}
+        {% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
+            {% assign dark_mode_enabled = true %}
+        {% endif %}
+        {% if page.dark_mode == false %}
+            {% assign dark_mode_enabled = false %}
+        {% elsif page.dark_mode == true or page.dark_mode == "enabled" %}
+            {% assign dark_mode_enabled = true %}
+        {% endif %}
+        {% if dark_mode_enabled %}
+            {% include dark-mode-toggle.html %}
+        {% endif %}
+
         <!-- Main content injected by Jekyll pages/layouts -->
-        {{ content }}
+        <main class="main-content" id="main-content">
+            {{ content }}
+        </main>
 
         <!-- Footer: site title and copyright range -->
         <footer>

@@ -21,19 +21,19 @@
                 {%- for role in roles -%}
                     <h4 class="resume-item-details" itemprop="description">
                         {{ role.position }} &bull;
-                        {%- if role.durations -%}
-                            {%- for time in role.durations -%} {{ time.duration }} {%- endfor -%}
-                        {%- else -%}
+                        {% if role.durations %}
+                            {% for time in role.durations %}{{ time.duration }} {% endfor %}
+                        {% else %}
                             {% include ar-date.html date=role.startdate style="MY" %} &ndash;
-                            {%- if role.enddate and role.enddate != 'Present' and role.enddate != 'حتى الآن' -%}
+                            {% if role.enddate and role.enddate != 'Present' and role.enddate != 'حتى الآن' %}
                                 {% include ar-date.html date=role.enddate style="MY" %}
-                            {%- else -%}
+                            {% else %}
                                 حتى الآن
-                            {%- endif -%}
-                        {%- endif -%}
-                        {%- if role.location -%}
+                            {% endif %}
+                        {% endif %}
+                        {% if role.location %}
                             &bull; {{ role.location }}
-                        {%- endif -%}
+                        {% endif %}
                     </h4>
 
                     {%- if site.enable_summary == true and role.summary -%}
@@ -63,6 +63,7 @@
                         <h5 class="resume-item-details award-title" itemprop="description">{{ education.award }}</h5>
                     {% endif %}
 
+                    {% if education.awards and education.awards.size > 0 %}
                     <div class="resume-item-copy" itemprop="description">
                         <ul class="resume-item-list">
                             {% for award in education.awards %}
@@ -70,6 +71,7 @@
                             {% endfor %}
                         </ul>
                     </div>
+                    {% endif %}
 
                     {% if education.summary %}
                         <p class="resume-item-copy">{{ education.summary }}</p>
@@ -94,16 +96,16 @@
                     <h4 class="resume-item-details">
                         {{ certification.issuing_organization }} &bull; {% include ar-date.html date=certification.issue_date style="MDY" %}
                         {% if certification.expiration %} &ndash; {% include ar-date.html date=certification.expiration style="MDY" %} {% endif %}
-                        &bull;
-                        {% if certification.credential_id %}
+                        {% if certification.credential_id and certification.credential_id != "" %}
+                            &bull;
                             <span class="resume-item-copy-license-cert-id">معرّف الاعتماد:
-                            {% if certification.credential_url %}
+                            {% if certification.credential_url and certification.credential_url != "" %}
                                 <a href="{{ certification.credential_url }}" target="_blank" rel="noopener nofollow noreferrer">{{ certification.credential_id }}</a>
                                 <span class="print-only-inline" dir="ltr">&nbsp;({{ certification.credential_url }})</span>
-                            </span>
                             {% else %}
                                 {{ certification.credential_id }}
                             {% endif %}
+                            </span>
                         {% endif %}
                     </h4>
                 </div>
@@ -128,13 +130,13 @@
                         {% if course.enddate %} &ndash; {% include ar-date.html date=course.enddate style="MDY" %} {% endif %}
                     </h4>
 
-                    {% if site.enable_summary == true %}
+                    {% if site.enable_summary == true and course.summary and course.summary != "" %}
                         <p class="resume-item-copy">{{ course.summary }}</p>
                     {% endif %}
 
-                    {% if course.credential_id %}
+                    {% if course.credential_id and course.credential_id != "" %}
                         <p class="resume-item-copy">معرّف الاعتماد:
-                            {% if course.credential_url %}
+                            {% if course.credential_url and course.credential_url != "" %}
                                 <a href="{{ course.credential_url }}" target="_blank" rel="noopener nofollow noreferrer">{{ course.credential_id }}</a>
                                 <span class="print-only-inline" dir="ltr">&nbsp;({{ course.credential_url }})</span>
                             {% else %}
@@ -166,19 +168,19 @@
                 {%- for v in vroles -%}
                     <h4 class="resume-item-details" itemprop="description">
                         {{ v.position }} &bull;
-                        {%- if v.durations -%}
-                            {%- for time in v.durations -%} {{ time.duration }} {%- endfor -%}
-                        {%- else -%}
+                        {% if v.durations %}
+                            {% for time in v.durations %}{{ time.duration }} {% endfor %}
+                        {% else %}
                             {% include ar-date.html date=v.startdate style="MY" %} &ndash;
-                            {%- if v.enddate and v.enddate != 'Present' and v.enddate != 'حتى الآن' -%}
+                            {% if v.enddate and v.enddate != 'Present' and v.enddate != 'حتى الآن' %}
                                 {% include ar-date.html date=v.enddate style="MY" %}
-                            {%- else -%}
+                            {% else %}
                                 حتى الآن
-                            {%- endif -%}
-                        {%- endif -%}
-                        {%- if v.location -%}
+                            {% endif %}
+                        {% endif %}
+                        {% if v.location %}
                             &bull; {{ v.location }}
-                        {%- endif -%}
+                        {% endif %}
                     </h4>
 
                     {%- if site.enable_summary == true and v.summary -%}
@@ -202,14 +204,14 @@
                 <div class="resume-item" itemscope itemtype="http://schema.org/CreativeWork">
                     <meta itemprop="creator" content="{{ site.name.first }} {{ site.name.middle }} {{ site.name.last }}" itemtype="http://schema.org/Person" />
                     <h3 class="resume-item-title" itemprop="name" style="display: inline-block;">
-                        {% if project.url %}
+                        {% if project.url and project.url != "" %}
                             <a href="{{ project.url }}" target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ project.project }}</a>
                         {% else %}
                             {{ project.project }}
                         {% endif %}
                     </h3>
 
-                    {% if project.url %}
+                    {% if project.url and project.url != "" %}
                         <span class="print-only-inline" dir="ltr" style="display: inline;">&nbsp;{{ project.url }}</span>
                     {% endif %}
 
@@ -283,14 +285,14 @@
             {% if association.active == true %}
                 <div class="resume-item" itemscope itemprop="memberOf" itemtype="http://schema.org/Organization">
                     <h3 class="resume-item-title" itemprop="name" style="display: inline-block;">
-                        {% if association.url %}
+                        {% if association.url and association.url != "" %}
                             <a href="{{ association.url }}" target="_blank" rel="noopener nofollow noreferrer">{{ association.organization }}</a>
                         {% else %}
                             {{ association.organization }}
                         {% endif %}
                     </h3>
 
-                    {% if association.url %}
+                    {% if association.url and association.url != "" %}
                         <span class="print-only-inline" dir="ltr" style="display: inline;">&nbsp;{{ association.url }}</span>
                     {% endif %}
 
@@ -321,7 +323,7 @@
     </section>
     <!-- end Interests -->
 
-{% elsif include.section_name == "languages" and site.resume_section.languages and site.resume_section.lang_header == false %}
+{% elsif include.section_name == "languages" and site.resume_section.languages and site.resume_section.lang_header != true %}
     <!-- begin Languages -->
     <section class="content-section">
         <header class="section-header">

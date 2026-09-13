@@ -1,4 +1,4 @@
-{% comment %}
+{%- comment -%}
   Arabic Date Formatter Include
   This include file formats a date in Arabic format by looking up the Arabic month name
   from the site data and formatting it according to the specified style.
@@ -10,32 +10,38 @@
   Parameters:
     - date: The date to format (required)
     - style: "MDY" for "Month Day, Year" format, or any other value for "Month Year" format (optional)
-{% endcomment %}
+{%- endcomment -%}
 
-{% comment %}
+{%- comment -%}
   Extract date components from the provided date using Jekyll date filters:
   - "%-m": Month as a number (1-12) without leading zeros
   - "%-d": Day as a number (1-31) without leading zeros
   - "%Y": Year as a 4-digit number
-{% endcomment %}
-{% assign m = include.date | date: "%-m" %}
-{% assign d = include.date | date: "%-d" %}
-{% assign y = include.date | date: "%Y" %}
+{%- endcomment -%}
+{%- if include.date and include.date != "" -%}
+  {%- assign m = include.date | date: "%-m" -%}
+  {%- assign d = include.date | date: "%-d" -%}
+  {%- assign y = include.date | date: "%Y" -%}
 
-{% comment %}
+{%- comment -%}
   Look up the Arabic month name from the site data file:
   - site.data.ar.months is a YAML file containing month names in Arabic
   - The month number (m) is used as the key to retrieve the corresponding Arabic month name
-{% endcomment %}
-{% assign month_name = site.data.ar.months[m] %}
+{%- endcomment -%}
+  {%- assign month_name = site.data.ar.months[m] -%}
 
-{% comment %}
+{%- comment -%}
   Format the date output based on the style parameter:
   - If style is "MDY": Output "Month Day, Year" (e.g., "يناير 15, 2024")
   - Otherwise: Output "Month Year" (e.g., "يناير 2024")
-{% endcomment %}
-{% if include.style == "MDY" %}
-  {{ month_name }} {{ d }}, {{ y }}
-{% else %}
-  {{ month_name }} {{ y }}
-{% endif %}
+{%- endcomment -%}
+  {%- if month_name -%}
+    {%- if include.style == "MDY" -%}
+      {{ month_name }} {{ d }}, {{ y }}
+    {%- else -%}
+      {{ month_name }} {{ y }}
+    {%- endif -%}
+  {%- else -%}
+    {{ include.date }}
+  {%- endif -%}
+{%- endif -%}

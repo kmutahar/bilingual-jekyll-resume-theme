@@ -40,7 +40,8 @@ Jekyll compiles files in [`../assets/css/`](../assets/css/) that start with YAML
 |---|---|---|
 | [`../assets/css/cv.scss`](../assets/css/cv.scss) | `assets/css/cv.css` | [`../_layouts/resume-en.html`](../_layouts/resume-en.html) |
 | [`../assets/css/cv-ar.scss`](../assets/css/cv-ar.scss) | `assets/css/cv-ar.css` | [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html) |
-| [`../assets/css/main.scss`](../assets/css/main.scss) | `assets/css/main.css` | [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html), [`../_layouts/error.html`](../_layouts/error.html) |
+| [`../assets/css/profile.scss`](../assets/css/profile.scss) | `assets/css/profile.css` | [`../_layouts/profile.html`](../_layouts/profile.html) |
+| [`../assets/css/main.scss`](../assets/css/main.scss) | `assets/css/main.css` | [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/error.html`](../_layouts/error.html) |
 
 ### Modern Dart Sass `@use` Architecture
 
@@ -129,11 +130,11 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ---
 
-### 8. `_profile.scss`
+### 8. `_profile-page.scss` / `_profile.scss`
 
-- **File:** [`../_sass/_profile.scss`](../_sass/_profile.scss)
-- **Role:** Styles for the portfolio landing page layout ([`../_layouts/profile.html`](../_layouts/profile.html)).
-- **Scoping Guarantee:** Strictly scoped to `.profile-container` and `body.layout-profile`, ensuring profile card styles do not leak onto standard markdown pages.
+- **Files:** [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss) (and forwarder [`../_sass/_profile.scss`](../_sass/_profile.scss))
+- **Role:** Styles for the dedicated portfolio landing page layout ([`../_layouts/profile.html`](../_layouts/profile.html)) and entrypoint [`../assets/css/profile.scss`](../assets/css/profile.scss).
+- **Architecture:** Provides clean, unconstrained vertical centering, avatar, bio typography, social icon transitions, and WCAG `.sr-only` utility without leaking onto or inheriting from generic markdown page styles.
 
 ---
 

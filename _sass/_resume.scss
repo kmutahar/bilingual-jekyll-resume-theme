@@ -104,6 +104,8 @@
 
   .icon-link {
     display: inline-block;
+    text-decoration: none;
+    vertical-align: middle;
 
     &:hover .icon path {
       fill: var(--icon-fill, #333);

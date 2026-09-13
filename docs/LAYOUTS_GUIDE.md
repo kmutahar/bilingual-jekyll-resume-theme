@@ -60,10 +60,12 @@ _layouts/resume-ar.html (Standalone RTL Arabic resume pipeline)
 ### 2. `profile.html` (Portfolio Landing)
 
 - **File:** [`../_layouts/profile.html`](../_layouts/profile.html)
-- **Role:** Lightweight landing page wrapper extending `default.html`.
+- **Role:** Dedicated standalone landing page layout for personal portfolios and bio links.
 - **Key Features:**
-  - Wraps content in `<div class="profile-container">`.
-  - Uses scoped styling from [`../_sass/_profile.scss`](../_sass/_profile.scss) to center profile avatar, bio, and social links without leaking onto standard markdown pages.
+  - Independent layout decoupled from `default.html` to prevent container constraint or margin leakage.
+  - Dedicated stylesheet entrypoint [`../assets/css/profile.scss`](../assets/css/profile.scss) compiled to `assets/css/profile.css` and linked via [`../_includes/profile-head.html`](../_includes/profile-head.html).
+  - Unconstrained, clean vertical centering and card styling via [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss).
+  - Integrated conditional dark mode toggle without shifting document flow.
 
 ---
 

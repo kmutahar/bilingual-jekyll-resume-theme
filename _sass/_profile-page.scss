@@ -1,0 +1,140 @@
+html {
+  background-color: var(--bg-color, #fff);
+}
+
+body {
+  background-color: var(--bg-color, #fff);
+  color: var(--text-color, #333);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1;
+  margin: 10% 0 8%;
+  text-align: center;
+  width: auto;
+}
+
+/* Header */
+
+.avatar {
+  border-radius: 100%;
+  width: 200px;
+  height: auto;
+}
+
+.full-name {
+  font-weight: 300;
+}
+
+.full-name b {
+  font-weight: bold;
+}
+
+.about {
+  color: var(--text-light, #646464);
+  font-size: 87.5%;
+  padding-bottom: 14px;
+  line-height: .6cm;
+}
+
+/* Main */
+
+.social-links {
+  list-style-type: none;
+  padding: 0;
+}
+
+a:hover {
+  color: var(--accent-color, #3064a9);
+}
+
+.social-links li {
+  display: inline;
+  padding: 0 15px;
+}
+
+.icon-link,
+.social-links a,
+.social-links li a {
+  color: var(--icon-fill-muted, #BBB);
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+.icon-link:hover,
+.social-links a:hover,
+.social-links li a:hover {
+  color: var(--accent-hover, #307EA9);
+  text-decoration: none !important;
+}
+
+/* SVG Icons */
+.svg-icon,
+.icon-link svg,
+.social-links svg {
+  fill: var(--icon-fill-muted, #BBB);
+  width: 30px;
+  transition: fill 0.2s ease;
+}
+
+.svg-icon:hover,
+.icon-link:hover svg,
+.social-links a:hover svg {
+  fill: var(--icon-fill-dark, #000);
+}
+
+.cv-button {
+  border-radius: 3px;
+  background-color: var(--button-bg, #efefef);
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  margin: 1.5rem auto;
+  width: 220px;
+  font-size: 1.375rem;
+  font-weight: 300;
+  color: var(--button-text, #333);
+  line-height: 55px;
+  transition: (all .2s ease);
+}
+
+.cv-button:hover {
+  background-color: var(--button-hover-bg, #333);
+  color: var(--button-hover-text, #fff);
+}
+
+/* Visually hidden utility for screen readers (WCAG 2.1 AA) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+  text-decoration: none !important;
+}
+
+/* Footer */
+footer,
+.page-footer {
+  padding-top: 1.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
+
+  .footer-line,
+  .copyright {
+    margin: 0;
+    font-size: .875rem;
+    color: var(--text-muted, #999);
+
+    >a {
+      font-weight: 700;
+      color: var(--link-color, #333);
+    }
+  }
+}

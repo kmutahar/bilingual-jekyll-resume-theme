@@ -1,7 +1,57 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}"{% if page.lang == 'ar' or site.lang == 'ar' or page.dir == 'rtl' or site.dir == 'rtl' %} dir="rtl"{% endif %}>
+    {%- comment -%}
+    <!-- Layout: Profile layout used for the landing page / CV homepage.
+         - Purpose: Dedicated standalone layout with clean unconstrained centering.
+         - Stylesheet: assets/css/profile.css
+    -->
+    {%- endcomment -%}
+    <!-- This page was last updated on {{ "now" | date: "%Y-%m-%d %H:%M:%S" }}Z -->
 
-<div class="profile-container">
-    {{ content }}
-</div>
+    <head>
+        <!-- Shared meta tags, charset, viewport, and favicons -->
+        {% include shared-head.html %}
+
+        <!-- Profile head assets (CSS, theme files) -->
+        {% include profile-head.html %}
+
+        <!-- SEO plugin output: title, meta, Open Graph, canonical -->
+        {% seo %}
+
+        <!-- Analytics head snippet (GTM or gtag). Configured in _config.yml -->
+        {% include analytics-head.html %}
+
+        {% if site.social_links.mastodon %}
+        <!-- rel="me" for Mastodon verification / IndieAuth -->
+        <link rel="me" href="{{ site.social_links.mastodon }}">
+        {% endif %}
+    </head>
+
+    <body>
+        <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
+        {% include analytics-body.html %}
+
+        {% assign dark_mode_enabled = false %}
+        {% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
+            {% assign dark_mode_enabled = true %}
+        {% endif %}
+        {% if page.dark_mode == false %}
+            {% assign dark_mode_enabled = false %}
+        {% elsif page.dark_mode == true or page.dark_mode == "enabled" %}
+            {% assign dark_mode_enabled = true %}
+        {% endif %}
+        {% if dark_mode_enabled %}
+            {% include dark-mode-toggle.html %}
+        {% endif %}
+
+        <!-- Main content injected by Jekyll pages/layouts -->
+        {{ content }}
+
+        <!-- Footer: site title and copyright range -->
+        <footer>
+            <p class="copyright">
+                {{ site.title }} &copy; 2018 - {{ "now" | date: "%Y" }}
+            </p>
+        </footer>
+    </body>
+</html>

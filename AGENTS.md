@@ -230,7 +230,8 @@ bilingual-jekyll-resume-theme/
 │   ├── resume-head-en.html       # English metadata and font links
 │   ├── resume-head-ar.html       # Arabic metadata and Amiri/Tajawal font links
 │   ├── shared-head.html          # Shared SEO, icons, and theme colors
-│   ├── main-head.html            # Profile page header metadata
+│   ├── main-head.html            # Default/error page header metadata
+│   ├── profile-head.html         # Profile landing page header metadata and stylesheet
 │   ├── avatar.html               # Configurable avatar (Gravatar/local)
 │   ├── ar-date.html              # Arabic date translation engine
 │   ├── social-links.html         # Interactive SVG social media links
@@ -246,14 +247,16 @@ bilingual-jekyll-resume-theme/
 │   ├── _layout.scss              # Responsive containers and grid layout
 │   ├── _resume.scss              # Core resume section component styles
 │   ├── _resume-rtl.scss          # Mirrored RTL positioning and font styles
-│   ├── _profile.scss             # Portfolio landing page styles
+│   ├── _profile-page.scss        # Portfolio landing page styles
+│   ├── _profile.scss             # Profile styles forwarder
 │   └── _all-pages.scss           # Universal styles across all layouts
 │
 ├── assets/
 │   └── css/
 │       ├── cv.scss               # Main English resume stylesheet
 │       ├── cv-ar.scss            # Main Arabic resume stylesheet
-│       └── main.scss             # Profile page stylesheet
+│       ├── profile.scss          # Dedicated profile page stylesheet
+│       └── main.scss             # Default/error pages stylesheet
 │
 ├── _data/
 │   └── ar/

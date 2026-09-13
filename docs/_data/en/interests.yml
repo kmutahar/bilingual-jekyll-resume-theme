@@ -1,13 +1,15 @@
 # Interests
-# File: _data/interests.yml
-# Personal interests and hobbies
+# File: _data/en/interests.yml
+# Professional, creative, and athletic outside interests
+#
+# Schema notes:
+# - Simple list of interests/hobbies rendered as bullet points under "Outside Interests".
+# - Each entry specifies a `description`. No active/inactive toggle is required.
 
-# Simple list of interests/hobbies
-# Note: No active/inactive toggle - if it's in the file, it shows
-# Each entry represents one interest
+- description: "Distributed consensus research, Paxos/Raft algorithmic correctness, and open-source database internals"
 
-- description: ""  # Required: Interest description
+- description: "Landscape photography, high-resolution astrophotography, and digital darkroom processing"
 
-- description: ""
+- description: "Long-distance trail running, ultramarathon endurance training, and alpine mountaineering"
 
-- description: ""
+- description: "Classical Arabic calligraphy (Thuluth and Diwani scripts) and typography design"

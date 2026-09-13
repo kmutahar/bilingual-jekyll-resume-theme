@@ -1,50 +1,66 @@
 # Experience
-# File: _data/experience.yml
+# File: _data/en/experience.yml
 # Professional work experience and employment history
+#
+# Schema notes:
+# - Roles are grouped by `company` name; multiple positions at the same employer appear together.
+# - Roles within the same company are sorted by `startdate` (most recent first).
+# - Continuous roles use ISO dates (`startdate: YYYY-MM-DD`, `enddate: YYYY-MM-DD` or `enddate: Present`).
+# - Non-continuous roles use the `durations` array with HTML entities (`&ndash;`, `&amp;`).
+# - `active: false` preserves historical or drafting entries without rendering them.
 
-# Jobs are grouped by company name. Multiple roles at the same company will be displayed together.
-# Roles are sorted by startdate (most recent first).
-
-# OPTION 1: Using startdate and enddate (recommended for continuous employment)
-# Each entry represents a role/position
-- company: ""         # Required: Company/organization name
-  position: ""        # Required: Job title/position
-  startdate:          # Required: Start date (YYYY-MM-DD format, e.g., 2018-05-01)
-  enddate:            # Optional: End date (YYYY-MM-DD format) or "Present" for current roles
-  location: ""        # Optional: Job location (e.g., "New York, NY" or "Remote")
-  active: true        # Required: Set to false to hide this entry
-  notes: ""           # Optional: Personal notes (not displayed on resume)
-  summary: ""         # Optional: Job description (only shown if enable_summary is true in _config.yml)
-
-# Example of current position
-- company: ""
-  position: ""
-  startdate:
-  enddate: Present    # Use "Present" for ongoing positions
-  location: ""
+# Company with multiple roles (Role 1: Current position)
+- company: "Apex Cloud Systems"
+  position: "Principal Cloud Architect"
+  startdate: 2022-04-01
+  enddate: Present
+  location: "San Francisco, CA (Hybrid)"
   active: true
-  notes: ""
-  summary: ""
+  notes: "Executive technical leadership role"
+  summary: >-
+    Lead enterprise architecture for a multi-region distributed cloud platform handling 40B+ monthly transactions with 99.999% SLA. Direct 18 staff engineers and infrastructure leads across cloud-native migrations and security initiatives.
 
-# OPTION 2: Using durations (alternative for non-continuous periods at same company)
-# Use this instead of startdate/enddate when you have multiple separate time periods
-- company: ""
-  position: ""
-  durations:          # Alternative: Use this instead of startdate/enddate for non-continuous periods
-    - duration: ""    # Display text for first period (e.g., "Jun 2020 &ndash; Jan 2021")
-    - duration: ""    # Display text for second period (e.g., "&amp; Jun 2022 &ndash; Dec 2022")
-                      # Use &amp; for ampersand (&) and &ndash; for em dash (—)
-  location: ""
+# Company with multiple roles (Role 2: Earlier position at same company)
+- company: "Apex Cloud Systems"
+  position: "Senior Distributed Systems Engineer"
+  startdate: 2019-08-15
+  enddate: 2022-03-31
+  location: "San Francisco, CA"
   active: true
-  notes: ""
-  summary: ""
+  notes: "Promoted to Principal Architect in April 2022"
+  summary: >-
+    Engineered high-throughput event streaming pipelines using Apache Kafka and Go, reducing data ingestion latency by 64%. Designed consensus protocols for resilient cross-datacenter replication.
 
-# Example with multiple roles at same company (will be grouped together)
-- company: ""
-  position: ""
-  startdate:
-  enddate:
-  location: ""
+# Role with standard ISO date range at a different employer
+- company: "Nexus Global Technologies"
+  position: "Software Development Engineer II"
+  startdate: 2016-09-01
+  enddate: 2019-07-31
+  location: "Austin, TX"
   active: true
-  notes: ""
-  summary: ""
+  notes: "Core platform team"
+  summary: >-
+    Developed microservices in Go and Python for high-frequency trading and algorithmic risk assessment with sub-millisecond execution guarantees.
+
+# Role with custom non-continuous duration strings using HTML entities
+- company: "Stanford University School of Engineering"
+  position: "Visiting Lecturer & Industry Fellow"
+  durations:
+    - duration: "Jun 2020 &ndash; Dec 2020"
+    - duration: "&amp; Jun 2023 &ndash; Dec 2023"
+  location: "Stanford, CA"
+  active: true
+  notes: "Special appointment for graduate seminars"
+  summary: >-
+    Co-lectured graduate seminar CS-349 on Distributed Systems at Scale and Advanced Consensus Protocols. Advised master students on cloud benchmarking and container orchestrators.
+
+# Inactive role demonstrating the active flag
+- company: "Legacy Software Labs"
+  position: "Junior Systems Administrator"
+  startdate: 2014-06-01
+  enddate: 2016-08-15
+  location: "Seattle, WA"
+  active: false
+  notes: "Early career role omitted from executive CV"
+  summary: >-
+    Managed on-premises Linux server farms, DNS routing, and automated deployment scripts.

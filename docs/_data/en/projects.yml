@@ -1,28 +1,37 @@
 # Projects
-# File: _data/projects.yml
-# Personal or professional projects
+# File: _data/en/projects.yml
+# Personal and professional engineering projects
+#
+# Schema notes:
+# - `project`: Name of the project.
+# - `role`: Your title or responsibility on the project.
+# - `duration`: Display time period (supports &ndash;).
+# - `url`: Optional live destination or source repository URL.
+# - `description`: Narrative overview of technologies, architecture, and impact.
+# - `active`: Set to false to omit from generated resume.
 
-# Each entry represents a project
-- project: ""        # Required: Project name
-  active: true       # Required: Set to false to hide this entry
-  role: ""           # Required: Your role in the project (e.g., "Lead Developer", "Team Lead", "Maintainer")
-  duration: ""       # Required: Time period (as display text, e.g., "May 2021 &ndash; Present" or "Jan 2023 &ndash; Jun 2024")
-                     # Use &ndash; for em dash (—)
-  url: ""            # Optional: Project URL (leave empty if no URL, e.g., GitHub repository or project website)
-  description: ""    # Required: Project description
-
-# Example with URL
-- project: ""
+# Project with live URL
+- project: "OpenStream: Distributed Event Mesh"
   active: true
-  role: ""
-  duration: ""
-  url: "https://github.com/username/project"
-  description: ""
+  role: "Creator &amp; Lead Maintainer"
+  duration: "Jan 2023 &ndash; Present"
+  url: "https://github.com/example/openstream"
+  description: >-
+    An open-source distributed event mesh developed in Go and eBPF for zero-copy stream processing. Powers real-time analytics across 10,000+ nodes with microsecond latency guarantees.
 
-# Example without URL
-- project: ""
+# Project without live URL (internal / proprietary enterprise initiative)
+- project: "Core Banking Ledger Modernization"
   active: true
-  role: ""
-  duration: ""
-  url: ""
-  description: ""
+  role: "Principal Infrastructure Consultant"
+  duration: "Mar 2021 &ndash; Nov 2022"
+  description: >-
+    Spearheaded zero-downtime database migration for a tier-1 retail bank, moving 85 million accounts from legacy mainframe to cloud-native CockroachDB with cryptographic audit trails.
+
+# Inactive project record demonstrating the active flag
+- project: "Legacy Mobile Telemetry SDK"
+  active: false
+  role: "Core Developer"
+  duration: "Jan 2018 &ndash; Dec 2018"
+  url: "https://github.com/example/telemetry-sdk"
+  description: >-
+    Lightweight client-side telemetry SDK for Android and iOS devices providing crash diagnostics and telemetry buffering.

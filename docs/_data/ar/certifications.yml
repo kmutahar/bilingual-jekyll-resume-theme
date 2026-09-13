@@ -1,73 +1,58 @@
 # الشهادات والتراخيص
 # الملف: _data/ar/certifications.yml
 # الشهادات والتراخيص المهنية
+#
+# ملاحظات المخطط:
+# - `name`: مسمى الشهادة (يدعم كيانات HTML مثل &ndash;).
+# - `issuing_organization`: المنظمة المانحة للاعتماد.
+# - `credential_id`: معرّف أو رقم الاعتماد الاختياري.
+# - `credential_url`: رابط التحقق الاختياري الذي يربط معرّف الاعتماد.
+# - `issue_date`: تاريخ الإصدار الإلزامي بتنسيق ISO (YYYY-MM-DD).
+# - `expiration`: تاريخ الانتهاء الاختياري بتنسيق ISO (يُترك فارغاً للشهادات الدائمة).
+# - `courses`: مصفوفة دورات متداخلة اختيارية للسجلات الشخصية (لا تُعرض نهائياً في السيرة).
+# - `active`: اضبط على false لاستبعاد السجل من العرض في السيرة الذاتية.
 
-# كل إدخال يمثل شهادة أو ترخيص
-- name: ""                    # مطلوب: اسم الشهادة
-  active: true                # مطلوب: اضبط على true للعرض في السيرة الذاتية، false للإخفاء
-  issuing_organization: ""    # مطلوب: المنظمة التي أصدرت الشهادة
-  credential_id: ""          # اختياري: رقم اعتماد/شهادة (اتركه فارغاً إذا لم يكن هناك)
-  credential_url: ""          # اختياري: رابط للتحقق من الاعتماد (اتركه فارغاً إذا لم يكن هناك)
-  issue_date:                 # مطلوب: تاريخ الإصدار (تنسيق YYYY-MM-DD، مثلاً 2024-03-15)
-  expiration:                 # اختياري: تاريخ الانتهاء (تنسيق YYYY-MM-DD، اتركه فارغاً إذا لم يكن هناك تاريخ انتهاء)
-  courses:                    # اختياري: للاستخدام الداخلي فقط - لا يتم عرضه في السيرة الذاتية
-                              # هذه الدورات المتداخلة هي للاحتفاظ بالسجلات الشخصية فقط
-                              # تربط الدورات بشهادتها الأصلية ولكن لا يتم عرضها أبداً
-    - name: ""               # اسم الدورة (للسجلات الشخصية فقط)
-      active: false           # حالة النشاط (للسجلات الشخصية فقط)
-      issuing_organization: "" # المنظمة (للسجلات الشخصية فقط)
-      credential_id: ""       # رقم الاعتماد (للسجلات الشخصية فقط)
-      credential_url: ""      # رابط الاعتماد (للسجلات الشخصية فقط)
-      issue_date:             # تاريخ الإصدار (تنسيق YYYY-MM-DD، للسجلات الشخصية فقط)
-      expiration:             # تاريخ الانتهاء (تنسيق YYYY-MM-DD، اتركه فارغاً إذا لم يكن هناك، للسجلات الشخصية فقط)
-
-# مثال مع رقم اعتماد ورابط
-- name: ""
+# شهادة مع معرّف اعتماد ورابط تحقق وتاريخ انتهاء
+- name: "مهندس حلول معتمد من AWS &ndash; المستوى المهني"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: "https://example.com/cert/123"
-  issue_date:
-  expiration:
-  courses:
-    - name: ""
-      active: false
-      issuing_organization: ""
-      credential_id: ""
-      credential_url: ""
-      issue_date:
-      expiration:
+  issuing_organization: "أمازون ويب سيرفيسز (AWS)"
+  credential_id: "AWS-PSA-7829104"
+  credential_url: "https://aws.amazon.com/verification"
+  issue_date: 2023-04-15
+  expiration: 2026-04-15
 
-# مثال مع رقم اعتماد بدون رابط
-- name: ""
+# شهادة مع معرّف ورابط وتاريخ انتهاء ودورات متداخلة للسجلات الشخصية
+- name: "مدير معتمد لكوبرنيتيس (CKA)"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: ""
-  issue_date:
-  expiration:
-  courses:
-    - name: ""
+  issuing_organization: "مؤسسة الحوسبة السحابية الأصلية (CNCF)"
+  credential_id: "CKA-2409852"
+  credential_url: "https://www.cncf.io/certification/cka/"
+  issue_date: 2022-11-20
+  expiration: 2025-11-20
+  courses: # اختياري: للاستخدام الداخلي فقط - لا يتم عرضه في السيرة الذاتية
+    - name: "التعمق في كوبرنيتيس والعمليات التشغيلية"
       active: false
-      issuing_organization: ""
-      credential_id: ""
-      credential_url: ""
-      issue_date:
-      expiration:
+      issuing_organization: "مؤسسة لينكس"
+      credential_id: "LF-K8S-019"
+      credential_url: "https://training.linuxfoundation.org"
+      issue_date: 2022-10-05
 
-# مثال بدون تاريخ انتهاء
-- name: ""
+# شهادة مع معرّف وبدون رابط وبدون تاريخ انتهاء (شهادة دائمة الصلاحية)
+- name: "خبير معتمد من هاشيكورب: تيرافورم أسوشيت"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: ""
-  issue_date:
-  expiration:
-  courses:
-    - name: ""
-      active: false
-      issuing_organization: ""
-      credential_id: ""
-      credential_url: ""
-      issue_date:
-      expiration:
+  issuing_organization: "هاشيكورب"
+  credential_id: "HC-TA-554109"
+  issue_date: 2021-06-10
+
+# شهادة بدون معرّف وبدون رابط وبدون تاريخ انتهاء
+- name: "أساسيات آيتل 4 لإدارة خدمات تقنية المعلومات"
+  active: true
+  issuing_organization: "أكسيلوس لأفضل الممارسات العالمية"
+  issue_date: 2020-02-18
+
+# شهادة غير نشطة توضح استخدام خاصية active
+- name: "مبرمج جافا مشارك معتمد من أوراكل"
+  active: false
+  issuing_organization: "أوراكل"
+  credential_id: "OCJP-10928"
+  issue_date: 2015-08-10

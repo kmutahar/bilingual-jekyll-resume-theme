@@ -1,17 +1,24 @@
 # Links
-# File: _data/links.yml
-# Additional links (portfolio, blog, GitHub, etc.)
+# File: _data/en/links.yml
+# Additional professional links (portfolio, publications, code repositories)
+#
+# Schema notes:
+# - `description`: Title or descriptive anchor text for the link.
+# - `url`: Destination URL (printed inline in print media).
+# - `active`: Set to false to omit from generated resume.
 
-# Each entry represents a link
-- description: ""  # Required: Link description/title (e.g., "Portfolio", "GitHub Profile", "Personal Blog")
-  active: true      # Required: Set to false to hide this link
-  url: ""           # Required: URL (e.g., "https://github.com/username" or "https://example.com")
-
-# Example entries
-- description: ""
+- description: "Technical Architecture Blog &amp; Systems Research"
   active: true
-  url: ""
+  url: "https://blog.example.com"
 
-- description: ""
+- description: "GitHub Open Source Portfolio &amp; Tooling"
   active: true
-  url: ""
+  url: "https://github.com/example"
+
+- description: "Google Scholar Research Publications"
+  active: true
+  url: "https://scholar.google.com"
+
+- description: "Archived Engineering Notes"
+  active: false
+  url: "https://notes.example.com"

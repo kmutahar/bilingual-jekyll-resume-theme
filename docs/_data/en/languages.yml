@@ -1,29 +1,29 @@
 # Languages
-# File: _data/languages.yml
+# File: _data/en/languages.yml
 # Language proficiencies
+#
+# Schema notes:
+# - `language`: Language name.
+# - `description`: Full proficiency description (used in 2-column table when `resume_section.languages: true`).
+# - `descrp_short`: Compact descriptor (used for header badge chips when `resume_section.lang_header: true`).
+# - `active`: Set to false to omit from resume.
 
-# Languages section displays in a two-column table
-# If lang_header is enabled in _config.yml, languages appear in the page header instead
-# Each entry represents a language proficiency
-
-- language: ""         # Required: Language name (e.g., "English", "Arabic", "Spanish")
-  active: true         # Required: Set to false to hide this entry
-  description: ""      # Required: Full proficiency description (e.g., "Native proficiency", "Professional working proficiency")
-  descrp_short: ""     # Required: Short form for header display (e.g., "Native", "Professional", "Limited", "Elementary")
-
-# Suggested proficiency levels:
-# - Native / Bilingual
-# - Professional working proficiency
-# - Limited working proficiency
-# - Elementary proficiency
-
-# Example entries
-- language: ""
+- language: "English"
   active: true
-  description: ""
-  descrp_short: ""
+  description: "Native / Bilingual proficiency"
+  descrp_short: "Native"
 
-- language: ""
+- language: "Arabic"
   active: true
-  description: ""
-  descrp_short: ""
+  description: "Native / Bilingual proficiency"
+  descrp_short: "Native"
+
+- language: "German"
+  active: true
+  description: "Professional working proficiency"
+  descrp_short: "Professional"
+
+- language: "Spanish"
+  active: false
+  description: "Elementary working proficiency"
+  descrp_short: "Elementary"

@@ -1,39 +1,47 @@
 # الدورات
 # الملف: _data/ar/courses.yml
-# دورات تدريبية وورش عمل أو برامج تعليمية
+# الدورات التدريبية وورش العمل والبرامج التنفيذية
+#
+# ملاحظات المخطط:
+# - `name`: مسمى الدورة (يدعم كيانات HTML).
+# - `issuing_organization`: المنصة أو المؤسسة الأكاديمية المقدمة للدورة.
+# - `credential_id`: معرّف أو رقم إتمام الدورة الاختياري.
+# - `credential_url`: رابط التحقق الاختياري.
+# - `startdate`: تاريخ البداية الإلزامي (بتنسيق YYYY-MM-DD).
+# - `enddate`: تاريخ الإتمام الاختياري (بتنسيق YYYY-MM-DD).
+# - `summary`: وصف تفصيلي لمحتوى الدورة (يُعرض عند ضبط `enable_summary: true`).
+# - `active`: اضبط على false لحجب الدورة من السيرة الذاتية.
 
-# كل إدخال يمثل دورة أو برنامج تدريبي
-- name: ""                    # مطلوب: اسم الدورة
-  active: true                # مطلوب: اضبط على false لإخفاء هذا الإدخال
-  issuing_organization: ""    # مطلوب: المنظمة المقدمة للدورة
-  credential_id: ""          # اختياري: رقم اعتماد/شهادة (اتركه فارغاً إذا لم يكن هناك)
-  credential_url: ""          # اختياري: رابط للتحقق من الاعتماد (اتركه فارغاً إذا لم يكن هناك)
-  startdate:                  # مطلوب: تاريخ بداية الدورة (تنسيق YYYY-MM-DD، مثلاً 2024-09-01)
-  enddate:                    # اختياري: تاريخ نهاية الدورة (تنسيق YYYY-MM-DD، اتركه فارغاً إذا كانت مستمرة)
-  expiration:                 # اختياري: تاريخ انتهاء الاعتماد (تنسيق YYYY-MM-DD، اتركه فارغاً إذا لم يكن هناك)
-  notes: ""                   # اختياري: ملاحظات شخصية (لا يتم عرضها في السيرة الذاتية)
-  summary: ""                 # اختياري: وصف الدورة (يُعرض فقط إذا كان enable_summary صحيحاً في _config.yml)
-
-# مثال مع اعتماد
-- name: ""
+# دورة بتواريخ بدء وانتهاء ومعرّف اعتماد ورابط تحقق وملخص
+- name: "تخصص التعلم العميق"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: "https://example.com/verify/certificate"
-  startdate:
-  enddate:
-  expiration:
-  notes: ""
-  summary: ""
+  issuing_organization: "ديب ليرنينج.إيه آي وكورسيرا"
+  credential_id: "COURSERA-DL-98421"
+  credential_url: "https://coursera.org/verify/COURSERA-DL-98421"
+  startdate: 2023-01-10
+  enddate: 2023-03-25
+  notes: "إتمام سلسلة من 5 دورات تغطي الشبكات العصبية، والشبكات الالتفافية، والمحولات"
+  summary: >-
+    سلسلة متكاملة تغطي معمارية الشبكات العصبية العميقة، والشبكات الالتفافية، ونمذجة السلاسل، والضبط العملي للمعاملات الفائقة لأحمال العمل الإنتاجية.
 
-# مثال بدون اعتماد
-- name: ""
+# دورة بتواريخ بدء وانتهاء وملخص، وبدون معرّف اعتماد أو رابط
+- name: "معمارية النظم الموزعة وتصميم خوارزميات التوافق"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: ""
-  startdate:
-  enddate:
-  expiration:
-  notes: ""
-  summary: ""
+  issuing_organization: "التعليم المهني بمعهد ماساتشوستس للتكنولوجيا (MIT)"
+  startdate: 2022-05-01
+  enddate: 2022-06-15
+  notes: "برنامج تنفيذي مكثف"
+  summary: >-
+    دراسة متعمقة لبروتوكولات Raft وPaxos، والمعاملات الموزعة بنمط 2PC وأنماط Saga، وتصميم أنظمة التخزين المقاومة للأعطال.
+
+# سجل دورة غير نشط يوضح استخدام خاصية active
+- name: "أمن السحابة المتقدم ومعمارية انعدام الثقة (Zero Trust)"
+  active: false
+  issuing_organization: "معهد SANS"
+  credential_id: "SEC-540-AZ"
+  credential_url: "https://www.sans.org"
+  startdate: 2021-09-10
+  enddate: 2021-10-20
+  notes: "دورة تدريبية مؤرشفة"
+  summary: >-
+    هندسة أمنية عملية لخطوط الأتمتة CI/CD، وحماية بيئات الحاويات أثناء التشغيل، وتوحيد الهويات الرقمية.

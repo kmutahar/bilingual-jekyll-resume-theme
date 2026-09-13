@@ -1,39 +1,47 @@
 # Courses
-# File: _data/courses.yml
-# Training courses, workshops, or educational programs
+# File: _data/en/courses.yml
+# Training courses, workshops, and executive education programs
+#
+# Schema notes:
+# - `name`: Course title (supports HTML entities).
+# - `issuing_organization`: Platform or institution delivering the course.
+# - `credential_id`: Optional completion credential or certificate identifier.
+# - `credential_url`: Optional verification link.
+# - `startdate`: Required start date (YYYY-MM-DD).
+# - `enddate`: Optional completion date (YYYY-MM-DD).
+# - `summary`: Detailed curriculum narrative (displayed when `enable_summary: true`).
+# - `active`: Set to false to omit from resume.
 
-# Each entry represents a course or training program
-- name: ""                    # Required: Course name
-  active: true                # Required: Set to false to hide this entry
-  issuing_organization: ""    # Required: Organization providing the course
-  credential_id: ""          # Optional: Credential/certificate ID (leave empty if none)
-  credential_url: ""          # Optional: URL to verify credential (leave empty if none)
-  startdate:                  # Required: Course start date (YYYY-MM-DD format, e.g., 2024-09-01)
-  enddate:                    # Optional: Course end date (YYYY-MM-DD format, leave empty if ongoing)
-  expiration:                 # Optional: Credential expiration date (YYYY-MM-DD format, leave empty if none)
-  notes: ""                   # Optional: Personal notes (not displayed on resume)
-  summary: ""                 # Optional: Course description (only shown if enable_summary is true in _config.yml)
-
-# Example with credential
-- name: ""
+# Course with start/end dates, credential ID, verification URL, and summary
+- name: "Deep Learning Specialization"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: "https://example.com/verify/certificate"
-  startdate:
-  enddate:
-  expiration:
-  notes: ""
-  summary: ""
+  issuing_organization: "DeepLearning.AI &amp; Coursera"
+  credential_id: "COURSERA-DL-98421"
+  credential_url: "https://coursera.org/verify/COURSERA-DL-98421"
+  startdate: 2023-01-10
+  enddate: 2023-03-25
+  notes: "Completed 5-course sequence covering Neural Networks, CNNs, and Transformers"
+  summary: >-
+    Comprehensive sequence covering deep neural network architectures, convolutional networks, sequence modeling, and practical hyperparameter tuning for production workloads.
 
-# Example without credential
-- name: ""
+# Course with start/end dates and summary, without credential ID or URL
+- name: "Distributed Systems Architecture &amp; Consensus Design"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: ""
-  startdate:
-  enddate:
-  expiration:
-  notes: ""
-  summary: ""
+  issuing_organization: "MIT Professional Education"
+  startdate: 2022-05-01
+  enddate: 2022-06-15
+  notes: "Intensive executive program"
+  summary: >-
+    In-depth study of Raft and Paxos protocols, distributed transaction semantics (2PC and Saga patterns), and fault-tolerant storage system design.
+
+# Inactive course record demonstrating the active flag
+- name: "Advanced Cloud Security &amp; Zero Trust Architecture"
+  active: false
+  issuing_organization: "SANS Institute"
+  credential_id: "SEC-540-AZ"
+  credential_url: "https://www.sans.org"
+  startdate: 2021-09-10
+  enddate: 2021-10-20
+  notes: "Archived training course"
+  summary: >-
+    Hands-on security engineering for CI/CD pipelines, container runtime defenses, and identity federation.

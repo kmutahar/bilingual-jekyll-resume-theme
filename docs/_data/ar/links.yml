@@ -1,17 +1,24 @@
 # الروابط
 # الملف: _data/ar/links.yml
-# روابط إضافية (معرض أعمال، مدونة، GitHub، إلخ)
+# روابط مهنية إضافية (معرض الأعمال، الأبحاث، مستودعات الشيفرة)
+#
+# ملاحظات المخطط:
+# - `description`: عنوان أو نص الرابط الوصفي.
+# - `url`: الرابط المستهدف (يظهر بجانب النص في وضع الطباعة).
+# - `active`: اضبط على false لاستبعاد الرابط من السيرة الذاتية.
 
-# كل إدخال يمثل رابط
-- description: ""  # مطلوب: وصف/عنوان الرابط (مثلاً "المعرض الشخصي"، "ملف GitHub"، "مدونة شخصية")
-  active: true      # مطلوب: اضبط على false لإخفاء هذا الرابط
-  url: ""           # مطلوب: الرابط (مثلاً "https://github.com/username" أو "https://example.com")
-
-# أمثلة إدخالات
-- description: ""
+- description: "مدونة المعمارية التقنية وأبحاث النظم الموزعة"
   active: true
-  url: ""
+  url: "https://blog.example.com"
 
-- description: ""
+- description: "ملف مشاريع المصدر المفتوح والأدوات على GitHub"
   active: true
-  url: ""
+  url: "https://github.com/example"
+
+- description: "الأبحاث والمنشورات العلمية على باحث Google"
+  active: true
+  url: "https://scholar.google.com"
+
+- description: "مذكرات هندسية مؤرشفة"
+  active: false
+  url: "https://notes.example.com"

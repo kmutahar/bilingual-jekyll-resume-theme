@@ -1,17 +1,28 @@
 # Skills
-# File: _data/skills.yml
+# File: _data/en/skills.yml
 # Professional skills and competencies
+#
+# Schema notes:
+# - `skill`: Skill domain, competence area, or title.
+# - `description`: Detailed narrative description of technical expertise, tools, and practices.
+# - `active`: Set to false to omit from generated resume.
 
-# Each entry represents a skill
-- skill: ""          # Required: Skill name/title (e.g., "Full-Stack Web Development", "Machine Learning")
-  active: true       # Required: Set to false to hide this entry
-  description: ""    # Required: Detailed description of the skill
-
-# Example entries
-- skill: ""
+- skill: "Cloud Infrastructure &amp; Distributed Architecture"
   active: true
-  description: ""
+  description: >-
+    Expertise in designing resilient, highly available multi-region architectures across AWS and Google Cloud Platform. Advanced orchestration with Kubernetes, Terraform, Service Meshes (Istio), and immutable infrastructure pipelines.
 
-- skill: ""
+- skill: "High-Concurrency Backend Engineering"
   active: true
-  description: ""
+  description: >-
+    Deep technical proficiency in Go, Python, and Rust. Specialized in low-latency concurrent processing, gRPC, Apache Kafka, database sharding, and distributed caching with Redis and Memcached.
+
+- skill: "Technical Strategy, Mentorship &amp; Agile Leadership"
+  active: true
+  description: >-
+    Proven track record establishing engineering standards, defining multi-year architectural roadmaps, conducting architecture reviews, and mentoring senior engineers into staff and principal engineering roles.
+
+- skill: "Legacy Monolith Refactoring &amp; Migration"
+  active: false
+  description: >-
+    Decomposition of legacy monolithic applications into domain-driven microservices using the strangler fig pattern and event-driven data synchronization.

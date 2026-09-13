@@ -1,39 +1,55 @@
 # Volunteering
-# File: _data/volunteering.yml
+# File: _data/en/volunteering.yml
 # Volunteer work and community service
+#
+# Schema notes:
+# - Grouped by `company` name; multiple positions at the same organization appear together.
+# - Continuous positions use ISO dates (`startdate: YYYY-MM-DD`, `enddate: YYYY-MM-DD` or `enddate: Present`).
+# - Non-continuous positions use the `durations` array with HTML entities (`&ndash;`, `&amp;`).
+# - `summary` is displayed when `enable_summary: true` is configured in `_config.yml`.
+# - `active: false` preserves entries without rendering them.
 
-# Structure is identical to Experience section. Volunteer positions are grouped by organization.
-# Roles are sorted by startdate (most recent first).
-
-# OPTION 1: Using startdate and enddate (recommended for continuous volunteer work)
-- company: ""        # Required: Organization name
-  position: ""       # Required: Role/position title
-  startdate:         # Required: Start date (YYYY-MM-DD format, e.g., 2011-11-01)
-  enddate:           # Optional: End date (YYYY-MM-DD format) or "Present" for current roles
-  location: ""       # Optional: Location (e.g., "Springfield, IL" or "Remote")
-  active: true       # Required: Set to true to display, false to hide
-  notes: ""          # Optional: Personal notes (not displayed on resume)
-  summary: ""         # Optional: Description of volunteer work (only shown if enable_summary is true in _config.yml)
-
-# Example of current volunteer position
-- company: ""
-  position: ""
-  startdate:
-  enddate: Present   # Use "Present" for ongoing volunteer work
-  location: ""
+# Organization with multiple positions (Role 1: Current position)
+- company: "Open Source Initiative &amp; Linux Foundation"
+  position: "Technical Steering Committee Mentor"
+  startdate: 2022-01-10
+  enddate: Present
+  location: "Global (Remote)"
   active: true
-  notes: ""
-  summary: ""
+  notes: "Mentoring emerging cloud engineers"
+  summary: >-
+    Mentor international contributors on cloud-native observability standards, review pull requests for CNCF telemetry projects, and organize global developer office hours.
 
-# OPTION 2: Using durations (alternative for non-continuous periods at same organization)
-# Use this instead of startdate/enddate when you have multiple separate time periods
-- company: ""
-  position: ""
-  durations:         # Alternative: Use this instead of startdate/enddate for non-continuous periods
-    - duration: ""   # Display text for first period (e.g., "Summer 2022")
-    - duration: ""   # Display text for second period (e.g., "&amp; Winter 2021")
-                     # Use &amp; for ampersand (&) and &ndash; for em dash (—)
-  location: ""
+# Organization with multiple positions (Role 2: Earlier position at same organization)
+- company: "Open Source Initiative &amp; Linux Foundation"
+  position: "Working Group Contributor"
+  startdate: 2019-03-01
+  enddate: 2021-12-31
+  location: "Remote"
   active: true
-  notes: ""
-  summary: ""
+  notes: "Telemetry standardization group"
+  summary: >-
+    Drafted technical documentation and sample reference implementations for distributed telemetry protocols and API specifications.
+
+# Organization with non-continuous duration strings using HTML entities
+- company: "Tech For Community Non-Profit"
+  position: "Lead Hackathon Judge &amp; Career Coach"
+  durations:
+    - duration: "Summer 2021"
+    - duration: "&amp; Fall 2023"
+  location: "Austin, TX"
+  active: true
+  notes: "Annual civic innovation challenges"
+  summary: >-
+    Evaluated civic technology solutions created by collegiate teams. Conducted technical resume reviews and career coaching sessions for 50+ aspiring software engineers.
+
+# Inactive volunteering record demonstrating the active flag
+- company: "Community Code Camp"
+  position: "Volunteer Lab Assistant"
+  startdate: 2015-06-01
+  enddate: 2015-08-31
+  location: "Seattle, WA"
+  active: false
+  notes: "Early volunteer engagement"
+  summary: >-
+    Assisted instructors with setup of introductory Python programming workshops for high school students.

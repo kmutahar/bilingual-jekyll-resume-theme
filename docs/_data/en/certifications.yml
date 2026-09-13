@@ -1,73 +1,58 @@
 # Certifications
-# File: _data/certifications.yml
+# File: _data/en/certifications.yml
 # Professional certifications and licenses
+#
+# Schema notes:
+# - `name`: Certification title (supports HTML entities like &ndash;).
+# - `issuing_organization`: Organization granting the credential.
+# - `credential_id`: Optional certificate identifier.
+# - `credential_url`: Optional verification URL linking the credential ID.
+# - `issue_date`: Required ISO date (YYYY-MM-DD).
+# - `expiration`: Optional expiration ISO date (leave blank for non-expiring credentials).
+# - `courses`: Optional nested list for internal record-keeping (never rendered on the resume).
+# - `active`: Set to false to omit from generated resume.
 
-# Each entry represents a certification or license
-- name: ""                    # Required: Certification name
-  active: true                # Required: Set to true to display on resume, false to hide
-  issuing_organization: ""    # Required: Organization that issued the certification
-  credential_id: ""          # Optional: Credential/certificate ID number (leave empty if none)
-  credential_url: ""          # Optional: URL to verify credential (leave empty if none)
-  issue_date:                 # Required: Date issued (YYYY-MM-DD format, e.g., 2024-03-15)
-  expiration:                 # Optional: Expiration date (YYYY-MM-DD format, leave empty if no expiration)
-  courses:                    # Optional: INTERNAL USE ONLY - not displayed on resume
-                              # These nested courses are for personal record-keeping only
-                              # They link courses to their parent certification but are never shown
-    - name: ""               # Course name (for personal records only)
-      active: false           # Active status (for personal records only)
-      issuing_organization: "" # Organization (for personal records only)
-      credential_id: ""       # Credential ID (for personal records only)
-      credential_url: ""      # Credential URL (for personal records only)
-      issue_date:             # Issue date (YYYY-MM-DD format, for personal records only)
-      expiration:             # Expiration date (YYYY-MM-DD format, leave empty if none, for personal records only)
-
-# Example with credential ID and URL
-- name: ""
+# Credential with verification ID, URL, and expiration date
+- name: "AWS Certified Solutions Architect &ndash; Professional"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: "https://example.com/cert/123"
-  issue_date:
-  expiration:
-  courses:
-    - name: ""
-      active: false
-      issuing_organization: ""
-      credential_id: ""
-      credential_url: ""
-      issue_date:
-      expiration:
+  issuing_organization: "Amazon Web Services"
+  credential_id: "AWS-PSA-7829104"
+  credential_url: "https://aws.amazon.com/verification"
+  issue_date: 2023-04-15
+  expiration: 2026-04-15
 
-# Example with credential ID but no URL
-- name: ""
+# Credential with ID, URL, expiration, and nested courses for personal record-keeping
+- name: "Certified Kubernetes Administrator (CKA)"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: ""
-  issue_date:
-  expiration:
-  courses:
-    - name: ""
+  issuing_organization: "Cloud Native Computing Foundation (CNCF)"
+  credential_id: "CKA-2409852"
+  credential_url: "https://www.cncf.io/certification/cka/"
+  issue_date: 2022-11-20
+  expiration: 2025-11-20
+  courses: # Optional: INTERNAL USE ONLY - not displayed on resume
+    - name: "Kubernetes Deep Dive & Production Operations"
       active: false
-      issuing_organization: ""
-      credential_id: ""
-      credential_url: ""
-      issue_date:
-      expiration:
+      issuing_organization: "The Linux Foundation"
+      credential_id: "LF-K8S-019"
+      credential_url: "https://training.linuxfoundation.org"
+      issue_date: 2022-10-05
 
-# Example without expiration date
-- name: ""
+# Credential with ID, no URL, and no expiration date (lifetime credential)
+- name: "HashiCorp Certified: Terraform Associate"
   active: true
-  issuing_organization: ""
-  credential_id: ""
-  credential_url: ""
-  issue_date:
-  expiration:
-  courses:
-    - name: ""
-      active: false
-      issuing_organization: ""
-      credential_id: ""
-      credential_url: ""
-      issue_date:
-      expiration:
+  issuing_organization: "HashiCorp"
+  credential_id: "HC-TA-554109"
+  issue_date: 2021-06-10
+
+# Credential without ID, without URL, and without expiration date
+- name: "ITIL 4 Foundation in IT Service Management"
+  active: true
+  issuing_organization: "AXELOS Global Best Practice"
+  issue_date: 2020-02-18
+
+# Inactive certification demonstrating the active flag
+- name: "Oracle Certified Associate Java Programmer"
+  active: false
+  issuing_organization: "Oracle"
+  credential_id: "OCJP-10928"
+  issue_date: 2015-08-10

@@ -1,49 +1,51 @@
 # Education
-# File: _data/education.yml
+# File: _data/en/education.yml
 # Academic degrees and educational background
+#
+# Schema notes:
+# - `uni`: Institution or university name.
+# - `degree`: Degree title and specialization.
+# - `year`: Display time period (using &ndash; for date spans).
+# - `location`: Location of the institution.
+# - `awards`: Optional list of honors/fellowships.
+# - `award`: Optional single award string (can be used alongside or instead of awards list).
+# - `summary`: Narrative paragraph detailing coursework, thesis, or academic honors.
+# - `active`: Set to false to preserve records without displaying them.
 
-# Each entry represents a degree or educational program
-- degree: ""          # Required: Degree name and details (e.g., "Bachelor of Science in Computer Science")
-  active: true        # Required: Set to false to hide this entry
-  uni: ""             # Required: University/institution name
-  year: ""            # Required: Time period (as display text, e.g., "Sep 2020 &ndash; June 2024" or "2015 &ndash; 2019")
-  location: ""        # Required: Location of institution (e.g., "City, State" or "City, Country")
-  awards:             # Optional: List of awards/honors received (use this OR the single award field below)
-    - award: ""       # Award or honor (can add multiple items)
-  award: ""           # Optional: Single award (alternative to awards list above, e.g., "Graduated with Honors")
-                      # Note: You can use either 'awards' (list) or 'award' (single string), or both
-  summary: ""         # Optional: Additional description or details about your education
-
-# Example with awards list
-- degree: ""
+# Degree with multiple awards list and summary
+- degree: "Master of Science in Computer Science"
+  uni: "Stanford University"
+  year: "Sep 2017 &ndash; Jun 2019"
+  location: "Stanford, CA"
   active: true
-  uni: ""
-  year: ""
-  location: ""
   awards:
-    - award: ""
-    - award: ""
-  award: ""
-  summary: ""
+    - award: "Graduate Fellowship in Systems Architecture"
+    - award: "Outstanding Graduate Research Paper Award (2019)"
+  summary: >-
+    Specialized in Distributed Systems and Cloud Infrastructure. Thesis: "Low-Latency Consensus Protocols for Heterogeneous Edge-Cloud Clusters."
 
-# Example with single award field
-- degree: ""
+# Degree with single award string and summary
+- degree: "Bachelor of Science in Software Engineering"
+  uni: "King Fahd University of Petroleum and Minerals"
+  year: "Sep 2012 &ndash; May 2016"
+  location: "Dhahran, Saudi Arabia"
   active: true
-  uni: ""
-  year: ""
-  location: ""
-  awards:
-    - award: ""
-  award: ""
-  summary: ""
+  award: "First Class Honors &amp; Valedictorian Award"
+  summary: >-
+    Graduated top of class with core focus on operating systems, algorithm design, and networking. Led the university competitive programming team.
 
-# Minimal example (no awards or summary)
-- degree: ""
+# Degree demonstrating minimal optional fields (no awards or summary)
+- degree: "Executive Certificate in Technical Leadership"
+  uni: "MIT Sloan School of Management"
+  year: "2021"
+  location: "Cambridge, MA"
   active: true
-  uni: ""
-  year: ""
-  location: ""
-  awards:
-    - award: ""
-  award: ""
-  summary: ""
+
+# Inactive record demonstrating the active flag
+- degree: "Associate Degree in Information Systems"
+  uni: "Community Technical College"
+  year: "2010 &ndash; 2012"
+  location: "Seattle, WA"
+  active: false
+  summary: >-
+    Foundational coursework in computer networking and relational database design.

@@ -1,29 +1,29 @@
 # اللغات
 # الملف: _data/ar/languages.yml
 # مستويات إتقان اللغات
+#
+# ملاحظات المخطط:
+# - `language`: اسم اللغة.
+# - `description`: وصف الإتقان الكامل (يُستخدم في جدول اللغات عند `resume_section.languages: true`).
+# - `descrp_short`: الوصف المختصر (يُستخدم لشارات اللغات في الرأس عند `resume_section.lang_header: true`).
+# - `active`: اضبط على false لحجب اللغة من السيرة الذاتية.
 
-# قسم اللغات يظهر في جدول من عمودين
-# إذا تم تفعيل lang_header في _config.yml، تظهر اللغات في رأس الصفحة بدلاً من ذلك
-# كل إدخال يمثل إتقان لغة
-
-- language: ""         # مطلوب: اسم اللغة (مثلاً "الإنجليزية"، "العربية"، "الإسبانية")
-  active: true         # مطلوب: اضبط على false لإخفاء هذا الإدخال
-  description: ""      # مطلوب: وصف الإتقان الكامل (مثلاً "إتقان كلغة أم"، "إتقان مهني")
-  descrp_short: ""     # مطلوب: النموذج القصير للعرض في الرأس (مثلاً "لغة أم"، "مهني"، "محدود"، "ابتدائي")
-
-# مستويات الإتقان المقترحة:
-# - لغة أم / ثنائي اللغة
-# - إتقان مهني
-# - إتقان محدود
-# - إتقان ابتدائي
-
-# أمثلة إدخالات
-- language: ""
+- language: "الإنجليزية"
   active: true
-  description: ""
-  descrp_short: ""
+  description: "إتقان ثنائي / لغة أم"
+  descrp_short: "لغة أم"
 
-- language: ""
+- language: "العربية"
   active: true
-  description: ""
-  descrp_short: ""
+  description: "اللغة الأم / إتقان ثنائي كامل"
+  descrp_short: "لغة أم"
+
+- language: "الألمانية"
+  active: true
+  description: "كفاءة مهنية عملية"
+  descrp_short: "مهني"
+
+- language: "الإسبانية"
+  active: false
+  description: "كفاءة عمل ابتدائية"
+  descrp_short: "ابتدائي"

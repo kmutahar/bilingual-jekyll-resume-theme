@@ -1,27 +1,36 @@
 # Associations
-# File: _data/associations.yml
-# Organizations, professional groups, or associations you're a member of
+# File: _data/en/associations.yml
+# Professional memberships, working groups, and industry associations
+#
+# Schema notes:
+# - `organization`: Name of the professional society or group.
+# - `role`: Membership level or leadership position.
+# - `year`: Time period (supports &ndash; for spans).
+# - `url`: Optional official website URL (rendered as link and printed in print stylesheet).
+# - `summary`: Optional description of contributions and governance.
+# - `active`: Set to false to omit from generated resume.
 
-# Each entry represents a membership or association
-- organization: ""  # Required: Organization name
-  active: true      # Required: Set to false to hide this entry
-  role: ""          # Required: Your role/position in the organization
-  year: ""          # Required: Time period (as display text, e.g., "2020 &ndash; Present" or "July 2022 &ndash; Present")
-  url: ""           # Optional: Organization URL (leave empty if no URL)
-  summary: ""       # Optional: Description of your involvement
-
-# Example with URL
-- organization: ""
+# Association with official URL
+- organization: "Association for Computing Machinery (ACM)"
   active: true
-  role: ""
-  year: ""
-  url: "https://example.com"
-  summary: ""
+  role: "Senior Member &amp; Special Interest Group Contributor"
+  year: "2019 &ndash; Present"
+  url: "https://www.acm.org"
+  summary: >-
+    Active peer reviewer for distributed systems publications and contributor to SIGMOD research initiatives on large-scale data storage systems.
 
-# Example without URL
-- organization: ""
+# Association without URL
+- organization: "National Cloud &amp; Distributed Software Council"
   active: true
-  role: ""
-  year: ""
-  url: ""
-  summary: ""
+  role: "Advisory Board Member"
+  year: "2021 &ndash; 2024"
+  summary: >-
+    Advised industry working groups on national data sovereignty standards, interoperability frameworks, and secure cloud migration policies.
+
+# Inactive association record demonstrating the active flag
+- organization: "Regional Software Engineers Guild"
+  active: false
+  role: "General Member"
+  year: "2015 &ndash; 2018"
+  summary: >-
+    Participated in regional technical workshops and community coding hackathons.

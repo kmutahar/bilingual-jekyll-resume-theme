@@ -1,23 +1,34 @@
 # Recognitions
-# File: _data/recognitions.yml
-# Awards, honors, and recognition
+# File: _data/en/recognitions.yml
+# Honors, awards, and professional recognitions
+#
+# Schema notes:
+# - `award`: Title or name of the recognition.
+# - `organization`: Conferring body, enterprise, or institution.
+# - `year`: Single year (e.g., "2023") or comma-separated years for repeated honors (e.g., "2020, 2022").
+# - `summary`: Narrative context and significance of the honor.
+# - `active`: Set to false to omit from generated resume.
 
-# Each entry represents an award or recognition
-- award: ""          # Required: Award name (e.g., "Outstanding Achievement", "Employee of the Quarter")
-  active: true       # Required: Set to false to hide this entry
-  organization: ""   # Required: Awarding organization (e.g., "Company Name" or "University Name")
-  year: ""           # Required: Year(s) received (can be multiple, e.g., "2010, 2014" or "Q2 2023, Q4 2023" or "2019, 2020, 2021, 2022")
-  summary: ""        # Required: Award description
-
-# Example entries
-- award: ""
+# Award with single year
+- award: "Cloud Innovator of the Year"
   active: true
-  organization: ""
-  year: ""
-  summary: ""
+  organization: "Global Enterprise Cloud Summit"
+  year: "2023"
+  summary: >-
+    Awarded in recognition of pioneering zero-trust cloud orchestration architecture that reduced cross-region data transfer latency by 45% across global banking clients.
 
-- award: ""
+# Award with multiple years
+- award: "Distinguished Engineering Excellence Award"
   active: true
-  organization: ""
-  year: ""
-  summary: ""
+  organization: "Apex Cloud Systems"
+  year: "2020, 2022"
+  summary: >-
+    Conferred twice for outstanding technological leadership and architecting core fault-tolerant infrastructure during peak multi-petabyte processing events.
+
+# Inactive recognition record demonstrating the active flag
+- award: "Outstanding Graduate Student Award"
+  active: false
+  organization: "Stanford University School of Engineering"
+  year: "2019"
+  summary: >-
+    Recognized for academic excellence and contributions to distributed computing research.

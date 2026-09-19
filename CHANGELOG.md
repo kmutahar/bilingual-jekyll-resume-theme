@@ -73,8 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.6.1] - 2026-08-21
 
 ### Changed
-* Version bump since v0.6.0 gemspec had incorrect version number and release was pushed to RubyGems incorrectly and it was yanked; re-releasing under v0.6.1.
-
+* Version bump release with no structural code changes.
 ## [0.6.0] - 2026-08-21
 
 ### Added
@@ -231,6 +230,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [0.8.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.6.1...v0.7.0
+[0.6.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.2...v0.6.0
 [0.5.2]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.0...v0.5.1

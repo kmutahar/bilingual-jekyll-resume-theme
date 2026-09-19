@@ -4,6 +4,41 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.8.0] - 2026-09-19
+
+### Added
+* Add global .sr-only utility class for accessible icons ([`f25fcb6`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/f25fcb618c399a54039b00cb56e1d09724592516))
+
+* Add error pages generator plugin and gem autoloading ([`9238b5a`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/9238b5ace273c9c64de5c90bbd8a19fe6ac5a27b))
+
+* Add .agents/ to ignore list ([`568b874`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/568b874c290ae1673fe6c3e44b97a4c0c8e0b553))
+
+* Add configurable avatar URL, bilingual alt text, and reusable include ([`a17cc60`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/a17cc603a3633bb5dc67589bcc01ce7ef886d88c))
+
+
+### Changed
+* Improve accessibility, icon contrast, mobile responsiveness, and RTL typography ([`add2625`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/add2625599027eb1f88ca6e1ec66c3bf2b334757))
+
+* Populate comprehensive bilingual example data across all sections ([`1555d41`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/1555d41efef50cd9010d4bf08223fb81060bc8f3))
+
+* Standardize recognition section toggle to plural with fallback ([`dccee09`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/dccee09c65e95a140281633342a09d58b236b888))
+
+* Modernize all guides and master sample configuration ([`08f8823`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/08f8823f91984891e55dff0dcc8488601c185aea))
+
+* Establish master feature roadmap and archive completed audit ([`f6d28a3`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/f6d28a354115fa6a0ce5e29250cd1b40be0c4dfd))
+
+* Establish AGENTS.md master manual and refactor pointers ([`24ecf7e`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/24ecf7e751eebff79ac9e805d7a7de8696c52b43))
+
+
+### Fixed
+* Render section detail bullets conditionally with proper spacing ([`e4564cc`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/e4564cc43b5e5cec31ed704918cddbc124ec76ca))
+
+* Enhance error layout usability, add sr-only styles, and maintain LTR/RTL parity ([`18a9b5b`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/18a9b5bbd18c52456a5a0dfd958d09187686a003))
+
+* Restore standalone profile layout and eliminate icon underline artifacts ([`5bed5dd`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/5bed5ddc9b59bbfcb820df7793c2098ee0762d69))
+
+* Resolve Liquid truthiness, unclosed tags, and Arabic date parsing ([`90a0750`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/90a075077c812bc56d31ac9622abdf2f3278dc98))
+
 ## [0.7.0] - 2026-09-12
 
 ### Added
@@ -194,6 +229,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[0.8.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.7.0...v0.8.0
+[0.7.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.6.1...v0.7.0
 [0.6.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.2...v0.6.0
 [0.5.2]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.5.0...v0.5.1

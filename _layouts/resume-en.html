@@ -237,7 +237,7 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                             {% assign active_languages = resume_data.languages | where: "active", true %}
                             {% if site.resume_section.lang_header and active_languages.size > 0 %}
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <span style="white-space: nowrap;">
+                                <span>
                                     <strong>Languages:</strong>
                                     {% for lang in active_languages %}
                                         {{ lang.language }} ({{ lang.descrp_short }}){% unless forloop.last %}, {% endunless %}

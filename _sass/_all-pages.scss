@@ -58,6 +58,20 @@
   }
 }
 
+/* Visually hidden utility for screen readers (WCAG 2.1 AA) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+  text-decoration: none !important;
+}
+
 /* Following only apply to the resume header contact info icons */
 .header-contact-info>p>svg {
   width: 20px;

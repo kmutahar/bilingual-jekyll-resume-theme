@@ -29,14 +29,31 @@ body = """
 {% else -%}
     ## [Unreleased]
 {% endif -%}
-
-{% for group, commits in commits | group_by(attribute="group") %}
+{% set_global has_content = false -%}
+{% for group, commits in commits | group_by(attribute="group") -%}
+    {% if group != "Release" -%}
+        {% set_global has_content = true -%}
+    {% endif -%}
+{% endfor -%}
+{% if not has_content %}
+### Changed
+* Version bump release with no structural code changes.
+{% else -%}
+{% for group, commits in commits | group_by(attribute="group") -%}
+    {% if group != "Release" %}
     ### {{ group | upper_first }}
     {%- for commit in commits %}
         * {{ commit.message | split(pat="\n") | first | upper_first | trim }} \
           ([`{{ commit.id | truncate(length=7, end="") }}`]({{ self::remote_url() }}/commit/{{ commit.id }}))
     {% endfor %}
-{% endfor %}
+    {% endif -%}
+{% endfor -%}
+{% endif -%}
+
+
+
+
+
 """
 
 # Footer from your "liked theme"
@@ -76,8 +93,9 @@ commit_preprocessors = [
 ]
 # An array of regex based parsers for extracting data from the commit message.
 commit_parsers = [
-    # This rule MUST come first: Skip any commits for releases.
-    { message = "^chore\\(release\\)", skip = true },
+    # Categorize release commits under "Release" so empty releases are preserved but hidden when other commits exist.
+    { message = "^chore\\(release\\)", group = "Release" },
+
     
     # These rules categorize all other commits.
     { message = "^[a|A]dd", group = "Added" },

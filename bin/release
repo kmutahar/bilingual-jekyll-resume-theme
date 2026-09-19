@@ -1,0 +1,155 @@
+#!/usr/bin/env bash
+# Automated release wrapper for bilingual-jekyll-resume-theme
+# Usage:
+#   ./bin/release <version>       (e.g., ./bin/release 0.8.0 or ./bin/release v0.8.0)
+#   ./bin/release --bump          (auto-detect version from git-cliff)
+#   ./bin/release -y <version>    (non-interactive mode)
+
+set -euo pipefail
+
+# Print help message
+show_help() {
+  cat <<EOF
+Usage: $(basename "$0") [options] [VERSION]
+
+Options:
+  -y, --yes          Auto-confirm prompts (non-interactive mode)
+  -b, --bump         Auto-detect next version using git-cliff --bumped-version
+  -f, --allow-dirty  Allow running with uncommitted changes in git
+  -h, --help         Show this help message
+
+Examples:
+  $(basename "$0") 0.8.0
+  $(basename "$0") v0.8.0
+  $(basename "$0") 1.0.0-rc1
+  $(basename "$0") --bump
+EOF
+}
+
+INTERACTIVE=true
+ALLOW_DIRTY=false
+AUTO_BUMP=false
+TARGET_VERSION=""
+
+# Parse flags
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help)
+      show_help
+      exit 0
+      ;;
+    -y|--yes)
+      INTERACTIVE=false
+      shift
+      ;;
+    -f|--allow-dirty)
+      ALLOW_DIRTY=true
+      shift
+      ;;
+    -b|--bump)
+      AUTO_BUMP=true
+      shift
+      ;;
+    *)
+      if [[ -z "$TARGET_VERSION" ]]; then
+        TARGET_VERSION="$1"
+      fi
+      shift
+      ;;
+  esac
+done
+
+# Ensure git working tree is clean
+if [[ "$ALLOW_DIRTY" == "false" ]]; then
+  if ! git diff-index --quiet HEAD --; then
+    echo "Error: Working directory has uncommitted changes." >&2
+    echo "Please commit or stash your changes before releasing, or use --allow-dirty." >&2
+    exit 1
+  fi
+fi
+
+# Determine version
+if [[ "$AUTO_BUMP" == "true" ]] || [[ -z "$TARGET_VERSION" && -t 0 ]]; then
+  if command -v git-cliff &>/dev/null; then
+    DETECTED_VERSION=$(git-cliff --bumped-version 2>/dev/null || true)
+    if [[ -n "$DETECTED_VERSION" ]]; then
+      DETECTED_VERSION="${DETECTED_VERSION#v}"
+      if [[ "$AUTO_BUMP" == "true" ]]; then
+        TARGET_VERSION="$DETECTED_VERSION"
+      else
+        read -rp "Enter release version [default: $DETECTED_VERSION]: " INPUT_VERSION
+        TARGET_VERSION="${INPUT_VERSION:-$DETECTED_VERSION}"
+      fi
+    fi
+  fi
+fi
+
+if [[ -z "$TARGET_VERSION" ]]; then
+  read -rp "Enter target release version (e.g. 0.8.0): " TARGET_VERSION
+fi
+
+# Clean up version string (strip leading 'v')
+VERSION="${TARGET_VERSION#v}"
+TAG="v${VERSION}"
+GEMSPEC="bilingual-jekyll-resume-theme.gemspec"
+
+if [[ -z "$VERSION" ]]; then
+  echo "Error: Release version cannot be empty." >&2
+  exit 1
+fi
+
+echo "=========================================="
+echo " Preparing Release: $TAG ($VERSION)"
+echo "=========================================="
+
+# 1. Update gemspec version
+if [[ -f "$GEMSPEC" ]]; then
+  sed -i -E "s/(spec\.version\s*=\s*\")[^\"]+(\")/\1${VERSION}\2/" "$GEMSPEC"
+  echo "✔ Updated $GEMSPEC spec.version to \"$VERSION\""
+else
+  echo "Error: $GEMSPEC not found!" >&2
+  exit 1
+fi
+
+# 2. Run git-cliff to update CHANGELOG.md
+if command -v git-cliff &>/dev/null; then
+  git-cliff -o CHANGELOG.md --tag "$TAG"
+  echo "✔ Updated CHANGELOG.md using git-cliff for $TAG"
+else
+  echo "Warning: git-cliff is not installed or not in PATH." >&2
+  echo "Make sure CHANGELOG.md is manually updated before proceeding." >&2
+fi
+
+# 3. Preview release notes
+echo ""
+echo "--- Extracted Release Notes Preview ---"
+awk '/^## \[/{if (count++) exit} count' CHANGELOG.md || true
+echo "--------------------------------------"
+echo ""
+
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Prompt for confirmation if interactive
+if [[ "$INTERACTIVE" == "true" ]]; then
+  read -rp "Commit changes, create tag '$TAG', and push to origin/$CURRENT_BRANCH? [Y/n] " CONFIRM
+  CONFIRM="${CONFIRM:-Y}"
+  if [[ "$CONFIRM" != [yY] && "$CONFIRM" != [yY][eE][sS] ]]; then
+    echo "Release aborted. Local changes to $GEMSPEC and CHANGELOG.md have been kept."
+    exit 0
+  fi
+fi
+
+# 4. Git add, commit, tag, and push
+echo "Creating Git commit and tag..."
+git add "$GEMSPEC" CHANGELOG.md
+git commit -m "chore(release): prepare $TAG"
+git tag -a "$TAG" -m "$TAG"
+
+echo "Pushing branch '$CURRENT_BRANCH' and tag '$TAG' to origin..."
+git push origin "$CURRENT_BRANCH" "$TAG"
+
+echo ""
+echo "=========================================="
+echo " Successfully pushed $TAG to GitHub!"
+echo " GitHub Actions will now build, publish to RubyGems, and create the GitHub Release."
+echo "=========================================="

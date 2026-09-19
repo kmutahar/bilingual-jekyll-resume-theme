@@ -161,4 +161,5 @@ The theme is available as open source under the terms of the [MIT License](LICEN
 
 ---
 
-**Created by Khaldoon Mutahar** | Version 0.4.0 | MIT License
+**Created by Khaldoon Mutahar** | Version 0.8.0 | MIT License
+

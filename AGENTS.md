@@ -142,6 +142,17 @@ bundle outdated
 bundle update
 ```
 
+### Automated Version Release
+```bash
+# Release a specific version (updates gemspec, changelog, commits, tags, and pushes to origin):
+./bin/release 0.8.0
+
+# Auto-detect next version via git-cliff:
+./bin/release --bump
+```
+*Note: Pushing the git tag automatically triggers `.github/workflows/publish.yml`, which publishes the gem to RubyGems.org, creates the GitHub Release with notes extracted from `CHANGELOG.md`, and attaches the `.gem` file.*
+
+
 ---
 
 ## 5. High-Level Architecture

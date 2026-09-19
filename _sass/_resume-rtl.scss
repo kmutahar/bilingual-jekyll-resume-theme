@@ -13,10 +13,24 @@ html[dir="rtl"] {
   .section-header h2,
   .page-header .header-name,
   .page-header .header-title,
+  .resume-item-title,
+  .resume-item-details,
   .content-section .resume-item-title,
   .content-section .resume-item-details,
   .content-section .resume-item-copy {
     font-family: 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif;
+  }
+
+  // Prevent diacritic/dot clipping and preserve cursive ligatures in Arabic script
+  .section-header h2,
+  .page-header .header-name,
+  .page-header .header-title,
+  .resume-item-title,
+  .resume-item-details,
+  .content-section .resume-item-title,
+  .content-section .resume-item-details {
+    line-height: 1.6;
+    letter-spacing: normal;
   }
 
   // Global alignment defaults

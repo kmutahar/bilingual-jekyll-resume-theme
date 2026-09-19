@@ -1,23 +1,61 @@
-/* SVG Icons */
+/* SVG Icons & Links */
 
-.icon-link {
-  text-decoration: none;
+.icon-link,
+.social-links a,
+.social-links li a {
+  color: var(--icon-fill-muted, #555);
+  text-decoration: none !important;
+  line-height: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+
+  &:hover,
+  &:focus {
+    color: var(--accent-hover, #307EA9);
+    text-decoration: none !important;
+  }
+}
+
+.icon-link:hover,
+.icon-link:focus,
+.social-links a:hover,
+.social-links a:focus,
+.social-links li a:hover,
+.social-links li a:focus {
+  text-decoration: none !important;
 }
 
 .svg-icon,
 .icon-link svg,
 .social-links svg,
 .page-footer svg {
-  fill: var(--icon-fill-muted, #BBB);
+  fill: var(--icon-fill-muted, #555);
   width: 30px;
   transition: fill 0.2s ease;
 }
 
+.social-links svg path,
+.icon-link svg path,
+.svg-icon path,
+.page-footer svg path {
+  fill: inherit;
+}
+
 .svg-icon:hover,
+.svg-icon:focus,
 .icon-link:hover svg,
+.icon-link:focus svg,
 .social-links a:hover svg,
-.page-footer a:hover svg {
+.social-links a:focus svg,
+.page-footer a:hover svg,
+.page-footer a:focus svg {
   fill: var(--icon-fill-dark, #000);
+
+  path {
+    fill: inherit;
+  }
 }
 
 /* Following only apply to the resume header contact info icons */
@@ -198,6 +236,13 @@ footer,
 
     &.arabic {
       direction: rtl;
+      font-family: var(--font-ar, 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif);
+
+      .error-title,
+      .error-description {
+        font-family: var(--font-ar, 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif);
+        line-height: 1.6;
+      }
     }
   }
 
@@ -221,6 +266,68 @@ footer,
     background-color: var(--border-color, #c7c7c7);
     margin: 1.5rem auto;
     border: none;
+  }
+
+  /* Accessible Bilingual Search Form */
+  .error-search {
+    margin: 1.5rem auto 2rem;
+    max-width: 440px;
+    width: 100%;
+
+    .error-search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .error-search-input {
+      width: 100%;
+      padding: 0.75rem 2.75rem 0.75rem 1rem;
+      border: 1px solid var(--border-color, #c7c7c7);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      color: var(--text-color, #333);
+      background-color: var(--card-bg, var(--bg-color, #fff));
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &::placeholder {
+        color: var(--text-light, #888);
+        opacity: 0.8;
+      }
+
+      &:focus {
+        border-color: var(--accent-color, #3064a9);
+        box-shadow: 0 0 0 3px rgba(48, 100, 169, 0.2);
+      }
+    }
+
+    .error-search-button {
+      position: absolute;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      padding: 0.375rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light, #888);
+      transition: color 0.2s ease;
+
+      &:hover,
+      &:focus {
+        color: var(--accent-color, #3064a9);
+        outline: none;
+      }
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
   }
 
   .error-actions {

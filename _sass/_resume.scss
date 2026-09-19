@@ -35,7 +35,7 @@
 
   .header-name {
     @include mixins.sans;
-    font-size: 3rem;
+    font-size: clamp(2rem, 8vw, 3rem);
     font-weight: 900;
     text-align: center;
     letter-spacing: -.15rem;
@@ -102,13 +102,31 @@
     margin-left: 5px;
   }
 
-  .icon-link {
-    display: inline-block;
-    text-decoration: none;
+  .icon-link,
+  .social-links a,
+  .social-links li a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
     vertical-align: middle;
+    line-height: 0;
 
-    &:hover .icon path {
-      fill: var(--icon-fill, #333);
+    &:hover,
+    &:focus {
+      text-decoration: none !important;
+    }
+  }
+
+  .icon-link svg path,
+  .social-links svg path {
+    fill: inherit;
+  }
+
+  .icon-link {
+    &:hover .icon path,
+    &:focus .icon path {
+      fill: var(--icon-fill, var(--icon-fill-dark, #333));
       @include mixins.transition(all .2s ease);
     }
   }
@@ -126,6 +144,8 @@
   display: block;
   margin: 1.5rem auto;
   width: 220px;
+  max-width: 100%;
+  box-sizing: border-box;
   font-size: 1.375rem;
   @include mixins.sans_light;
   color: var(--button-text, #333);
@@ -139,6 +159,8 @@
 
   &.not-looking {
     width: 400px;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 

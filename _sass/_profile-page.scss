@@ -54,18 +54,27 @@ a:hover {
 .icon-link,
 .social-links a,
 .social-links li a {
-  color: var(--icon-fill-muted, #BBB);
+  color: var(--icon-fill-muted, #555);
   text-decoration: none !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
   line-height: 0;
+
+  &:hover,
+  &:focus {
+    color: var(--accent-hover, #307EA9);
+    text-decoration: none !important;
+  }
 }
 
 .icon-link:hover,
+.icon-link:focus,
 .social-links a:hover,
-.social-links li a:hover {
+.social-links a:focus,
+.social-links li a:hover,
+.social-links li a:focus {
   color: var(--accent-hover, #307EA9);
   text-decoration: none !important;
 }
@@ -74,15 +83,28 @@ a:hover {
 .svg-icon,
 .icon-link svg,
 .social-links svg {
-  fill: var(--icon-fill-muted, #BBB);
+  fill: var(--icon-fill-muted, #555);
   width: 30px;
   transition: fill 0.2s ease;
 }
 
+.social-links svg path,
+.icon-link svg path,
+.svg-icon path {
+  fill: inherit;
+}
+
 .svg-icon:hover,
+.svg-icon:focus,
 .icon-link:hover svg,
-.social-links a:hover svg {
+.icon-link:focus svg,
+.social-links a:hover svg,
+.social-links a:focus svg {
   fill: var(--icon-fill-dark, #000);
+
+  path {
+    fill: inherit;
+  }
 }
 
 .cv-button {

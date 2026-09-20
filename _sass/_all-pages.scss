@@ -1,5 +1,18 @@
-/* SVG Icons & Links */
+// ==========================================================================
+// Universal Shared Styles (_all-pages.scss)
+// bilingual-jekyll-resume-theme
+//
+// Shared styling across default, resume, profile, and error layouts.
+// Covers SVG icon link mechanics, WCAG screen-reader utilities, markdown
+// typography for .main-content (with CSS logical properties for bilingual parity),
+// universal footer presentation, and the HTTP status error page suite (404, 403, 500).
+// ==========================================================================
 
+/* SVG Icons & Links */
+// Anchor wrappers around inline SVG icons:
+// 1. display: inline-flex + vertical-align: middle aligns icons with surrounding text.
+// 2. line-height: 0 eliminates standard text descender space beneath the SVG.
+// 3. text-decoration: none !important suppresses browser link underlines on vector images.
 .icon-link,
 .social-links a,
 .social-links li a {
@@ -27,6 +40,7 @@
   text-decoration: none !important;
 }
 
+// Universal SVG sizing (30px width) with smooth 0.2s fill transition.
 .svg-icon,
 .icon-link svg,
 .social-links svg,
@@ -36,6 +50,7 @@
   transition: fill 0.2s ease;
 }
 
+// Path fill inheritance: ensures multi-path vector graphics inherit the parent SVG fill.
 .social-links svg path,
 .icon-link svg path,
 .svg-icon path,
@@ -43,6 +58,7 @@
   fill: inherit;
 }
 
+// Interactive hover and focus states for SVG icons.
 .svg-icon:hover,
 .svg-icon:focus,
 .icon-link:hover svg,
@@ -59,6 +75,8 @@
 }
 
 /* Visually hidden utility for screen readers (WCAG 2.1 AA) */
+// Hides elements visually while keeping them accessible to screen readers (VoiceOver, NVDA).
+// Uses 1px clip rect and absolute positioning out of the visual layout flow.
 .sr-only {
   position: absolute;
   width: 1px;
@@ -73,6 +91,7 @@
 }
 
 /* Following only apply to the resume header contact info icons */
+// Scoped 20px sizing for inline contact details (email, phone, location) in resume headers.
 .header-contact-info>p>svg {
   width: 20px;
   fill: var(--icon-fill-dark, #000);
@@ -81,7 +100,7 @@
 
 
 /* Footer */
-
+// Universal page footer shared between default markdown pages and standalone layouts.
 footer,
 .page-footer {
   padding-top: 1.5rem;
@@ -102,6 +121,7 @@ footer,
 }
 
 /* Main Content Container for Default Layout */
+// Markdown content container used in _layouts/default.html for generic pages and documentation.
 .main-content {
   width: 100%;
   max-width: 800px;
@@ -109,6 +129,7 @@ footer,
   padding: 2rem 1.5rem;
   box-sizing: border-box;
 
+  // Headings: semantic colors and proportional top/bottom margins.
   h1, h2, h3, h4, h5, h6 {
     color: var(--text-color, #333);
     font-weight: 700;
@@ -116,6 +137,7 @@ footer,
     margin-top: 1.5em;
     margin-bottom: 0.5em;
 
+    // Suppresses excess top margin on the document's opening heading.
     &:first-child {
       margin-top: 0;
     }
@@ -128,11 +150,13 @@ footer,
 
   p {
     color: var(--text-color, #333);
-    line-height: 1.7;
+    line-height: 1.7; // Enhanced line-height for reading comfort
     margin-top: 0;
     margin-bottom: 1.25rem;
   }
 
+  // Hyperlinks: scoped with :not() so action buttons do not inherit underlines.
+  // Uses text-underline-offset for clean non-color link identification (WCAG 2.2).
   a:not(.cv-button):not(.error-btn) {
     color: var(--accent-color, #3064a9);
     text-decoration: underline;
@@ -144,6 +168,8 @@ footer,
     }
   }
 
+  // Blockquotes: uses CSS Logical Property border-inline-start to automatically mirror
+  // the 4px accent border to the left side in LTR and to the right side in RTL.
   blockquote {
     margin: 1.5rem 0;
     padding: 0.75rem 1.25rem;
@@ -157,6 +183,7 @@ footer,
     }
   }
 
+  // Unordered and ordered lists: uses padding-inline-start for bidirectional alignment parity.
   ul, ol {
     color: var(--text-color, #333);
     padding-inline-start: 1.75rem;
@@ -175,6 +202,7 @@ footer,
     margin: 2rem 0;
   }
 
+  // Inline code snippets: dark-mode-aware background token.
   code, kbd, samp {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 0.875em;
@@ -185,6 +213,7 @@ footer,
     border: 1px solid var(--border-color, #c7c7c7);
   }
 
+  // Preformatted code blocks: horizontal scroll containment and theme borders.
   pre {
     background-color: var(--card-bg, #efefef);
     border: 1px solid var(--border-color, #c7c7c7);
@@ -202,6 +231,7 @@ footer,
     }
   }
 
+  // Markdown data tables: full width, zebra-striped alternating rows.
   table {
     width: 100%;
     border-collapse: collapse;
@@ -226,12 +256,14 @@ footer,
 }
 
 /* Error / 404 Page Styles */
+// Presentation layer for _layouts/error.html (consumed by 404.html, 403.html, 500.html).
 .error-page {
   text-align: center;
   padding: 3rem 1rem;
   max-width: 650px;
   margin: 0 auto;
 
+  // Prominent status code headline (e.g. "404"): fluid clamp scaling up to 7rem.
   .error-code {
     font-size: clamp(4rem, 12vw, 7rem);
     font-weight: 900;
@@ -248,6 +280,7 @@ footer,
   .error-lang-block {
     margin: 1.5rem 0;
 
+    // Arabic block in error suite: enforces direction: rtl and Cairo font.
     &.arabic {
       direction: rtl;
       font-family: var(--font-ar, 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif);
@@ -283,6 +316,7 @@ footer,
   }
 
   /* Accessible Bilingual Search Form */
+  // Embedded recovery search input for 404/error navigation.
   .error-search {
     margin: 1.5rem auto 2rem;
     max-width: 440px;
@@ -344,6 +378,7 @@ footer,
     }
   }
 
+  // Recovery action buttons (e.g. Return Home, View English CV, View Arabic CV).
   .error-actions {
     display: flex;
     flex-wrap: wrap;
@@ -374,12 +409,12 @@ footer,
 
     &.primary {
       background-color: var(--accent-color, #3064a9);
-      color: #fff;
+      color: var(--accent-contrast-text, #fff);
       border-color: var(--accent-color, #3064a9);
 
       &:hover {
         background-color: var(--accent-hover, #307EA9);
-        color: #fff;
+        color: var(--accent-contrast-text, #fff);
       }
     }
   }

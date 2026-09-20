@@ -1,3 +1,31 @@
+{%- comment -%}
+  Component: Social & Professional Links List
+  - Purpose: Renders interactive social network and contact links defined in `site.social_links` in `_config.yml`.
+  - Supported Platforms: GitHub, LinkedIn, Telegram, Twitter/X, Medium, Dribbble, Facebook, Instagram,
+    Website, WhatsApp, Dev.to, Flickr, Pinterest, YouTube.
+
+  Architecture & Implementation Details:
+  1. Bundled Local SVGs: Vector icons are sourced locally from `_includes/vendors/lineicons-v5.0/`.
+     Inlining SVGs eliminates external network dependencies and enables direct CSS fill/color inheritance.
+  2. Security & SEO Best Practices:
+     - `target="_blank"`: Opens external profiles in a new tab.
+     - `rel="noopener nofollow noreferrer"`:
+       - `noopener`: Prevents the target page from accessing `window.opener`, neutralizing reverse tab-nabbing exploits.
+       - `noreferrer`: Suppresses sending the HTTP Referer header to external servers.
+       - `nofollow`: Informs search engine crawlers not to endorse outbound social links.
+  3. Schema.org Microdata Semantics:
+     - Social profiles use `itemprop="sameAs"` to verify alternative digital identities of the person.
+     - Direct communication channels and websites use `itemprop="url"`.
+  4. Hover State & Underline Suppression:
+     - The anchor element carries class `icon-link`.
+     - In `_sass/_all-pages.scss` and `_sass/_profile-page.scss`, `.icon-link`, `.icon-link:hover`, and `.icon-link:focus`
+       explicitly enforce `text-decoration: none !important;` to prevent default browser link underlines from
+       appearing underneath SVG icons.
+     - `display: inline-flex; line-height: 0; align-items: center;` eliminates unwanted baseline font descent spacing.
+  5. WCAG 2.2 Accessibility:
+     - Every icon anchor includes `aria-label="<Platform>"`, `title="<Platform>"`, and a visually-hidden `<span class="sr-only"><Platform></span>`.
+{%- endcomment -%}
+
 {% if site.social_links.github %}
     <!-- GitHub link -->
     <li class="icon-link-item">

@@ -14,11 +14,11 @@ A technical tour of the theme's styling system in [`../_sass/`](../_sass/) and e
   - [1. `_variables.scss`](#1-_variablesscss)
   - [2. `_mixins.scss`](#2-_mixinsscss)
   - [3. `_normalize.scss`](#3-_normalizescss)
-  - [4. `_base.scss`](#4-_basesscss)
+  - [4. `_base.scss`](#4-_basescss)
   - [5. `_layout.scss`](#5-_layoutscss)
   - [6. `_resume.scss`](#6-_resumescss)
   - [7. `_resume-rtl.scss`](#7-_resume-rtlscss)
-  - [8. `_profile.scss`](#8-_profilescss)
+  - [8. `_profile-page.scss` / `_profile.scss`](#8-_profile-pagescss--_profilescss)
   - [9. `_all-pages.scss`](#9-_all-pagesscss)
   - [10. `_dark-mode.scss`](#10-_dark-modescss)
 - [The Dark Mode Token System](#the-dark-mode-token-system)
@@ -130,6 +130,8 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ---
 
+<a id="8-_profilescss"></a>
+<a id="8-_profile-scss"></a>
 ### 8. `_profile-page.scss` / `_profile.scss`
 
 - **Files:** [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss) (and forwarder [`../_sass/_profile.scss`](../_sass/_profile.scss))
@@ -159,20 +161,50 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ### Design Tokens Table
 
-All layout and resume styles reference CSS custom properties defined on `:root`:
+All layout and resume styles reference CSS custom properties defined on `:root` in [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss):
 
 | CSS Custom Property | Light Mode Value | Dark Mode Value | Semantic Role |
 |---|---|---|---|
+| **Background & Typography** | | | |
 | `--bg-color` | `#ffffff` | `#121212` | Main page and viewport background |
-| `--text-color` | `#222222` | `#e0e0e0` | Primary reading and heading typography |
-| `--text-muted` | `#666666` | `#a0a0a0` | Secondary copy, timestamps, and details |
-| `--border-color` | `#e5e5e5` | `#2d2d2d` | Section dividers and card borders |
-| `--card-bg` | `#f8f9fa` | `#1e1e1e` | Button backgrounds and code blocks |
-| `--link-color` | `#0969da` | `#58a6ff` | Interactive hyperlinks |
-| `--link-hover` | `#0550ae` | `#79b8ff` | Hyperlink hover states |
-| `--accent-color` | `#2563eb` | `#3b82f6` | Focus outlines and primary accents |
-| `--icon-fill` | `#4b5563` | `#9ca3af` | Social and contact SVG icon fill |
-| `--selection-bg` | `#b4d5fe` | `#1f6feb` | Text selection background |
+| `--text-color` | `#333` | `#e0e0e0` | Primary reading and heading typography |
+| `--text-muted` | `#999` | `#888888` | Secondary copy, timestamps, and details |
+| `--text-light` | `#646464` | `#aaaaaa` | Tertiary descriptive text |
+| `--border-color` | `#c7c7c7` | `#333333` | Section dividers and card borders |
+| `--card-bg` | `#efefef` | `#1e1e1e` | Button backgrounds and code blocks |
+| **Links & Navigation** | | | |
+| `--link-color` | `#333` | `#e0e0e0` | Interactive hyperlinks |
+| `--link-hover` | `#9c9c9c` | `#ffffff` | Hyperlink hover color |
+| `--link-hover-color` | `var(--link-hover)` | `var(--link-hover)` | Hyperlink hover alias |
+| **Accent & Brand** | | | |
+| `--accent-color` | `#3064a9` | `#6ba4e8` | Primary accents and focus outlines |
+| `--accent-hover` | `#307EA9` | `#8cbcf3` | Accent hover state |
+| `--accent-hover-color` | `var(--accent-hover)` | `var(--accent-hover)` | Accent hover alias |
+| `--social-hover-color` | `var(--accent-hover)` | `var(--accent-hover)` | Social icons hover color |
+| `--about-color` | `var(--text-light)` | `var(--text-light)` | Executive summary / about text color |
+| **Footer** | | | |
+| `--footer-text-color` | `var(--text-muted)` | `var(--text-muted)` | Footer copyright typography |
+| `--footer-link-color` | `var(--link-color)` | `var(--link-color)` | Footer hyperlink color |
+| **Icons & Graphics** | | | |
+| `--icon-fill` | `#333` | `#e0e0e0` | Social and contact SVG icon fill |
+| `--icon-fill-muted` | `#555555` | `#888888` | Muted secondary icon fill |
+| `--icon-fill-dark` | `#000` | `#ffffff` | Dark/prominent icon fill |
+| `--icon-hover-fill` | `var(--icon-fill-dark)` | `var(--icon-fill-dark)` | Icon hover fill |
+| `--header-icon-fill` | `var(--icon-fill-dark)` | `var(--icon-fill-dark)` | Header contact icon fill |
+| **Buttons (.contact-button, .cv-button)** | | | |
+| `--button-bg` | `#efefef` | `#2a2a2a` | Action button background |
+| `--button-text` | `#333` | `#e0e0e0` | Action button label color |
+| `--button-hover-bg` | `#333` | `#444444` | Action button hover background |
+| `--button-hover-text` | `#fff` | `#ffffff` | Action button hover label color |
+| **Text Selection** | | | |
+| `--selection-bg` | `rgba(51, 51, 51, .8)` | `rgba(107, 164, 232, .5)` | Highlighted text background |
+| `--selection-color` | `#fff` | `#ffffff` | Highlighted text color |
+| **Dark Mode Toggle Component** | | | |
+| `--toggle-btn-bg` | `transparent` | `transparent` | Toggle button background |
+| `--toggle-btn-border` | `var(--border-color)` | `var(--border-color)` | Toggle button border |
+| `--toggle-btn-color` | `var(--text-color)` | `var(--text-color)` | Toggle button icon color |
+| `--toggle-btn-hover-bg` | `var(--button-bg)` | `var(--button-bg)` | Toggle button hover background |
+| `--toggle-btn-focus-ring`| `var(--accent-color)`| `var(--accent-color)`| Toggle button focus ring outline |
 
 ### Two-Tier Activation Mechanism
 

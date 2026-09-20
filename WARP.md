@@ -5,6 +5,12 @@
 
 ## Quick Reference for Warp
 
+### Living Docs Governance Signposts
+- **Constitution**: [`AGENTS.md`](AGENTS.md) — Authoritative agent operating rules & parity constraints.
+- **Map**: [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md) — Architecture, file maps, and component guide.
+- **Status**: [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) — Current release (v0.8.0), 20 active features, and the Delete-Zone.
+- **History**: [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) & [`CHANGELOG.md`](CHANGELOG.md) — Historical audits & release history.
+
 When working in this repository with Warp terminal, refer directly to **[`AGENTS.md`](AGENTS.md)**.
 
 ### Common Commands

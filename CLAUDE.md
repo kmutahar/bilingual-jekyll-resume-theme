@@ -9,11 +9,17 @@
 
 ## Quick Reference for Claude Code
 
+### Living Docs Governance Signposts
+- **Constitution**: [`AGENTS.md`](AGENTS.md) — Authoritative agent operating rules & parity constraints.
+- **Map**: [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md) — Architecture, file maps, and component guide.
+- **Status**: [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) — Current release (v0.8.0), 20 active features, and the Delete-Zone.
+- **History**: [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) & [`CHANGELOG.md`](CHANGELOG.md) — Historical audits & release history.
+
 ### Primary Instructions
 When working in this repository with Claude Code, adhere strictly to **[`AGENTS.md`](AGENTS.md)**:
 
 1. **Bilingual Parity**: Any change to resume sections or layouts must be mirrored in both English (LTR) and Arabic (RTL) templates (`resume-section-en.html` and `resume-section-ar.html`).
-2. **Feature Roadmap**: Consult [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) before implementing features. All 19 open features have full technical blueprints and mapped GitHub issues.
+2. **Feature Roadmap**: Consult [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) before implementing features. All 20 active features have full technical blueprints, mapped GitHub issues, and a Status Delete-Zone.
 3. **Issue Auto-Closing**: All commits and pull requests must use Conventional Commits and explicit issue closure syntax:
    `feat(<scope>): <description> (Closes #<issue_id>)`
 4. **Historical Remediation Awareness**: Review [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) before touching security or structural areas to avoid duplicating or reverting completed work.

@@ -80,14 +80,22 @@ Understanding the theme's include system, how sections render, and how to add ne
 ### 🎨 [SASS/SCSS Guide](docs/SASS_GUIDE.md)
 Complete guide to the theme's styling system, how to customize colors/fonts, and how to override styles without forking the theme.
 
+### 🗺️ [Project Overview](docs/PROJECT_OVERVIEW.md)
+High-level architecture summary, repository conventions, layout hierarchy, and design philosophy.
+
+### 📜 [Completed Historical Audit](docs/COMPLETED_AUDIT.md)
+Permanent engineering record of historical bug fixes, security hardening, and architectural upgrades.
+
 ## Project Structure
 
-```
+```text
 bilingual-jekyll-resume-theme/
-├── _layouts/          # HTML templates (default, resume-en, resume-ar, profile)
-├── _includes/          # Reusable components (sections, headers, analytics)
-├── _sass/             # SCSS stylesheets (RTL support, print styles)
-├── _data/             # Theme data (includes ar/months.yml)
+├── _layouts/          # HTML templates (default, resume-en, resume-ar, profile, error)
+├── _includes/         # Reusable components (sections, headers, analytics, avatar, toggle)
+├── _sass/             # SCSS stylesheets (RTL support, dark mode tokens, print styles)
+├── _plugins/          # Dynamic generators (error_pages_generator.rb)
+├── lib/               # Gem entrypoint and runtime extensions
+├── _data/             # Theme data (includes ar/months.yml, error_pages.yml)
 ├── assets/            # CSS, images, favicons
 └── docs/              # Documentation and sample files
     ├── _data/         # Sample data files (copy to your site's _data/)
@@ -106,7 +114,7 @@ active_resume_path_ar: "ar"  # Uses _data/ar/* (recommended)
 
 This is the recommended approach even if you're only using one language, as it keeps your data organized and makes it easy to add more languages later. **Advanced users:** You can place files directly in `_data/` (root) by setting these to empty strings, but this is not recommended for beginners.
 
-See the [Configuration Guide](docs/CONFIG_GUIDE.md#data-source-active_resume_path_en_ar) for details.
+See the [Configuration Guide](docs/CONFIG_GUIDE.md#7-resume-display--behavior-controls) for details.
 
 ### Sample Files
 
@@ -127,8 +135,11 @@ To develop this theme locally:
 # Install dependencies
 bundle install
 
-# Run development server
-bundle exec jekyll serve
+# Run development server in this repo (uses sample config to activate required plugins)
+bundle exec jekyll serve --config docs/_data/_config.sample.yml
+
+# Build static output
+bundle exec jekyll build --config docs/_data/_config.sample.yml
 
 # Build the gem
 gem build bilingual-jekyll-resume-theme.gemspec
@@ -157,7 +168,8 @@ The theme is available as open source under the terms of the [MIT License](LICEN
 
 - 📖 Check the [documentation guides](docs/) for detailed information
 - 🐛 Report issues on [GitHub Issues](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues)
-- 💡 See [project_overview.md](project_overview.md) for a high-level architecture overview
+- 💡 See [PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) for a high-level architecture overview
+- 📜 See [COMPLETED_AUDIT.md](docs/COMPLETED_AUDIT.md) for historical remediations and architectural decisions
 
 ---
 

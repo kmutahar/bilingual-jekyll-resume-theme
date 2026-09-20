@@ -2,8 +2,8 @@
 
 **Project:** `bilingual-jekyll-resume-theme`  
 **Document Status:** Authoritative Master Document (Single Source of Truth)  
-**Current Release:** `v0.7.0`  
-**Target Release Horizon:** `v0.8.0` (Visual & Core Functional) &rarr; `v0.9.0` (Tooling & CI/CD) &rarr; `v1.0.0` (Ecosystem & Multi-locale)  
+**Current Release:** `v0.8.0`  
+**Target Release Horizon:** `v0.9.0` (Tooling & CI/CD) &rarr; `v1.0.0` (Ecosystem & Multi-locale)  
 **Date:** September 2026  
 
 ---
@@ -52,6 +52,24 @@ All 20 active features are mapped below with their canonical GitHub issue refere
 | **P4** | **4.6** | Deprecation Retirement & Legacy Fallbacks Cleanup | [#214](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214) | `Closes #214` | ⭐ | High | 1–2 hrs | `_includes/resume-section-*.html`, layouts, docs |
 
 *(Note on Canonical References: Issue #204 is canonical for Expanded Social Media, superseding redundant duplicates #36–#190. Issue #206 is canonical for Automated CI/CD Pipeline, superseding redundant duplicates #38–#192).*
+
+<a id="status-delete-zone"></a>
+### 1.1 Status Delete-Zone (Intentional Removals & Deprecations)
+
+In accordance with Living Docs Governance, this Delete-Zone catalogs files, patterns, features, and configurations that have been intentionally removed, prohibited, or deprecated. **AI agents and developers MUST NOT recreate or re-introduce these elements.**
+
+| # | Path / Pattern / Concept | Lifecycle Status | Why Removed / Forbidden | Canonical Replacement | Revisit Condition |
+|---|---|---|---|---|---|
+| 1 | Static return URLs (`/resume/en/`, `/resume/ar/` in `_layouts/error.html`) | **Removed in v0.8.0** | Hardcoded paths broke return navigation for sites using custom resume paths (e.g. `/en/cv/`, `/ar/cv/`). | Dynamic resolution via `site.resume_en_url \| default: resume_en_page.url \| default: '/en/cv/'` (and matching Arabic mirror). | Never revert to hardcoded static URLs. Future locale extensions (Feature 4.1) must follow dynamic resolution. |
+| 2 | Gravatar MD5 email hashing & fallback initials claims | **Purged in v0.8.0** | Fictional feature documented in old drafts; neither Gravatar hashing nor initials fallback was ever implemented in `_includes/avatar.html`. Documenting `resume_avatar` as a Hash broke Liquid's strict boolean check `{% if site.resume_avatar == true %}`. | Direct image path via `site.avatar_url` (or fallback `site.avatar`), defaulting to `/assets/images/Profile-min.jpg`, with `resume_avatar: true` (Boolean). | Revisit only if a verified Jekyll Liquid MD5 plugin or client-side JS hashing filter is formally designed, approved in an ADR, and tested. |
+| 3 | `resume_avatar: Hash` in `_config.yml` | **Forbidden in v0.8.0** | Liquid `{% if site.resume_avatar == true %}` checks boolean equality; a hash evaluates to `false`. | `resume_avatar: true` (strictly Boolean) and `avatar_url: "..."`. | Never use a hash for `resume_avatar`. |
+| 4 | Singular section keys: `resume_section.recognition` | **Scheduled (v1.0.0, #214)** | Inconsistent singular syntax across sections. Standardized to plural `recognitions`. Fallback supported until `v1.0.0`. | `resume_section.recognitions` and `resume_section_order: - recognitions`. | Standardize all section names to plural. |
+| 5 | Scoped dark mode key: `site.resume_dark_mode` | **Scheduled (v1.0.0, #214)** | Scoped key confusingly duplicated site-wide dark mode toggle. Fallback supported until `v1.0.0`. | `site.dark_mode: enabled / auto / disabled`. | Use global `site.dark_mode` exclusively. |
+| 6 | Global header intro key: `site.resume_header_intro` | **Retired in v0.4.0** | Stored candidate intro in `_config.yml`, preventing bilingual localization. | `_data/en/header.yml` and `_data/ar/header.yml` (`intro:` field). | Never store translatable content in config. |
+| 7 | Universal Analytics: `analytics.ga` (`UA-XXXXX-X`) | **Retired (P0.3 / #214)** | Google UA is deprecated and shut down; caused parameter mismatch. | GA4 (`analytics.gtag: "G-..."`) or GTM (`analytics.gtm: "GTM-..."`). | Never restore Universal Analytics. |
+| 8 | Duplicate manual `<link rel="canonical">` | **Retired in v0.7.0 (P0.7)** | Conflicted with `jekyll-seo-tag` canonical tag emission. | Canonical tags emitted exclusively via `{% seo %}`. | Do not emit manual canonical tags in `<head>`. |
+| 9 | Global unscoped `svg` CSS selector | **Retired in v0.7.0 (P0.9)** | Applied 30px width and grey fill to all SVGs, distorting toggle buttons. | Scoped selectors `.svg-icon, .icon-link svg, .social-links svg, .page-footer svg`. | Never style unscoped `svg` or `img` tags. |
+| 10 | Bare relative favicon paths (`favicon.ico`) | **Retired in v0.7.0 (P0.6)** | Caused 404s on subpaths (`/resume/en/`, baseurl). | Modern favicon suite in `_includes/shared-head.html` using `relative_url`. | Always filter static assets with `relative_url`. |
 
 ---
 

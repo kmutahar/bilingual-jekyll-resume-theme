@@ -1,3 +1,10 @@
+{%- comment -%}
+  Component: Dark Mode Toggle Widget
+  - Purpose: Provides an accessible, persistent floating toggle button for switching between Light and Dark color themes.
+  - Visual Design: Floating circular action button fixed in the viewport.
+  - Print Media: Decorated with `class="no-print"` to ensure it is excluded from printed resumes or PDF generation.
+  - CSS Integration: Operates with CSS custom properties defined in `_sass/_dark-mode.scss`.
+{%- endcomment -%}
 <!-- Dark Mode Toggle Button (Two-state: System Default vs Pinned Override) -->
 <button
   id="dark-mode-toggle"
@@ -8,6 +15,12 @@
   aria-pressed="false"
   data-pinned="false"
 >
+  {%- comment -%}
+    Inline SVG Icons:
+    - Both icons have `aria-hidden="true"` and `focusable="false"` to prevent assistive technologies
+      from announcing raw vector graphics and to keep keyboard focus solely on the parent <button>.
+    - Visibility is toggled via CSS selectors based on `data-theme` or system color-scheme preference.
+  {%- endcomment -%}
   <!-- Sun Icon: Visible in dark mode / indicates switching to light mode -->
   <svg
     class="dark-mode-icon dark-mode-icon-sun"
@@ -54,12 +67,23 @@
 </button>
 
 <script>
+  /**
+   * Dark Mode Client Controller
+   * Encapsulated in an IIFE to prevent polluting the global window namespace.
+   *
+   * Two-State Logic Architecture:
+   * 1. Unpinned (System Default): Follows the OS `prefers-color-scheme`. `localStorage` contains no value.
+   *    Listens dynamically to OS dark/light mode switches.
+   * 2. Pinned (User Override): Explicit user choice saved in `localStorage.setItem('color-scheme', ...)`.
+   *    Clicking the button when pinned resets the theme back to the system default (clearing localStorage).
+   */
   (function () {
     var toggleBtn = document.getElementById('dark-mode-toggle');
     if (!toggleBtn) return;
 
     var metaTheme = document.querySelector('meta[name="color-scheme"]');
 
+    // Detects user's operating system level theme preference
     function getSystemTheme() {
       if (window.matchMedia) {
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -67,6 +91,8 @@
       return 'light';
     }
 
+    // Storage Error Boundary: Accesses localStorage inside try/catch to safely handle
+    // private browsing modes (e.g. Safari Private Browsing) or restricted cookie security settings.
     function getSavedTheme() {
       try {
         var val = localStorage.getItem('color-scheme');
@@ -79,6 +105,7 @@
       }
     }
 
+    // Determines if current page layout is Arabic / Right-to-Left
     function isArabicRTL() {
       var docEl = document.documentElement;
       var dir = docEl.getAttribute('dir');
@@ -86,6 +113,7 @@
       return dir === 'rtl' || lang === 'ar';
     }
 
+    // Synchronizes data attributes on <html> and <meta name="color-scheme">
     function syncState() {
       var saved = getSavedTheme();
       if (saved !== null) {
@@ -103,6 +131,7 @@
       }
     }
 
+    // Updates ARIA accessibility attributes, data-pinned status, and localized tooltips
     function updateUI() {
       var saved = getSavedTheme();
       var isPinned = (saved !== null);
@@ -114,6 +143,7 @@
       toggleBtn.setAttribute('aria-pressed', isPinned ? 'true' : 'false');
       toggleBtn.setAttribute('data-current-theme', effectiveTheme);
 
+      // Localized screen-reader announcements and tooltip titles
       if (isPinned) {
         label = isRTL
           ? 'إعادة ضبط المظهر إلى الوضع التلقائي للنظام'
@@ -135,6 +165,7 @@
       toggleBtn.setAttribute('title', label);
     }
 
+    // Toggles theme state: cycles between user-pinned override and system default
     function toggleTheme() {
       var saved = getSavedTheme();
       if (saved !== null) {
@@ -157,6 +188,7 @@
 
     toggleBtn.addEventListener('click', toggleTheme);
 
+    // Reactive System Theme Listener: Adapts UI in real-time when OS theme changes (if unpinned)
     if (window.matchMedia) {
       var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
       var mqListener = function () {
@@ -171,7 +203,9 @@
       }
     }
 
+    // Initial hydration on page load
     syncState();
     updateUI();
   })();
 </script>
+

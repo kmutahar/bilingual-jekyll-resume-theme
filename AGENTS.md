@@ -13,20 +13,20 @@
 3. [Roadmap, GitHub Issues & Git Workflow](#3-roadmap-github-issues--git-workflow)
 4. [Common Developer Commands](#4-common-developer-commands)
 5. [High-Level Architecture](#5-high-level-architecture)
-6. [v0.7.0 Modern Systems Architecture](#6-v070-modern-systems-architecture)
+6. [Modern Systems Architecture](#6-modern-systems-architecture)
 7. [Repository File Map](#7-repository-file-map)
 8. [Data Structure & Schemas](#8-data-structure--schemas)
 9. [Configuration Reference (`_config.yml`)](#9-configuration-reference-_configyml)
 10. [Arabic (RTL) Layout & Internationalization Mechanics](#10-arabic-rtl-layout--internationalization-mechanics)
 11. [Testing in a Consuming Site](#11-testing-in-a-consuming-site)
 12. [Troubleshooting & Debugging Guide](#12-troubleshooting--debugging-guide)
-13. [Documentation Master Index](#13-documentation-master-index)
+13. [Documentation Master Index & Living Docs Governance](#13-documentation-master-index--living-docs-governance)
 
 ---
 
 ## 1. Project Overview & Key Links
 
-**bilingual-jekyll-resume-theme** is a production Ruby gem / Jekyll theme (v0.7.0) for building data-driven, bilingual (English & Arabic) resume and CV websites. It offers high-fidelity visual parity between Left-to-Right (LTR) and Right-to-Left (RTL) layouts with dynamic data resolution and dark mode support.
+**bilingual-jekyll-resume-theme** is a production Ruby gem / Jekyll theme (v0.8.0) for building data-driven, bilingual (English & Arabic) resume and CV websites. It offers high-fidelity visual parity between Left-to-Right (LTR) and Right-to-Left (RTL) layouts with dynamic data resolution and dark mode support.
 
 - **Author & Maintainer**: Khaldoon Mutahar (`contact@mutahar.me`)
 - **License**: MIT License ([LICENSE.txt](LICENSE.txt))
@@ -76,12 +76,18 @@ Ensure that the static site compiles cleanly without Liquid errors and the gemsp
 
 ## 3. Roadmap, GitHub Issues & Git Workflow
 
-### Active Roadmap Reference
-The master roadmap is located at [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md). It organizes 19 active features across four priorities:
-- **Priority 1 (Quick Wins)**: Color Themes (#7), Skills Grouping (#11), Social Media Links (#204), CI/CD Automation (#206).
-- **Priority 2 (Core Functional)**: i18n Date Formatter (#9), PDF Generator Script (#10), Publications Section (#12), Certifications Verification (#18), Experience Layout Variant (#22).
-- **Priority 3 (Tooling & CI/CD)**: Theme Gemification (#6), Sample Data Generator (#13), Dynamic Section Toggle (#15), Print Stylesheet (#16), Analytics Integration (#20).
-- **Priority 4 (Ecosystem Expansion)**: Multiple Resume Layouts (#14), Webmentions (#17), Consuming Site Tests (#23), Performance Optimization (#21).
+### Active Roadmap Reference (Canonical Status Document)
+The authoritative master roadmap is maintained exclusively in [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md). In accordance with Living Docs Governance, `FEATURE_ROADMAP.md` is the single canonical owner of all active features, engineering blueprints, issue mappings, and the intentional-removal Delete-Zone:
+- **Phase Breakdown**: 20 active features across Priority 1 (Quick Wins), Priority 2 (Core Functional), Priority 3 (Tooling & CI/CD), and Priority 4 (Ecosystem Expansion).
+- **Canonical Master Matrix**: Consult [`FEATURE_ROADMAP.md#1-active-features-master-matrix`](FEATURE_ROADMAP.md#1-active-features-master-matrix) for exact issue IDs, auto-closing references, and target files before beginning any feature branch.
+- **Status Delete-Zone**: Consult [`FEATURE_ROADMAP.md#status-delete-zone`](FEATURE_ROADMAP.md#status-delete-zone) to verify intentionally removed or deprecated components before adding files.
+
+### Living Docs Navigation Hierarchy
+When operating in this codebase, agents must follow this reading sequence:
+1. **Constitution** ([`AGENTS.md`](AGENTS.md)): Mandatory operating rules, bilingual parity, git workflow.
+2. **Map** ([`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md)): Repository structure, file map, architecture jump table.
+3. **Status** ([`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md)): Active features, blueprints, blockers, and delete-zone.
+4. **History** ([`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) & [`CHANGELOG.md`](CHANGELOG.md)): Permanent audit of 18 completed remediations and release log.
 
 ### Automatic Issue Closing Protocol
 Every feature in `FEATURE_ROADMAP.md` is mapped to an open GitHub issue. To automatically close the GitHub issue upon PR merge:
@@ -124,7 +130,7 @@ bundle exec jekyll clean
 gem build bilingual-jekyll-resume-theme.gemspec
 
 # Test local gem installation
-gem install bilingual-jekyll-resume-theme-0.7.0.gem
+gem install bilingual-jekyll-resume-theme-0.8.0.gem
 
 # Verify all files packaged in the gem match gemspec patterns
 git ls-files -z | tr '\0' '\n' | grep -E '^(assets|_data|_layouts|_includes|_sass|LICENSE|README|CHANGELOG|CODE_OF_CONDUCT|docs|404|403|500)'
@@ -199,23 +205,25 @@ To support versioned or date-stamped resumes (e.g. `2025-06.20250621-PM`), the l
 
 ---
 
-## 6. v0.7.0 Modern Systems Architecture
+## 6. Modern Systems Architecture
 
-The v0.7.0 release introduced major architectural improvements:
+Key architectural systems established in the theme:
 
 ### 1. Site-Wide Dark Mode & Theme Variables
-- Managed via `_sass/_dark-mode.scss` and CSS custom variables (`--bg-color`, `--text-color`, `--card-bg`, etc.).
+- Managed via `_sass/_dark-mode.scss` and centralized CSS custom variables (`--bg-color`, `--text-color`, `--card-bg`, etc.).
 - Respects `prefers-color-scheme: dark` with client toggle persistence (`localStorage`).
 
 ### 2. Configurable Avatar Include
 - Component: `_includes/avatar.html`
-- Supports Gravatar hashing via user email, local asset paths (`/assets/images/avatar.jpg`), or remote URLs.
-- Provides fallback initials avatar when no image is configured.
+- Controlled by boolean `site.resume_avatar: true/false` in resume layouts (`resume-en.html`, `resume-ar.html`).
+- Resolves image source via `site.avatar_url | default: site.avatar | default: '/assets/images/Profile-min.jpg'`. Supports local relative paths or external URLs with subpath-safe `relative_url` filtering.
+- Provides localized alt text (`site.avatar_alt_en`, `site.avatar_alt_ar`, or name fallbacks) and configurable link wrapping (`site.avatar_link`, `site.avatar_link_target`).
 
-### 3. HTTP Error Suite Layout
+### 3. HTTP Error Suite Layout & Generator
 - Layout: `_layouts/error.html`
 - Consumed by root error pages: `404.html`, `403.html`, `500.html`.
-- Bilingual friendly with search box, return links, and clear error diagnostics.
+- Generator Plugin: `_plugins/error_pages_generator.rb` automatically synthesizes error pages if omitted by consuming site.
+- Bilingual friendly with search box, dynamic return links (`site.resume_en_url`, `site.resume_ar_url`), and clear error diagnostics.
 
 ### 4. WCAG 2.2 Accessibility
 - Added `.sr-only` screen-reader helper classes in `_sass/_base.scss`.
@@ -226,30 +234,36 @@ The v0.7.0 release introduced major architectural improvements:
 
 ## 7. Repository File Map
 
-```
+```text
 bilingual-jekyll-resume-theme/
+├── 403.html                      # Root HTTP 403 Access Forbidden page
+├── 404.html                      # Root HTTP 404 Page Not Found page
+├── 500.html                      # Root HTTP 500 Internal Server Error page
+│
 ├── _layouts/
 │   ├── default.html              # Base HTML shell
 │   ├── resume-en.html            # English resume layout (LTR)
 │   ├── resume-ar.html            # Arabic resume layout (RTL)
-│   ├── profile.html              # Landing / profile page
+│   ├── profile.html              # Standalone landing / profile page
 │   └── error.html                # HTTP error suite (404/403/500)
 │
 ├── _includes/
 │   ├── resume-section-en.html    # English section dispatcher (12 sections)
 │   ├── resume-section-ar.html    # Arabic section dispatcher (12 sections)
-│   ├── resume-head-en.html       # English metadata and font links
-│   ├── resume-head-ar.html       # Arabic metadata and Amiri/Tajawal font links
+│   ├── resume-head-en.html       # English metadata and Google font links
+│   ├── resume-head-ar.html       # Arabic metadata and Cairo font links
 │   ├── shared-head.html          # Shared SEO, icons, and theme colors
-│   ├── main-head.html            # Default/error page header metadata
+│   ├── main-head.html            # Default and error page header metadata
 │   ├── profile-head.html         # Profile landing page header metadata and stylesheet
-│   ├── avatar.html               # Configurable avatar (Gravatar/local)
+│   ├── avatar.html               # Configurable, accessible profile picture
+│   ├── dark-mode-toggle.html     # Floating dark mode interactive toggle button
 │   ├── ar-date.html              # Arabic date translation engine
 │   ├── social-links.html         # Interactive SVG social media links
 │   ├── print-social-links.html   # Plaintext printable contact details
 │   ├── hreflang.html             # Multilingual SEO alternate links
 │   ├── analytics-head.html       # Google Analytics / GTM head loader
-│   └── analytics-body.html       # GTM noscript body loader
+│   ├── analytics-body.html       # GTM noscript body loader
+│   └── vendors/                  # Bundled Lineicons SVGs (v4.0 & v5.0)
 │
 ├── _sass/
 │   ├── _variables.scss           # Typography, spacing, breakpoints, light tokens
@@ -260,18 +274,28 @@ bilingual-jekyll-resume-theme/
 │   ├── _resume-rtl.scss          # Mirrored RTL positioning and font styles
 │   ├── _profile-page.scss        # Portfolio landing page styles
 │   ├── _profile.scss             # Profile styles forwarder
-│   └── _all-pages.scss           # Universal styles across all layouts
+│   ├── _all-pages.scss           # Universal styles across all layouts
+│   ├── _mixins.scss              # Breakpoint and responsive mixins
+│   └── _normalize.scss           # Normalize.css reset
 │
 ├── assets/
-│   └── css/
-│       ├── cv.scss               # Main English resume stylesheet
-│       ├── cv-ar.scss            # Main Arabic resume stylesheet
-│       ├── profile.scss          # Dedicated profile page stylesheet
-│       └── main.scss             # Default/error pages stylesheet
+│   ├── css/
+│   │   ├── cv.scss               # Main English resume stylesheet
+│   │   ├── cv-ar.scss            # Main Arabic resume stylesheet
+│   │   ├── profile.scss          # Dedicated profile page stylesheet
+│   │   └── main.scss             # Default/error pages stylesheet
+│   └── favicon/resume/           # High-resolution favicon suite
+│
+├── _plugins/
+│   └── error_pages_generator.rb  # Automatically synthesizes missing HTTP error pages
+│
+├── lib/
+│   └── bilingual-jekyll-resume-theme.rb # Ruby gem entrypoint and runtime extensions
 │
 ├── _data/
-│   └── ar/
-│       └── months.yml            # Arabic month names dictionary
+│   ├── ar/
+│   │   └── months.yml            # Arabic month names dictionary
+│   └── error_pages.yml           # Centralized bilingual error copy
 │
 ├── docs/
 │   ├── COMPLETED_AUDIT.md        # Permanent historical record of remediations
@@ -288,7 +312,7 @@ bilingual-jekyll-resume-theme/
 │   │   └── publish.yml           # Auto-publishes gem upon release creation
 │   └── dependabot.yml            # Automated dependency updates
 │
-├── FEATURE_ROADMAP.md            # Active master roadmap for 19 open features
+├── FEATURE_ROADMAP.md            # Active master roadmap for 20 open features
 ├── AGENTS.md                     # Master AI instruction manual (THIS FILE)
 ├── CLAUDE.md                     # Claude Code lightweight pointer (@AGENTS.md)
 ├── WARP.md                       # Warp terminal lightweight pointer (@AGENTS.md)
@@ -296,7 +320,10 @@ bilingual-jekyll-resume-theme/
 ├── Gemfile                       # Bundler dependencies
 ├── CHANGELOG.md                  # Release history
 ├── README.md                     # User-facing theme introduction
-└── LICENSE.txt                   # MIT License terms
+├── SECURITY.md                   # Security vulnerability reporting policy
+├── LICENSE.txt                   # MIT License terms
+├── bin/release                   # Automated release script
+└── cliff.toml                    # Git-cliff changelog generator configuration
 ```
 
 ---
@@ -340,7 +367,9 @@ Key configuration flags in consuming sites:
 | `resume_section_order` | Array | Custom rendering sequence | `["experience", "education", "skills"]` |
 | `resume_section.<name>` | Boolean | Toggle specific section | `resume_section.projects: true` |
 | `display_header_contact_info` | Boolean | Show contact info in header | `true` |
-| `resume_avatar` | Hash | Configures avatar display | `{ enable: true, gravatar_email: "..." }` |
+| `resume_avatar` | Boolean | Toggle avatar display in resume header | `true` |
+| `resume_en_url` | String | Custom URL path for English resume (used by error pages) | `"/en/cv/"` |
+| `resume_ar_url` | String | Custom URL path for Arabic resume (used by error pages) | `"/ar/cv/"` |
 
 ---
 
@@ -349,7 +378,7 @@ Key configuration flags in consuming sites:
 Working with the Arabic layout requires strict attention to RTL conventions:
 
 1. **Root Direction**: `_layouts/resume-ar.html` sets `<html dir="rtl" lang="ar">`.
-2. **Typography**: Arabic uses specialized web fonts (Amiri, Tajawal, or Cairo) with adjusted line-heights (`line-height: 1.6` minimum) to prevent diacritic clipping.
+2. **Typography**: Arabic uses specialized web fonts (Cairo by default, or configurable via `site.font_ar_url`) with adjusted line-heights (`line-height: 1.6` minimum) to prevent diacritic clipping.
 3. **Date Localization**: The `_includes/ar-date.html` helper takes an ISO date and translates month numbers to Arabic names using `_data/ar/months.yml`.
 4. **Mirrored Layout**: Margins, paddings, timeline bullets, and header icons mirror horizontally:
    - Use CSS logical properties where appropriate (`margin-inline-start`, `padding-inline-end`).
@@ -382,19 +411,28 @@ To verify changes in an actual Jekyll site without publishing a gem:
 
 ---
 
-## 13. Documentation Master Index
+<a id="13-documentation-master-index"></a>
+## 13. Documentation Master Index & Living Docs Governance
 
-| Document | Path | Scope / Purpose |
-|---|---|---|
-| **Master AI Manual** | [`AGENTS.md`](AGENTS.md) | **Authoritative single source of truth for all AI agents** |
-| **Feature Roadmap** | [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) | Turnkey blueprints for 19 active features & issue mappings |
-| **Completed Audit** | [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) | Historical record of 18 completed remediations & closed issues |
-| **Config Guide** | [`docs/CONFIG_GUIDE.md`](docs/CONFIG_GUIDE.md) | Comprehensive reference for all `_config.yml` options |
-| **Data Guide** | [`docs/DATA_GUIDE.md`](docs/DATA_GUIDE.md) | YAML data schemas for all 12 resume sections |
-| **Layouts Guide** | [`docs/LAYOUTS_GUIDE.md`](docs/LAYOUTS_GUIDE.md) | Dual-language layout architecture and data flow |
-| **Includes Guide** | [`docs/INCLUDES_GUIDE.md`](docs/INCLUDES_GUIDE.md) | Component architecture and guide to creating new sections |
-| **SASS Guide** | [`docs/SASS_GUIDE.md`](docs/SASS_GUIDE.md) | Styling system, RTL overrides, and dark mode tokens |
-| **Project Overview** | [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md) | High-level summary of architecture and vision |
-| **Claude Pointer** | [`CLAUDE.md`](CLAUDE.md) | Lightweight delegation pointer for Anthropic Claude Code |
-| **Warp Pointer** | [`WARP.md`](WARP.md) | Lightweight delegation pointer for Warp terminal |
-| **Changelog** | [`CHANGELOG.md`](CHANGELOG.md) | Chronological version history following Keep a Changelog |
+Under Living Docs Governance, the repository documentation surface assigns four primary roles:
+- **Constitution**: Core rules and operational contracts (`AGENTS.md`, `CLAUDE.md`, `WARP.md`)
+- **Map**: Architecture guides and navigation maps (`docs/PROJECT_OVERVIEW.md`, `README.md`)
+- **Status**: Active feature roadmaps and blueprints (`FEATURE_ROADMAP.md`)
+- **History**: Permanent remediation logs and releases (`docs/COMPLETED_AUDIT.md`, `CHANGELOG.md`)
+
+| Document | Path | Living Docs Role | Scope / Purpose |
+|---|---|---|---|
+| **Master AI Manual** | [`AGENTS.md`](AGENTS.md) | **Constitution** | **Authoritative single source of truth for all AI agents** |
+| **Project Overview** | [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md) | **Map** | High-level summary of architecture and vision |
+| **README** | [`README.md`](README.md) | **Map** | User-facing entry point, quick start, and installation guide |
+| **Feature Roadmap** | [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) | **Status** | Turnkey blueprints for 20 active features & status delete-zone |
+| **Completed Audit** | [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) | **History** | Historical record of 18 completed remediations & closed issues |
+| **Changelog** | [`CHANGELOG.md`](CHANGELOG.md) | **History** | Chronological version history following Keep a Changelog |
+| **Config Guide** | [`docs/CONFIG_GUIDE.md`](docs/CONFIG_GUIDE.md) | Reference | Comprehensive reference for all `_config.yml` options |
+| **Data Guide** | [`docs/DATA_GUIDE.md`](docs/DATA_GUIDE.md) | Reference | YAML data schemas for all 12 resume sections |
+| **Layouts Guide** | [`docs/LAYOUTS_GUIDE.md`](docs/LAYOUTS_GUIDE.md) | Reference | Dual-language layout architecture and data flow |
+| **Includes Guide** | [`docs/INCLUDES_GUIDE.md`](docs/INCLUDES_GUIDE.md) | Reference | Component architecture and guide to creating new sections |
+| **SASS Guide** | [`docs/SASS_GUIDE.md`](docs/SASS_GUIDE.md) | Reference | Styling system, RTL overrides, and dark mode tokens |
+| **Claude Pointer** | [`CLAUDE.md`](CLAUDE.md) | Constitution Pointer | Lightweight delegation pointer for Anthropic Claude Code |
+| **Warp Pointer** | [`WARP.md`](WARP.md) | Constitution Pointer | Lightweight delegation pointer for Warp terminal |
+| **Security Policy** | [`SECURITY.md`](SECURITY.md) | Policy | Vulnerability reporting channels and supported release branches |

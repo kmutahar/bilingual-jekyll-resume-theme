@@ -1,10 +1,20 @@
 // Variables
 // ---------------------------------------/
+// bilingual-jekyll-resume-theme
+// SCSS design tokens and compile-time defaults.
+// Variables are flagged with `!default` to allow consuming Jekyll sites to override
+// layout dimensions, gutters, and font stacks without modifying gem theme source.
+// Color variables bind to CSS custom properties to seamlessly support dynamic dark mode.
+// ---------------------------------------/
 
+// Layout Dimensions
+// Standard 980px container width and 10px gutter spacing (total 20px column gap).
 $container-width: 980px !default;
 $grid-gutter: 10px !default;
 
 // Colors
+// Legacy SCSS color variables bound to CSS custom property design tokens
+// defined in _dark-mode.scss, enabling reactive theme switching without SCSS re-compilation.
 $white: var(--bg-color, #fff);
 $black: var(--text-color, #333);
 
@@ -12,6 +22,7 @@ $black: var(--text-color, #333);
 $text_color: var(--text-color, #333);
 
 // Font stack
+// Cross-platform sans-serif system fallback stack with emoji symbol support.
 $body-font: Helvetica,
 arial,
 nimbussansl,
@@ -26,6 +37,7 @@ sans-serif,
 $body-font-size: 13px !default;
 
 // Monospace font stack
+// Cross-platform developer monospace font stack for code snippets, IDs, and preformatted blocks.
 $mono-font: Consolas,
 "Liberation Mono",
 Menlo,

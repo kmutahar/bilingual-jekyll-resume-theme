@@ -1,3 +1,13 @@
+{%- comment -%}
+  Arabic Resume Head Include
+  - Loaded by: `_layouts/resume-ar.html` inside the HTML <head>.
+  - Typography Resolution:
+    1. Custom Font: If `site.font_ar_url` is defined, links the custom font stylesheet.
+    2. Google Fonts (Cairo): Unless disabled via `site.disable_google_fonts` or `site.resume_theme == 'no-custom-fonts'`,
+       links the Cairo Arabic typeface with `preconnect` resource hints for faster DNS resolution and TLS handshake.
+  - Stylesheet: Links the compiled Arabic RTL stylesheet `assets/css/cv-ar.css` via `relative_url`.
+  - Multilingual SEO: Includes `_includes/hreflang.html` for bidirectional search engine indexing.
+{%- endcomment -%}
 {% if site.font_ar_url %}
     <!-- Custom Arabic Font Stylesheet -->
     <link rel="stylesheet" href="{{ site.font_ar_url | relative_url }}">

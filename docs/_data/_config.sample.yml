@@ -111,6 +111,11 @@ social_links:
 active_resume_path_en: "en"          # Reads from _data/en/* (recommended)
 active_resume_path_ar: "ar"          # Reads from _data/ar/* (recommended)
 
+# Optional custom resume destination URLs (used by error pages and language navigation)
+# If omitted, auto-resolves from pages using layout: resume-en / resume-ar, defaulting to '/en/cv/' and '/ar/cv/'
+# resume_en_url: "/en/cv/"
+# resume_ar_url: "/ar/cv/"
+
 # Header display toggles
 display_header_contact_info: true    # Show contact info row in header
 resume_header_intro_en: true         # Show English bio/intro below header (from _data/en/header.yml)

@@ -1,6 +1,19 @@
 ---
 ---
 
+// ==========================================================================
+// English Resume Stylesheet Entrypoint (LTR)
+// bilingual-jekyll-resume-theme
+//
+// Primary SCSS compilation entrypoint for the English Left-to-Right resume layout
+// (_layouts/resume-en.html). Compiles into assets/css/cv.css via Jekyll SASS processing.
+// Cascade order:
+// 1. Resets & Tokens: normalize, mixins, variables, dark-mode custom properties
+// 2. Base & Grid: universal box-sizing, typography, 980px Primer grid
+// 3. Resume Sections: header fluid typography, cards, tables, print rules
+// 4. Shared Utilities: SVG icons, screen-reader helpers, universal footer
+// ==========================================================================
+
 // "Reset" styles and SCSS reusable components
 @use "normalize";
 @use "mixins";

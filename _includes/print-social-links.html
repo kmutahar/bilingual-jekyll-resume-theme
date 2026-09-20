@@ -1,5 +1,15 @@
+{%- comment -%}
+  Component: Print-Only Social & Contact Links
+  - Purpose: Renders full plaintext URLs for physical paper printouts and PDF exports
+    where clickable icon-only links cannot be followed.
+  - Direction & Localization: Detects Arabic context via layout or lang variables and
+    renders bilingual platform labels.
+  - Bidi Protection: Every URL is wrapped in `<span dir="ltr">` to ensure web addresses,
+    slashes, and domain names are never reversed or scrambled in an RTL reading context.
+{%- endcomment -%}
 <!-- and guess where these are defined? Yup, you guessed it: the _config.yml file -->
 {% if site.resume_print_social_links %}
+{%- comment -%} Determine whether current page context is Arabic to localize platform labels {%- endcomment -%}
 {% assign is_ar = false %}
 {% if page.layout == "resume-ar" or page.lang == "ar" or page.language == "ar" or layout.lang == "ar" %}
     {% assign is_ar = true %}

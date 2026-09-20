@@ -237,6 +237,7 @@ social_links:
 
 ---
 
+<a id="data-source-active_resume_path_en_ar"></a>
 ### 7. Resume Display & Behavior Controls
 
 Settings controlling data sources, header elements, and rendering behaviors:
@@ -245,6 +246,8 @@ Settings controlling data sources, header elements, and rendering behaviors:
 |---|---|---|---|
 | `active_resume_path_en` | String | `"en"` | Dot-separated subpath in `_data/` for English resume data. |
 | `active_resume_path_ar` | String | `"ar"` | Dot-separated subpath in `_data/` for Arabic resume data. |
+| `resume_en_url` | String | Auto-detected / `"/en/cv/"` | Custom URL path for the English resume (used by error page navigation and language links). |
+| `resume_ar_url` | String | Auto-detected / `"/ar/cv/"` | Custom URL path for the Arabic resume (used by error page navigation and language links). |
 | `display_header_contact_info` | Boolean | `true` | Show/hide the contact information row in header. |
 | `resume_header_intro_en` | Boolean | `true` | Render English summary from `_data/en/header.yml`. |
 | `resume_header_intro_ar` | Boolean | `false` | Render Arabic summary from `_data/ar/header.yml`. |
@@ -256,6 +259,11 @@ Settings controlling data sources, header elements, and rendering behaviors:
 ```yaml
 active_resume_path_en: "en"
 active_resume_path_ar: "ar"
+
+# Optional custom resume destination URLs
+# resume_en_url: "/en/cv/"
+# resume_ar_url: "/ar/cv/"
+
 display_header_contact_info: true
 resume_header_intro_en: true
 resume_header_intro_ar: true

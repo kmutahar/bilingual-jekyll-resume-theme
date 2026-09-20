@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+{%- comment -%}
+Dynamic <html> tag:
+- Language attribute: defaults to page.lang, then site.lang, then 'en'.
+- Direction attribute: sets dir="rtl" if page or site specifies Arabic ('ar') or 'rtl' directionality,
+  ensuring proper text rendering and browser layout behavior for multilingual content.
+{%- endcomment -%}
 <html lang="{{ page.lang | default: site.lang | default: 'en' }}"{% if page.lang == 'ar' or site.lang == 'ar' or page.dir == 'rtl' or site.dir == 'rtl' %} dir="rtl"{% endif %}>
     {%- comment -%}
     <!-- Layout: Default wrapper used by most pages.
@@ -23,14 +29,25 @@
 
         {% if site.social_links.mastodon %}
         <!-- rel="me" for Mastodon verification / IndieAuth -->
+        {%- comment -%} Enables decentralized identity verification (IndieAuth / Fediverse rel="me" protocol) {%- endcomment -%}
         <link rel="me" href="{{ site.social_links.mastodon }}">
         {% endif %}
     </head>
 
+    {%- comment -%}
+    Dynamic body class generation: assigns "layout-<name>" for scoped CSS targeting
+    plus any page-specific custom classes defined in front matter.
+    {%- endcomment -%}
     <body class="layout-{{ page.layout | default: 'default' }}{% if page.class %} {{ page.class }}{% endif %}">
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}
 
+        {%- comment -%}
+        Dark Mode Activation Cascade:
+        1. Evaluates site-level switches: `site.dark_mode` or `site.resume_dark_mode` (boolean or "enabled").
+        2. Applies page-level override if specified in front matter (`page.dark_mode: true/false`).
+        3. If dark mode is enabled, renders the floating interactive theme toggle button.
+        {%- endcomment -%}
         {% assign dark_mode_enabled = false %}
         {% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
             {% assign dark_mode_enabled = true %}
@@ -45,6 +62,7 @@
         {% endif %}
 
         <!-- Main content injected by Jekyll pages/layouts -->
+        {%- comment -%} Semantic <main> landmark with #main-content ID supporting skip-links and accessibility {%- endcomment -%}
         <main class="main-content" id="main-content">
             {{ content }}
         </main>

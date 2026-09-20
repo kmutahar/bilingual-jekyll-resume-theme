@@ -8,13 +8,17 @@
     {% include ar-date.html date=page.date %}
 
   Parameters:
-    - date: The date to format (required)
+    - date: The date to format (required). Accepts ISO 8601 strings (YYYY-MM-DD, YYYY-MM), Jekyll date objects, or Ruby Time instances.
     - style: "MDY" for "Month Day, Year" format, or any other value for "Month Year" format (optional)
+
+  Architecture & Portability Notes:
+    - Pure Liquid Implementation: Standard Jekyll on GitHub Pages runs in safe mode without custom Ruby plugins or system locale C-extensions. This pure Liquid dictionary lookup provides 100% portable Arabic month translation without external dependencies.
+    - Ongoing Roles & Date Ranges: This component formats single discrete timestamps. Date ranges (e.g. start date to end date) are composed in caller templates like `_includes/resume-section-ar.html`. Ongoing positions (where `present: true` or `enddate: "Present"`) are handled by callers which emit the localized phrase "حتى الآن" rather than passing non-date strings here.
 {%- endcomment -%}
 
 {%- comment -%}
   Extract date components from the provided date using Jekyll date filters:
-  - "%-m": Month as a number (1-12) without leading zeros
+  - "%-m": Month as a number (1-12) without leading zeros. Stripping the leading zero is essential because `_data/ar/months.yml` keys are formatted as "1", "2", ... "12".
   - "%-d": Day as a number (1-31) without leading zeros
   - "%Y": Year as a 4-digit number
 {%- endcomment -%}
@@ -27,13 +31,14 @@
   Look up the Arabic month name from the site data file:
   - site.data.ar.months is a YAML file containing month names in Arabic
   - The month number (m) is used as the key to retrieve the corresponding Arabic month name
+  - Resilience: If the date cannot be parsed or month key is not found, fallback logic outputs raw `include.date` to prevent build failures.
 {%- endcomment -%}
   {%- assign month_name = site.data.ar.months[m] -%}
 
 {%- comment -%}
   Format the date output based on the style parameter:
-  - If style is "MDY": Output "Month Day, Year" (e.g., "يناير 15, 2024")
-  - Otherwise: Output "Month Year" (e.g., "يناير 2024")
+  - If style is "MDY": Output "Month Day, Year" (e.g., "يناير 15, 2024") - used for certifications, awards, and birthdates.
+  - Otherwise: Output "Month Year" (e.g., "يناير 2024") - used for employment roles, education, and volunteering.
 {%- endcomment -%}
   {%- if month_name -%}
     {%- if include.style == "MDY" -%}

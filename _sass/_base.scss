@@ -1,19 +1,27 @@
 // Base styles
 // ---------------------------------------/
+// bilingual-jekyll-resume-theme
+// Baseline CSS resets, universal border-box box model, root theme background binding,
+// default serif typography, micro-clearfix container classes, custom text selection,
+// and accessible screen-reader (.sr-only) utilities.
+// ---------------------------------------/
 
 @use "mixins";
 @use "variables";
 
+// Universal box model reset: ensures padding and borders are included in element total width/height.
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
+// Dynamic background color bound to theme CSS variable token with SCSS fallback.
 html {
   background: var(--bg-color, variables.$white);
 }
 
+// Baseline body typography: Lora serif, 16px font size, 1.5 line height.
 body {
   @include mixins.serif;
   color: var(--text-color, variables.$text_color);
@@ -21,6 +29,7 @@ body {
   line-height: 1.5;
 }
 
+// Centered content wrapper with 800px max width and clearfix.
 .wrapper:before,
 .wrapper:after {
   content: "";
@@ -55,6 +64,7 @@ body {
   /* For IE 6/7 (trigger hasLayout) */
 }
 
+// Custom text selection styling using theme tokens.
 ::-moz-selection {
   background: var(--selection-bg, rgba(51, 51, 51, .8));
   color: var(--selection-color, #fff);
@@ -68,6 +78,7 @@ body {
 }
 
 /* Visually hidden utility for screen readers (WCAG 2.1 AA) */
+// Clips element into a 1x1 pixel space out of flow to keep text accessible to assistive technology.
 .sr-only {
   position: absolute;
   width: 1px;

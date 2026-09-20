@@ -198,7 +198,7 @@ Layout (e.g., _layouts/resume-en.html)
 ### 11. `analytics-head.html` & `analytics-body.html`
 
 - **Head Include:** Injects Google Tag Manager container or Google Analytics 4 (`gtag.js`) based on `site.analytics.gtm` or `site.analytics.gtag` in `_config.yml`.
-- **Body Include:** Injects `<noscript><iframe>` fallback for Google Tag Manager immediately after the opening `<body>` tag in [`../_layouts/default.html`](../_layouts/default.html).
+- **Body Include:** Injects `<noscript><iframe>` fallback for Google Tag Manager immediately after the opening `<body>` tag across all primary layouts: [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), and [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html).
 
 ---
 

@@ -1,6 +1,14 @@
+{%- comment -%}
+  Shared Head Include
+  - Injected by all layouts (`resume-en.html`, `resume-ar.html`, `default.html`, `profile.html`, `error.html`).
+  - Responsiveness & Charset: Configures UTF-8, edge compatibility, and responsive viewport with viewport-fit=cover for mobile screens.
+  - Anti-FOUC Theme Initialization: Synchronously evaluates `localStorage` before page paint to set `data-color-scheme` and `data-theme` on the root <html> element, preventing light-mode flash for dark-mode users.
+  - Favicon Suite: Resolves multi-resolution favicons and web manifest with fallback to defaults and `relative_url` filtering.
+  - Robots Indexing: Conditionally emits noindex directives if `page.noindex == true` (e.g. for error pages).
+{%- endcomment -%}
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <script>
   (function() {

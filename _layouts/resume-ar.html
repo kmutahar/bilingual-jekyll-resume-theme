@@ -147,6 +147,13 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
     <!-- هذه الصفحة تم تحديثها آخر مرة في {{ "now" | date: "%Y-%m-%d %H:%M:%S" }}Z -->
 
     <head>
+        {%- comment -%}
+        Head Assets:
+        - shared-head: Shared charset, viewport, SEO base, and favicon links
+        - resume-head-ar: Arabic Google Web Fonts (Cairo) and RTL CSS (assets/css/cv-ar.scss)
+        - seo: Jekyll SEO tag for social graph, search indexing, and canonical URLs
+        - analytics-head: Google Analytics / GTM tracking scripts (optional)
+        {%- endcomment -%}
         {% include shared-head.html %}
 
         {% include resume-head-ar.html %}
@@ -161,6 +168,12 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
         {% include analytics-body.html %}
 
         <div class="wrapper" itemscope itemtype="https://schema.org/Person">
+            {%- comment -%}
+            Dark Mode Resolution:
+            1. Evaluates site-level preferences (site.dark_mode or site.resume_dark_mode).
+            2. Supports page-level override in front matter (page.dark_mode: true/false).
+            3. Conditionally renders floating toggle widget if enabled.
+            {%- endcomment -%}
             {% assign dark_mode_enabled = false %}
             {% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
                 {% assign dark_mode_enabled = true %}
@@ -174,6 +187,11 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                 {% include dark-mode-toggle.html %}
             {% endif %}
 
+            {%- comment -%}
+            Schema.org Microdata & Live Contact Protection:
+            When site.enable_live is true, phone_live and email_live are used for privacy.
+            Fallback to standard phone/email if live versions are not provided.
+            {%- endcomment -%}
             {% if site.enable_live == true and site.contact_info.phone_live %}
             <meta itemprop="telephone" content="{{ site.contact_info.phone_live }}" />
             {% elsif site.contact_info.phone %}
@@ -202,6 +220,12 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                     {{ site.name_ar.first }} {{ site.name_ar.middle }} {{ site.name_ar.last }}
                 </h1>
 
+                {%- comment -%}
+                Arabic Contact Information Bar:
+                Displays contact channels with mirrored layout (icon on right).
+                Phone numbers are wrapped with dir="ltr" to prevent bidirectional punctuation distortion.
+                Dates are formatted via _includes/ar-date.html for Arabic month names.
+                {%- endcomment -%}
                 {% if site.display_header_contact_info == true %}
                     <!-- To display contact info here, change `display_header_contact_info` value in _config.yml to true -->
                     <div class="header-contact-info">
@@ -234,6 +258,10 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                                 &nbsp;&nbsp;تاريخ الميلاد:&nbsp;{% include ar-date.html date=site.contact_info.dob style="MDY" %}
                             {% endif %}
 
+                            {%- comment -%}
+                            Active Languages Header Summary (Arabic):
+                            Uses the Arabic comma ("، ") rather than the Latin comma (", ") for correct RTL punctuation.
+                            {%- endcomment -%}
                             {% assign active_languages = resume_data.languages | where: "active", true %}
                             {% if site.resume_section.lang_header and active_languages.size > 0 %}
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -267,6 +295,12 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                 </div>
                 {% endif %}
 
+                {%- comment -%}
+                Arabic Availability / Call-to-Action:
+                - true: Displays localized "تواصل معي" (Contact me) mailto CTA.
+                - false: Displays "لستُ باحثاً عن عمل حالياً." badge.
+                - nil: Hidden entirely.
+                {%- endcomment -%}
                 {% if site.resume_looking_for_work == true %}
                     {% assign contact_email = site.contact_info.email %}
                     {% if site.enable_live == true and site.contact_info.email_live %}
@@ -313,6 +347,11 @@ resume_data.experience == site.data['2025-06']['20250621-PM'].experience
                 <p class="copyright">{{ site.title }} &copy; 2018 - {{ "now" | date: "%Y" }}</p>
             </footer>
 
+            {%- comment -%}
+            Print-Only Footer (Arabic):
+            When site.enable_live == false, appends the canonical permalink of the online resume
+            to printed versions/PDF exports for offline verification.
+            {%- endcomment -%}
             {% if site.enable_live == false %}
                 <footer class="page-footer print-only">
                     <p class="footer-line">

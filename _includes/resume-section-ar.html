@@ -1,8 +1,25 @@
 {% comment %}
   Arabic version of resume-section-en.html with Arabic section titles and "حتى الآن" for Present.
   Usage: {% include resume-section-ar.html section_name="experience" %}
+
+  Arabic RTL Dispatcher Architecture:
+  - Iterated over by `_layouts/resume-ar.html` looping through `site.resume_section_order`.
+  - Strict Bilingual Parity: Identical data bindings, filtering, and microdata schema as resume-section-en.html.
+  - Arabic Date Localization: Discrete dates are processed through `_includes/ar-date.html` (style="MY" or "MDY")
+    using month names translated from `_data/ar/months.yml`.
+  - Ongoing Role Indicator: Active positions render the localized string "حتى الآن" rather than "Present".
+  - Bidi Text Protection: URLs, credential IDs, and web links are enclosed in `<span dir="ltr">` to prevent
+    bidirectional text rendering glitches and reversed slash/punctuation artifacts under RTL layouts.
 {% endcomment %}
 
+{%- comment -%}
+  Section: Experience (الخبرات العملية)
+  - Data: `resume_data.experience` filtered by `active: true`.
+  - Grouping: Groups multiple sequential roles under the same organization via `group_by: "company"`.
+  - Sorting: Sorts positions chronologically by `startdate` in reverse order (newest first).
+  - Localization: Formats dates with `_includes/ar-date.html` (style="MY") and renders "حتى الآن" for ongoing positions.
+  - Microdata: Schema.org `Organization` with `worksFor` itemprop.
+{%- endcomment -%}
 {% if include.section_name == "experience" and site.resume_section.experience %}
     <!-- begin Experience -->
     <section class="content-section">
@@ -46,7 +63,7 @@
                                     {% for time in role.durations %}{{ time.duration }} {% endfor %}
                                 {% else %}
                                     {% include ar-date.html date=role.startdate style="MY" %} &ndash;
-                                    {% if role.enddate and role.enddate != 'Present' and role.enddate != 'حتى الآن' %}
+                                    {% if role.enddate and role.enddate != 'Present' and role.enddate != 'حتى الآن' and role.enddate != 'حاليًا' %}
                                         {% include ar-date.html date=role.enddate style="MY" %}
                                     {% else %}
                                         حتى الآن
@@ -71,6 +88,13 @@
     <!-- end Experience -->
 
 
+{%- comment -%}
+  Section: Education (التعليم)
+  - Data: `resume_data.education` filtered by `active == true`.
+  - Localization: Formats dates with `_includes/ar-date.html` (style="MY") and renders "حتى الآن" for ongoing studies.
+  - Microdata: Schema.org `CollegeOrUniversity` with `alumniOf` itemprop.
+  - Awards: Supports both single `award` string (h5) and multiple `awards` list (ul/li).
+{%- endcomment -%}
 {% elsif include.section_name == "education" and site.resume_section.education %}
     <!-- begin Education -->
     <section class="content-section">
@@ -136,6 +160,12 @@
     </section>
     <!-- end Education -->
 
+{%- comment -%}
+  Section: Licenses & Certifications (التراخيص والشهادات)
+  - Data: `resume_data.certifications` filtered by `active == true`.
+  - Date Localization: Formats issue and expiration dates with `_includes/ar-date.html` (style="MDY").
+  - Credential Verification: Renders credential ID with optional verification link and `<span dir="ltr">` for URLs.
+{%- endcomment -%}
 {% elsif include.section_name == "certifications" and site.resume_section.certifications %}
     <!-- begin Licenses & Certifications -->
     <section class="content-section">
@@ -191,6 +221,11 @@
     </section>
     <!-- end Licenses & Certifications -->
 
+{%- comment -%}
+  Section: Courses (الدورات)
+  - Data: `resume_data.courses` filtered by `active == true`.
+  - Formatting: Displays course name, issuing organization, dates formatted with `_includes/ar-date.html` (style="MDY"), and credential ID.
+{%- endcomment -%}
 {% elsif include.section_name == "courses" and site.resume_section.courses %}
     <!-- begin Courses -->
     <section class="content-section">
@@ -245,6 +280,13 @@
     </section>
     <!-- end Courses -->
 
+{%- comment -%}
+  Section: Volunteering (الأعمال التطوعية)
+  - Data: `resume_data.volunteering` filtered by `active: true`.
+  - Grouping: Groups volunteer positions by organization with reverse chronological role sorting.
+  - Localization: Formats dates with `_includes/ar-date.html` (style="MY") and renders "حتى الآن" for ongoing roles.
+  - Microdata: Schema.org `Organization` with `worksFor` itemprop.
+{%- endcomment -%}
 {% elsif include.section_name == "volunteering" and site.resume_section.volunteering %}
     <!-- begin Volunteering -->
     <section class="content-section">
@@ -288,7 +330,7 @@
                                     {% for time in v.durations %}{{ time.duration }} {% endfor %}
                                 {% else %}
                                     {% include ar-date.html date=v.startdate style="MY" %} &ndash;
-                                    {% if v.enddate and v.enddate != 'Present' and v.enddate != 'حتى الآن' %}
+                                    {% if v.enddate and v.enddate != 'Present' and v.enddate != 'حتى الآن' and v.enddate != 'حاليًا' %}
                                         {% include ar-date.html date=v.enddate style="MY" %}
                                     {% else %}
                                         حتى الآن
@@ -312,6 +354,12 @@
     </section>
     <!-- end Volunteering -->
 
+{%- comment -%}
+  Section: Projects (المشاريع)
+  - Data: `resume_data.projects` filtered by `active == true`.
+  - Microdata: Schema.org `CreativeWork` with author/creator person metadata.
+  - Bidi Protection: Wraps project URLs in `<span dir="ltr">` to prevent punctuation distortion.
+{%- endcomment -%}
 {% elsif include.section_name == "projects" and site.resume_section.projects %}
     <!-- begin Projects -->
     <section class="content-section">
@@ -363,6 +411,11 @@
     </section>
     <!-- end Projects -->
 
+{%- comment -%}
+  Section: Skills (المهارات)
+  - Data: `resume_data.skills` filtered by `active == true`.
+  - Formatting: Displays categorized competencies and skill descriptions.
+{%- endcomment -%}
 {% elsif include.section_name == "skills" and site.resume_section.skills %}
     <!-- begin Skills -->
     <section class="content-section">
@@ -383,6 +436,11 @@
     </section>
     <!-- end Skills -->
 
+{%- comment -%}
+  Section: Recognitions / Awards (الجوائز والتكريم)
+  - Backward Compatibility: Evaluates both plural `site.resume_section.recognitions` and legacy singular `site.resume_section.recognition`.
+  - Data: `resume_data.recognitions` filtered by `active == true`.
+{%- endcomment -%}
 {% elsif include.section_name == "recognitions" or include.section_name == "recognition" %}
     {% assign section_active = false %}
     {% if site.resume_section.recognitions != nil %}
@@ -434,6 +492,12 @@
     <!-- end Recognition -->
     {% endif %}
 
+{%- comment -%}
+  Section: Associations & Professional Memberships (العضويات)
+  - Data: `resume_data.associations` filtered by `active == true`.
+  - Microdata: Schema.org `Organization` with `memberOf` itemprop.
+  - Bidi Protection: Wraps URLs in `<span dir="ltr">`.
+{%- endcomment -%}
 {% elsif include.section_name == "associations" and site.resume_section.associations %}
     <!-- begin Associations -->
     <section class="content-section">
@@ -486,6 +550,11 @@
     </section>
     <!-- end Associations -->
 
+{%- comment -%}
+  Section: Outside Interests (الاهتمامات الخارجية)
+  - Data: `resume_data.interests`.
+  - Formatting: Unordered list highlighting personal hobbies and extracurricular activities.
+{%- endcomment -%}
 {% elsif include.section_name == "interests" and site.resume_section.interests %}
     <!-- begin Interests -->
     <section class="content-section">
@@ -503,6 +572,12 @@
     </section>
     <!-- end Interests -->
 
+{%- comment -%}
+  Section: Languages (اللغات)
+  - Display Placement Check: Rendered as a distinct section only if `site.resume_section.lang_header != true`.
+  - 2-Column Balanced Table: Uses Liquid `modulo: 2` arithmetic to balance entries into RTL rows.
+    Injects an empty `<td class="lang-cell"></td>` on the final odd entry.
+{%- endcomment -%}
 {% elsif include.section_name == "languages" and site.resume_section.languages and site.resume_section.lang_header != true %}
     <!-- begin Languages -->
     <section class="content-section">
@@ -539,6 +614,11 @@
     </section>
     <!-- end Languages -->
 
+{%- comment -%}
+  Section: Additional Links (روابط إضافية)
+  - Data: `resume_data.links` filtered by `active == true`.
+  - Bidi & Print: Accompanied by inline plaintext URLs wrapped in `<span dir="ltr">` for print readability.
+{%- endcomment -%}
 {% elsif include.section_name == "links" and site.resume_section.links %}
     <!-- begin Links -->
     <section class="content-section">

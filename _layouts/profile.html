@@ -1,9 +1,16 @@
 <!DOCTYPE html>
+{%- comment -%}
+Dynamic <html> tag:
+- Language attribute: defaults to page.lang, then site.lang, then 'en'.
+- Direction attribute: sets dir="rtl" if page or site specifies Arabic ('ar') or 'rtl' directionality.
+{%- endcomment -%}
 <html lang="{{ page.lang | default: site.lang | default: 'en' }}"{% if page.lang == 'ar' or site.lang == 'ar' or page.dir == 'rtl' or site.dir == 'rtl' %} dir="rtl"{% endif %}>
     {%- comment -%}
     <!-- Layout: Profile layout used for the landing page / CV homepage.
          - Purpose: Dedicated standalone layout with clean unconstrained centering.
          - Stylesheet: assets/css/profile.css
+         - Architecture: Unlike default.html, this layout omits the max-width constrained .main-content container,
+           allowing full-viewport vertical and horizontal centering of hero/profile sections.
     -->
     {%- endcomment -%}
     <!-- This page was last updated on {{ "now" | date: "%Y-%m-%d %H:%M:%S" }}Z -->
@@ -23,6 +30,7 @@
 
         {% if site.social_links.mastodon %}
         <!-- rel="me" for Mastodon verification / IndieAuth -->
+        {%- comment -%} Enables decentralized identity verification (IndieAuth / Fediverse rel="me" protocol) {%- endcomment -%}
         <link rel="me" href="{{ site.social_links.mastodon }}">
         {% endif %}
     </head>
@@ -31,6 +39,12 @@
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}
 
+        {%- comment -%}
+        Dark Mode Activation Cascade:
+        1. Evaluates site-level switches: `site.dark_mode` or `site.resume_dark_mode` (boolean or "enabled").
+        2. Applies page-level override if specified in front matter (`page.dark_mode: true/false`).
+        3. If dark mode is enabled, renders the floating interactive theme toggle button.
+        {%- endcomment -%}
         {% assign dark_mode_enabled = false %}
         {% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
             {% assign dark_mode_enabled = true %}

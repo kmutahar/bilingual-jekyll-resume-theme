@@ -1,15 +1,27 @@
 // Resume styles
 // ---------------------------------------/
+// bilingual-jekyll-resume-theme
+// Core stylesheet for Left-to-Right (LTR) English resume layout (_layouts/resume-en.html)
+// and portfolio landing pages. Manages header typography, section dividers, unboxed card
+// items, responsive tables, social icons, and print media optimizations.
+// ---------------------------------------/
 
 // util
-
+// Modular Dart Sass imports: encapsulate mixins and design variables without global pollution.
 @use "mixins";
 @use "variables";
 
+// ==========================================================================
+// Section Header Component
+// ==========================================================================
+// Visually anchors each major resume section (Experience, Education, Skills, etc.)
+// using double-line borders (4px top, 2px bottom) to establish distinct vertical hierarchy.
 .section-header {
   @include mixins.section_border;
   margin-bottom: 1.5rem;
 
+  // Primary section title: heavy sans-serif weight (900) with slightly tightened
+  // letter-spacing (-.05rem) to deliver a modern, authoritative editorial aesthetic.
   h2 {
     @include mixins.sans;
     font-weight: 900;
@@ -20,10 +32,14 @@
 }
 
 // page header styles
-
+// ==========================================================================
+// Page Header: Avatar, Candidate Headline, Contact Information, and Title Bar
+// ==========================================================================
 .page-header {
   padding: 1.5rem 0;
 
+  // Profile picture: centered circular badge with fixed 95px dimensions.
+  // Uses overflow hidden and high border-radius to ensure non-square images crop cleanly.
   .avatar {
     width: 95px;
     max-width: 100%;
@@ -33,6 +49,9 @@
     display: block;
   }
 
+  // Candidate Name: utilizes CSS clamp() for fluid, viewport-responsive typography.
+  // Scales dynamically between 2rem (mobile minimum) and 3rem (desktop maximum) based on 8vw,
+  // preventing awkward word wrapping on smaller mobile screens without discrete breakpoint jumps.
   .header-name {
     @include mixins.sans;
     font-size: clamp(2rem, 8vw, 3rem);
@@ -43,21 +62,26 @@
     margin: 1rem 0 0;
   }
 
+  // Sub-header contact info list (email, phone, location): centered typography.
   .header-contact-info {
     @include mixins.sans;
     text-align: center;
   }
 
+  // Contact links inherit parent text color to avoid default browser hyperlink blue.
   .header-contact-info p a {
     color: inherit;
   }
 
+  // Title bar: bordered horizontal ribbon separating candidate headline from resume body.
+  // Contains professional job title and social media links in a responsive floated layout.
   .title-bar {
     @include mixins.section_border;
     margin-top: 2rem;
     padding: .4rem 0;
     @include mixins.clearfix;
 
+    // Professional subtitle: centered on mobile viewports; floats left on desktop screens.
     .header-title {
       @include mixins.sans;
       font-weight: 300;
@@ -74,6 +98,7 @@
     }
   }
 
+  // Brief introductory summary: standard 1rem font on desktop viewports.
   .executive-summary {
     @include mixins.media_larger_than_mobile {
       font-size: 1rem;
@@ -81,12 +106,17 @@
   }
 }
 
+// ==========================================================================
+// Social Media Icon Links
+// ==========================================================================
+// Interactive SVG icon bar. On mobile, rendered centered with a subtle top border;
+// on viewports larger than 600px, floats to the right side of the title bar.
 .social-links {
   margin: 0;
   padding: 0;
   list-style: none;
   position: relative;
-  top: 4px;
+  top: 4px; // Fine-tunes optical vertical alignment against the 1.75rem header title text baseline
   text-align: center;
   border-top: 2px solid var(--border-color, #c7c7c7);
   padding-top: .4rem;
@@ -97,11 +127,16 @@
     padding-top: 0;
   }
 
+  // Individual icon list item: horizontal inline-block layout with 5px left margin in LTR.
   .icon-link-item {
     display: inline-block;
     margin-left: 5px;
   }
 
+  // SVG Anchor wrappers:
+  // 1. inline-flex + align-items: center prevents text descender spacing beneath vector graphics.
+  // 2. line-height: 0 removes inherited line-box vertical height.
+  // 3. text-decoration: none !important eliminates default anchor underlines on icons across all browsers.
   .icon-link,
   .social-links a,
   .social-links li a {
@@ -118,11 +153,13 @@
     }
   }
 
+  // Vector fill cascading: ensures multi-path SVG icons inherit parent fill colors.
   .icon-link svg path,
   .social-links svg path {
     fill: inherit;
   }
 
+  // Smooth 0.2s color transition on hover/focus using CSS custom property tokens.
   .icon-link {
     &:hover .icon path,
     &:focus .icon path {
@@ -136,6 +173,10 @@
   }
 }
 
+// ==========================================================================
+// Contact & Status Call-to-Action (CTA) Buttons
+// ==========================================================================
+// Interactive pill button (.contact-button) for job inquiries and resume actions.
 .contact-button {
   @include mixins.border-radius(3px);
   background-color: var(--button-bg, #efefef);
@@ -157,6 +198,8 @@
     color: var(--button-hover-text, #fff);
   }
 
+  // Modifier for extended status messages (e.g. "Currently not open to new roles").
+  // Expands width to 400px to prevent multi-line text wrapping.
   &.not-looking {
     width: 400px;
     max-width: 100%;
@@ -165,14 +208,20 @@
 }
 
 // resume content styles
-
+// ==========================================================================
+// Resume Content Sections & Unboxed Card Layouts
+// ==========================================================================
 .content-section {
   margin: 0 0 3rem;
 
+  // Core content unit: semantic unboxed card representing an individual job role,
+  // degree, project, or certificate, spaced with 2rem vertical separation.
+  // Acts as the foundational component for roadmap timeline visualizations.
   .resume-item {
     margin-bottom: 2rem;
   }
 
+  // Role/Job/Degree Title: authoritative bold sans typography (1.5rem).
   .resume-item-title {
     @include mixins.sans_bold;
     margin: 0 0 .75rem;
@@ -181,6 +230,7 @@
     line-height: 1;
   }
 
+  // Organization, dates, and subtitle details: 1.125rem font size.
   .resume-item-details {
     font-size: 1.125rem;
     margin: 0 0 .75rem;
@@ -191,6 +241,8 @@
     }
   }
 
+  // Subtle interactive link underline: renders a discrete 1px solid bottom border
+  // in place of standard text-decoration, removing the border on hover for clean feedback.
   .resume-item-title,
   .resume-item-details,
   .resume-item-copy,
@@ -207,10 +259,12 @@
     }
   }
 
+  // Role description copy: spacing above descriptive body paragraphs.
   .resume-item-copy {
     margin: .75rem 0 0;
   }
 
+  // Normal weight styling for certification IDs and license numbers.
   .resume-item-copy-license-cert-id {
     font-weight: normal;
   }
@@ -283,7 +337,9 @@
 }
 
 // footer styles
-
+// ==========================================================================
+// Page Footer: Dividers and Copyright Information
+// ==========================================================================
 .page-footer {
   border-top: 4px solid var(--border-color, #c7c7c7);
   padding-top: 1.5rem;
@@ -302,16 +358,26 @@
   }
 }
 
+// ==========================================================================
+// Print Visibility Utility Classes
+// ==========================================================================
+// Hidden by default on digital screens; revealed during physical printing / PDF generation.
 .print-only,
 .print-only-inline {
   display: none !important
 }
 
+// ==========================================================================
+// Print Media Overrides (@media print)
+// ==========================================================================
+// Tightens spacing and downscales typography to fit CV content cleanly onto A4 / US Letter paper.
 @media print {
+  // Suppress interactive elements and digital-only buttons.
   .no-print {
     display: none !important
   }
 
+  // Reveal plaintext contact data and printable URLs.
   .print-only {
     display: block !important
   }
@@ -320,11 +386,13 @@
     display: inline !important
   }
 
+  // Base print typography: scales down to 12px for compact multi-column printable density.
   body {
     font-size: 12px;
     line-height: 1rem;
   }
 
+  // Reduced padding on page header to conserve physical page budget.
   .page-header {
     padding: 1rem 0 .2rem;
 
@@ -335,6 +403,7 @@
     }
   }
 
+  // Switch thick decorative borders to 1px hairline rules.
   .section-header {
     @include mixins.section_border_thin;
     margin-bottom: 1rem;
@@ -345,6 +414,7 @@
     }
   }
 
+  // Tighten margins across items and scale down titles.
   .content-section {
     margin: 0 0 1rem;
 

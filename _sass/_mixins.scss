@@ -1,12 +1,18 @@
 // Mixins
 // ---------------------------------------/
+// bilingual-jekyll-resume-theme
+// Reusable SASS mixins for cross-browser vendor prefixing, micro-clearfix,
+// responsive breakpoint queries, font stack utilities, and section divider borders.
+// ---------------------------------------/
 
+// Cross-browser vendor prefixed border-radius helper.
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
   border-radius: $radius;
 }
 
+// Cross-browser CSS transition helper.
 @mixin transition($value) {
   -webkit-transition: $value;
   -moz-transition: $value;
@@ -16,7 +22,7 @@
 // Clearfix
 //
 // Clears floats via mixin (avoid using as a class).
-
+// Generates pseudo-elements before and after to contain floated children without overflow hacks.
 @mixin clearfix {
   &:before {
     display: table;
@@ -31,25 +37,30 @@
 }
 
 // media querie tools
+// Responsive viewport breakpoint mixins. Standard mobile threshold is 600px.
 
+// Custom maximum-width media query.
 @mixin media_max($screen_width) {
   @media (max-width: $screen_width) {
     @content;
   }
 }
 
+// Custom minimum-width media query.
 @mixin media_min($screen_width) {
   @media (min-width: $screen_width) {
     @content;
   }
 }
 
+// Desktop & tablet viewports (600px and wider).
 @mixin media_larger_than_mobile {
   @media (min-width: 600px) {
     @content;
   }
 }
 
+// Mobile viewports (600px and narrower).
 @mixin media_mobile {
   @media (max-width: 600px) {
     @content;
@@ -57,7 +68,9 @@
 }
 
 // type utilities
+// Typography mixins: standardizes font families and weights across sections.
 
+// Primary sans-serif stack (Open Sans).
 @mixin sans {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -82,6 +95,7 @@
   font-weight: 800;
 }
 
+// Editorial serif stack (Lora).
 @mixin serif {
   font-family: "Lora", "Minion Pro", Palatino, Georgia, serif;
 }
@@ -97,13 +111,16 @@
 }
 
 // layout
+// Section divider border helpers using theme CSS custom property tokens.
 
+// Standard section divider: double-line border (4px top, 2px bottom).
 @mixin section_border {
   border-top: 4px solid var(--border-color, #c7c7c7);
   border-bottom: 2px solid var(--border-color, #c7c7c7);
   padding: .2rem 0 .4rem;
 }
 
+// Compact hairline border for print media (1px top, 1px bottom).
 @mixin section_border_thin {
   border-top: 1px solid var(--border-color, #c7c7c7);
   border-bottom: 1px solid var(--border-color, #c7c7c7);

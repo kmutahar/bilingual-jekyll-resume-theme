@@ -7,15 +7,34 @@ Include: Reusable Avatar Component
   - class: Optional extra CSS classes.
 {%- endcomment -%}
 
+{%- comment -%}
+  Language Detection Cascade:
+  Resolves language in order of specificity: explicit include parameter -> page front matter -> site default -> 'en'.
+{%- endcomment -%}
 {% assign current_lang = include.lang | default: page.lang | default: site.lang | default: 'en' %}
 
+{%- comment -%}
+  Image Source Resolution Hierarchy & Subpath Safety:
+  1. Priority: site.avatar_url (modern explicit configuration) -> site.avatar (legacy option) -> '/assets/images/Profile-min.jpg' (bundled default).
+  2. Subpath Safety: If the avatar path contains '://', it is treated as an absolute external CDN URL and preserved as-is.
+     Otherwise, it is piped through Liquid's `relative_url` filter to ensure correct resolution on GitHub Pages sites
+     hosted under repository subpaths (e.g. username.github.io/project-name/).
+{%- endcomment -%}
 {% assign avatar_raw = site.avatar_url | default: site.avatar | default: '/assets/images/Profile-min.jpg' %}
 {% if avatar_raw contains "://" %}
   {% assign avatar_src = avatar_raw %}
-{% else %}
+  {% else %}
   {% assign avatar_src = avatar_raw | relative_url %}
 {% endif %}
 
+{%- comment -%}
+  Localized Alt Text & Title Resolution:
+  Generates meaningful alt text to satisfy WCAG 2.2 non-empty alt text requirements.
+  - For Arabic (ar): Constructs full name from `site.name_ar` fields.
+    Alt text cascade: site.avatar_alt_ar -> site.avatar_alt -> name_ar -> fallback 'الصورة الشخصية'.
+  - For English / Other (en): Constructs full name from `site.name` fields.
+    Alt text cascade: site.avatar_alt_en -> site.avatar_alt -> name_en -> fallback 'Profile photo'.
+{%- endcomment -%}
 {% if current_lang == 'ar' %}
   {% capture name_ar %}{{ site.name_ar.first }}{% if site.name_ar.middle %} {{ site.name_ar.middle }}{% endif %}{% if site.name_ar.last %} {{ site.name_ar.last }}{% endif %}{% endcapture %}
   {% assign name_ar = name_ar | strip %}
@@ -28,11 +47,21 @@ Include: Reusable Avatar Component
   {% assign link_title = site.title | default: 'Homepage' %}
 {% endif %}
 
+{%- comment -%}
+  Hyperlink Wrapping Toggle:
+  Defaults to true. Disabling can occur globally via `site.avatar_link: false` or locally via `include.link: false`.
+{%- endcomment -%}
 {% assign render_link = true %}
 {% if site.avatar_link == false or include.link == false %}
   {% assign render_link = false %}
 {% endif %}
 
+{%- comment -%}
+  Avatar Markup Rendering:
+  - If linked: Wraps <img> in <a> with subpath-safe href and tab-nabbing security (rel="noopener" if target != '_self').
+  - If unlinked: Renders standalone <img>.
+  Both branches include class="no-print" and itemprop="image".
+{%- endcomment -%}
 {% if render_link %}
   {% assign avatar_link_raw = site.avatar_link | default: '/' %}
   {% if avatar_link_raw contains "://" %}
@@ -48,3 +77,4 @@ Include: Reusable Avatar Component
 {% else %}
   <img src="{{ avatar_src }}" alt="{{ avatar_alt }}" class="avatar no-print{% if include.class %} {{ include.class }}{% endif %}" itemprop="image">
 {% endif %}
+

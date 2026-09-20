@@ -7,21 +7,38 @@ Layout: Reusable bilingual HTTP error page layout.
 - Consumes: site.data.error_pages, page.code, page.title_en/desc_en, page.title_ar/desc_ar
 {%- endcomment -%}
 
+{%- comment -%}
+DATA DICTIONARY RESOLUTION:
+Converts page.code to string (e.g. 404 -> "404") using `append: ""` so it safely matches
+the string keys in _data/error_pages.yml regardless of whether front matter provides an integer or string.
+{%- endcomment -%}
 {% assign code_str = page.code | default: "404" | append: "" %}
 {% assign error_data = site.data.error_pages[code_str] %}
 {% assign labels = site.data.error_pages.labels %}
 
+{%- comment -%}
+DYNAMIC RETURN URL RESOLUTION (THREE-TIER FALLBACK):
+1. Tier 1: Explicit URL configured in _config.yml (`site.resume_en_url`, `site.resume_ar_url`).
+2. Tier 2: Discovers active resume page URL from site.pages by filtering for matching layout.
+3. Tier 3: Standard default routes ('/en/cv/' and '/ar/cv/').
+The `relative_url` filter ensures compatibility with custom baseurl / project subdirectory deployments.
+{%- endcomment -%}
 {% assign resume_en_page = site.pages | where: "layout", "resume-en" | first %}
 {% assign resume_ar_page = site.pages | where: "layout", "resume-ar" | first %}
 {% assign resume_en_url = site.resume_en_url | default: resume_en_page.url | default: '/en/cv/' | relative_url %}
 {% assign resume_ar_url = site.resume_ar_url | default: resume_ar_page.url | default: '/ar/cv/' | relative_url %}
 
+{%- comment -%}
+COPY RESOLUTION HIERARCHY:
+Prioritizes per-page front matter overrides -> centralized dictionary (_data/error_pages.yml) -> fallback strings.
+{%- endcomment -%}
 {% assign title_en = page.title_en | default: error_data.title_en | default: "Error" %}
 {% assign desc_en = page.desc_en | default: error_data.desc_en | default: "An error has occurred." %}
 {% assign title_ar = page.title_ar | default: error_data.title_ar | default: "حدث خطأ" %}
 {% assign desc_ar = page.desc_ar | default: error_data.desc_ar | default: "حدث خطأ أثناء معالجة طلبك." %}
 
 <div class="error-page">
+    {%- comment -%} Large visual status code is aria-hidden to avoid screen reader clutter {%- endcomment -%}
     <div class="error-code" aria-hidden="true">{{ code_str }}</div>
 
     <div class="error-bilingual-group">
@@ -41,6 +58,12 @@ Layout: Reusable bilingual HTTP error page layout.
     </div>
 
     <!-- Accessible Bilingual Search Form -->
+    {%- comment -%}
+    WCAG 2.2 Compliant Search:
+    - role="search" identifies landmark for assistive tech.
+    - label with .sr-only provides screen-reader accessible name.
+    - Submits query parameter `q` to root directory.
+    {%- endcomment -%}
     <form role="search" class="error-search" action="{{ '/' | relative_url }}" method="get">
         <label for="error-search-input" class="sr-only">Search website / ابحث في الموقع</label>
         <div class="error-search-wrapper">
@@ -60,6 +83,11 @@ Layout: Reusable bilingual HTTP error page layout.
     {% endif %}
 
     <!-- Quick Navigation Links -->
+    {%- comment -%}
+    SMART ACTION BUTTON UX:
+    - Server Errors (500, 503) or page.show_reload: Reload CTA is primary because error may be transient.
+    - Client Errors (404, 403): Home navigation CTA is primary since reload will not resolve missing resource.
+    {%- endcomment -%}
     <nav class="error-actions" aria-label="Error page navigation">
         {% if code_str == "500" or code_str == "503" or page.show_reload == true %}
         <button type="button" class="error-btn primary" onclick="window.location.reload();">
@@ -77,3 +105,4 @@ Layout: Reusable bilingual HTTP error page layout.
         </a>
     </nav>
 </div>
+

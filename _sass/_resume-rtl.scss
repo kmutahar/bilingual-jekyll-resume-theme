@@ -1,15 +1,27 @@
 // RTL and Arabic typography overrides for the resume layout
 // ---------------------------------------/
+// bilingual-jekyll-resume-theme
+// Authoritative Arabic styling overrides loaded via assets/css/cv-ar.scss.
+// Scoped strictly under html[dir="rtl"] to ensure complete style isolation from
+// English LTR layouts. Handles horizontal mirroring, Arabic font stack configuration,
+// diacritic protection, cursive ligature stabilization, and RTL element repositioning.
+// ---------------------------------------/
 
 @use "mixins";
 
+// Scoped root selector: activates automatically when _layouts/resume-ar.html sets <html dir="rtl">.
 html[dir="rtl"] {
   body {
     direction: rtl;
+    // Arabic typographic stack: Cairo is a modern geometric Kufi-hybrid typeface optimized
+    // for digital screen legibility; Noto Naskh Arabic provides traditional fallback legibility.
     font-family: 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif;
+    line-height: 1.6;
   }
 
   // Headings and common typographic elements
+  // Explicitly assign the Arabic font stack across all heading and body selectors to
+  // override any Latin sans-serif font-family rules inherited from _resume.scss.
   .section-header h2,
   .page-header .header-name,
   .page-header .header-title,
@@ -22,6 +34,21 @@ html[dir="rtl"] {
   }
 
   // Prevent diacritic/dot clipping and preserve cursive ligatures in Arabic script
+  // ==========================================================================
+  // 1. line-height: 1.6 (Strict Minimum)
+  //    WHY: Arabic characters possess tall ascenders (Alif 'ا', Lam 'ل'), deep descenders
+  //    (Raa 'ر', Yaa 'ي', Noon 'ن'), consonant dots (Nuqṭah on 'ش', 'ث', 'ب'), and vocalization
+  //    diacritics (Tashkeel like Fatḥah, Ḍammah, Kasrah, Shaddah, Sukūn). Standard Latin
+  //    line heights (1.0-1.2) cause dots and diacritics to be clipped by bounding boxes or
+  //    collide with adjacent lines. A minimum line-height of 1.6 guarantees sufficient vertical room.
+  //
+  // 2. letter-spacing: normal
+  //    WHY: Arabic is an intrinsically cursive script where letters within words must connect
+  //    seamlessly via contextual ligatures. Latin headlines often apply negative letter-spacing
+  //    (e.g., -.05rem). If applied to Arabic, negative or positive tracking causes glyph connection
+  //    failure, detaching letters into broken, isolated forms. letter-spacing: normal restores
+  //    natural cursive ligature rendering.
+  // ==========================================================================
   .section-header h2,
   .page-header .header-name,
   .page-header .header-title,
@@ -34,6 +61,7 @@ html[dir="rtl"] {
   }
 
   // Global alignment defaults
+  // Enforces right-alignment across resume item headers, dates, and descriptive paragraphs.
   .content-section,
   .content-section .resume-item-title,
   .content-section .resume-item-details,
@@ -42,6 +70,7 @@ html[dir="rtl"] {
   }
 
   // Header tweaks
+  // Horizontally mirrors the title bar: floats the candidate title to the right on desktop.
   .page-header {
     .title-bar {
       .header-title {
@@ -53,6 +82,7 @@ html[dir="rtl"] {
   }
 
   // Social links on the opposite side in wide viewports
+  // Mirrored positioning: floats social icons to the left side on screens wider than 600px.
   .social-links {
     @include mixins.media_larger_than_mobile {
       float: left;
@@ -60,18 +90,23 @@ html[dir="rtl"] {
 
     .icon-link-item {
       // flip spacing for RTL
+      // Inverts icon margins: applies spacing on the trailing left side (margin-right: 5px; margin-left: 0).
       margin-right: 5px;
       margin-left: 0;
     }
   }
 
   // Lists
+  // Inverts list bullet indentation: in RTL, bullets appear on the right side of the text block.
+  // Padding must be placed on the right (1.2rem) and cleared on the left (0).
+  // Also serves as the architectural model for right-aligned timeline markers in Feature 4.2.
   .resume-item-list {
     padding-right: 1.2rem;
     padding-left: 0;
   }
 
   // Languages table tweaks
+  // Enforces right-to-left column progression for the two-column language proficiency grid.
   .languages-table {
     direction: rtl;
   }
@@ -82,6 +117,8 @@ html[dir="rtl"] {
   }
 
   // Dark mode toggle positioning for RTL
+  // Mirrors the floating theme switcher from top-right to top-left (left: 1.25rem; right: auto)
+  // to avoid colliding with right-aligned Arabic header titles.
   .dark-mode-toggle {
     right: auto;
     left: 1.25rem;

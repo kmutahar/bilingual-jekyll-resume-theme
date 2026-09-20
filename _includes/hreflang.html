@@ -4,6 +4,18 @@ START: HREFLANG TAGS FOR MULTILINGUAL SEO
 This logic generates the <link rel="alternate"> tags that tell
 search engines about the different language versions of this page.
 It only runs if a 't_id' (Translation ID) is set in the page's front matter.
+
+WHY THIS MATTERS:
+Search engines (Google, Bing, Yandex) require bidirectional hreflang links across
+all localized versions of equivalent content to prevent duplicate content penalties
+and to direct international visitors to the correct regional/language variant.
+
+HOW IT WORKS:
+- Pages representing the same document in different languages (e.g. English and Arabic CVs)
+  share an identical `t_id` identifier in front matter.
+- site.pages is queried to locate all translation peers.
+- Absolute URLs are required by RFC 8288 and Google Search Console standards.
+- The 'x-default' fallback is explicitly mapped to the English edition for unmatched locales.
 ==================================================================
 {% endcomment %}
 {% if page.t_id %}

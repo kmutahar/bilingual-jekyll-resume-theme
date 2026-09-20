@@ -30,9 +30,9 @@ Layouts define the outer HTML skeleton of pages in Jekyll. Pages select their la
 
 ```text
 _layouts/default.html (Base shell, <head>, anti-FOUC, dark mode, footer)
- ├── _layouts/profile.html (Landing page card wrapper)
  └── _layouts/error.html (HTTP 404, 403, 500 error suite)
 
+_layouts/profile.html (Standalone landing page card wrapper)
 _layouts/resume-en.html (Standalone LTR English resume pipeline)
 _layouts/resume-ar.html (Standalone RTL Arabic resume pipeline)
 ```
@@ -103,10 +103,15 @@ _layouts/resume-ar.html (Standalone RTL Arabic resume pipeline)
 - **Role:** Specialized error layout extending `default.html` used by `404.html`, `403.html`, and `500.html`.
 - **Key Features:**
   - Reads `page.code` (`404`, `403`, `500`, `503`) and loads bilingual copy from [`../_data/error_pages.yml`](../_data/error_pages.yml).
-  - High-contrast status badge.
+  - High-contrast status code display with dual-language status headings and descriptions.
   - English description block (`lang="en"`) alongside an isolated Arabic RTL description block (`lang="ar" dir="rtl"`).
-  - Standard return paths: Home (`/`), Resume EN (`/resume/en/`), and Resume AR (`/resume/ar/`).
-  - Interactive "Reload Page / إعادة تحميل الصفحة" button (`window.location.reload()`) automatically rendered for server errors (`500`, `503`).
+  - Accessible bilingual search form (`<form role="search" class="error-search">`) targeting the homepage (`/`) with a search input (`name="q"`).
+  - Dynamic resume navigation returns:
+    - English Resume: resolves from `site.resume_en_url`, falls back to first page using `layout: resume-en`, and defaults to `'/en/cv/'`.
+    - Arabic Resume: resolves from `site.resume_ar_url`, falls back to first page using `layout: resume-ar`, and defaults to `'/ar/cv/'`.
+    - Home: returns to site root (`'/' | relative_url`).
+  - Interactive "Reload Page / إعادة تحميل الصفحة" button (`window.location.reload()`) automatically rendered for server errors (`500`, `503`) or when `page.show_reload == true`.
+  - Automatic error page synthesis: The theme gem includes `_plugins/error_pages_generator.rb` (`BilingualJekyllResumeTheme::ErrorPagesGenerator < Jekyll::Generator`), which automatically synthesizes `404.html`, `403.html`, and `500.html` into `site.pages` if they are not already defined in the consuming site's source or `_pages/` directory.
   - Fully supports universal dark mode and custom front-matter overrides (`title_en`, `desc_en`, `title_ar`, `desc_ar`).
 
 ---

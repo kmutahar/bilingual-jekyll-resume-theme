@@ -104,7 +104,6 @@ bilingual-jekyll-resume-theme/
 │   ├── _resume.scss              # Core English resume section styles
 │   ├── _resume-rtl.scss          # Mirrored RTL overrides
 │   ├── _profile-page.scss        # Scoped landing page styles
-│   ├── _profile.scss             # Profile styles forwarder
 │   ├── _all-pages.scss           # Shared markdown typography and icon sizing
 │   ├── _mixins.scss              # Responsive breakpoints and font mixins
 │   └── _normalize.scss           # Normalize.css v8.0.1

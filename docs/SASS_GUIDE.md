@@ -18,7 +18,7 @@ A technical tour of the theme's styling system in [`../_sass/`](../_sass/) and e
   - [5. `_layout.scss`](#5-_layoutscss)
   - [6. `_resume.scss`](#6-_resumescss)
   - [7. `_resume-rtl.scss`](#7-_resume-rtlscss)
-  - [8. `_profile-page.scss` / `_profile.scss`](#8-_profile-pagescss--_profilescss)
+  - [8. `_profile-page.scss`](#8-_profile-pagescss)
   - [9. `_all-pages.scss`](#9-_all-pagesscss)
   - [10. `_dark-mode.scss`](#10-_dark-modescss)
 - [The Dark Mode Token System](#the-dark-mode-token-system)
@@ -130,13 +130,13 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ---
 
-<a id="8-_profilescss"></a>
-<a id="8-_profile-scss"></a>
-### 8. `_profile-page.scss` / `_profile.scss`
+<a id="8-_profile-pagescss"></a>
+<a id="8-_profile-page-scss"></a>
+### 8. `_profile-page.scss`
 
-- **Files:** [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss) (and forwarder [`../_sass/_profile.scss`](../_sass/_profile.scss))
+- **File:** [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss)
 - **Role:** Styles for the dedicated portfolio landing page layout ([`../_layouts/profile.html`](../_layouts/profile.html)) and entrypoint [`../assets/css/profile.scss`](../assets/css/profile.scss).
-- **Architecture:** Provides clean, unconstrained vertical centering, avatar, bio typography, social icon transitions, and WCAG `.sr-only` utility without leaking onto or inheriting from generic markdown page styles.
+- **Architecture:** Provides clean, unconstrained vertical centering, avatar, bio typography, and CV action button without duplicating universal footer or SVG icon styles (which are loaded from [`_all-pages.scss`](../_sass/_all-pages.scss)).
 
 ---
 

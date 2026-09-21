@@ -98,22 +98,21 @@
                             {% if site.contact_info.dob %}
                                 &nbsp;&nbsp;DoB:&nbsp;{{ site.contact_info.dob | date_to_long_string }}
                             {% endif %}
-
-                            {%- comment -%}
-                            Active Languages Header Summary:
-                            Filters languages where active: true and renders an inline comma-separated list.
-                            {%- endcomment -%}
-                            {% assign active_languages = resume_data.languages | where: "active", true %}
-                            {% if site.resume_section.lang_header and active_languages.size > 0 %}
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <span>
-                                    <strong>Languages:</strong>
-                                    {% for lang in active_languages %}
-                                        {{ lang.language }} ({{ lang.descrp_short }}){% unless forloop.last %}, {% endunless %}
-                                    {% endfor %}
-                                </span>
-                            {% endif %}
                         </p>
+
+                        {%- comment -%}
+                        Active Languages Header Summary:
+                        Filters languages where active: true and renders a dedicated centered line.
+                        {%- endcomment -%}
+                        {% assign active_languages = resume_data.languages | where: "active", true %}
+                        {% if site.resume_section.lang_header and active_languages.size > 0 %}
+                            <p class="header-languages">
+                                <strong>Languages:</strong>
+                                {% for lang in active_languages %}
+                                    {{ lang.language }} ({{ lang.descrp_short }}){% unless forloop.last %}, {% endunless %}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
                     </div>
                 {% endif %}
 

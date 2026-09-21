@@ -98,22 +98,21 @@
                             {% if site.contact_info.dob %}
                                 &nbsp;&nbsp;تاريخ الميلاد:&nbsp;{% include ar-date.html date=site.contact_info.dob style="MDY" %}
                             {% endif %}
-
-                            {%- comment -%}
-                            Active Languages Header Summary (Arabic):
-                            Uses the Arabic comma ("، ") rather than the Latin comma (", ") for correct RTL punctuation.
-                            {%- endcomment -%}
-                            {% assign active_languages = resume_data.languages | where: "active", true %}
-                            {% if site.resume_section.lang_header and active_languages.size > 0 %}
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <span>
-                                    <strong>اللغات:</strong>
-                                    {% for lang in active_languages %}
-                                        {{ lang.language }} ({{ lang.descrp_short }}){% unless forloop.last %}، {% endunless %}
-                                    {% endfor %}
-                                </span>
-                            {% endif %}
                         </p>
+
+                        {%- comment -%}
+                        Active Languages Header Summary (Arabic):
+                        Uses Arabic comma ("، ") for correct RTL punctuation on a dedicated centered line.
+                        {%- endcomment -%}
+                        {% assign active_languages = resume_data.languages | where: "active", true %}
+                        {% if site.resume_section.lang_header and active_languages.size > 0 %}
+                            <p class="header-languages">
+                                <strong>اللغات:</strong>
+                                {% for lang in active_languages %}
+                                    {{ lang.language }} ({{ lang.descrp_short }}){% unless forloop.last %}، {% endunless %}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
                     </div>
                 {% endif %}
 

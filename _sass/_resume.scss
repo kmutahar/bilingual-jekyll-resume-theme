@@ -66,6 +66,14 @@
   .header-contact-info {
     @include mixins.sans;
     text-align: center;
+
+    p {
+      margin: 0.35rem 0;
+    }
+
+    .header-languages {
+      margin-top: 0.25rem;
+    }
   }
 
   // Contact links inherit parent text color to avoid default browser hyperlink blue.

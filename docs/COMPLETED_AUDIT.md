@@ -20,22 +20,22 @@ To maintain strict hygiene in the active roadmap and eliminate document drift ac
 | Scope Phase | Total Audited | Completed & Verified | Completion Rate | Releases Delivered |
 |---|---|---|---|---|
 | **Priority 0 (Immediate Stability, Correctness & Security)** | 16 | 16 | **100%** | `v0.4.0`, `v0.7.0` |
-| **Priority 1 (Visual Enhancements & Quick Wins)** | 1 (P1.4) | 1 | **100%** | `v0.7.0` |
-| **Priority 2 (Core Functional & Architecture)** | 1 (P2.4) | 1 | **100%** | `v0.7.0` |
-| **Total Engineering Remediations** | **18** | **18** | **100%** | `v0.4.0` – `v0.7.0` |
+| **Priority 1 (Visual Enhancements & Quick Wins)** | 2 (P1.2, P1.4) | 2 | **100%** | `v0.7.0`, `v0.8.0` |
+| **Priority 2 (Core Functional & Architecture)** | 3 (P2.4, P2.7, #216) | 3 | **100%** | `v0.7.0`, `v0.8.0` |
+| **Total Completed Engineering Deliverables** | **21** | **21** | **100%** | `v0.4.0` – `v0.8.0` |
 
 ### 1.2 Categorical Remediation Distribution
 
 ```
 +-------------------------------------------------------------+
-| Category Distribution of 18 Completed Remediations          |
+| Category Distribution of 21 Completed Items                 |
 +-------------------------------------------------------------+
 | Bug / Logic Fixes:              4 items (P0.1, P0.2, P0.3, P0.9)
 | Security & HTML Correctness:    2 items (P0.5, P0.7)
 | Data Resilience & Optionality:  3 items (P0.13, P0.14, P0.15)
-| Accessibility (WCAG 2.1 AA):   2 items (P0.10, P1.4)
-| RTL & Internationalization:     3 items (P0.8, P0.11, P1.4)
-| Architecture & Error Suite:     3 items (P0.4, P0.16, P2.4)
+| Accessibility (WCAG 2.1/2.2):   3 items (P0.10, P1.4, P2.7)
+| RTL & Internationalization:     4 items (P0.8, P0.11, P1.4, P1.2)
+| Architecture & Navigation:      4 items (P0.4, P0.16, P2.4, #216)
 | Asset Management & 404s:        1 item  (P0.6)
 | Governance & Versioning:        1 item  (P0.12)
 +-------------------------------------------------------------+
@@ -63,8 +63,11 @@ To maintain strict hygiene in the active roadmap and eliminate document drift ac
 | **P0.14** | Make `summary` Optional in `recognitions.yml` | Issue [#3](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/3) | Data Resilience | `v0.4.0` | `34b46613dc561a3d1868fdf8d64f7cfd80e02e5d` | `_includes/resume-section-en.html`, `_includes/resume-section-ar.html` |
 | **P0.15** | Make `summary` Optional in `Associations.yml` | Issue [#4](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/4) | Data Resilience | `v0.4.0` | `a12cdc8b9d64db5c3368db6dc270c03a4f353538` | `_includes/resume-section-en.html`, `_includes/resume-section-ar.html` |
 | **P0.16** | Move Resume Header Intro from Config to Data File | Issue [#5](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/5) | Architecture / i18n | `v0.4.0` | `d026de92817b3de76843e18b8770c20136ae0691` | `_layouts/resume-ar.html`, `_layouts/resume-en.html`, `_data/en/header.yml`, `_data/ar/header.yml`, `docs/_config.sample.yml` |
+| **P1.2** | Interactive Bilingual Language Switcher (EN ⇋ AR) | Issue [#11](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/11) | i18n / Navigation | `v0.8.0` | `c56e50f` | `_includes/language-switcher.html`, `_layouts/resume-en.html`, `_layouts/resume-ar.html`, `_layouts/default.html`, `_sass/_layout.scss`, `_sass/_resume-rtl.scss`, docs |
 | **P1.4** | Configurable Avatar Image URL, Alt Text & Link Mode | Codebase Audit | Customization / a11y | `v0.7.0` | `a17cc603a3633bb5dc67589bcc01ce7ef886d88c` | `_includes/avatar.html`, `_layouts/resume-ar.html`, `_layouts/resume-en.html`, `docs/CONFIG_GUIDE.md`, `docs/INCLUDES_GUIDE.md` |
 | **P2.4** | Site-Wide Dark Mode & HTTP Error Suite (404/403/500) | Issue [#8](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/8) | UX / Architecture | `v0.7.0` | `853a9ac1eaf11aadec62f198f6b7e9cdb2d3c209`, `4eab127d8cc3a4cedccca89943482fd3a067ee14`, `2dcb813` | `_layouts/default.html`, `_layouts/error.html`, `_layouts/profile.html`, `_layouts/resume-en.html`, `_layouts/resume-ar.html`, `_data/error_pages.yml`, `404.html`, `403.html`, `500.html`, `_sass/_all-pages.scss`, `_sass/_profile.scss`, `_sass/_dark-mode.scss`, docs |
+| **P2.7** | Advanced WCAG 2.1/2.2 AA Accessibility Polish | Issue [#21](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/21) | Accessibility (WCAG) | `v0.8.0` | `a29c480` | `_layouts/resume-en.html`, `_layouts/resume-ar.html`, `_layouts/default.html`, `_layouts/profile.html`, `_sass/_base.scss`, `docs/ACCESSIBILITY_GUIDE.md` |
+| **Fix #216** | Configurable Resume Navigation Links in Error Page Layout | Issue [#216](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/216) | Architecture / Navigation | `v0.8.0` | `853a9ac1` | `_layouts/error.html`, `docs/CONFIG_GUIDE.md` |
 
 ---
 

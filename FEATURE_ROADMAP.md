@@ -10,37 +10,38 @@
 
 ## Executive Summary & Historical Audit Archival
 
-This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **18 active, uncompleted features** organized across four sequential implementation phases:
-1. **Priority 1 (Quick Wins & Visual Polish):** High-visibility, low-friction UX improvements (4 active features).
-2. **Priority 2 (Core Functional & Architectural):** Data richness, typography, print fidelity, and accessibility (5 active features).
+This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **22 active, uncompleted features** organized across four sequential implementation phases:
+1. **Priority 1 (Quick Wins & Visual Polish):** High-visibility, low-friction UX improvements (5 active features).
+2. **Priority 2 (Core Functional & Architectural):** Data richness, typography, print fidelity, and RTL alignment (7 active features).
 3. **Priority 3 (Interoperability, Tooling & CI/CD):** Industry schema standards, validation tooling, and test pipelines (3 active features).
-4. **Priority 4 (Ecosystem Expansion):** Generic internationalization, chronology views, contact mechanisms, telemetry, and v1.0.0 deprecation retirement (6 active features).
+4. **Priority 4 (Ecosystem Expansion):** Generic internationalization, chronology views, contact mechanisms, telemetry, custom sections, and v1.0.0 deprecation retirement (7 active features).
 
 ### Historical Remediation Archival Notice
-In accordance with repository governance and engineering hygiene rules, **all 18 completed remediation tasks (P0.1 through P0.16, P1.4 Configurable Avatar, and P2.4 Universal Dark Mode & Error Suite) as well as Feature 1.2 (Interactive Bilingual Language Switcher) and Feature 2.7 (Advanced WCAG 2.1/2.2 AA Accessibility Polish) have been audited, verified in git history, and merged**. 
+In accordance with repository governance and engineering hygiene rules, **all completed remediation tasks and finished features (P0.1–P0.16, P1.4 Configurable Avatar, P2.4 Universal Dark Mode & Error Suite, Feature 1.2 Interactive Language Switcher [#11], and Feature 2.7 Advanced WCAG 2.1/2.2 AA Accessibility Polish [#21]) have been audited, verified in git history, and purged from this active roadmap document**.
 
-For complete historical records, commit SHAs, root cause analyses, before-and-after code diffs, and verification commands for these completed items, refer to the dedicated audit archive:
+For complete historical records, commit SHAs, root cause analyses, before-and-after code diffs, and verification commands for all completed items, refer to the dedicated audit archive:
 👉 **[`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md)**
 
 ---
 
 ## 1. Active Features Master Matrix
 
-All 18 active features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
+All 22 active, uncompleted features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
 
 | Phase | ID | Feature Title | Canonical Issue | Auto-Closing Reference | Effort | Demand | Time Est. | Target Files Key |
 |---|---|---|---|---|---|---|---|---|
 | **P1** | **1.1** | Predefined Color Themes Palette Engine (5 Palettes) | [#7](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/7) | `Closes #7` | ⭐⭐ | High | 2–3 hrs | `_sass/_themes.scss`, `_variables.scss`, layouts |
-| **P1** | **1.2** | Interactive Bilingual Language Switcher (EN ⇋ AR) | [#11](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/11) | `✅ Completed (v0.8.0)` | ⭐⭐ | High | 2 hrs | `_includes/language-switcher.html`, layouts, SCSS |
 | **P1** | **1.3** | Expanded Modern Social Media Platforms (9 Platforms) | [#204](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/204) | `Closes #204` | ⭐⭐ | Med-High | 1–2 hrs | `_includes/social-links.html`, LineIcons SVGs |
 | **P1** | **1.5** | Dynamic Contact / Resume QR Code Component | [#14](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/14) | `Closes #14` | ⭐⭐ | Low-Med | 1–2 hrs | `_includes/qr-code.html`, layouts, SCSS |
 | **P1** | **1.6** | Achievement Badges & Credential Icons | [#19](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/19) | `Closes #19` | ⭐⭐ | Low-Med | 1–2 hrs | `_includes/badge-display.html`, sections, SCSS |
+| **P1** | **1.7** | Native Email Support in Social Links Include | [#215](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/215) | `Closes #215` | ⭐ | High | 1 hr | `_includes/social-links.html`, `_config.yml` |
 | **P2** | **2.1** | Comprehensive JSON-LD Structured Data (ATS/SEO) | [#9](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/9) | `Closes #9` | ⭐⭐ | High | 3–4 hrs | `_includes/json-ld-resume.html`, layouts |
 | **P2** | **2.2** | Skills Level Indicators & Visual Progress Bars | [#10](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/10) | `Closes #10` | ⭐⭐ | Med-High | 3–4 hrs | `_includes/skill-level-bar.html`, sections, SCSS |
 | **P2** | **2.3** | Professional Print Pagination & Spacing Engine | [#12](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/12) | `Closes #12` | ⭐⭐ | High | 2–3 hrs | `_sass/_print-optimization.scss`, `_resume.scss` |
 | **P2** | **2.5** | Skills Taxonomy & Categorized Tagging System | [#18](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/18) | `Closes #18` | ⭐⭐ | Low | 2–3 hrs | `_includes/resume-section-*.html`, `skills.yml` |
 | **P2** | **2.6** | Social Media Cards Generation (Open Graph & Twitter) | [#22](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/22) | `Closes #22` | ⭐⭐ | Med-High | 2–3 hrs | `_includes/shared-head.html`, SEO guides |
-| **P2** | **2.7** | Advanced WCAG 2.1 AA Accessibility Polish | [#21](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/21) | `✅ Completed (v0.8.0)` | ⭐⭐⭐ | Medium | 2–3 hrs | `_sass/_base.scss`, skip-links, landmark roles |
+| **P2** | **2.8** | Header Contact Icon and Text Alignment in Arabic Layout | [#217](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217) | `Closes #217` | ⭐ | Med-High | 1 hr | `_layouts/resume-ar.html`, `_sass/_resume-rtl.scss` |
+| **P2** | **2.9** | Dual Gregorian / Hijri (Islamic) Calendar Localization | [#218](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218) | `Closes #218` | ⭐⭐ | High (MENA) | 2–3 hrs | `_includes/ar-date.html`, `_data/ar/hijri_months.yml` |
 | **P3** | **3.1** | Standard JSON Resume Exporter (`/resume.json`) | [#6](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/6) | `Closes #6` | ⭐⭐⭐ | High | 4–5 hrs | `resume.json`, `resume-ar.json` |
 | **P3** | **3.2** | Automated CI/CD Build & Verification Pipeline | [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206) | `Closes #206` | ⭐⭐ | High | 2–3 hrs | `.github/workflows/ci.yml` |
 | **P3** | **3.3** | YAML Resume Data Validator & Schema Linter | [#13](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/13) | `Closes #13` | ⭐⭐⭐ | Med-High | 4–5 hrs | `bin/validate-resume`, `Rakefile` |
@@ -50,8 +51,9 @@ All 18 active features are mapped below with their canonical GitHub issue refere
 | **P4** | **4.4** | Privacy-First Resume Engagement Analytics | [#17](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/17) | `Closes #17` | ⭐⭐⭐ | Low-Med | 3–4 hrs | `assets/js/resume-analytics.js`, analytics body |
 | **P4** | **4.5** | Resume Comparison & A/B Testing View | [#23](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/23) | `Closes #23` | ⭐⭐⭐ | Low | 4–5 hrs | `_layouts/resume-comparison.html`, `_comparison.scss` |
 | **P4** | **4.6** | Deprecation Retirement & Legacy Fallbacks Cleanup | [#214](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214) | `Closes #214` | ⭐ | High | 1–2 hrs | `_includes/resume-section-*.html`, layouts, docs |
+| **P4** | **4.7** | Dynamic Custom Resume Sections Engine | [#219](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219) | `Closes #219` | ⭐⭐⭐ | Med-High | 3–4 hrs | `_includes/resume-custom-section.html`, dispatchers |
 
-*(Note on Canonical References: Issue #204 is canonical for Expanded Social Media, superseding redundant duplicates #36–#190. Issue #206 is canonical for Automated CI/CD Pipeline, superseding redundant duplicates #38–#192).*
+*(Note on Canonical References: Issue #204 is canonical for Expanded Social Media, superseding redundant duplicates #36–#190. Issue #206 is canonical for Automated CI/CD Pipeline, superseding redundant duplicates #38–#192. GitHub Issue #216 is verified as implemented in v0.8.0 via `_layouts/error.html`).*
 
 <a id="status-delete-zone"></a>
 ### 1.1 Status Delete-Zone (Intentional Removals & Deprecations)
@@ -60,7 +62,7 @@ In accordance with Living Docs Governance, this Delete-Zone catalogs files, patt
 
 | # | Path / Pattern / Concept | Lifecycle Status | Why Removed / Forbidden | Canonical Replacement | Revisit Condition |
 |---|---|---|---|---|---|
-| 1 | Static return URLs (`/resume/en/`, `/resume/ar/` in `_layouts/error.html`) | **Removed in v0.8.0** | Hardcoded paths broke return navigation for sites using custom resume paths (e.g. `/en/cv/`, `/ar/cv/`). | Dynamic resolution via `site.resume_en_url \| default: resume_en_page.url \| default: '/en/cv/'` (and matching Arabic mirror). | Never revert to hardcoded static URLs. Future locale extensions (Feature 4.1) must follow dynamic resolution. |
+| 1 | Static return URLs (`/resume/en/`, `/resume/ar/` in `_layouts/error.html`) | **Removed in v0.8.0 (Issue #216)** | Hardcoded paths broke return navigation for sites using custom resume paths (e.g. `/en/cv/`, `/ar/cv/`). | Dynamic resolution via `site.resume_en_url \| default: resume_en_page.url \| default: '/en/cv/'` (and matching Arabic mirror). | Never revert to hardcoded static URLs. Future locale extensions (Feature 4.1) must follow dynamic resolution. |
 | 2 | Gravatar MD5 email hashing & fallback initials claims | **Purged in v0.8.0** | Fictional feature documented in old drafts; neither Gravatar hashing nor initials fallback was ever implemented in `_includes/avatar.html`. Documenting `resume_avatar` as a Hash broke Liquid's strict boolean check `{% if site.resume_avatar == true %}`. | Direct image path via `site.avatar_url` (or fallback `site.avatar`), defaulting to `/assets/images/Profile-min.jpg`, with `resume_avatar: true` (Boolean). | Revisit only if a verified Jekyll Liquid MD5 plugin or client-side JS hashing filter is formally designed, approved in an ADR, and tested. |
 | 3 | `resume_avatar: Hash` in `_config.yml` | **Forbidden in v0.8.0** | Liquid `{% if site.resume_avatar == true %}` checks boolean equality; a hash evaluates to `false`. | `resume_avatar: true` (strictly Boolean) and `avatar_url: "..."`. | Never use a hash for `resume_avatar`. |
 | 4 | Singular section keys: `resume_section.recognition` | **Scheduled (v1.0.0, #214)** | Inconsistent singular syntax across sections. Standardized to plural `recognitions`. Fallback supported until `v1.0.0`. | `resume_section.recognitions` and `resume_section_order: - recognitions`. | Standardize all section names to plural. |
@@ -81,10 +83,10 @@ The diagram below illustrates the architectural relationships, token flows, and 
 flowchart TD
     subgraph P1["Priority 1: Quick Wins & High-Impact Visuals"]
         F11["1.1 Theme Palettes Engine (5 Palettes)<br/>#7"]
-        F12["1.2 Bilingual Language Switcher (EN ⇋ AR)<br/>#11"]
         F13["1.3 Expanded Social Media (9 Platforms)<br/>#204"]
         F15["1.5 Dynamic QR Code Component<br/>#14"]
         F16["1.6 Achievement Badges & Icons<br/>#19"]
+        F17["1.7 Native Email in Social Links<br/>#215"]
     end
 
     subgraph P2["Priority 2: Core Functional & Architectural"]
@@ -93,7 +95,7 @@ flowchart TD
         F23["2.3 Professional Print Pagination Engine<br/>#12"]
         F25["2.5 Skills Taxonomy & Tagging<br/>#18"]
         F26["2.6 Social Cards (OG & Twitter)<br/>#22"]
-        F27["2.7 WCAG 2.1 AA Accessibility Polish<br/>#21"]
+        F28["2.8 Header Contact Alignment in Arabic<br/>#217"]
     end
 
     subgraph P3["Priority 3: Interoperability, Tooling & CI/CD"]
@@ -114,16 +116,15 @@ flowchart TD
     %% Dependencies & Synergies
     F11 -->|CSS Design Tokens| F22
     F11 -->|Color Variables| F42
-    F12 -->|Bilingual Navigation| F41
     F13 -->|Profile URLs| F21
     F13 -->|Social Network Links| F31
+    F17 -->|Direct Contact Microdata| F21
     F15 -->|Print Visibility Rules| F23
     F16 -->|Credential Entities| F21
     F22 -->|Skill Proficiency Values| F25
     F22 -->|Skill Metadata| F31
     F23 -->|Print Page Bounds| F42
-    F27 -->|Accessible Focus Rings| F12
-    F27 -->|ARIA Standards| F43
+    F28 -->|RTL Contact Alignment| F23
     F33 -->|Schema Validation Gate| F32
     F33 -->|Schema Validation Gate| F46
     F31 -->|Interoperable Resume Data| F45
@@ -282,26 +283,18 @@ In `_layouts/resume-en.html` and `_layouts/resume-ar.html`:
 
 ---
 
-### Feature 1.2: Interactive Bilingual Language Switcher (EN ⇋ AR)
+### Feature 1.7: Native Email Support in Social Links Include
 
-> **Status**: `✅ COMPLETED & MERGED (Release v0.8.0, Commit c56e50f, Closes #11)`
-
-- **Canonical Issue:** [#11](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/11)
-- **Auto-Closing Reference:** `Closes #11`
-- **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/11`
+- **Canonical Issue:** [#215](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/215)
+- **Auto-Closing Reference:** `Closes #215`
+- **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/215`
 - **Concept & User Demand Rationale:**  
-  Visitors to a bilingual resume site require an immediate, obvious, and accessible mechanism to toggle between the English and Arabic versions of the document. The language switcher component floats symmetrically opposite the dark mode toggle, preserves viewport ergonomics, and is hidden during printing.
-- **Effort / Impact / Demand:** Effort: ⭐⭐ (2 hrs) | Impact: ⭐⭐⭐⭐⭐ | Demand: High
+  Currently, `_includes/social-links.html` supports 14 social platforms (GitHub, LinkedIn, Telegram, Twitter/X, etc.), but lacks native support for an `email:` entry under `site.social_links` / `site.social_media`. Consuming sites wishing to display an email icon alongside their social links must write custom HTML or inject inline SVGs. Adding native email support ensures unified icon styling, `mailto:` link generation, Schema.org `itemprop="email"` microdata, and accessible labeling.
+- **Effort / Impact / Demand:** Effort: ⭐ (1 hr) | Impact: ⭐⭐⭐⭐ | Demand: High
 
 #### Exact Target Files
-- **Files to Create:**
-  - `_includes/language-switcher.html`
 - **Files to Modify:**
-  - `_layouts/resume-en.html` (include `language-switcher.html`)
-  - `_layouts/resume-ar.html` (include `language-switcher.html`)
-  - `_layouts/default.html` (include `language-switcher.html` when enabled)
-  - `_sass/_layout.scss` (floating pill styles and positioning)
-  - `_sass/_resume-rtl.scss` (RTL coordinate flip)
+  - `_includes/social-links.html`
   - `docs/_data/_config.sample.yml`
   - `docs/CONFIG_GUIDE.md`
   - `docs/INCLUDES_GUIDE.md`
@@ -310,125 +303,42 @@ In `_layouts/resume-en.html` and `_layouts/resume-ar.html`:
 In `_config.yml`:
 ```yaml
 # ==============================================================================
-# Interactive Bilingual Switcher
+# Social & Contact Links
 # ==============================================================================
-# Enables the floating EN <-> AR toggle component on resume layouts
-resume_language_switcher: true # Set to false to disable
-resume_en_url: "/resume/en/"   # Fallback English destination
-resume_ar_url: "/resume/ar/"   # Fallback Arabic destination
+social_links:
+  email: "contact@mutahar.me"
+  github: "https://github.com/kmutahar"
+  linkedin: "https://linkedin.com/in/kmutahar"
 ```
 
-#### Architecture & Liquid/SCSS Implementation
-Create `_includes/language-switcher.html`:
+#### Architecture & Liquid Implementation
+In `_includes/social-links.html`:
 ```liquid
-{%- comment -%}
-Include: Reusable Language Switcher Component
-- Invariant: Automatically discovers counterpart localized page via page.t_id or default paths.
-- Accessibility: Localized aria-label and title attributes with keyboard focus indicator.
-{%- endcomment -%}
-
-{% if site.resume_language_switcher != false %}
-  {% assign current_lang = page.lang | default: site.lang | default: 'en' %}
-  {% assign target_lang = 'ar' %}
-  {% if current_lang == 'ar' %}
-    {% assign target_lang = 'en' %}
-  {% endif %}
-
-  {% assign target_url = nil %}
-  {% if page.t_id %}
-    {% assign match = site.pages | where: "t_id", page.t_id | where: "lang", target_lang | first %}
-    {% if match %}
-      {% assign target_url = match.url | relative_url %}
-    {% endif %}
-  {% endif %}
-
-  {% unless target_url %}
-    {% if current_lang == 'ar' %}
-      {% assign target_url = site.resume_en_url | default: '/resume/en/' | relative_url %}
-    {% else %}
-      {% assign target_url = site.resume_ar_url | default: '/resume/ar/' | relative_url %}
-    {% endif %}
-  {% endunless %}
-
-  <div class="language-switcher no-print" role="navigation" aria-label="Language Selector">
-    <a href="{{ target_url }}"
-       class="lang-switch-btn"
-       aria-label="{% if current_lang == 'ar' %}Switch language to English{% else %}التحويل إلى اللغة العربية{% endif %}"
-       title="{% if current_lang == 'ar' %}English{% else %}العربية{% endif %}">
-      <span class="lang-icon" aria-hidden="true">🌐</span>
-      <span class="lang-label-target">{% if current_lang == 'ar' %}EN{% else %}عربي{% endif %}</span>
-    </a>
-  </div>
+{% assign social_email = site.social_links.email | default: site.social_media.email %}
+{% if social_email %}
+    <!-- Email contact link -->
+    <li class="icon-link-item">
+        <a href="mailto:{{ social_email }}" class="icon-link" itemprop="email" aria-label="Email" title="Email">{% include vendors/lineicons-v4.0/envelope.svg %}<span class="sr-only">Email</span></a>
+    </li>
 {% endif %}
 ```
 
-Styling in `_sass/_layout.scss` & `_sass/_resume-rtl.scss`:
-```scss
-// In _sass/_layout.scss (LTR baseline: Top-Left, Dark-mode is Top-Right)
-.language-switcher {
-  position: fixed;
-  top: 1.25rem;
-  left: 1.25rem;
-  z-index: 1000;
-
-  .lang-switch-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.35rem;
-    height: 2.5rem;
-    padding: 0 0.85rem;
-    background: var(--bg-color, #ffffff);
-    color: var(--text-color, #333333);
-    border: 1px solid var(--border-color, #e0e0e0);
-    border-radius: 9999px;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: var(--button-bg, #f5f5f5);
-      border-color: var(--accent-color, #007acc);
-      transform: scale(1.05);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--accent-color, #007acc);
-      outline-offset: 2px;
-    }
-  }
-}
-
-// In _sass/_resume-rtl.scss (RTL coordinate flip: Top-Right, Dark-mode is Top-Left)
-html[dir="rtl"] {
-  .language-switcher {
-    left: auto;
-    right: 1.25rem;
-  }
-}
-```
-
 #### Acceptance Criteria & Verification
-- [ ] Switcher renders on English resume at top-left with text "عربي". Clicking navigates to Arabic resume.
-- [ ] Switcher renders on Arabic resume at top-right with text "EN". Clicking navigates to English resume.
-- [ ] Both buttons display descriptive localized `aria-label` tags for screen readers.
-- [ ] Component includes `.no-print` and does not appear on printed sheets.
-- [ ] Setting `resume_language_switcher: false` suppresses component rendering.
+- [ ] Setting `social_links.email` or `social_media.email` in `_config.yml` renders an email icon inside `.social-links`.
+- [ ] Anchor generates valid `href="mailto:user@example.com"` without whitespace issues.
+- [ ] Includes `itemprop="email"`, `aria-label="Email"`, `title="Email"`, and `<span class="sr-only">Email</span>`.
 - [ ] **Bash Verification Command:**
   ```bash
-  bundle exec jekyll build && \
-  grep -q "lang-switch-btn" _site/resume/en/index.html && \
-  grep -q "lang-switch-btn" _site/resume/ar/index.html && \
-  echo "Bilingual switcher verified on both layouts."
+  bundle exec jekyll build --config docs/_data/_config.sample.yml && \
+  grep -q "mailto:" _site/index.html && \
+  echo "Native email in social links verified."
   ```
 
 #### Git Workflow Specification
-- **Branch:** `feature/language-switcher`
-- **PR Title:** `feat(i18n): add responsive bilingual language switcher component`
-- **Conventional Commit:** `feat(i18n): implement interactive bilingual language switcher (Closes #11)`
-- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/11`
+- **Branch:** `feature/social-links-email`
+- **PR Title:** `feat(includes): add native email support to social-links include`
+- **Conventional Commit:** `feat(includes): add native email support to social-links include (Closes #215)`
+- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/215`
 
 ---
 
@@ -1241,51 +1151,202 @@ resume_skills_categorized: true # Group skills by category heading (default: fal
 ```
 
 #### Architecture & Liquid Implementation
-In `_includes/resume-section-en.html` (and matching Arabic template):
+
+In `_includes/resume-section-en.html`:
 ```liquid
-{% assign active_skills = resume_data.skills | where: "active", true %}
-{% if site.resume_skills_categorized %}
-  {% assign categories = active_skills | group_by: "category" %}
-  {% for cat in categories %}
-    <div class="skills-category-group">
-      {% if cat.name != "" %}
-        <h3 class="skills-category-title">{{ cat.name }}</h3>
-      {% endif %}
-      <div class="skills-category-items">
-        {% for skill in cat.items %}
-          <div class="resume-item skill-item">
-            <h4 class="resume-item-details">{{ skill.skill }}</h4>
-            {% include skill-level-bar.html skill=skill %}
-            {% if skill.description %}
-              <p class="resume-item-copy">{{ skill.description }}</p>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  {% endfor %}
-{% else %}
-  {% for skill in active_skills %}
-    <div class="resume-item">
-      <h4 class="resume-item-details">{{ skill.skill }}</h4>
-      {% include skill-level-bar.html skill=skill %}
-      {% if skill.description %}
-        <p class="resume-item-copy">{{ skill.description }}</p>
-      {% endif %}
-    </div>
-  {% endfor %}
-{% endif %}
+{% elsif include.section_name == "skills" and site.resume_section.skills %}
+    <!-- begin Skills -->
+    <section class="content-section">
+        <header class="section-header">
+            <h2>Skills</h2>
+        </header>
+
+        {%- assign active_skills = resume_data.skills | where: "active", true -%}
+
+        {%- if include.skill_category -%}
+          {%- assign active_skills = active_skills | where: "category", include.skill_category -%}
+        {%- endif -%}
+
+        {%- if include.skill_tag -%}
+          {%- assign filtered = '' | split: ',' -%}
+          {%- for s in active_skills -%}
+            {%- if s.tags and s.tags contains include.skill_tag -%}
+              {%- assign filtered = filtered | push: s -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- assign active_skills = filtered -%}
+        {%- endif -%}
+
+        {%- if site.resume_skills_categorized -%}
+          {%- assign groups = active_skills | group_by: "category" -%}
+          {%- for group in groups -%}
+            <div class="resume-item skills-category-group">
+              <h3 class="resume-item-title skills-category-title">{{ group.name | default: 'Other' }}</h3>
+              {%- assign skills_sorted = group.items | sort: "skill" -%}
+              {%- for skill in skills_sorted -%}
+                <div class="skill-entry">
+                  <h4 class="resume-item-details">{{ skill.skill }}</h4>
+                  {%- if skill.level -%}{% include skill-level-bar.html skill=skill %}{%- endif -%}
+                  {%- if skill.description -%}
+                    <p class="resume-item-copy">{{ skill.description }}</p>
+                  {%- endif -%}
+                  {%- if skill.tags and skill.tags.size > 0 -%}
+                    <p class="skill-tags">
+                      {%- for tag in skill.tags -%}
+                        <span class="skill-tag">{{ tag }}</span>
+                      {%- endfor -%}
+                    </p>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for skill in active_skills -%}
+            <div class="resume-item">
+              <h4 class="resume-item-details">{{ skill.skill }}</h4>
+              {%- if skill.level -%}{% include skill-level-bar.html skill=skill %}{%- endif -%}
+              {%- if skill.description -%}
+                <p class="resume-item-copy">{{ skill.description }}</p>
+              {%- endif -%}
+              {%- if skill.tags and skill.tags.size > 0 -%}
+                <p class="skill-tags">
+                  {%- for tag in skill.tags -%}
+                    <span class="skill-tag">{{ tag }}</span>
+                  {%- endfor -%}
+                </p>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+    </section>
+    <!-- end Skills -->
 ```
 
+In `_includes/resume-section-ar.html` (Arabic counterpart with mirrored taxonomy):
+```liquid
+{% elsif include.section_name == "skills" and site.resume_section.skills %}
+    <!-- begin Skills (Arabic RTL) -->
+    <section class="content-section">
+        <header class="section-header">
+            <h2>المهارات</h2>
+        </header>
+
+        {%- assign active_skills = resume_data.skills | where: "active", true -%}
+
+        {%- if include.skill_category -%}
+          {%- assign active_skills = active_skills | where: "category", include.skill_category -%}
+        {%- endif -%}
+
+        {%- if include.skill_tag -%}
+          {%- assign filtered = '' | split: ',' -%}
+          {%- for s in active_skills -%}
+            {%- if s.tags and s.tags contains include.skill_tag -%}
+              {%- assign filtered = filtered | push: s -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- assign active_skills = filtered -%}
+        {%- endif -%}
+
+        {%- if site.resume_skills_categorized -%}
+          {%- assign groups = active_skills | group_by: "category" -%}
+          {%- for group in groups -%}
+            <div class="resume-item skills-category-group">
+              <h3 class="resume-item-title skills-category-title">{{ group.name | default: 'أخرى' }}</h3>
+              {%- assign skills_sorted = group.items | sort: "skill" -%}
+              {%- for skill in skills_sorted -%}
+                <div class="skill-entry">
+                  <h4 class="resume-item-details">{{ skill.skill }}</h4>
+                  {%- if skill.level -%}{% include skill-level-bar.html skill=skill %}{%- endif -%}
+                  {%- if skill.description -%}
+                    <p class="resume-item-copy">{{ skill.description }}</p>
+                  {%- endif -%}
+                  {%- if skill.tags and skill.tags.size > 0 -%}
+                    <p class="skill-tags">
+                      {%- for tag in skill.tags -%}
+                        <span class="skill-tag">{{ tag }}</span>
+                      {%- endfor -%}
+                    </p>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for skill in active_skills -%}
+            <div class="resume-item">
+              <h4 class="resume-item-details">{{ skill.skill }}</h4>
+              {%- if skill.level -%}{% include skill-level-bar.html skill=skill %}{%- endif -%}
+              {%- if skill.description -%}
+                <p class="resume-item-copy">{{ skill.description }}</p>
+              {%- endif -%}
+              {%- if skill.tags and skill.tags.size > 0 -%}
+                <p class="skill-tags">
+                  {%- for tag in skill.tags -%}
+                    <span class="skill-tag">{{ tag }}</span>
+                  {%- endfor -%}
+                </p>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+    </section>
+    <!-- end Skills -->
+```
+
+#### SCSS Styling Architecture
+In `_sass/_resume.scss`:
+```scss
+// Skills taxonomy and tag badges
+.skills-category-title {
+  margin: 0 0 0.5rem;
+}
+
+.skill-entry {
+  margin: 0 0 1rem;
+}
+
+.skill-tags {
+  margin: 0.25rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.skill-tag {
+  display: inline-block;
+  background: var(--card-bg, #f3f3f3);
+  border: 1px solid var(--border-color, #e0e0e0);
+  color: var(--text-color, #555);
+  padding: 0.1rem 0.4rem;
+  font-size: 0.8rem;
+  @include mixins.border-radius(3px);
+}
+```
+
+In `_sass/_resume-rtl.scss`:
+```scss
+// Mirrored skill tags for RTL layout
+.skill-tags {
+  direction: rtl;
+}
+```
+
+#### Advanced Include Filtering Usage
+Developers and theme consumers can optionally render filtered subsets of skills in custom pages:
+- Filter by category in English: `{% include resume-section-en.html section_name="skills" skill_category="Cloud & DevOps" %}`
+- Filter by keyword tag in Arabic: `{% include resume-section-ar.html section_name="skills" skill_tag="حاويات" %}`
+
 #### Acceptance Criteria & Verification
-- [ ] Setting `resume_skills_categorized: true` renders skills under category subheadings (`<h3>`).
+- [ ] Setting `resume_skills_categorized: true` renders skills grouped under category subheadings (`<h3>`).
 - [ ] Setting `resume_skills_categorized: false` gracefully preserves flat list view.
-- [ ] Skills lacking `category` render in an uncategorized section without template errors.
+- [ ] Tags render as accessible badge pills underneath each skill description.
+- [ ] Skills lacking `category` render under "Other" / "أخرى" without template errors.
 - [ ] **Bash Verification Command:**
   ```bash
   bundle exec jekyll build && \
-  grep -q "skills-category-title" _site/resume/en/index.html && \
-  echo "Skills taxonomy categorization verified."
+  grep -q "skill-tag" _site/resume/en/index.html && \
+  echo "Skills taxonomy categorization and tag badges verified."
   ```
 
 #### Git Workflow Specification
@@ -1370,95 +1431,157 @@ In `_includes/shared-head.html`:
 
 ---
 
-### Feature 2.7: Advanced WCAG 2.1 AA Accessibility Polish
+### Feature 2.8: Header Contact Icon and Text Alignment in Arabic Layout
 
-> **Status**: `✅ COMPLETED & MERGED (Release v0.8.0, Closes #21)`
-
-- **Canonical Issue:** [#21](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/21)
-- **Auto-Closing Reference:** `Closes #21`
-- **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/21`
+- **Canonical Issue:** [#217](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217)
+- **Auto-Closing Reference:** `Closes #217`
+- **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217`
 - **Concept & User Demand Rationale:**  
-  Following the Phase 1 accessible social link fix (P0.10), full WCAG 2.1 AA compliance requires site-wide accessible architecture: keyboard skip-links, visible focus indicators (`:focus-visible`), landmark roles (`role="main"`, `role="banner"`, `role="contentinfo"`), and color contrast guarantees across dark and light modes.
-- **Effort / Impact / Demand:** Effort: ⭐⭐⭐ (2–3 hrs) | Impact: ⭐⭐⭐⭐ | Demand: Medium
+  In `_layouts/resume-ar.html`, the contact info elements in the header place text or link elements before the SVG icon in the DOM order. In RTL rendering, this places the text at the right (start of line) and the icon at the left (end of line), creating an inconsistent visual pattern compared to standard icon-leading designs. In contrast, `_layouts/resume-en.html` places icons before text, leading on the left. Standardizing DOM ordering and CSS alignment ensures consistent icon-first visual hierarchy across both languages while strictly preserving `dir="ltr"` text isolation on telephone numbers and email addresses.
+- **Effort / Impact / Demand:** Effort: ⭐ (1 hr) | Impact: ⭐⭐⭐⭐ | Demand: Med-High
 
 #### Exact Target Files
-- **Files to Create:**
-  - `docs/ACCESSIBILITY_GUIDE.md`
 - **Files to Modify:**
-  - `_layouts/resume-en.html` (skip-link, semantic landmarks)
-  - `_layouts/resume-ar.html` (Arabic skip-link, semantic landmarks)
-  - `_layouts/default.html` (skip-link, landmarks)
-  - `_layouts/profile.html`
-  - `_sass/_base.scss` (`.skip-link`, universal `:focus-visible`)
+  - `_layouts/resume-ar.html` (header contact block DOM order)
+  - `_sass/_resume-rtl.scss` (RTL header contact layout styles)
   - `_sass/_resume.scss`
 
 #### Architecture & Liquid/SCSS Implementation
-In `_layouts/resume-en.html`:
-```html
-<a href="#main-content" class="skip-link sr-only focusable">Skip to main content</a>
-...
-<header class="page-header" role="banner">
-...
-<main id="main-content" class="content-container" role="main" tabindex="-1">
-...
-<footer class="page-footer" role="contentinfo">
-```
-
 In `_layouts/resume-ar.html`:
-```html
-<a href="#main-content" class="skip-link sr-only focusable">الانتقال إلى المحتوى الرئيسي</a>
-```
-
-In `_sass/_base.scss`:
-```scss
-// Accessible Skip-to-Content Link
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: 1rem;
-  z-index: 9999;
-  padding: 0.5rem 1rem;
-  background: var(--accent-color, #007acc);
-  color: #ffffff !important;
-  font-weight: 700;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: top 0.2s ease;
-
-  &:focus {
-    top: 1rem;
-    outline: 3px solid #ffffff;
-  }
-}
-html[dir="rtl"] .skip-link {
-  left: auto;
-  right: 1rem;
-}
-
-// Universal Accessible Focus Rings
-:focus-visible {
-  outline: 2px solid var(--accent-color, #007acc);
-  outline-offset: 2px;
-}
+```liquid
+{% if site.display_header_contact_info == true %}
+    <div class="header-contact-items">
+        {% if site.contact_info.phone_live %}
+            <span class="contact-item">{% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone_live | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone_live }}</a></span>
+        {% elsif site.contact_info.phone %}
+            <span class="contact-item">{% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone }}</a></span>
+        {% endif %}
+        {% if site.contact_info.email_live %}
+            <span class="contact-item">{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;<a href="mailto:{{ site.contact_info.email_live }}" style="text-decoration: none; color: inherit;">{{ site.contact_info.email_live }}</a></span>
+        {% elsif site.contact_info.email %}
+            <span class="contact-item">{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;<a href="mailto:{{ site.contact_info.email }}" style="text-decoration: none; color: inherit;">{{ site.contact_info.email }}</a></span>
+        {% endif %}
+        {% if site.contact_info.address_ar %}
+            <span class="contact-item">{% include vendors/lineicons-v4.0/postcard.svg %}&nbsp;{{ site.contact_info.address_ar }}</span>
+        {% endif %}
+    </div>
+{% endif %}
 ```
 
 #### Acceptance Criteria & Verification
-- [ ] Tabbing on page load brings skip link into view; pressing Enter focuses `<main id="main-content">`.
-- [ ] All interactive controls feature distinct `:focus-visible` outlines.
-- [ ] Google Lighthouse accessibility score &ge; 98/100 on both English and Arabic resume layouts.
+- [ ] Arabic header contact elements lead with the icon on the right (start of line) followed by text/links.
+- [ ] Phone numbers retain `dir="ltr"` and format correctly without inverted plus signs or punctuation distortions.
+- [ ] Visual parity is maintained with the English resume header in both light and dark modes.
 - [ ] **Bash Verification Command:**
   ```bash
-  bundle exec jekyll build && \
-  grep -q 'class="skip-link' _site/resume/en/index.html && \
-  grep -q 'role="main"' _site/resume/en/index.html && \
-  echo "Accessibility landmarks and skip link verified."
+  bundle exec jekyll build --config docs/_data/_config.sample.yml && \
+  grep -q "postcard.svg" _site/resume/ar/index.html && \
+  echo "Arabic header contact alignment verified."
   ```
 
 #### Git Workflow Specification
-- **Branch:** `feature/wcag-aa-compliance`
-- **PR Title:** `feat(a11y): implement skip-to-content links and WCAG 2.1 AA focus rings`
-- **Conventional Commit:** `feat(a11y): add accessible landmark roles, skip-link, and focus styles (Closes #21)`
-- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/21`
+- **Branch:** `fix/ar-contact-header-alignment`
+- **PR Title:** `fix(rtl): review contact header icon and text alignment in resume-ar layout`
+- **Conventional Commit:** `fix(rtl): align header contact icons and text in resume-ar layout (Closes #217)`
+- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217`
+
+---
+
+### Feature 2.9: Dual Gregorian / Hijri (Islamic) Calendar Localization
+
+- **Canonical Issue:** [#218](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218)
+- **Auto-Closing Reference:** `Closes #218`
+- **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218`
+- **Concept & User Demand Rationale:**  
+  Professionals submitting resumes to Middle Eastern institutions (governmental, academic, and GCC corporate positions) frequently require official Islamic Hijri dates alongside or in lieu of Gregorian dates (e.g., "شعبان ١٤٤٥ هـ / مارس ٢٠٢٤ م"). Providing native Hijri calendar formatting and Arabic-Indic numeral conversion establishes the theme as the premier bilingual resume solution for the Arab world.
+- **Effort / Impact / Demand:** Effort: ⭐⭐ (2–3 hrs) | Impact: ⭐⭐⭐⭐ | Demand: High (MENA Region)
+
+#### Exact Target Files
+- **Files to Create:**
+  - `_data/ar/hijri_months.yml` (Dictionary containing Arabic names of the 12 Islamic lunar months)
+- **Files to Modify:**
+  - `_includes/ar-date.html` (Add calendar formatting parameter: `gregorian`, `hijri`, `dual`)
+  - `docs/_data/_config.sample.yml` (Document `arabic_date_calendar` setting)
+  - `docs/CONFIG_GUIDE.md`
+  - `docs/DATA_GUIDE.md`
+
+#### Data Models & Configuration
+Create `_data/ar/hijri_months.yml`:
+```yaml
+months:
+  - "محرم"
+  - "صفر"
+  - "ربيع الأول"
+  - "ربيع الثاني"
+  - "جمادى الأولى"
+  - "جمادى الآخرة"
+  - "رجب"
+  - "شعبان"
+  - "رمضان"
+  - "شوال"
+  - "ذو القعدة"
+  - "ذو الحجة"
+```
+
+In `_config.yml`:
+```yaml
+# ==============================================================================
+# Arabic Calendar Localization (#218)
+# ==============================================================================
+arabic_date_calendar: "gregorian" # Options: "gregorian", "hijri", "dual"
+arabic_numerals: "eastern" # Options: "eastern" (٠١٢٣٤٥٦٧٨٩) or "western" (0123456789)
+```
+
+In resume entries (e.g. `_data/ar/experience.yml`):
+```yaml
+- company: "جامعة الملك سعود"
+  position: "أستاذ مشارك"
+  startdate: "2020-09-01"
+  hijri_startdate: "محرم ١٤٤٢"
+  enddate: "Present"
+  active: true
+```
+
+#### Architecture & Liquid Implementation
+In `_includes/ar-date.html`:
+```liquid
+{% assign input_date = include.date %}
+{% assign hijri_date = include.hijri_date %}
+{% assign calendar_mode = site.arabic_date_calendar | default: 'gregorian' %}
+
+{% if input_date == 'Present' or input_date == 'حتى الآن' or input_date == nil %}
+  حتى الآن
+{% else %}
+  {% assign month_num = input_date | date: "%m" | plus: 0 | minus: 1 %}
+  {% assign year_num = input_date | date: "%Y" %}
+  {% assign g_month = site.data.ar.months.months[month_num] | default: site.data.ar.months[month_num] %}
+  {% assign g_date_str = g_month | append: ' ' | append: year_num | append: ' م' %}
+
+  {% if calendar_mode == 'hijri' and hijri_date %}
+    {{ hijri_date }} هـ
+  {% elsif calendar_mode == 'dual' and hijri_date %}
+    {{ hijri_date }} هـ / {{ g_date_str }}
+  {% else %}
+    {{ g_month }} {{ year_num }}
+  {% endif %}
+{% endif %}
+```
+
+#### Acceptance Criteria & Verification
+- [ ] Setting `arabic_date_calendar: "dual"` renders combined Hijri and Gregorian dates cleanly.
+- [ ] Fallback to standard Gregorian date occurs seamlessly if `hijri_startdate` is omitted in an entry.
+- [ ] "Present" / "حتى الآن" string continues to resolve accurately regardless of calendar mode.
+- [ ] **Bash Verification Command:**
+  ```bash
+  bundle exec jekyll build --config docs/_data/_config.sample.yml && \
+  echo "Arabic calendar localization verified."
+  ```
+
+#### Git Workflow Specification
+- **Branch:** `feature/hijri-calendar-support`
+- **PR Title:** `feat(i18n): support dual Gregorian and Hijri calendar localization in Arabic layout`
+- **Conventional Commit:** `feat(i18n): add Hijri Islamic calendar formatting for Arabic resume (Closes #218)`
+- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218`
 
 ---
 
@@ -1477,15 +1600,292 @@ html[dir="rtl"] .skip-link {
 
 #### Exact Target Files
 - **Files to Create:**
-  - `resume.json` (English JSON Resume template with YAML front matter)
-  - `resume-ar.json` (Arabic JSON Resume template)
-  - `docs/JSON_RESUME_EXPORT.md`
+  - `lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb` (Jekyll Generator plugin for automated export)
+  - `resume.json` (English JSON Resume template with Liquid front matter fallback)
+  - `resume-ar.json` (Arabic JSON Resume template with Liquid front matter fallback)
+  - `docs/JSON_RESUME_EXPORT.md` (comprehensive user and developer documentation)
 - **Files to Modify:**
-  - `bilingual-jekyll-resume-theme.gemspec` (ensure json templates are bundled)
-  - `_includes/shared-head.html` (add `<link rel="alternate" type="application/json">`)
+  - `lib/bilingual-jekyll-resume-theme.rb` (require `json_resume_exporter`)
+  - `bilingual-jekyll-resume-theme.gemspec` (ensure plugin and json templates are bundled)
+  - `_includes/shared-head.html` (add `<link rel="alternate" type="application/json" href="{{ '/resume.json' | relative_url }}">`)
+  - `docs/_data/_config.sample.yml` (document `json_resume_export_language`)
 
-#### Architecture & Liquid Implementation
-Create `resume.json`:
+#### Data Models & Configuration Reference
+In `_config.yml`:
+```yaml
+# ==============================================================================
+# JSON Resume Standard Export Configuration (#6)
+# ==============================================================================
+json_resume_export_language: "en" # Options: "en", "ar", or "dual" (exports both resume.json & resume-ar.json)
+```
+
+#### Complete YAML to JSON Resume Schema Mapping Matrix
+
+| JSON Resume v1.0.0 Section | YAML Source Key | Mapping Rules & Fallbacks |
+|---|---|---|
+| `basics.name` | `name` / `name_ar` | Combined `first + middle + last` from config |
+| `basics.label` | `resume_title` / `resume_title_ar` | Professional title from config |
+| `basics.image` | `avatar_url` / `avatar` | Absolute URL to profile picture |
+| `basics.email` | `contact_info.email` / `email_live` | Uses live email if `enable_live: true` |
+| `basics.phone` | `contact_info.phone` / `phone_live` | Uses live phone if `enable_live: true` |
+| `basics.url` | `url` | Site root URL |
+| `basics.summary` | `header.intro` / `header.about` | Candidate executive summary from header YAML |
+| `basics.location.address` | `contact_info.address` / `address_ar` | Address string |
+| `basics.profiles` | `social_links` | Maps key/value pairs to `{ network, url }` |
+| `work[]` | `experience[]` | `company` &rarr; `name`, `position` &rarr; `position`, `startdate` &rarr; `startDate`, `enddate` &rarr; `endDate`, `summary` &rarr; `summary`, `durations` array fallback |
+| `volunteer[]` | `volunteering[]` | `company` &rarr; `organization`, `position` &rarr; `position`, `startdate` &rarr; `startDate`, `enddate` &rarr; `endDate`, `summary` &rarr; `summary` |
+| `education[]` | `education[]` | `uni` &rarr; `institution`, `degree` &rarr; `area`, heuristic &rarr; `studyType` (Bachelor/Master/PhD), `year` &rarr; `startDate`/`endDate`, `awards` &rarr; `highlights` |
+| `awards[]` | `recognitions[]` | `award` &rarr; `title`, `year` &rarr; `date`, `organization` &rarr; `awarder`, `summary` &rarr; `summary` |
+| `certificates[]` | `certifications[]` | `name` &rarr; `name`, `issue_date` &rarr; `date`, `issuing_organization` &rarr; `issuer`, `credential_url` &rarr; `url` |
+| `skills[]` | `skills[]` | `skill` &rarr; `name`, `level`/`level_label` &rarr; `level`, `description` &rarr; `keywords[]` |
+| `languages[]` | `languages[]` | `language` &rarr; `language`, `description`/`descrp_short` &rarr; `fluency` |
+| `interests[]` | `interests[]` | `description` &rarr; `name` and `keywords[]` |
+| `projects[]` | `projects[]` | `project` &rarr; `name`, `description` &rarr; `description`, `role` &rarr; `type`, `url` &rarr; `url`, `duration` &rarr; `startDate`/`endDate` |
+
+#### Architecture & Ruby Generator Implementation
+Create `lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb`:
+```ruby
+# frozen_string_literal: true
+
+require 'date'
+require 'json'
+require 'uri'
+require 'fileutils'
+require 'jekyll'
+
+module BilingualJekyllResumeTheme
+  module Jekyll
+    # Generator plugin to export resume data to JSON Resume format
+    class JsonResumeExporter < ::Jekyll::Generator
+      safe true
+      priority :lowest
+
+      def generate(site)
+        export_lang = site.config['json_resume_export_language'] || 'en'
+        languages = export_lang == 'dual' ? %w[en ar] : [export_lang]
+
+        languages.each do |lang|
+          export_path = lang == 'ar' ? site.config['active_resume_path_ar'] : site.config['active_resume_path_en']
+          export_path = lang if export_path.nil?
+
+          resume_data = resolve_resume_data(site, export_path)
+          next unless resume_data
+
+          json_resume = convert_to_json_resume(site, resume_data, lang)
+          filename = lang == 'ar' ? 'resume-ar.json' : 'resume.json'
+
+          site.data["json_resume_content_#{lang}"] = json_resume
+
+          ::Jekyll::Hooks.register(:site, :post_write) do |site_instance|
+            write_json_file(site_instance, filename, json_resume)
+          end
+        end
+      end
+
+      def write_json_file(site, filename, json_resume)
+        return unless json_resume
+
+        dest_path = File.join(site.dest, filename)
+        FileUtils.mkdir_p(File.dirname(dest_path))
+        File.write(dest_path, JSON.pretty_generate(json_resume))
+        ::Jekyll.logger.info 'JSON Resume:', "Generated #{filename} at #{dest_path}"
+      rescue StandardError => e
+        ::Jekyll.logger.error 'JSON Resume Error:', e.message
+      end
+
+      private
+
+      def resolve_resume_data(site, path_string)
+        return site.data if path_string.nil? || path_string.empty?
+
+        data_object = site.data
+        path_string.split('.').each do |part|
+          return nil unless data_object.is_a?(Hash)
+          data_object = data_object[part]
+          return nil if data_object.nil?
+        end
+        data_object
+      end
+
+      def convert_to_json_resume(site, resume_data, language)
+        json_resume = {
+          '$schema' => 'https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json',
+          'basics' => extract_basics(site, resume_data, language),
+          'work' => extract_work(resume_data),
+          'volunteer' => extract_volunteer(resume_data),
+          'education' => extract_education(resume_data),
+          'awards' => extract_awards(resume_data),
+          'certificates' => extract_certificates(resume_data),
+          'publications' => [],
+          'skills' => extract_skills(resume_data),
+          'languages' => extract_languages(resume_data),
+          'interests' => extract_interests(resume_data),
+          'references' => [],
+          'projects' => extract_projects(resume_data)
+        }
+        json_resume.reject { |_k, v| v.is_a?(Array) && v.empty? }
+      end
+
+      def extract_basics(site, resume_data, language)
+        name_obj = language == 'ar' ? site.config['name_ar'] : site.config['name']
+        full_name = [name_obj&.dig('first'), name_obj&.dig('middle'), name_obj&.dig('last')].compact.join(' ')
+        contact = site.config['contact_info'] || {}
+        enable_live = site.config['enable_live'] == true
+
+        {
+          'name' => full_name,
+          'label' => language == 'ar' ? site.config['resume_title_ar'] : site.config['resume_title'],
+          'image' => site.config['avatar_url'] || site.config['avatar'] || '/assets/images/Profile-min.jpg',
+          'email' => enable_live && contact['email_live'] ? contact['email_live'] : contact['email'],
+          'phone' => enable_live && contact['phone_live'] ? contact['phone_live'] : contact['phone'],
+          'url' => site.config['url'],
+          'summary' => resume_data.dig('header', 'intro') || resume_data.dig('header', 'about'),
+          'location' => { 'address' => language == 'ar' ? contact['address_ar'] : contact['address'] }.compact,
+          'profiles' => (site.config['social_links'] || {}).map { |net, url| { 'network' => net.to_s.capitalize, 'url' => url } if url.to_s.strip != '' }.compact
+        }.compact
+      end
+
+      def extract_work(resume_data)
+        (resume_data['experience'] || []).select { |e| e['active'] == true }.map do |entry|
+          {
+            'name' => entry['company'],
+            'position' => entry['position'],
+            'startDate' => format_date(entry['startdate']),
+            'endDate' => format_date(entry['enddate']),
+            'summary' => entry['summary'],
+            'highlights' => entry['summary'] ? [entry['summary']] : []
+          }.compact
+        end
+      end
+
+      def extract_volunteer(resume_data)
+        (resume_data['volunteering'] || []).select { |e| e['active'] == true }.map do |entry|
+          {
+            'organization' => entry['company'],
+            'position' => entry['position'],
+            'startDate' => format_date(entry['startdate']),
+            'endDate' => format_date(entry['enddate']),
+            'summary' => entry['summary'],
+            'highlights' => entry['summary'] ? [entry['summary']] : []
+          }.compact
+        end
+      end
+
+      def extract_education(resume_data)
+        (resume_data['education'] || []).select { |e| e['active'] == true }.map do |entry|
+          awards = (entry['awards'] || []).map { |a| a['award'] }.compact
+          awards << entry['award'] if entry['award'] && !entry['award'].empty?
+
+          {
+            'institution' => entry['uni'],
+            'area' => entry['degree'],
+            'studyType' => extract_study_type(entry['degree']),
+            'startDate' => extract_start_date_from_year(entry['year']),
+            'endDate' => extract_end_date_from_year(entry['year']),
+            'summary' => entry['summary'],
+            'highlights' => awards.any? ? awards : nil,
+            'location' => entry['location']
+          }.compact
+        end
+      end
+
+      def extract_study_type(degree)
+        return nil unless degree
+        d = degree.downcase
+        return 'Bachelor' if d.include?('bachelor') || d.include?('b.s.') || d.include?('b.a.')
+        return 'Master' if d.include?('master') || d.include?('m.s.') || d.include?('m.a.')
+        return 'PhD' if d.include?('phd') || d.include?('doctorate') || d.include?('ph.d.')
+        return 'Associate' if d.include?('associate')
+        nil
+      end
+
+      def extract_awards(resume_data)
+        (resume_data['recognitions'] || []).select { |e| e['active'] == true }.map do |entry|
+          {
+            'title' => entry['award'],
+            'date' => extract_start_date_from_year(entry['year']),
+            'awarder' => entry['organization'],
+            'summary' => entry['summary']
+          }.compact
+        end
+      end
+
+      def extract_certificates(resume_data)
+        (resume_data['certifications'] || []).select { |e| e['active'] == true }.map do |entry|
+          {
+            'name' => entry['name'],
+            'date' => format_date(entry['issue_date']),
+            'issuer' => entry['issuing_organization'],
+            'url' => entry['credential_url']
+          }.compact
+        end
+      end
+
+      def extract_skills(resume_data)
+        (resume_data['skills'] || []).select { |e| e['active'] == true }.map do |entry|
+          {
+            'name' => entry['skill'],
+            'level' => entry['level_label'] || entry['level']&.to_s,
+            'keywords' => entry['tags'] || (entry['description'] ? [entry['description']] : [])
+          }.compact
+        end
+      end
+
+      def extract_languages(resume_data)
+        (resume_data['languages'] || []).select { |e| e['active'] == true }.map do |entry|
+          {
+            'language' => entry['language'],
+            'fluency' => entry['description'] || entry['descrp_short']
+          }.compact
+        end
+      end
+
+      def extract_interests(resume_data)
+        (resume_data['interests'] || []).select { |e| e['description'] }.map do |entry|
+          { 'name' => entry['description'], 'keywords' => [entry['description']] }
+        end
+      end
+
+      def extract_projects(resume_data)
+        (resume_data['projects'] || []).select { |e| e['active'] == true }.map do |entry|
+          {
+            'name' => entry['project'],
+            'description' => entry['description'],
+            'startDate' => extract_start_date_from_year(entry['duration']),
+            'endDate' => extract_end_date_from_year(entry['duration']),
+            'url' => entry['url'],
+            'type' => entry['role']
+          }.compact
+        end
+      end
+
+      def format_date(date_input)
+        return nil unless date_input
+        return nil if date_input.to_s.downcase == 'present'
+        return date_input.strftime('%Y-%m-%d') if date_input.is_a?(Date)
+        Date.parse(date_input.to_s).strftime('%Y-%m-%d')
+      rescue StandardError
+        nil
+      end
+
+      def extract_start_date_from_year(year_str)
+        return nil unless year_str
+        match = year_str.to_s.match(/(\d{4})/)
+        "#{match[1]}-01-01" if match
+      end
+
+      def extract_end_date_from_year(year_str)
+        return nil unless year_str
+        matches = year_str.to_s.scan(/(\d{4})/)
+        "#{matches[1][0]}-12-31" if matches && matches.length > 1 && matches[1]
+      end
+    end
+  end
+end
+```
+
+#### Liquid Template Fallback Implementation
+Create `resume.json` (and matching `resume-ar.json`):
 ```liquid
 ---
 layout: none
@@ -1583,9 +1983,9 @@ permalink: /resume.json
 ```
 
 #### Acceptance Criteria & Verification
-- [ ] Visiting `/resume.json` yields a valid JSON document conforming to Schema v1.0.0.
+- [ ] Automated Jekyll generator plugin emits `/resume.json` (and `/resume-ar.json` if configured) conforming to Schema v1.0.0.
 - [ ] Validated with `ruby -rjson -e 'JSON.parse(File.read("_site/resume.json"))'`.
-- [ ] Arrays avoid trailing commas regardless of dynamic data count.
+- [ ] Arrays avoid trailing commas and active filters hide inactive data items.
 - [ ] **Bash Verification Command:**
   ```bash
   bundle exec jekyll build && \
@@ -1701,110 +2101,265 @@ jobs:
 
 #### Exact Target Files
 - **Files to Create:**
-  - `bin/validate-resume`
-  - `docs/VALIDATION_GUIDE.md`
+  - `bin/validate-resume` (Standalone executable CLI validator)
+  - `lib/bilingual-jekyll-resume-theme/resume_validator.rb` (Core validator engine & schema definitions)
+  - `_plugins/resume-validator.rb` (Optional Jekyll Generator plugin hook)
+  - `docs/VALIDATION_GUIDE.md` (Exhaustive schema rules and error catalog)
 - **Files to Modify:**
-  - `bilingual-jekyll-resume-theme.gemspec` (add to `spec.executables`)
+  - `bilingual-jekyll-resume-theme.gemspec` (add `bin/validate-resume` to `spec.executables`)
   - `Gemfile` / `Rakefile` (add `rake validate` task)
-  - `README.md`
+  - `README.md` & `docs/CONFIG_GUIDE.md`
 
-#### Architecture & Ruby Implementation
-Create executable `bin/validate-resume`:
+#### Validation Rules Catalog by Section
+
+| Section | Required Fields & Schema Constraints | Warnings & Diagnostics |
+|---|---|---|
+| `header.yml` | `intro` or `about` string (min length > 20 chars). | Missing bio / intro summary. |
+| `experience.yml` | `company`, `position`, `startdate` (YYYY-MM-DD or Date object), `enddate` (YYYY-MM-DD or 'Present'), `active` (boolean). | `enddate` before `startdate`, malformed date string, missing active flag. |
+| `education.yml` | `uni` / `institution`, `degree`, `year` (YYYY or YYYY-YYYY), `active` (boolean). | Non-standard year format. |
+| `skills.yml` | `skill` name, `active` (boolean). Optional `category`, `level` (1–5 int), `tags` (array). | Level out of 1..5 range, missing active flag. |
+| `projects.yml` | `project` title, `role`, `duration`, `url` (valid HTTP/HTTPS URI), `active` (boolean). | Malformed URL protocol or syntax. |
+| `certifications.yml` | `name`, `issuing_organization`, `issue_date` (YYYY-MM-DD), `credential_url` (valid URI), `active` (boolean). | Expiration date before issue date. |
+| `courses.yml` | `organization`, `courses` (array of strings or hashes), `active` (boolean). | Empty course list. |
+| `volunteering.yml` | `company`/`organization`, `position`, `startdate`, `enddate`, `active` (boolean). | Inverted date range. |
+| `recognitions.yml` | `award`, `organization`, `year`, `active` (boolean). | Missing year or organization. |
+| `associations.yml` | `organization`, `role`, `duration`, `active` (boolean). | Missing role or duration. |
+| `languages.yml` | `language` name, `description` or `descrp_short` fluency string, `active` (boolean). | Missing fluency level. |
+| `links.yml` | `description`, `url` (valid HTTP/HTTPS URI), `active` (boolean). | Malformed URL. |
+
+#### Architecture & Ruby Validator Implementation
+Create `lib/bilingual-jekyll-resume-theme/resume_validator.rb`:
+```ruby
+# frozen_string_literal: true
+
+require 'yaml'
+require 'uri'
+require 'date'
+require 'optparse'
+
+module BilingualJekyllResumeTheme
+  class ResumeValidator
+    COLORS = {
+      red: "\e[31m",
+      yellow: "\e[33m",
+      green: "\e[32m",
+      blue: "\e[34m",
+      cyan: "\e[36m",
+      reset: "\e[0m"
+    }.freeze
+
+    attr_reader :errors, :warnings, :info
+
+    def initialize(data_dir = '_data')
+      @data_dir = data_dir
+      @errors = []
+      @warnings = []
+      @info = []
+    end
+
+    def validate(languages: %w[en ar], verbose: false)
+      @verbose = verbose
+      puts "🔍 Validating bilingual resume data in '#{@data_dir}'..."
+
+      validate_language_parity(languages)
+      languages.each { |lang| validate_language_files(lang) }
+      report_results
+      @errors.empty? ? 0 : 1
+    end
+
+    private
+
+    def validate_language_parity(languages)
+      return unless languages.size > 1
+
+      dir_files = {}
+      languages.each do |lang|
+        lang_path = File.join(@data_dir, lang)
+        dir_files[lang] = Dir.glob(File.join(lang_path, '*.yml')).map { |f| File.basename(f) } if Dir.exist?(lang_path)
+      end
+
+      if dir_files['en'] && dir_files['ar']
+        (dir_files['en'] - dir_files['ar']).each { |f| add_warning('Parity', "Missing Arabic counterpart: _data/ar/#{f}") }
+        (dir_files['ar'] - dir_files['en']).each { |f| add_warning('Parity', "Missing English counterpart: _data/en/#{f}") }
+      end
+    end
+
+    def validate_language_files(lang)
+      lang_dir = File.join(@data_dir, lang)
+      return unless Dir.exist?(lang_dir)
+
+      Dir.glob(File.join(lang_dir, '*.yml')).each do |file_path|
+        next if file_path.include?('months.yml')
+        section_name = File.basename(file_path, '.yml')
+
+        begin
+          data = YAML.load_file(file_path)
+          validate_section(section_name, data, lang, file_path)
+        rescue StandardError => e
+          add_error("#{lang}/#{section_name}.yml", "YAML Syntax Error: #{e.message}")
+        end
+      end
+    end
+
+    def validate_section(section_name, data, lang, file_path)
+      context = "#{lang}/#{section_name}.yml"
+      return add_error(context, 'File is empty') if data.nil?
+
+      if section_name == 'header'
+        return add_error(context, 'header.yml must be a Hash/dictionary') unless data.is_a?(Hash)
+        validate_header(data, context)
+        return
+      end
+
+      return add_error(context, "Must be an Array of items (got #{data.class})") unless data.is_a?(Array)
+
+      data.each_with_index do |entry, idx|
+        item_context = "#{context} [Item ##{idx + 1}]"
+        validate_active_flag(entry, item_context)
+        case section_name
+        when 'experience' then validate_experience_entry(entry, item_context)
+        when 'education' then validate_education_entry(entry, item_context)
+        when 'skills' then validate_skill_entry(entry, item_context)
+        when 'projects' then validate_project_entry(entry, item_context)
+        when 'certifications' then validate_certification_entry(entry, item_context)
+        when 'languages' then validate_language_entry(entry, item_context)
+        when 'links' then validate_link_entry(entry, item_context)
+        end
+      end
+    end
+
+    def validate_active_flag(entry, context)
+      return unless entry.is_a?(Hash)
+      add_warning(context, "Missing 'active' boolean flag (should be true or false)") if entry['active'].nil?
+    end
+
+    def validate_header(data, context)
+      intro = data['intro'] || data['about']
+      add_warning(context, "Header 'intro' is missing or very short (< 20 characters)") if intro.nil? || intro.to_s.strip.length < 20
+    end
+
+    def validate_experience_entry(entry, context)
+      add_error(context, "Missing 'company' name") if entry['company'].to_s.strip.empty?
+      add_error(context, "Missing 'position' title") if entry['position'].to_s.strip.empty?
+      validate_date(entry['startdate'], context, 'startdate')
+      validate_date_or_present(entry['enddate'], context, 'enddate')
+      validate_date_range(entry['startdate'], entry['enddate'], context)
+    end
+
+    def validate_education_entry(entry, context)
+      add_error(context, "Missing 'uni' (institution)") if entry['uni'].to_s.strip.empty?
+      add_error(context, "Missing 'degree'") if entry['degree'].to_s.strip.empty?
+    end
+
+    def validate_skill_entry(entry, context)
+      add_error(context, "Missing 'skill' name") if entry['skill'].to_s.strip.empty?
+      if entry['level']
+        lvl = entry['level'].to_i
+        add_warning(context, "Skill 'level' (#{lvl}) should be an integer between 1 and 5") unless (1..5).cover?(lvl)
+      end
+    end
+
+    def validate_project_entry(entry, context)
+      add_error(context, "Missing 'project' name") if entry['project'].to_s.strip.empty?
+      validate_url(entry['url'], context, 'url') if entry['url']
+    end
+
+    def validate_certification_entry(entry, context)
+      add_error(context, "Missing certification 'name'") if entry['name'].to_s.strip.empty?
+      validate_date(entry['issue_date'], context, 'issue_date') if entry['issue_date']
+      validate_url(entry['credential_url'], context, 'credential_url') if entry['credential_url']
+    end
+
+    def validate_language_entry(entry, context)
+      add_error(context, "Missing 'language' name") if entry['language'].to_s.strip.empty?
+    end
+
+    def validate_link_entry(entry, context)
+      add_error(context, "Missing link 'description'") if entry['description'].to_s.strip.empty?
+      validate_url(entry['url'], context, 'url')
+    end
+
+    def validate_date(date_value, context, field)
+      return if date_value.nil?
+      return if date_value.is_a?(Date)
+      Date.parse(date_value.to_s)
+    rescue ArgumentError
+      add_error(context, "Invalid date format for '#{field}': '#{date_value}' (expected YYYY-MM-DD)")
+    end
+
+    def validate_date_or_present(date_value, context, field)
+      return if date_value.nil? || date_value.to_s.strip.downcase == 'present' || date_value.to_s.strip == 'حتى الآن'
+      validate_date(date_value, context, field)
+    end
+
+    def validate_date_range(start_date, end_date, context)
+      return if start_date.nil? || end_date.nil?
+      return if end_date.to_s.strip.downcase == 'present' || end_date.to_s.strip == 'حتى الآن'
+
+      s_d = start_date.is_a?(Date) ? start_date : Date.parse(start_date.to_s) rescue nil
+      e_d = end_date.is_a?(Date) ? end_date : Date.parse(end_date.to_s) rescue nil
+      add_error(context, "enddate (#{e_d}) is before startdate (#{s_d})") if s_d && e_d && e_d < s_d
+    end
+
+    def validate_url(url_value, context, field)
+      return if url_value.nil? || url_value.to_s.strip.empty?
+      uri = URI.parse(url_value.to_s.strip)
+      add_warning(context, "#{field} '#{url_value}' should start with http:// or https://") unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+    rescue URI::InvalidURIError
+      add_error(context, "Invalid URL format for '#{field}': #{url_value}")
+    end
+
+    def add_error(context, msg); @errors << { context: context, message: msg }; end
+    def add_warning(context, msg); @warnings << { context: context, message: msg }; end
+
+    def report_results
+      puts "\n"
+      if @errors.any?
+        puts "#{COLORS[:red]}╔═══════════════════════════════════════════════════════════════╗#{COLORS[:reset]}"
+        puts "#{COLORS[:red]}║                     VALIDATION ERRORS (#{@errors.size.to_s.rjust(2)})                     ║#{COLORS[:reset]}"
+        puts "#{COLORS[:red]}╚═══════════════════════════════════════════════════════════════╝#{COLORS[:reset]}"
+        @errors.each { |e| puts "  #{COLORS[:red]}✗ #{e[:context]}#{COLORS[:reset]}\n    → #{e[:message]}\n" }
+      end
+
+      if @warnings.any?
+        puts "#{COLORS[:yellow]}╔═══════════════════════════════════════════════════════════════╗#{COLORS[:reset]}"
+        puts "#{COLORS[:yellow]}║                    VALIDATION WARNINGS (#{@warnings.size.to_s.rjust(2)})                   ║#{COLORS[:reset]}"
+        puts "#{COLORS[:yellow]}╚═══════════════════════════════════════════════════════════════╝#{COLORS[:reset]}"
+        @warnings.each { |w| puts "  #{COLORS[:yellow]}⚠ #{w[:context]}#{COLORS[:reset]}\n    → #{w[:message]}\n" }
+      end
+
+      puts "#{COLORS[:cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#{COLORS[:reset]}"
+      if @errors.empty?
+        puts "#{COLORS[:green]}✓ VALIDATION SUCCESSFUL: All resume data files are valid! (#{@warnings.size} warnings)#{COLORS[:reset]}"
+      else
+        puts "#{COLORS[:red]}✗ VALIDATION FAILED: #{@errors.size} error(s), #{@warnings.size} warning(s)#{COLORS[:reset]}"
+      end
+      puts "#{COLORS[:cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#{COLORS[:reset]}\n"
+    end
+  end
+end
+```
+
+Create CLI wrapper `bin/validate-resume`:
 ```ruby
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'yaml'
-require 'date'
+require_relative '../lib/bilingual-jekyll-resume-theme/resume_validator'
 
-class ResumeValidator
-  def initialize(root_dir = '.')
-    @root_dir = root_dir
-    @errors = []
-    @warnings = []
-  end
-
-  def run
-    puts "🔍 Validating bilingual resume data in #{@root_dir}..."
-    validate_language_parity
-    validate_data_files
-    report
-  end
-
-  private
-
-  def validate_language_parity
-    en_files = Dir.glob(File.join(@root_dir, '_data', 'en', '*.yml')).map { |f| File.basename(f) }
-    ar_files = Dir.glob(File.join(@root_dir, '_data', 'ar', '*.yml')).map { |f| File.basename(f) }
-
-    missing_in_ar = en_files - ar_files
-    missing_in_en = ar_files - en_files
-
-    missing_in_ar.each { |f| @warnings << "Missing Arabic translation file: _data/ar/#{f}" }
-    missing_in_en.each { |f| @warnings << "Missing English counterpart file: _data/en/#{f}" }
-  end
-
-  def validate_data_files
-    Dir.glob(File.join(@root_dir, '_data', '**', '*.yml')).each do |file|
-      next if file.include?('months.yml') || file.include?('error_pages.yml')
-      begin
-        data = YAML.load_file(file)
-        next unless data.is_a?(Array)
-
-        data.each_with_index do |entry, idx|
-          validate_entry(entry, file, idx)
-        end
-      rescue StandardError => e
-        @errors << "Syntax Error in #{file}: #{e.message}"
-      end
-    end
-  end
-
-  def validate_entry(entry, file, idx)
-    return unless entry.is_a?(Hash)
-
-    if entry['active'].nil?
-      @warnings << "#{file} [Item ##{idx + 1}]: Missing 'active' boolean flag."
-    end
-
-    %w[startdate enddate issue_date expiration].each do |date_key|
-      val = entry[date_key]
-      if val && val != 'Present' && !val.is_a?(Date)
-        begin
-          Date.parse(val.to_s)
-        rescue ArgumentError
-          @errors << "#{file} [Item ##{idx + 1}]: Invalid date '#{val}' in field '#{date_key}'."
-        end
-      end
-    end
-  end
-
-  def report
-    puts "\n--- Validation Summary ---"
-    @warnings.each { |w| puts "⚠️  WARNING: #{w}" }
-    @errors.each { |e| puts "❌ ERROR: #{e}" }
-
-    if @errors.empty?
-      puts "\n✅ All resume data validated successfully (#{@warnings.size} warnings)."
-      exit 0
-    else
-      puts "\n💥 Validation failed with #{@errors.size} error(s)."
-      exit 1
-    end
-  end
-end
-
-ResumeValidator.new(ARGV[0] || '.').run if __FILE__ == $PROGRAM_NAME
+data_dir = ARGV[0] || (Dir.exist?('_data') ? '_data' : 'docs/_data')
+validator = BilingualJekyllResumeTheme::ResumeValidator.new(data_dir)
+exit validator.validate
 ```
 
 #### Acceptance Criteria & Verification
-- [ ] Executing `bundle exec bin/validate-resume` parses all YAML data files without runtime exceptions.
-- [ ] Returns exit code 0 when clean, exit code 1 when syntax or date errors exist.
+- [ ] Executing `bundle exec bin/validate-resume` parses all YAML data files and validates schema constraints.
+- [ ] Returns exit code 0 when clean, exit code 1 when syntax, URL, or inverted date errors exist.
 - [ ] Flags parity mismatches between `_data/en/` and `_data/ar/`.
 - [ ] **Bash Verification Command:**
   ```bash
   chmod +x bin/validate-resume && \
-  ./bin/validate-resume . && \
+  ./bin/validate-resume docs/_data && \
   echo "Validator CLI executed cleanly."
   ```
 
@@ -1831,67 +2386,238 @@ ResumeValidator.new(ARGV[0] || '.').run if __FILE__ == $PROGRAM_NAME
 
 #### Exact Target Files
 - **Files to Create:**
-  - `_data/locales/en.yml`
-  - `_data/locales/ar.yml`
-  - `_data/locales/es.yml`
-  - `_data/locales/fr.yml`
-  - `_data/locales/de.yml`
-  - `_data/locales/ur.yml`
-  - `_layouts/resume-multi.html`
-  - `docs/MULTILINGUAL_GUIDE.md`
+  - `_data/locales/en.yml` (English UI labels, months, present aliases)
+  - `_data/locales/ar.yml` (Arabic UI labels, months, present aliases)
+  - `_data/locales/es.yml` (Spanish UI labels, months, present aliases)
+  - `_data/locales/fr.yml` (French UI labels, months, present aliases)
+  - `_data/locales/de.yml` (German UI labels, months, present aliases)
+  - `_data/locales/ur.yml` (Urdu UI labels, months, present aliases)
+  - `_includes/date-formatter.html` (Dynamic multi-locale date formatter)
+  - `_includes/resume-section-multi.html` (Generic multilingual section dispatcher)
+  - `_layouts/resume-multi.html` (Language-agnostic layout with dynamic LTR/RTL support)
+  - `docs/MULTILINGUAL_GUIDE.md` (Comprehensive configuration & translation guide)
 - **Files to Modify:**
-  - `_includes/resume-section-en.html` (lookup headers in active locale)
-  - `_includes/resume-section-ar.html`
+  - `_sass/_mixins.scss` (RTL mixins and logical properties)
+  - `_sass/_resume-rtl.scss`
+  - `docs/_data/_config.sample.yml`
+  - `docs/CONFIG_GUIDE.md`
 
 #### Data Models & Configuration
+In `_config.yml`:
+```yaml
+# ==============================================================================
+# Multilingual Registration & Locale Routing (#15)
+# ==============================================================================
+languages:
+  en:
+    dir: ltr
+    data_path: en
+    font_family: ""
+  ar:
+    dir: rtl
+    data_path: ar
+    font_family: "'Cairo', sans-serif"
+  es:
+    dir: ltr
+    data_path: es
+    font_family: ""
+  ur:
+    dir: rtl
+    data_path: ur
+    font_family: "'Noto Nastaliq Urdu', 'Cairo', sans-serif"
+```
+
 Create `_data/locales/es.yml`:
 ```yaml
 direction: "ltr"
 font_family: ""
-sections:
-  experience: "Experiencia Laboral"
-  education: "Educación"
-  certifications: "Certificaciones y Licencias"
-  skills: "Habilidades"
-  projects: "Proyectos"
 ui:
-  present: "Presente"
-  contact_me: "Contactar"
+  home: "Inicio"
+  photo_alt: "foto de perfil"
+  present: "Actualidad"
+  date_of_birth: "Fecha de nacimiento:"
+  languages: "Idiomas:"
+  contact_me: "Contáctame"
+  not_looking_for_work: "No estoy buscando trabajo en este momento."
+  social_links: "Enlaces sociales"
+  page_last_generated_on: "Esta página se generó por última vez el"
+  cv_last_generated_on: "Este CV se generó por última vez el"
+  at: "a las"
+  credential_id: "ID de credencial:"
+  list_separator: ", "
+  section_titles:
+    experience: "Experiencia"
+    education: "Educación"
+    certifications: "Licencias y certificaciones"
+    courses: "Cursos"
+    volunteering: "Voluntariado"
+    projects: "Proyectos"
+    skills: "Habilidades"
+    recognition: "Reconocimientos"
+    associations: "Asociaciones"
+    interests: "Intereses"
+    languages: "Idiomas"
+    links: "Enlaces adicionales"
+present_values:
+  - "present"
+  - "actualidad"
+  - "actualmente"
+months:
+  - "Enero"
+  - "Febrero"
+  - "Marzo"
+  - "Abril"
+  - "Mayo"
+  - "Junio"
+  - "Julio"
+  - "Agosto"
+  - "Septiembre"
+  - "Octubre"
+  - "Noviembre"
+  - "Diciembre"
 ```
 
 Create `_data/locales/ur.yml`:
 ```yaml
 direction: "rtl"
 font_family: "'Noto Nastaliq Urdu', 'Cairo', sans-serif"
-sections:
-  experience: "تجربہ"
-  education: "تعلیم"
-  certifications: "اسناد اور سرٹیفکیٹ"
-  skills: "مہارتیں"
-  projects: "منصوبے"
 ui:
+  home: "صفحہ اول"
+  photo_alt: "پروفائل تصویر"
   present: "موجودہ"
+  date_of_birth: "تاریخ پیدائش:"
+  languages: "زبانیں:"
   contact_me: "رابطہ کریں"
+  not_looking_for_work: "فی الحال ملازمت کی تلاش میں نہیں ہوں۔"
+  social_links: "سوشل روابط"
+  page_last_generated_on: "یہ صفحہ آخری بار تیار کیا گیا:"
+  cv_last_generated_on: "یہ سی وی آخری بار تیار کی گئی:"
+  at: "بوقت"
+  credential_id: "شناختی سند:"
+  list_separator: "، "
+  section_titles:
+    experience: "تجربہ"
+    education: "تعلیم"
+    certifications: "اسناد اور سرٹیفکیٹ"
+    courses: "کورسز"
+    volunteering: "رضاکارانہ خدمات"
+    projects: "منصوبے"
+    skills: "مہارتیں"
+    recognition: "اعزازات"
+    associations: "تنظیمیں"
+    interests: "دلچسپیاں"
+    languages: "زبانیں"
+    links: "اضافی روابط"
+present_values:
+  - "present"
+  - "موجودہ"
+  - "تاحال"
+months:
+  - "جنوری"
+  - "فروری"
+  - "مارچ"
+  - "اپریل"
+  - "مئی"
+  - "جون"
+  - "جولائی"
+  - "اگست"
+  - "ستمبر"
+  - "اکتوبر"
+  - "نومبر"
+  - "دسمبر"
 ```
 
 #### Architecture & Liquid Implementation
-In `_layouts/resume-multi.html`:
+
+Create `_includes/date-formatter.html`:
 ```liquid
-{% assign lang = page.lang | default: 'en' %}
-{% assign locale = site.data.locales[lang] | default: site.data.locales['en'] %}
+{% assign input_value = include.date | append: '' | strip %}
+{% assign input_value_downcase = input_value | downcase %}
+{% assign style = include.style | default: 'MY' %}
+{% assign lang = include.lang | default: page.lang | default: 'en' %}
+
+{% assign lang_data = site.data.locales[lang] | default: site.data.locales.en %}
+{% assign en_data = site.data.locales.en %}
+{% assign ui = lang_data.ui | default: lang_data.UI %}
+{% assign present_output = ui.present | default: 'Present' %}
+
+{% assign present_aliases = lang_data.present_values | default: en_data.present_values %}
+{% assign is_present = false %}
+{% for alias in present_aliases %}
+    {% assign alias_downcase = alias | append: '' | downcase %}
+    {% if input_value_downcase == alias_downcase %}
+        {% assign is_present = true %}
+    {% endif %}
+{% endfor %}
+{% if input_value_downcase == 'present' or input_value_downcase == 'حتى الآن' %}
+    {% assign is_present = true %}
+{% endif %}
+
+{% if is_present %}
+    {{ present_output }}
+{% else %}
+    {% assign month_number = input_value | date: '%m' %}
+    {% assign year_number = input_value | date: '%Y' %}
+    {% assign day_number = input_value | date: '%-d' %}
+    {% assign month_index = month_number | plus: 0 | minus: 1 %}
+
+    {% assign months = lang_data.months %}
+    {% if months == nil or months.size == 0 %}
+        {% assign months = en_data.months %}
+    {% endif %}
+
+    {% assign month_name = months[month_index] %}
+    {% if month_name %}
+        {% if style == 'MDY' %}
+            {{ month_name }} {{ day_number }}, {{ year_number }}
+        {% else %}
+            {{ month_name }} {{ year_number }}
+        {% endif %}
+    {% else %}
+        {% if style == 'MDY' %}
+            {{ input_value | date: '%B %-d, %Y' }}
+        {% else %}
+            {{ input_value | date: '%B %Y' }}
+        {% endif %}
+    {% endif %}
+{% endif %}
+```
+
+Create `_layouts/resume-multi.html`:
+```liquid
+{% assign lang = page.lang | default: site.default_lang | default: 'en' %}
+{% assign lang_config = site.languages[lang] %}
+{% assign locale = site.data.locales[lang] | default: site.data.locales.en %}
+{% assign ui = locale.ui %}
+
+{% assign dir = 'ltr' %}
+{% if lang == 'ar' or lang == 'ur' or lang == 'fa' or lang == 'he' %}
+    {% assign dir = 'rtl' %}
+{% endif %}
+{% if lang_config and lang_config.dir %}
+    {% assign dir = lang_config.dir %}
+{% endif %}
+
+{% assign data_path_string = lang_config.data_path | default: lang %}
+{% assign path_parts = data_path_string | split: '.' %}
+{% assign resume_data = site.data %}
+{% for part in path_parts %}
+    {% assign resume_data = resume_data[part] %}
+{% endfor %}
+
 <!DOCTYPE html>
-<html lang="{{ lang }}" dir="{{ locale.direction }}">
+<html lang="{{ lang }}" dir="{{ dir }}">
 <head>
   {% include shared-head.html %}
-  {% if locale.font_family != "" %}
+  {% if locale.font_family != "" and locale.font_family != nil %}
     <style>body { font-family: {{ locale.font_family }}; }</style>
   {% endif %}
 </head>
 <body class="layout-resume-multi theme-{{ site.resume_theme | default: 'default' }}">
   {% include language-switcher.html %}
-  <main id="main-content" class="content-container">
+  <main id="main-content" class="wrapper" itemscope itemtype="http://schema.org/Person">
     {% for section in site.resume_section_order %}
-      {% include resume-section-multi.html section_name=section locale=locale %}
+      {% include resume-section-multi.html section_name=section locale=locale resume_data=resume_data lang=lang %}
     {% endfor %}
   </main>
 </body>
@@ -1899,8 +2625,9 @@ In `_layouts/resume-multi.html`:
 ```
 
 #### Acceptance Criteria & Verification
-- [ ] Setting `lang: es` loads Spanish section titles with `dir="ltr"`.
-- [ ] Setting `lang: ur` activates Urdu typography with `dir="rtl"`.
+- [ ] Setting `lang: es` loads Spanish section titles with `dir="ltr"` and Spanish date formatting.
+- [ ] Setting `lang: ur` activates Urdu typography with `dir="rtl"` and Nastaliq font stack.
+- [ ] Multi-locale date formatter (`_includes/date-formatter.html`) properly translates month names from `_data/locales/{lang}.yml`.
 - [ ] Backward compatibility with existing `/resume/en/` and `/resume/ar/` layouts is 100% preserved.
 - [ ] **Bash Verification Command:**
   ```bash
@@ -2021,12 +2748,15 @@ html[dir="rtl"] .timeline-container {
 In `_config.yml`:
 ```yaml
 # ==============================================================================
-# Secure Contact Form
+# Secure Contact Form & Modal Popup (#20)
 # ==============================================================================
-resume_contact_form: true
+resume_contact_form: true # Enable contact form (default: false)
 contact_form:
-  provider: "formspree" # Options: formspree, netlify, getform
-  formspree_id: "xpznqwer"
+  provider: "formspree" # Options: "formspree", "formcarry", "netlify", "getform"
+  display_mode: "modal" # Options: "modal" (popup dialog via header button) or "inline" (embedded section)
+  formspree_id: "xpznqwer" # If using Formspree
+  formcarry_id: "your-formcarry-id" # If using Formcarry
+  endpoint: "https://getform.io/f/..." # If using custom endpoint or getform
 ```
 
 #### Architecture & Liquid Implementation
@@ -2034,58 +2764,207 @@ Create `_includes/contact-form.html`:
 ```liquid
 {% if site.resume_contact_form %}
   {% assign current_lang = page.lang | default: site.lang | default: 'en' %}
-  <section class="content-section no-print contact-form-section">
-    <header class="section-header">
-      <h2>{% if current_lang == 'ar' %}تواصل معي{% else %}Get in Touch{% endif %}</h2>
-    </header>
+  {% assign provider = site.contact_form.provider | default: 'formspree' %}
+  {% assign mode = site.contact_form.display_mode | default: 'modal' %}
 
-    <form action="{% if site.contact_form.provider == 'formspree' %}https://formspree.io/f/{{ site.contact_form.formspree_id }}{% else %}{{ site.contact_form.endpoint }}{% endif %}"
-          method="POST"
-          class="contact-form"
-          {% if site.contact_form.provider == 'netlify' %}data-netlify="true" netlify-honeypot="bot-field"{% endif %}>
+  <!-- Determine form action URL based on provider -->
+  {% if provider == 'formspree' %}
+    {% assign form_action = 'https://formspree.io/f/' | append: site.contact_form.formspree_id %}
+  {% elsif provider == 'formcarry' %}
+    {% assign form_action = 'https://formcarry.com/s/' | append: site.contact_form.formcarry_id %}
+  {% else %}
+    {% assign form_action = site.contact_form.endpoint %}
+  {% endif %}
 
-      <div style="display:none">
-        <label>Do not fill this out if human: <input name="bot-field" /></label>
+  <div id="contactModal" class="contact-modal-overlay no-print{% if mode == 'inline' %} is-inline{% endif %}" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+    <div class="contact-modal-content">
+      <div class="contact-modal-header">
+        <h2 id="contactModalTitle" class="contact-modal-title">
+          {% if current_lang == 'ar' %}تواصل معي{% else %}Get in Touch{% endif %}
+        </h2>
+        {% if mode == 'modal' %}
+          <button id="closeContactBtn" class="contact-modal-close" aria-label="{% if current_lang == 'ar' %}إغلاق{% else %}Close{% endif %}">&times;</button>
+        {% endif %}
       </div>
 
-      <div class="form-group">
-        <label for="contact-name">{% if current_lang == 'ar' %}الاسم الكامل{% else %}Full Name{% endif %} *</label>
-        <input type="text" id="contact-name" name="name" required class="form-control" />
-      </div>
+      <form action="{{ form_action }}"
+            method="POST"
+            class="contact-form"
+            {% if provider == 'netlify' %}data-netlify="true" netlify-honeypot="bot-field"{% endif %}>
 
-      <div class="form-group">
-        <label for="contact-email">{% if current_lang == 'ar' %}البريد الإلكتروني{% else %}Email Address{% endif %} *</label>
-        <input type="email" id="contact-email" name="_replyto" required class="form-control" />
-      </div>
+        <div style="display:none" aria-hidden="true">
+          <label>Do not fill this out if human: <input name="bot-field" /></label>
+        </div>
 
-      <div class="form-group">
-        <label for="contact-message">{% if current_lang == 'ar' %}الرسالة{% else %}Message{% endif %} *</label>
-        <textarea id="contact-message" name="message" rows="4" required class="form-control"></textarea>
-      </div>
+        <div class="form-group">
+          <label for="contact-name">{% if current_lang == 'ar' %}الاسم الكامل{% else %}Full Name{% endif %} *</label>
+          <input type="text" id="contact-name" name="name" required class="form-control" placeholder="{% if current_lang == 'ar' %}اسمك الكريم{% else %}Your full name{% endif %}" />
+        </div>
 
-      <button type="submit" class="contact-submit-btn">
-        {% if current_lang == 'ar' %}إرسال الرسالة{% else %}Send Message{% endif %}
-      </button>
-    </form>
-  </section>
+        <div class="form-group">
+          <label for="contact-email">{% if current_lang == 'ar' %}البريد الإلكتروني{% else %}Email Address{% endif %} *</label>
+          <input type="email" id="contact-email" name="email" required class="form-control" placeholder="name@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="contact-message">{% if current_lang == 'ar' %}الرسالة{% else %}Message{% endif %} *</label>
+          <textarea id="contact-message" name="message" rows="4" required class="form-control" placeholder="{% if current_lang == 'ar' %}اكتب رسالتك هنا...{% else %}Enter your message here...{% endif %}"></textarea>
+        </div>
+
+        <button type="submit" class="contact-submit-btn">
+          {% if current_lang == 'ar' %}إرسال الرسالة{% else %}Send Message{% endif %}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {% if mode == 'modal' %}
+  <script>
+    (function() {
+      var modal = document.getElementById('contactModal');
+      var openBtn = document.getElementById('contactBtn');
+      var closeBtn = document.getElementById('closeContactBtn');
+
+      if (openBtn && modal) {
+        openBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          modal.style.display = 'flex';
+          modal.querySelector('input, textarea, button')?.focus();
+        });
+      }
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', function() {
+          modal.style.display = 'none';
+          openBtn?.focus();
+        });
+      }
+      window.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
+          modal.style.display = 'none';
+          openBtn?.focus();
+        }
+      });
+    })();
+  </script>
+  {% endif %}
 {% endif %}
 ```
 
+#### SCSS Styling Architecture
+In `_sass/_resume.scss`:
+```scss
+// Contact modal overlay & form controls
+.contact-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+
+  &.is-inline {
+    display: block;
+    position: static;
+    background: transparent;
+  }
+}
+
+.contact-modal-content {
+  background: var(--card-bg, #ffffff);
+  color: var(--text-color, #333333);
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.contact-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.contact-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-muted, #777777);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+  }
+  .form-control {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border-color, #cccccc);
+    border-radius: 4px;
+    background: var(--bg-color, #ffffff);
+    color: inherit;
+    &:focus {
+      outline: 2px solid var(--accent-color, #007acc);
+    }
+  }
+}
+
+.contact-submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--accent-color, #007acc);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  &:hover { opacity: 0.9; }
+}
+```
+
+In `_sass/_resume-rtl.scss`:
+```scss
+// Mirrored contact form for Arabic layout
+.contact-modal-header {
+  flex-direction: row-reverse;
+}
+.form-group label {
+  text-align: right;
+}
+```
+
 #### Acceptance Criteria & Verification
-- [ ] Submitting form sends inquiries to configured endpoint.
+- [ ] Submitting form sends inquiries to configured endpoint (Formspree, Formcarry, Netlify).
+- [ ] Modal opens on clicking "Contact Me" button and closes on Close button, overlay click, or Escape key.
 - [ ] Honeypot hidden input prevents automated bot submissions.
 - [ ] Component is excluded from print media (`.no-print`).
 - [ ] **Bash Verification Command:**
   ```bash
   bundle exec jekyll build && \
-  grep -q "contact-form-section" _site/resume/en/index.html && \
-  echo "Contact form component verified."
+  grep -q "contact-modal-overlay" _site/resume/en/index.html && \
+  echo "Contact form modal component verified."
   ```
 
 #### Git Workflow Specification
 - **Branch:** `feature/contact-form`
-- **PR Title:** `feat(forms): integrate secure contact form component with anti-spam honeypot`
-- **Conventional Commit:** `feat(forms): add Formspree and Netlify contact form support (Closes #20)`
+- **PR Title:** `feat(forms): integrate secure contact form component with modal popup and multi-provider backends`
+- **Conventional Commit:** `feat(forms): add Formspree, Formcarry, and Netlify contact form support (Closes #20)`
 - **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/20`
 
 ---
@@ -2356,6 +3235,149 @@ In `_includes/avatar.html`:
 - **PR Title:** `feat(core): retire legacy compatibility fallbacks for v1.0.0 release`
 - **Conventional Commit:** `feat(core): remove deprecated aliases for recognitions, dark mode, avatar, and UA (Closes #214)`
 - **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214`
+
+---
+
+### Feature 4.7: Dynamic Custom Resume Sections Engine
+
+- **Canonical Issue:** [#219](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219)
+- **Auto-Closing Reference:** `Closes #219`
+- **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219`
+- **Concept & User Demand Rationale:**  
+  Professionals in academia, medicine, law, and specialized engineering frequently require non-standard resume sections (e.g., *Patents & Inventions*, *Keynotes & Speaking*, *Publications*, *Grants & Fellowships*, *Advisory Roles*). Rather than forcing users to fork and edit layout includes, a generic custom section renderer dynamically parses user-defined YAML files matching arbitrary section names listed in `resume_section_order`.
+- **Effort / Impact / Demand:** Effort: ⭐⭐⭐ (3–4 hrs) | Impact: ⭐⭐⭐⭐ | Demand: Med-High
+
+#### Exact Target Files
+- **Files to Create:**
+  - `_includes/resume-custom-section.html` (Generic section component)
+  - `docs/CUSTOM_SECTIONS_GUIDE.md` (Tutorial for creating arbitrary sections)
+- **Files to Modify:**
+  - `_includes/resume-section-en.html` (Add default `{% else %}` branch delegating to custom section include)
+  - `_includes/resume-section-ar.html` (Add default `{% else %}` branch delegating to custom section include)
+  - `docs/_data/_config.sample.yml` (Document `custom_section_titles`)
+  - `docs/CONFIG_GUIDE.md`
+  - `docs/DATA_GUIDE.md`
+
+#### Data Models & Configuration
+In `_config.yml`:
+```yaml
+# ==============================================================================
+# Custom Resume Sections Configuration (#219)
+# ==============================================================================
+resume_section_order:
+  - experience
+  - education
+  - patents # Custom section
+  - speaking # Custom section
+  - skills
+
+custom_section_titles:
+  en:
+    patents: "Patents & Inventions"
+    speaking: "Keynote Addresses & Speaking"
+  ar:
+    patents: "براءات الاختراع والابتكارات"
+    speaking: "المؤتمرات والمحاضرات"
+```
+
+In `_data/en/patents.yml`:
+```yaml
+- title: "Distributed Consensus Algorithm for Edge Networks"
+  subtitle: "US Patent #9,876,543"
+  date: "2024-03-15"
+  url: "https://patents.google.com/patent/US9876543"
+  description: "Co-inventor on patent for high-throughput consensus in high-latency wireless mesh systems."
+  active: true
+```
+
+In `_data/ar/patents.yml`:
+```yaml
+- title: "خوارزمية الإجماع الموزع لشبكات الحافة"
+  subtitle: "براءة اختراع أمريكية رقم 9,876,543"
+  date: "2024-03-15"
+  url: "https://patents.google.com/patent/US9876543"
+  description: "مشارك في اختراع نظام معالجة البيانات الموزعة للشبكات اللاسلكية."
+  active: true
+```
+
+#### Architecture & Liquid Implementation
+Create `_includes/resume-custom-section.html`:
+```liquid
+{% assign section_key = include.section_name %}
+{% assign custom_items = resume_data[section_key] %}
+{% assign lang = include.lang | default: page.lang | default: 'en' %}
+
+{% if custom_items and custom_items.size > 0 %}
+  {% assign default_title = section_key | replace: '_', ' ' | capitalize %}
+  {% assign custom_title = site.custom_section_titles[lang][section_key] | default: default_title %}
+
+  <section class="content-section custom-section custom-section-{{ section_key }}">
+    <header class="section-header">
+      <h2>{{ custom_title }}</h2>
+    </header>
+
+    {% for item in custom_items %}
+      {% if item.active != false %}
+        <div class="resume-item">
+          {% if item.title %}
+            <h3 class="resume-item-title">
+              {% if item.url %}
+                <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
+              {% else %}
+                {{ item.title }}
+              {% endif %}
+            </h3>
+          {% endif %}
+
+          {% if item.subtitle or item.date or item.year or item.location %}
+            <h4 class="resume-item-details">
+              {% if item.subtitle %}{{ item.subtitle }}{% endif %}
+              {% if item.date or item.year %} &bull; {{ item.date | default: item.year }}{% endif %}
+              {% if item.location %} &bull; {{ item.location }}{% endif %}
+            </h4>
+          {% endif %}
+
+          {% if item.description %}
+            <p class="resume-item-copy">{{ item.description }}</p>
+          {% endif %}
+
+          {% if item.bullets and item.bullets.size > 0 %}
+            <ul class="resume-item-list">
+              {% for bullet in item.bullets %}
+                <li>{{ bullet }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </section>
+{% endif %}
+```
+
+In `_includes/resume-section-en.html` (and matching Arabic dispatcher):
+```liquid
+{% else %}
+    <!-- Generic Custom Section Fallback -->
+    {% include resume-custom-section.html section_name=include.section_name lang="en" %}
+{% endif %}
+```
+
+#### Acceptance Criteria & Verification
+- [ ] Adding an arbitrary section name to `resume_section_order` and creating `_data/<lang>/<section>.yml` renders cleanly without editing theme layout files.
+- [ ] Localized titles resolve from `site.custom_section_titles[lang][section]`.
+- [ ] Full backward compatibility is preserved for all standard 12 sections.
+- [ ] **Bash Verification Command:**
+  ```bash
+  bundle exec jekyll build --config docs/_data/_config.sample.yml && \
+  echo "Dynamic custom sections verified."
+  ```
+
+#### Git Workflow Specification
+- **Branch:** `feature/custom-sections-engine`
+- **PR Title:** `feat(sections): introduce dynamic custom resume sections engine`
+- **Conventional Commit:** `feat(sections): support arbitrary user-defined resume sections (Closes #219)`
+- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219`
 
 ---
 

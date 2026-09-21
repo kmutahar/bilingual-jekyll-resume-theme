@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.9.0] - 2026-09-21
+
+### Added
+* Add accessible landmark roles, skip-links, and focus styles ([`a29c480`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/a29c48087c3933c9edb71722bbb00ea12e3c9ad4))
+
+
+### Changed
+* Update active feature blueprints, issue mappings, and ignore rules ([`28dd0c3`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/28dd0c317cc869f966731c1732570b7592affb3e))
+
+* Consolidate dynamic data loader into shared include component ([`ef5cc4f`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ef5cc4fa1e979024a0fbc8efebef5105706aa1df))
+
+* Consolidate profile styles with shared partials and remove redundant forwarder ([`0d1fbd0`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/0d1fbd04b427c4ee334d64558d6275ec64f71e9c))
+
+* Simplify resume section conditions with direct Liquid blank checks ([`c9a6ada`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/c9a6ada2089b9b686d510edfffe0d196dca5f051))
+
+* Clean up legacy mixins, remove IE zoom hacks, and eliminate dead table classes ([`2800d0a`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/2800d0ab1553ee14e59c6eaae441d4de83c5b35f))
+
+* Encapsulate dark mode activation cascade into toggle include ([`405b493`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/405b4933ea0640951fd8a24a21151574bb0ab11a))
+
+* Implement interactive bilingual language switcher ([`c56e50f`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/c56e50fa6f7e64a58ff7930a3bfb4a7275b7e134))
+
+* Apply living-docs framework, add code comments, browser QA verified ([`d1535b9`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/d1535b9f22d79eab1cd7f4078c0db2d86a74f7b6))
+
+* Update release notes for version automation ([`fc9ead1`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/fc9ead129df08b3698264b9da5a07378e1543aa3))
+
+* Preserve bump-only releases in git-cliff template ([`ba334a5`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ba334a54fa8d63aeea1a72ad646b2bb71ff6f0a7))
+
+* Automate gem publishing and release workflow ([`f4bd096`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/f4bd096ae44bfc42cb14c9635a0e9803e297a0ba))
+
+
+### Fixed
+* Render language header summary on a dedicated line ([`d3352dc`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/d3352dcb6833f8bc48d2d799774757a42325a711))
+
+
+### Removed
+* Remove redundant Gem::Specification monkey-patch ([`a78efd6`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/a78efd68e70c0848f78bb5b25ab51f848c437c1d))
+
 ## [0.8.0] - 2026-09-19
 
 ### Added
@@ -228,6 +265,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[0.9.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.6.0...v0.6.1

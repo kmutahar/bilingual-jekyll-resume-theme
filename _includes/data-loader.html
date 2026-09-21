@@ -1,0 +1,41 @@
+{%- comment -%}
+================================================================================
+DYNAMIC DATA LOADER HELPER (_includes/data-loader.html)
+================================================================================
+PURPOSE:
+  Dynamically resolves the root data object (`resume_data`) for the current layout
+  by traversing nested YAML folders in `_data/` based on a dot-separated path.
+
+HOW IT WORKS:
+  1. Default Assignment:
+     Starts with top-level `site.data`. If no custom subpath is configured,
+     the template reads directly from root YAML files (e.g. `_data/experience.yml`).
+
+  2. Subpath Splitting (`split: '.'`):
+     Breaks dot-separated strings into array segments.
+     Example: "2025-06.20250621-PM" -> ["2025-06", "20250621-PM"]
+     Example: "en" -> ["en"]
+
+  3. Recursive Bracket Notation (`resume_data[part]`):
+     Liquid dot notation (site.data.2025-06) breaks on numbers and hyphens.
+     Bracket notation safely accesses arbitrary string keys at any nesting depth:
+     - Level 1: site.data["2025-06"]
+     - Level 2: site.data["2025-06"]["20250621-PM"]
+
+PARAMETERS:
+  - `path` (String, Optional): The dot-path string to resolve (e.g. "en", "ar", "2025-06.v1").
+    Defaults to `site.active_resume_path_en` if omitted.
+
+OUTPUT:
+  - Sets the global template variable `resume_data` in the calling layout context.
+================================================================================
+{%- endcomment -%}
+{%- assign data_path = include.path | default: site.active_resume_path_en -%}
+{%- assign resume_data = site.data -%}
+
+{%- if data_path != blank -%}
+  {%- assign path_parts = data_path | split: '.' -%}
+  {%- for part in path_parts -%}
+    {%- assign resume_data = resume_data[part] -%}
+  {%- endfor -%}
+{%- endif -%}

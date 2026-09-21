@@ -201,7 +201,17 @@ The include internally evaluates `site.dark_mode`, `site.resume_dark_mode`, and 
 
 ---
 
-### 12. `analytics-head.html` & `analytics-body.html`
+### 12. `data-loader.html`
+
+- **Location:** [`../_includes/data-loader.html`](../_includes/data-loader.html)
+- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
+- **Key Responsibilities:**
+  - Dynamically resolves dot-separated subpaths (e.g. `"en"`, `"ar"`, `"2025-06.v1"`) from `site.data` into `resume_data`.
+  - Accepts `path` parameter with fallback to `site.active_resume_path_en`.
+
+---
+
+### 13. `analytics-head.html` & `analytics-body.html`
 
 - **Head Include:** Injects Google Tag Manager container or Google Analytics 4 (`gtag.js`) based on `site.analytics.gtm` or `site.analytics.gtag` in `_config.yml`.
 - **Body Include:** Injects `<noscript><iframe>` fallback for Google Tag Manager immediately after the opening `<body>` tag across all primary layouts: [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), and [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html).

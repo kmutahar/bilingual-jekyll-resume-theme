@@ -261,6 +261,7 @@ bilingual-jekyll-resume-theme/
 │   ├── social-links.html         # Interactive SVG social media links
 │   ├── print-social-links.html   # Plaintext printable contact details
 │   ├── hreflang.html             # Multilingual SEO alternate links
+│   ├── data-loader.html          # Dynamic dot-path data resolution helper
 │   ├── analytics-head.html       # Google Analytics / GTM head loader
 │   ├── analytics-body.html       # GTM noscript body loader
 │   └── vendors/                  # Bundled Lineicons SVGs (v4.0 & v5.0)

@@ -92,6 +92,7 @@ bilingual-jekyll-resume-theme/
 │   ├── social-links.html         # Interactive SVG social icons (14 platforms)
 │   ├── print-social-links.html   # Plaintext printable contact details
 │   ├── hreflang.html             # Multilingual SEO alternate links
+│   ├── data-loader.html          # Dynamic dot-path data resolution helper
 │   ├── analytics-head.html       # GTM / GA4 head tracking script
 │   ├── analytics-body.html       # GTM noscript body fallback
 │   └── vendors/                  # Bundled Lineicons SVGs (v4.0 & v5.0)

@@ -21,20 +21,6 @@ Gem::Specification.new do |spec|
     "allowed_push_host" => "https://rubygems.org" # Security lock to prevent pushing to wrong host
   }
 
-  # Autoload theme generator plugins when Jekyll inspects theme runtime dependencies
-  class Gem::Specification
-    unless method_defined?(:_orig_theme_runtime_dependencies)
-      alias_method :_orig_theme_runtime_dependencies, :runtime_dependencies
-      def runtime_dependencies
-        if name == "bilingual-jekyll-resume-theme" && defined?(Jekyll::Generator)
-          plugin = File.join(full_gem_path, "_plugins", "error_pages_generator.rb")
-          require plugin if File.exist?(plugin)
-        end
-        _orig_theme_runtime_dependencies
-      end
-    end
-  end
-
   tracked_files = `git ls-files -z`.split("\x0")
   spec.files         = (tracked_files + Dir["_plugins/**/*", "lib/**/*"]).uniq.select do |f|
     f.match(%r!^(assets|_data|_layouts|_includes|_sass|_plugins|lib|LICENSE|README|CHANGELOG|CODE_OF_CONDUCT|docs|404|403|500)!i) && File.file?(f)

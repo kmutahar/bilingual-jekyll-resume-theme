@@ -36,29 +36,19 @@
 
                 {%- assign roles = group.items | sort: "startdate" | reverse -%}
                 {%- for role in roles -%}
-                    {%- assign has_position = false -%}
-                    {%- if role.position and role.position != "" -%}
-                        {%- assign has_position = true -%}
-                    {%- endif -%}
-
                     {%- assign has_dates = false -%}
-                    {%- if role.durations or (role.startdate and role.startdate != "") -%}
+                    {%- if role.durations or role.startdate != blank -%}
                         {%- assign has_dates = true -%}
                     {%- endif -%}
 
-                    {%- assign has_location = false -%}
-                    {%- if role.location and role.location != "" -%}
-                        {%- assign has_location = true -%}
-                    {%- endif -%}
-
-                    {%- if has_position or has_dates or has_location -%}
+                    {%- if role.position != blank or has_dates or role.location != blank -%}
                         <h4 class="resume-item-details" itemprop="description">
-                            {%- if has_position -%}
+                            {%- if role.position != blank -%}
                                 {{ role.position }}
                             {%- endif -%}
 
                             {%- if has_dates -%}
-                                {% if has_position %} &bull; {% endif %}
+                                {% if role.position != blank %} &bull; {% endif %}
                                 {% if role.durations %}
                                     {% for time in role.durations %}{{ time.duration }} {% endfor %}
                                 {% else %}
@@ -71,8 +61,8 @@
                                 {% endif %}
                             {%- endif -%}
 
-                            {%- if has_location -%}
-                                {% if has_position or has_dates %} &bull; {% endif %}
+                            {%- if role.location != blank -%}
+                                {% if role.position != blank or has_dates %} &bull; {% endif %}
                                 {{ role.location }}
                             {%- endif -%}
                         </h4>
@@ -106,32 +96,17 @@
             {% if education.active == true %}
                 <div class="resume-item" itemscope itemprop="alumniOf" itemtype="http://schema.org/CollegeOrUniversity">
                     <h3 class="resume-item-title" itemprop="name">{{ education.uni }}</h3>
-                    {%- assign has_degree = false -%}
-                    {%- if education.degree and education.degree != "" -%}
-                        {%- assign has_degree = true -%}
-                    {%- endif -%}
-
-                    {%- assign has_year = false -%}
-                    {%- if education.year and education.year != "" -%}
-                        {%- assign has_year = true -%}
-                    {%- endif -%}
-
-                    {%- assign has_location = false -%}
-                    {%- if education.location and education.location != "" -%}
-                        {%- assign has_location = true -%}
-                    {%- endif -%}
-
-                    {%- if has_degree or has_year or has_location -%}
+                    {%- if education.degree != blank or education.year != blank or education.location != blank -%}
                         <h4 class="resume-item-details group" itemprop="description">
-                            {%- if has_degree -%}
+                            {%- if education.degree != blank -%}
                                 {{ education.degree }}
                             {%- endif -%}
-                            {%- if has_year -%}
-                                {% if has_degree %} &bull; {% endif %}
+                            {%- if education.year != blank -%}
+                                {% if education.degree != blank %} &bull; {% endif %}
                                 {{ education.year }}
                             {%- endif -%}
-                            {%- if has_location -%}
-                                {% if has_degree or has_year %} &bull; {% endif %}
+                            {%- if education.location != blank -%}
+                                {% if education.degree != blank or education.year != blank %} &bull; {% endif %}
                                 {{ education.location }}
                             {%- endif -%}
                         </h4>
@@ -177,33 +152,18 @@
             {% if certification.active == true %}
                 <div class="resume-item">
                     <h3 class="resume-item-title" itemprop="award">{{ certification.name }}</h3>
-                    {%- assign has_org = false -%}
-                    {%- if certification.issuing_organization and certification.issuing_organization != "" -%}
-                        {%- assign has_org = true -%}
-                    {%- endif -%}
-
-                    {%- assign has_date = false -%}
-                    {%- if certification.issue_date and certification.issue_date != "" -%}
-                        {%- assign has_date = true -%}
-                    {%- endif -%}
-
-                    {%- assign has_cred = false -%}
-                    {%- if certification.credential_id and certification.credential_id != "" -%}
-                        {%- assign has_cred = true -%}
-                    {%- endif -%}
-
-                    {%- if has_org or has_date or has_cred -%}
+                    {%- if certification.issuing_organization != blank or certification.issue_date != blank or certification.credential_id != blank -%}
                         <h4 class="resume-item-details">
-                            {%- if has_org -%}
+                            {%- if certification.issuing_organization != blank -%}
                                 {{ certification.issuing_organization }}
                             {%- endif -%}
-                            {%- if has_date -%}
-                                {% if has_org %} &bull; {% endif %}
+                            {%- if certification.issue_date != blank -%}
+                                {% if certification.issuing_organization != blank %} &bull; {% endif %}
                                 {% include ar-date.html date=certification.issue_date style="MDY" %}
                                 {% if certification.expiration %} &ndash; {% include ar-date.html date=certification.expiration style="MDY" %} {% endif %}
                             {%- endif -%}
-                            {%- if has_cred -%}
-                                {% if has_org or has_date %} &bull; {% endif %}
+                            {%- if certification.credential_id != blank -%}
+                                {% if certification.issuing_organization != blank or certification.issue_date != blank %} &bull; {% endif %}
                                 <span class="resume-item-copy-license-cert-id">معرّف الاعتماد:
                                 {% if certification.credential_url and certification.credential_url != "" %}
                                     <a href="{{ certification.credential_url }}" target="_blank" rel="noopener nofollow noreferrer">{{ certification.credential_id }}</a>
@@ -237,23 +197,13 @@
             {% if course.active == true %}
                 <div class="resume-item">
                     <h3 class="resume-item-title" itemprop="award">{{ course.name }}</h3>
-                    {%- assign has_org = false -%}
-                    {%- if course.issuing_organization and course.issuing_organization != "" -%}
-                        {%- assign has_org = true -%}
-                    {%- endif -%}
-
-                    {%- assign has_date = false -%}
-                    {%- if course.startdate and course.startdate != "" -%}
-                        {%- assign has_date = true -%}
-                    {%- endif -%}
-
-                    {%- if has_org or has_date -%}
+                    {%- if course.issuing_organization != blank or course.startdate != blank -%}
                         <h4 class="resume-item-details">
-                            {%- if has_org -%}
+                            {%- if course.issuing_organization != blank -%}
                                 {{ course.issuing_organization }}
                             {%- endif -%}
-                            {%- if has_date -%}
-                                {% if has_org %} &bull; {% endif %}
+                            {%- if course.startdate != blank -%}
+                                {% if course.issuing_organization != blank %} &bull; {% endif %}
                                 {% include ar-date.html date=course.startdate style="MDY" %}
                                 {% if course.enddate %} &ndash; {% include ar-date.html date=course.enddate style="MDY" %} {% endif %}
                             {%- endif -%}
@@ -303,29 +253,19 @@
 
                 {%- assign vroles = vgroup.items | sort: "startdate" | reverse -%}
                 {%- for v in vroles -%}
-                    {%- assign has_position = false -%}
-                    {%- if v.position and v.position != "" -%}
-                        {%- assign has_position = true -%}
-                    {%- endif -%}
-
                     {%- assign has_dates = false -%}
-                    {%- if v.durations or (v.startdate and v.startdate != "") -%}
+                    {%- if v.durations or v.startdate != blank -%}
                         {%- assign has_dates = true -%}
                     {%- endif -%}
 
-                    {%- assign has_location = false -%}
-                    {%- if v.location and v.location != "" -%}
-                        {%- assign has_location = true -%}
-                    {%- endif -%}
-
-                    {%- if has_position or has_dates or has_location -%}
+                    {%- if v.position != blank or has_dates or v.location != blank -%}
                         <h4 class="resume-item-details" itemprop="description">
-                            {%- if has_position -%}
+                            {%- if v.position != blank -%}
                                 {{ v.position }}
                             {%- endif -%}
 
                             {%- if has_dates -%}
-                                {% if has_position %} &bull; {% endif %}
+                                {% if v.position != blank %} &bull; {% endif %}
                                 {% if v.durations %}
                                     {% for time in v.durations %}{{ time.duration }} {% endfor %}
                                 {% else %}
@@ -338,8 +278,8 @@
                                 {% endif %}
                             {%- endif -%}
 
-                            {%- if has_location -%}
-                                {% if has_position or has_dates %} &bull; {% endif %}
+                            {%- if v.location != blank -%}
+                                {% if v.position != blank or has_dates %} &bull; {% endif %}
                                 {{ v.location }}
                             {%- endif -%}
                         </h4>
@@ -383,23 +323,13 @@
                         <span class="print-only-inline" dir="ltr" style="display: inline;">&nbsp;{{ project.url }}</span>
                     {% endif %}
 
-                    {%- assign has_role = false -%}
-                    {%- if project.role and project.role != "" -%}
-                        {%- assign has_role = true -%}
-                    {%- endif -%}
-
-                    {%- assign has_duration = false -%}
-                    {%- if project.duration and project.duration != "" -%}
-                        {%- assign has_duration = true -%}
-                    {%- endif -%}
-
-                    {%- if has_role or has_duration -%}
+                    {%- if project.role != blank or project.duration != blank -%}
                         <h4 class="resume-item-details" itemprop="description">
-                            {%- if has_role -%}
+                            {%- if project.role != blank -%}
                                 {{ project.role }}
                             {%- endif -%}
-                            {%- if has_duration -%}
-                                {% if has_role %} &bull; {% endif %}
+                            {%- if project.duration != blank -%}
+                                {% if project.role != blank %} &bull; {% endif %}
                                 {{ project.duration }}
                             {%- endif -%}
                         </h4>
@@ -461,23 +391,13 @@
             {% if recognition.active == true %}
                 <div class="resume-item">
                     <h3 class="resume-item-title" itemprop="award">{{ recognition.award }}</h3>
-                    {%- assign has_org = false -%}
-                    {%- if recognition.organization and recognition.organization != "" -%}
-                        {%- assign has_org = true -%}
-                    {%- endif -%}
-
-                    {%- assign has_year = false -%}
-                    {%- if recognition.year and recognition.year != "" -%}
-                        {%- assign has_year = true -%}
-                    {%- endif -%}
-
-                    {%- if has_org or has_year -%}
+                    {%- if recognition.organization != blank or recognition.year != blank -%}
                         <h4 class="resume-item-details">
-                            {%- if has_org -%}
+                            {%- if recognition.organization != blank -%}
                                 {{ recognition.organization }}
                             {%- endif -%}
-                            {%- if has_year -%}
-                                {% if has_org %} &bull; {% endif %}
+                            {%- if recognition.year != blank -%}
+                                {% if recognition.organization != blank %} &bull; {% endif %}
                                 {{ recognition.year }}
                             {%- endif -%}
                         </h4>
@@ -520,23 +440,13 @@
                         <span class="print-only-inline" dir="ltr" style="display: inline;">&nbsp;{{ association.url }}</span>
                     {% endif %}
 
-                    {%- assign has_role = false -%}
-                    {%- if association.role and association.role != "" -%}
-                        {%- assign has_role = true -%}
-                    {%- endif -%}
-
-                    {%- assign has_year = false -%}
-                    {%- if association.year and association.year != "" -%}
-                        {%- assign has_year = true -%}
-                    {%- endif -%}
-
-                    {%- if has_role or has_year -%}
+                    {%- if association.role != blank or association.year != blank -%}
                         <h4 class="resume-item-details" itemprop="description">
-                            {%- if has_role -%}
+                            {%- if association.role != blank -%}
                                 {{ association.role }}
                             {%- endif -%}
-                            {%- if has_year -%}
-                                {% if has_role %} &bull; {% endif %}
+                            {%- if association.year != blank -%}
+                                {% if association.role != blank %} &bull; {% endif %}
                                 {{ association.year }}
                             {%- endif -%}
                         </h4>

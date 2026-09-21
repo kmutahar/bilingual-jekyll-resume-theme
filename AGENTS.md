@@ -298,6 +298,7 @@ bilingual-jekyll-resume-theme/
 │   └── error_pages.yml           # Centralized bilingual error copy
 │
 ├── docs/
+│   ├── ACCESSIBILITY_GUIDE.md    # WCAG 2.1/2.2 AA accessibility architecture guide
 │   ├── COMPLETED_AUDIT.md        # Permanent historical record of remediations
 │   ├── CONFIG_GUIDE.md           # Exhaustive _config.yml settings manual
 │   ├── DATA_GUIDE.md             # Complete data schema guide with examples
@@ -312,7 +313,7 @@ bilingual-jekyll-resume-theme/
 │   │   └── publish.yml           # Auto-publishes gem upon release creation
 │   └── dependabot.yml            # Automated dependency updates
 │
-├── FEATURE_ROADMAP.md            # Active master roadmap for 20 open features
+├── FEATURE_ROADMAP.md            # Active master roadmap for 18 open features
 ├── AGENTS.md                     # Master AI instruction manual (THIS FILE)
 ├── CLAUDE.md                     # Claude Code lightweight pointer (@AGENTS.md)
 ├── WARP.md                       # Warp terminal lightweight pointer (@AGENTS.md)
@@ -425,9 +426,10 @@ Under Living Docs Governance, the repository documentation surface assigns four 
 | **Master AI Manual** | [`AGENTS.md`](AGENTS.md) | **Constitution** | **Authoritative single source of truth for all AI agents** |
 | **Project Overview** | [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md) | **Map** | High-level summary of architecture and vision |
 | **README** | [`README.md`](README.md) | **Map** | User-facing entry point, quick start, and installation guide |
-| **Feature Roadmap** | [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) | **Status** | Turnkey blueprints for 20 active features & status delete-zone |
+| **Feature Roadmap** | [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) | **Status** | Turnkey blueprints for 18 active features & status delete-zone |
 | **Completed Audit** | [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) | **History** | Historical record of 18 completed remediations & closed issues |
 | **Changelog** | [`CHANGELOG.md`](CHANGELOG.md) | **History** | Chronological version history following Keep a Changelog |
+| **Accessibility Guide** | [`docs/ACCESSIBILITY_GUIDE.md`](docs/ACCESSIBILITY_GUIDE.md) | Reference | WCAG 2.1/2.2 AA compliance, keyboard navigation, landmarks, and contrast |
 | **Config Guide** | [`docs/CONFIG_GUIDE.md`](docs/CONFIG_GUIDE.md) | Reference | Comprehensive reference for all `_config.yml` options |
 | **Data Guide** | [`docs/DATA_GUIDE.md`](docs/DATA_GUIDE.md) | Reference | YAML data schemas for all 12 resume sections |
 | **Layouts Guide** | [`docs/LAYOUTS_GUIDE.md`](docs/LAYOUTS_GUIDE.md) | Reference | Dual-language layout architecture and data flow |

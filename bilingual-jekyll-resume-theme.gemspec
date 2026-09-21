@@ -11,6 +11,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.platform      = Gem::Platform::RUBY # Specifies this is a pure Ruby gem (works on all platforms)
+  spec.required_ruby_version = ">= 3.0.0"
 
   spec.metadata      = {
     "bug_tracker_uri"   => "https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues",

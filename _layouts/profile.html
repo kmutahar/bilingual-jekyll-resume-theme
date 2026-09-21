@@ -36,6 +36,9 @@ Dynamic <html> tag:
     </head>
 
     <body>
+        <!-- Accessible skip-to-content link (WCAG 2.4.1) -->
+        <a href="#main-content" class="skip-link no-print">{% if page.lang == 'ar' or site.lang == 'ar' or page.dir == 'rtl' or site.dir == 'rtl' %}الانتقال إلى المحتوى الرئيسي{% else %}Skip to main content{% endif %}</a>
+
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}
 
@@ -43,10 +46,12 @@ Dynamic <html> tag:
         {% include language-switcher.html %}
 
         <!-- Main content injected by Jekyll pages/layouts -->
-        {{ content }}
+        <main id="main-content" role="main" tabindex="-1">
+            {{ content }}
+        </main>
 
         <!-- Footer: site title and copyright range -->
-        <footer>
+        <footer role="contentinfo">
             <p class="copyright">
                 {{ site.title }} &copy; 2018 - {{ "now" | date: "%Y" }}
             </p>

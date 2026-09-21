@@ -10,28 +10,28 @@
 
 ## Executive Summary & Historical Audit Archival
 
-This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **20 active, uncompleted features** organized across four sequential implementation phases:
-1. **Priority 1 (Quick Wins & Visual Polish):** High-visibility, low-friction UX improvements (5 active features).
-2. **Priority 2 (Core Functional & Architectural):** Data richness, typography, print fidelity, and accessibility (6 active features).
+This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **18 active, uncompleted features** organized across four sequential implementation phases:
+1. **Priority 1 (Quick Wins & Visual Polish):** High-visibility, low-friction UX improvements (4 active features).
+2. **Priority 2 (Core Functional & Architectural):** Data richness, typography, print fidelity, and accessibility (5 active features).
 3. **Priority 3 (Interoperability, Tooling & CI/CD):** Industry schema standards, validation tooling, and test pipelines (3 active features).
 4. **Priority 4 (Ecosystem Expansion):** Generic internationalization, chronology views, contact mechanisms, telemetry, and v1.0.0 deprecation retirement (6 active features).
 
 ### Historical Remediation Archival Notice
-In accordance with repository governance and engineering hygiene rules, **all 18 completed remediation tasks (P0.1 through P0.16, P1.4 Configurable Avatar, and P2.4 Universal Dark Mode & Error Suite) have been audited, verified in git history up to release `v0.7.0`, and purged from active roadmap phases**. 
+In accordance with repository governance and engineering hygiene rules, **all 18 completed remediation tasks (P0.1 through P0.16, P1.4 Configurable Avatar, and P2.4 Universal Dark Mode & Error Suite) as well as Feature 1.2 (Interactive Bilingual Language Switcher) and Feature 2.7 (Advanced WCAG 2.1/2.2 AA Accessibility Polish) have been audited, verified in git history, and merged**. 
 
-For complete historical records, commit SHAs, root cause analyses, before-and-after code diffs, and verification commands for these 18 completed items, refer to the dedicated audit archive:
+For complete historical records, commit SHAs, root cause analyses, before-and-after code diffs, and verification commands for these completed items, refer to the dedicated audit archive:
 👉 **[`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md)**
 
 ---
 
 ## 1. Active Features Master Matrix
 
-All 20 active features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
+All 18 active features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
 
 | Phase | ID | Feature Title | Canonical Issue | Auto-Closing Reference | Effort | Demand | Time Est. | Target Files Key |
 |---|---|---|---|---|---|---|---|---|
 | **P1** | **1.1** | Predefined Color Themes Palette Engine (5 Palettes) | [#7](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/7) | `Closes #7` | ⭐⭐ | High | 2–3 hrs | `_sass/_themes.scss`, `_variables.scss`, layouts |
-| **P1** | **1.2** | Interactive Bilingual Language Switcher (EN ⇋ AR) | [#11](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/11) | `Closes #11` | ⭐⭐ | High | 2 hrs | `_includes/language-switcher.html`, layouts, SCSS |
+| **P1** | **1.2** | Interactive Bilingual Language Switcher (EN ⇋ AR) | [#11](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/11) | `✅ Completed (v0.8.0)` | ⭐⭐ | High | 2 hrs | `_includes/language-switcher.html`, layouts, SCSS |
 | **P1** | **1.3** | Expanded Modern Social Media Platforms (9 Platforms) | [#204](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/204) | `Closes #204` | ⭐⭐ | Med-High | 1–2 hrs | `_includes/social-links.html`, LineIcons SVGs |
 | **P1** | **1.5** | Dynamic Contact / Resume QR Code Component | [#14](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/14) | `Closes #14` | ⭐⭐ | Low-Med | 1–2 hrs | `_includes/qr-code.html`, layouts, SCSS |
 | **P1** | **1.6** | Achievement Badges & Credential Icons | [#19](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/19) | `Closes #19` | ⭐⭐ | Low-Med | 1–2 hrs | `_includes/badge-display.html`, sections, SCSS |
@@ -40,7 +40,7 @@ All 20 active features are mapped below with their canonical GitHub issue refere
 | **P2** | **2.3** | Professional Print Pagination & Spacing Engine | [#12](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/12) | `Closes #12` | ⭐⭐ | High | 2–3 hrs | `_sass/_print-optimization.scss`, `_resume.scss` |
 | **P2** | **2.5** | Skills Taxonomy & Categorized Tagging System | [#18](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/18) | `Closes #18` | ⭐⭐ | Low | 2–3 hrs | `_includes/resume-section-*.html`, `skills.yml` |
 | **P2** | **2.6** | Social Media Cards Generation (Open Graph & Twitter) | [#22](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/22) | `Closes #22` | ⭐⭐ | Med-High | 2–3 hrs | `_includes/shared-head.html`, SEO guides |
-| **P2** | **2.7** | Advanced WCAG 2.1 AA Accessibility Polish | [#21](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/21) | `Closes #21` | ⭐⭐⭐ | Medium | 2–3 hrs | `_sass/_base.scss`, skip-links, landmark roles |
+| **P2** | **2.7** | Advanced WCAG 2.1 AA Accessibility Polish | [#21](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/21) | `✅ Completed (v0.8.0)` | ⭐⭐⭐ | Medium | 2–3 hrs | `_sass/_base.scss`, skip-links, landmark roles |
 | **P3** | **3.1** | Standard JSON Resume Exporter (`/resume.json`) | [#6](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/6) | `Closes #6` | ⭐⭐⭐ | High | 4–5 hrs | `resume.json`, `resume-ar.json` |
 | **P3** | **3.2** | Automated CI/CD Build & Verification Pipeline | [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206) | `Closes #206` | ⭐⭐ | High | 2–3 hrs | `.github/workflows/ci.yml` |
 | **P3** | **3.3** | YAML Resume Data Validator & Schema Linter | [#13](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/13) | `Closes #13` | ⭐⭐⭐ | Med-High | 4–5 hrs | `bin/validate-resume`, `Rakefile` |
@@ -283,6 +283,8 @@ In `_layouts/resume-en.html` and `_layouts/resume-ar.html`:
 ---
 
 ### Feature 1.2: Interactive Bilingual Language Switcher (EN ⇋ AR)
+
+> **Status**: `✅ COMPLETED & MERGED (Release v0.8.0, Commit c56e50f, Closes #11)`
 
 - **Canonical Issue:** [#11](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/11)
 - **Auto-Closing Reference:** `Closes #11`
@@ -1369,6 +1371,8 @@ In `_includes/shared-head.html`:
 ---
 
 ### Feature 2.7: Advanced WCAG 2.1 AA Accessibility Polish
+
+> **Status**: `✅ COMPLETED & MERGED (Release v0.8.0, Closes #21)`
 
 - **Canonical Issue:** [#21](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/21)
 - **Auto-Closing Reference:** `Closes #21`

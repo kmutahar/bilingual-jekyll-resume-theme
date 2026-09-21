@@ -14,12 +14,13 @@ A comprehensive architectural guide to the theme’s reusable component library 
   - [4. `resume-head-ar.html`](#4-resume-head-arhtml)
   - [5. `avatar.html`](#5-avatarhtml)
   - [6. `dark-mode-toggle.html`](#6-dark-mode-togglehtml)
-  - [7. `ar-date.html`](#7-ar-datehtml)
-  - [8. `social-links.html`](#8-social-linkshtml)
-  - [9. `print-social-links.html`](#9-print-social-linkshtml)
-  - [10. `hreflang.html`](#10-hreflanghtml)
-  - [11. `analytics-head.html` & `analytics-body.html`](#11-analytics-headhtml--analytics-bodyhtml)
-  - [12. `vendors/` (SVG Icon Packs)](#12-vendors-svg-icon-packs)
+  - [7. `language-switcher.html`](#7-language-switcherhtml)
+  - [8. `ar-date.html`](#8-ardatehtml)
+  - [9. `social-links.html`](#9-social-linkshtml)
+  - [10. `print-social-links.html`](#10-print-social-linkshtml)
+  - [11. `hreflang.html`](#11-hreflanghtml)
+  - [12. `analytics-head.html` & `analytics-body.html`](#12-analytics-headhtml--analytics-bodyhtml)
+  - [13. `vendors/` (SVG Icon Packs)](#13-vendors-svg-icon-packs)
 - [Multilingual SEO with hreflang](#multilingual-seo-with-hreflang)
 - [Dynamic Section Rendering Engine](#dynamic-section-rendering-engine)
   - [How Section Dispatch Works](#how-section-dispatch-works)
@@ -51,6 +52,7 @@ Layout (e.g., _layouts/resume-en.html)
  ├── social-links.html       (interactive SVG social icons)
  ├── resume-section-en.html  (dynamic section dispatcher loop)
  ├── dark-mode-toggle.html   (interactive two-state theme toggle)
+ ├── language-switcher.html  (interactive bilingual language switcher)
  └── print-social-links.html (print-only plaintext contact listing)
 ```
 
@@ -154,7 +156,20 @@ Layout (e.g., _layouts/resume-en.html)
 
 ---
 
-### 7. `ar-date.html`
+### 7. `language-switcher.html`
+
+- **Location:** [`../_includes/language-switcher.html`](../_includes/language-switcher.html)
+- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html), [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html)
+- **Purpose:** Renders a floating interactive pill button to switch seamlessly between English and Arabic versions of the page.
+- **Two-Tier URL Resolution:**
+  1. **Page Translation ID (`page.t_id`):** Finds the counterpart page in `site.pages` sharing the same `t_id` and matching target language.
+  2. **Config Fallback:** Falls back to `site.resume_en_url` (`/en/cv/`) and `site.resume_ar_url` (`/ar/cv/`).
+- **Positioning & Parity:** Symmetrically placed opposite the dark mode toggle (top-left on LTR, mirrored to top-right on RTL layouts).
+- **Accessibility & Print:** Emits localized `aria-label` / `title` attributes, visible keyboard focus rings, and is hidden on print via `.no-print`.
+
+---
+
+### 8. `ar-date.html`
 
 - **Location:** [`../_includes/ar-date.html`](../_includes/ar-date.html)
 - **Consumed by:** [`../_includes/resume-section-ar.html`](../_includes/resume-section-ar.html)
@@ -169,7 +184,7 @@ Layout (e.g., _layouts/resume-en.html)
 
 ---
 
-### 8. `social-links.html`
+### 9. `social-links.html`
 
 - **Location:** [`../_includes/social-links.html`](../_includes/social-links.html)
 - **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
@@ -179,7 +194,7 @@ Layout (e.g., _layouts/resume-en.html)
 
 ---
 
-### 9. `print-social-links.html`
+### 10. `print-social-links.html`
 
 - **Location:** [`../_includes/print-social-links.html`](../_includes/print-social-links.html)
 - **Consumed by:** Both resume layouts when `resume_print_social_links: true`.
@@ -187,7 +202,7 @@ Layout (e.g., _layouts/resume-en.html)
 
 ---
 
-### 10. `hreflang.html`
+### 11. `hreflang.html`
 
 - **Location:** [`../_includes/hreflang.html`](../_includes/hreflang.html)
 - **Consumed by:** `resume-head-en.html` and `resume-head-ar.html`.
@@ -195,14 +210,14 @@ Layout (e.g., _layouts/resume-en.html)
 
 ---
 
-### 11. `analytics-head.html` & `analytics-body.html`
+### 12. `analytics-head.html` & `analytics-body.html`
 
 - **Head Include:** Injects Google Tag Manager container or Google Analytics 4 (`gtag.js`) based on `site.analytics.gtm` or `site.analytics.gtag` in `_config.yml`.
 - **Body Include:** Injects `<noscript><iframe>` fallback for Google Tag Manager immediately after the opening `<body>` tag across all primary layouts: [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), and [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html).
 
 ---
 
-### 12. `vendors/` (SVG Icon Packs)
+### 13. `vendors/` (SVG Icon Packs)
 
 Bundled scalable vector graphics:
 - `vendors/lineicons-v4.0/`: Contact row icons (envelope, phone, location pin).

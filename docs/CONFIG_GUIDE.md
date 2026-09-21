@@ -248,6 +248,7 @@ Settings controlling data sources, header elements, and rendering behaviors:
 | `active_resume_path_ar` | String | `"ar"` | Dot-separated subpath in `_data/` for Arabic resume data. |
 | `resume_en_url` | String | Auto-detected / `"/en/cv/"` | Custom URL path for the English resume (used by error page navigation and language links). |
 | `resume_ar_url` | String | Auto-detected / `"/ar/cv/"` | Custom URL path for the Arabic resume (used by error page navigation and language links). |
+| `resume_language_switcher` | Boolean | `true` | Show/hide the interactive floating bilingual language switcher button (EN ⇋ AR). |
 | `display_header_contact_info` | Boolean | `true` | Show/hide the contact information row in header. |
 | `resume_header_intro_en` | Boolean | `true` | Render English summary from `_data/en/header.yml`. |
 | `resume_header_intro_ar` | Boolean | `false` | Render Arabic summary from `_data/ar/header.yml`. |
@@ -263,6 +264,9 @@ active_resume_path_ar: "ar"
 # Optional custom resume destination URLs
 # resume_en_url: "/en/cv/"
 # resume_ar_url: "/ar/cv/"
+
+# Interactive bilingual language switcher
+resume_language_switcher: true
 
 display_header_contact_info: true
 resume_header_intro_en: true

@@ -116,6 +116,9 @@ active_resume_path_ar: "ar"          # Reads from _data/ar/* (recommended)
 # resume_en_url: "/en/cv/"
 # resume_ar_url: "/ar/cv/"
 
+# Interactive bilingual language switcher (floating EN <-> AR button)
+resume_language_switcher: true       # Toggle floating language switcher (default: true)
+
 # Header display toggles
 display_header_contact_info: true    # Show contact info row in header
 resume_header_intro_en: true         # Show English bio/intro below header (from _data/en/header.yml)

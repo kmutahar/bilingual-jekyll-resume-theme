@@ -1,0 +1,64 @@
+{%- comment -%}
+Include: Reusable Bilingual Language Switcher Component (Feature 1.2)
+- Purpose: Floating pill button that toggles between the English and Arabic resume.
+- Positioning: Fixed top-left (LTR layouts) / top-right (RTL layouts); mirrors the dark-mode toggle.
+- Link Resolution (two-tier):
+    1. Discovers the counterpart page via page.t_id + lang match (site.pages).
+    2. Falls back to site.resume_en_url / site.resume_ar_url from _config.yml.
+- Accessibility: Localized aria-label + title, visible focus ring (WCAG 2.2 AA).
+- Print Safety: Decorated with class="no-print" — hidden on printed resume sheets.
+- Toggle: Disabled via site.resume_language_switcher: false in _config.yml.
+{%- endcomment -%}
+
+{% if site.resume_language_switcher != false and page.language_switcher != false and page.layout != 'error' %}
+  {%- comment -%} Determine the current and target language {%- endcomment -%}
+  {% assign current_lang = page.lang | default: site.lang | default: 'en' %}
+  {% assign target_lang = 'ar' %}
+  {% if current_lang == 'ar' %}
+    {% assign target_lang = 'en' %}
+  {% endif %}
+
+  {%- comment -%}
+  TIER 1: Auto-discover counterpart page by matching page.t_id + target language.
+  Both pages must have the same t_id value in their front matter (e.g., t_id: cv-main).
+  {%- endcomment -%}
+  {% assign target_url = nil %}
+  {% if page.t_id %}
+    {% assign matched_page = site.pages | where: "t_id", page.t_id | where: "lang", target_lang | first %}
+    {% if matched_page %}
+      {% assign target_url = matched_page.url | relative_url %}
+    {% endif %}
+  {% endif %}
+
+  {%- comment -%}
+  TIER 2: Fall back to config-defined URLs if t_id match was not found.
+  {%- endcomment -%}
+  {% unless target_url %}
+    {% if current_lang == 'ar' %}
+      {% assign target_url = site.resume_en_url | default: '/en/cv/' | relative_url %}
+    {% else %}
+      {% assign target_url = site.resume_ar_url | default: '/ar/cv/' | relative_url %}
+    {% endif %}
+  {% endunless %}
+
+  {%- comment -%} Derive accessible labels and visible text based on direction {%- endcomment -%}
+  {% if current_lang == 'ar' %}
+    {% assign switcher_label      = 'Switch language to English' %}
+    {% assign switcher_title      = 'English' %}
+    {% assign switcher_short_text = 'EN' %}
+  {% else %}
+    {% assign switcher_label      = 'التحويل إلى اللغة العربية' %}
+    {% assign switcher_title      = 'العربية' %}
+    {% assign switcher_short_text = 'عربي' %}
+  {% endif %}
+
+  <div class="language-switcher no-print" role="navigation" aria-label="Language Selector">
+    <a href="{{ target_url }}"
+       class="lang-switch-btn"
+       aria-label="{{ switcher_label }}"
+       title="{{ switcher_title }}">
+      <span class="lang-icon" aria-hidden="true">🌐</span>
+      <span class="lang-label-target">{{ switcher_short_text }}</span>
+    </a>
+  </div>
+{% endif %}

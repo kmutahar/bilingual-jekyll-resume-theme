@@ -203,24 +203,15 @@ active_resume_path_ar: "" # -> site.data
 
 ## Dark Mode & Anti-FOUC Mechanics
 
-Layouts manage dark mode through a three-tier condition:
+Layouts include the self-contained toggle component directly:
 
 ```liquid
-{% assign dark_mode_enabled = false %}
-{% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
-    {% assign dark_mode_enabled = true %}
-{% endif %}
-{% if page.dark_mode == false %}
-    {% assign dark_mode_enabled = false %}
-{% elsif page.dark_mode == true or page.dark_mode == "enabled" %}
-    {% assign dark_mode_enabled = true %}
-{% endif %}
-{% if dark_mode_enabled %}
-    {% include dark-mode-toggle.html %}
-{% endif %}
+{% include dark-mode-toggle.html %}
 ```
 
-1. **Site Level:** Defaults to CSS-only system matching (`dark_mode: auto`). Setting `dark_mode: enabled` activates the interactive toggle.
+The toggle include internally manages activation through a three-tier condition (`site.dark_mode`, `site.resume_dark_mode`, and front matter `page.dark_mode`).
+
+1. **Site Level:** Defaults to CSS-only system matching (`dark_mode: auto`). Setting `dark_mode: enabled` or `true` activates the interactive toggle.
 2. **Page Level:** Front matter can override site configuration:
    ```yaml
    ---

@@ -42,24 +42,7 @@ Dynamic <html> tag:
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}
 
-        {%- comment -%}
-        Dark Mode Activation Cascade:
-        1. Evaluates site-level switches: `site.dark_mode` or `site.resume_dark_mode` (boolean or "enabled").
-        2. Applies page-level override if specified in front matter (`page.dark_mode: true/false`).
-        3. If dark mode is enabled, renders the floating interactive theme toggle button.
-        {%- endcomment -%}
-        {% assign dark_mode_enabled = false %}
-        {% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
-            {% assign dark_mode_enabled = true %}
-        {% endif %}
-        {% if page.dark_mode == false %}
-            {% assign dark_mode_enabled = false %}
-        {% elsif page.dark_mode == true or page.dark_mode == "enabled" %}
-            {% assign dark_mode_enabled = true %}
-        {% endif %}
-        {% if dark_mode_enabled %}
-            {% include dark-mode-toggle.html %}
-        {% endif %}
+        {% include dark-mode-toggle.html %}
         {% include language-switcher.html %}
 
         <!-- Main content injected by Jekyll pages/layouts -->

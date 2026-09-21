@@ -130,23 +130,14 @@ Layout (e.g., _layouts/resume-en.html)
 ### 6. `dark-mode-toggle.html`
 
 - **Location:** [`../_includes/dark-mode-toggle.html`](../_includes/dark-mode-toggle.html)
-- **Consumed by:** [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
-- **Inclusion Logic:** Rendered conditionally across layouts using:
+- **Consumed by:** [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
+- **Inclusion Logic:** Self-contained evaluation; layouts directly invoke:
 
 ```liquid
-{% assign dark_mode_enabled = false %}
-{% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
-    {% assign dark_mode_enabled = true %}
-{% endif %}
-{% if page.dark_mode == false %}
-    {% assign dark_mode_enabled = false %}
-{% elsif page.dark_mode == true or page.dark_mode == "enabled" %}
-    {% assign dark_mode_enabled = true %}
-{% endif %}
-{% if dark_mode_enabled %}
-    {% include dark-mode-toggle.html %}
-{% endif %}
+{% include dark-mode-toggle.html %}
 ```
+
+The include internally evaluates `site.dark_mode`, `site.resume_dark_mode`, and front matter `page.dark_mode` overrides before rendering button markup and client controller logic.
 
 - **Two-State Finite State Machine (FSM):**
   - **System Default (Unpinned):** No `localStorage` entry; theme follows OS `prefers-color-scheme`. Dynamic `matchMedia` listener updates button visuals in real-time.

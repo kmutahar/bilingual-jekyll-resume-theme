@@ -1,10 +1,26 @@
 {%- comment -%}
   Component: Dark Mode Toggle Widget
   - Purpose: Provides an accessible, persistent floating toggle button for switching between Light and Dark color themes.
+  - Activation Cascade:
+    1. Evaluates site-level switches: `site.dark_mode` or `site.resume_dark_mode` (boolean or "enabled").
+    2. Applies page-level override if specified in front matter (`page.dark_mode: true/false/enabled`).
+    3. Renders button markup and client controller only when enabled.
   - Visual Design: Floating circular action button fixed in the viewport.
   - Print Media: Decorated with `class="no-print"` to ensure it is excluded from printed resumes or PDF generation.
   - CSS Integration: Operates with CSS custom properties defined in `_sass/_dark-mode.scss`.
 {%- endcomment -%}
+
+{% assign dark_mode_enabled = false %}
+{% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
+  {% assign dark_mode_enabled = true %}
+{% endif %}
+{% if page.dark_mode == false %}
+  {% assign dark_mode_enabled = false %}
+{% elsif page.dark_mode == true or page.dark_mode == "enabled" %}
+  {% assign dark_mode_enabled = true %}
+{% endif %}
+
+{% if dark_mode_enabled %}
 <!-- Dark Mode Toggle Button (Two-state: System Default vs Pinned Override) -->
 <button
   id="dark-mode-toggle"
@@ -208,4 +224,5 @@
     updateUI();
   })();
 </script>
+{% endif %}
 

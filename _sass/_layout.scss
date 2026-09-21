@@ -83,18 +83,6 @@
   padding-left: variables.$grid-gutter;
 }
 
-// Equal width columns via table sorcery.
-// Uses the CSS table layout algorithm (display: table-cell; width: 1%):
-// cells expand equally across available width and automatically match each other's height
-// without requiring JavaScript or modern CSS Grid wrappers.
-.table-column {
-  display: table-cell;
-  width: 1%;
-  padding-right: variables.$grid-gutter;
-  padding-left: variables.$grid-gutter;
-  vertical-align: top;
-}
-
 // --------------------------------------------------------------------------
 // Language Switcher Component (Feature 1.2)
 // --------------------------------------------------------------------------

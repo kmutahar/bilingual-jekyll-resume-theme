@@ -44,11 +44,9 @@ body {
   max-width: 800px;
   padding: 0 24px;
   margin: 0 auto;
-  zoom: 1;
 }
 
-// clearfix (now called group,
-// via http://css-tricks.com/snippets/css/clear-fix/)
+// Micro-clearfix helper
 .group:before,
 .group:after {
   content: "";
@@ -57,11 +55,6 @@ body {
 
 .group:after {
   clear: both;
-}
-
-.group {
-  zoom: 1;
-  /* For IE 6/7 (trigger hasLayout) */
 }
 
 // Custom text selection styling using theme tokens.

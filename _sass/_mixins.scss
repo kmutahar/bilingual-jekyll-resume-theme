@@ -5,17 +5,13 @@
 // responsive breakpoint queries, font stack utilities, and section divider borders.
 // ---------------------------------------/
 
-// Cross-browser vendor prefixed border-radius helper.
+// Native CSS border-radius helper (retained for backward compatibility).
 @mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-  -moz-border-radius: $radius;
   border-radius: $radius;
 }
 
-// Cross-browser CSS transition helper.
+// Native CSS transition helper (retained for backward compatibility).
 @mixin transition($value) {
-  -webkit-transition: $value;
-  -moz-transition: $value;
   transition: $value;
 }
 

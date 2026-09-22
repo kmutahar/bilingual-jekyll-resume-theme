@@ -15,12 +15,12 @@ Include: Reusable Avatar Component
 
 {%- comment -%}
   Image Source Resolution Hierarchy & Subpath Safety:
-  1. Priority: site.avatar_url (modern explicit configuration) -> site.avatar (legacy option) -> '/assets/images/Profile-min.jpg' (bundled default).
+  1. Priority: site.avatar_url (explicit configuration) -> '/assets/images/Profile-min.jpg' (bundled default).
   2. Subpath Safety: If the avatar path contains '://', it is treated as an absolute external CDN URL and preserved as-is.
      Otherwise, it is piped through Liquid's `relative_url` filter to ensure correct resolution on GitHub Pages sites
      hosted under repository subpaths (e.g. username.github.io/project-name/).
 {%- endcomment -%}
-{% assign avatar_raw = site.avatar_url | default: site.avatar | default: '/assets/images/Profile-min.jpg' %}
+{% assign avatar_raw = site.avatar_url | default: '/assets/images/Profile-min.jpg' %}
 {% if avatar_raw contains "://" %}
   {% assign avatar_src = avatar_raw %}
   {% else %}

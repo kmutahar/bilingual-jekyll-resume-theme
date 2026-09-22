@@ -5,11 +5,14 @@
     1. Evaluates the site-level switch: `site.dark_mode` (boolean or "enabled").
     2. Applies page-level override if specified in front matter (`page.dark_mode: true/false/enabled`).
     3. Renders button markup and client controller only when enabled.
+  - Localization: aria-label/title come from the current page's locale.ui.dark_mode_toggle.
   - Visual Design: Floating circular action button fixed in the viewport.
   - Print Media: Decorated with `class="no-print"` to ensure it is excluded from printed resumes or PDF generation.
   - CSS Integration: Operates with CSS custom properties defined in `_sass/_dark-mode.scss`.
 {%- endcomment -%}
 
+{%- assign lang = page.lang | default: site.default_lang | default: 'en' -%}
+{%- assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] -%}
 {% assign dark_mode_enabled = false %}
 {% if site.dark_mode == "enabled" or site.dark_mode == true %}
   {% assign dark_mode_enabled = true %}
@@ -26,8 +29,8 @@
   id="dark-mode-toggle"
   class="dark-mode-toggle no-print"
   type="button"
-  aria-label="Switch to dark mode"
-  title="Switch to dark mode"
+  aria-label="{{ locale.ui.dark_mode_toggle }}"
+  title="{{ locale.ui.dark_mode_toggle }}"
   aria-pressed="false"
   data-pinned="false"
 >
@@ -121,14 +124,6 @@
       }
     }
 
-    // Determines if current page layout is Arabic / Right-to-Left
-    function isArabicRTL() {
-      var docEl = document.documentElement;
-      var dir = docEl.getAttribute('dir');
-      var lang = docEl.getAttribute('lang') || docEl.lang;
-      return dir === 'rtl' || lang === 'ar';
-    }
-
     // Synchronizes data attributes on <html> and <meta name="color-scheme">
     function syncState() {
       var saved = getSavedTheme();
@@ -147,38 +142,17 @@
       }
     }
 
-    // Updates ARIA accessibility attributes, data-pinned status, and localized tooltips
+    // Updates ARIA accessibility attributes and data-pinned status.
+    // aria-label/title are set once from locale.ui.dark_mode_toggle in the
+    // server-rendered markup and are not re-localized client-side.
     function updateUI() {
       var saved = getSavedTheme();
       var isPinned = (saved !== null);
       var effectiveTheme = isPinned ? saved : getSystemTheme();
-      var isRTL = isArabicRTL();
-      var label = '';
 
       toggleBtn.setAttribute('data-pinned', isPinned ? 'true' : 'false');
       toggleBtn.setAttribute('aria-pressed', isPinned ? 'true' : 'false');
       toggleBtn.setAttribute('data-current-theme', effectiveTheme);
-
-      // Localized screen-reader announcements and tooltip titles
-      if (isPinned) {
-        label = isRTL
-          ? 'إعادة ضبط المظهر إلى الوضع التلقائي للنظام'
-          : 'Reset to system theme';
-      } else {
-        var nextTheme = (effectiveTheme === 'dark') ? 'light' : 'dark';
-        if (isRTL) {
-          label = (nextTheme === 'dark')
-            ? 'تبديل إلى الوضع الداكن'
-            : 'تبديل إلى الوضع الفاتح';
-        } else {
-          label = (nextTheme === 'dark')
-            ? 'Switch to dark mode'
-            : 'Switch to light mode';
-        }
-      }
-
-      toggleBtn.setAttribute('aria-label', label);
-      toggleBtn.setAttribute('title', label);
     }
 
     // Toggles theme state: cycles between user-pinned override and system default

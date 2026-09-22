@@ -39,10 +39,11 @@ HOW IT WORKS:
   {% endfor %}
 
   {% comment %}
-    3. Find the English ('en') page from the 'translations' list
+    3. Find the site's default-language page from the 'translations' list
        to use as the "default" version.
   {% endcomment %}
-  {% assign default_page = translations | where: "lang", "en" | first %}
+  {% assign default_lang = site.default_lang | default: "en" %}
+  {% assign default_page = translations | where: "lang", default_lang | first %}
   
   {% comment %}
     4. If an English version was found, print the 'x-default' tag.

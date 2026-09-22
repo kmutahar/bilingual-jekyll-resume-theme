@@ -24,13 +24,14 @@ HOW IT WORKS:
 
 PARAMETERS:
   - `path` (String, Optional): The dot-path string to resolve (e.g. "en", "ar", "2025-06.v1").
-    Defaults to `site.active_resume_path_en` if omitted.
+    Defaults to `site.languages[lang].data_path` (current page.lang, or site.default_lang) if omitted.
 
 OUTPUT:
   - Sets the global template variable `resume_data` in the calling layout context.
 ================================================================================
 {%- endcomment -%}
-{%- assign data_path = include.path | default: site.active_resume_path_en -%}
+{%- assign default_lang_cfg = site.languages[page.lang | default: site.default_lang | default: 'en'] -%}
+{%- assign data_path = include.path | default: default_lang_cfg.data_path -%}
 {%- assign resume_data = site.data -%}
 
 {%- if data_path != blank -%}

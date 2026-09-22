@@ -2,7 +2,7 @@
 Include: Reusable Avatar Component
 - Purpose: Render accessible, configurable profile picture.
 - Parameters:
-  - lang: Optional language code ('en' | 'ar'). Defaults to page.lang or site.lang or 'en'.
+  - lang: Optional language code. Defaults to page.lang, then site.default_lang, then 'en'.
   - link: Optional boolean to override link rendering.
   - class: Optional extra CSS classes.
 {%- endcomment -%}
@@ -11,7 +11,9 @@ Include: Reusable Avatar Component
   Language Detection Cascade:
   Resolves language in order of specificity: explicit include parameter -> page front matter -> site default -> 'en'.
 {%- endcomment -%}
-{% assign current_lang = include.lang | default: page.lang | default: site.lang | default: 'en' %}
+{% assign current_lang = include.lang | default: page.lang | default: site.default_lang | default: 'en' %}
+{% assign lang_cfg = site.languages[current_lang] %}
+{% assign locale = site.data.locales[current_lang] | default: site.data.locales[site.default_lang] %}
 
 {%- comment -%}
   Image Source Resolution Hierarchy & Subpath Safety:
@@ -30,22 +32,10 @@ Include: Reusable Avatar Component
 {%- comment -%}
   Localized Alt Text & Title Resolution:
   Generates meaningful alt text to satisfy WCAG 2.2 non-empty alt text requirements.
-  - For Arabic (ar): Constructs full name from `site.name_ar` fields.
-    Alt text cascade: site.avatar_alt_ar -> site.avatar_alt -> name_ar -> fallback 'الصورة الشخصية'.
-  - For English / Other (en): Constructs full name from `site.name` fields.
-    Alt text cascade: site.avatar_alt_en -> site.avatar_alt -> name_en -> fallback 'Profile photo'.
+  Alt text cascade: languages.<lang>.avatar_alt -> languages.<lang>.name -> locale.ui.photo_alt.
 {%- endcomment -%}
-{% if current_lang == 'ar' %}
-  {% capture name_ar %}{{ site.name_ar.first }}{% if site.name_ar.middle %} {{ site.name_ar.middle }}{% endif %}{% if site.name_ar.last %} {{ site.name_ar.last }}{% endif %}{% endcapture %}
-  {% assign name_ar = name_ar | strip %}
-  {% assign avatar_alt = site.avatar_alt_ar | default: site.avatar_alt | default: name_ar | default: 'الصورة الشخصية' %}
-  {% assign link_title = site.title | default: 'الصفحة الرئيسية' %}
-{% else %}
-  {% capture name_en %}{{ site.name.first }}{% if site.name.middle %} {{ site.name.middle }}{% endif %}{% if site.name.last %} {{ site.name.last }}{% endif %}{% endcapture %}
-  {% assign name_en = name_en | strip %}
-  {% assign avatar_alt = site.avatar_alt_en | default: site.avatar_alt | default: name_en | default: 'Profile photo' %}
-  {% assign link_title = site.title | default: 'Homepage' %}
-{% endif %}
+{% assign avatar_alt = lang_cfg.avatar_alt | default: lang_cfg.name | default: locale.ui.photo_alt %}
+{% assign link_title = site.title | default: locale.ui.home %}
 
 {%- comment -%}
   Hyperlink Wrapping Toggle:

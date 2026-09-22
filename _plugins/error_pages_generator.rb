@@ -26,15 +26,15 @@ module BilingualJekyllResumeTheme
     ERROR_PAGES = {
       "404" => {
         "file" => "404.html",
-        "title" => "404 - Page Not Found / الصفحة غير موجودة"
+        "title" => "404 - Page Not Found"
       },
       "403" => {
         "file" => "403.html",
-        "title" => "403 - Access Forbidden / الوصول محظور"
+        "title" => "403 - Access Forbidden"
       },
       "500" => {
         "file" => "500.html",
-        "title" => "500 - Internal Server Error / خطأ داخلي في الخادم"
+        "title" => "500 - Internal Server Error"
       }
     }.freeze
 

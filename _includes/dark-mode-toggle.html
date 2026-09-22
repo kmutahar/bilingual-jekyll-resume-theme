@@ -2,7 +2,7 @@
   Component: Dark Mode Toggle Widget
   - Purpose: Provides an accessible, persistent floating toggle button for switching between Light and Dark color themes.
   - Activation Cascade:
-    1. Evaluates site-level switches: `site.dark_mode` or `site.resume_dark_mode` (boolean or "enabled").
+    1. Evaluates the site-level switch: `site.dark_mode` (boolean or "enabled").
     2. Applies page-level override if specified in front matter (`page.dark_mode: true/false/enabled`).
     3. Renders button markup and client controller only when enabled.
   - Visual Design: Floating circular action button fixed in the viewport.
@@ -11,7 +11,7 @@
 {%- endcomment -%}
 
 {% assign dark_mode_enabled = false %}
-{% if site.dark_mode == "enabled" or site.dark_mode == true or site.resume_dark_mode == "enabled" or site.resume_dark_mode == true %}
+{% if site.dark_mode == "enabled" or site.dark_mode == true %}
   {% assign dark_mode_enabled = true %}
 {% endif %}
 {% if page.dark_mode == false %}

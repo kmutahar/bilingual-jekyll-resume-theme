@@ -204,14 +204,12 @@ resume_section_order:
 # - "enabled" or true: Renders interactive floating toggle button with localStorage persistence
 dark_mode: auto
 
-# Legacy dark mode key (supported for backward compatibility):
-# resume_dark_mode: auto
-
 # Visual theme variant (default: "default")
 resume_theme: default
 
-# Custom Arabic font stylesheet URL (for self-hosted or alternate CDN Arabic fonts)
-# font_ar_url: "https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+# To use a self-hosted or alternate CDN font for a locale, override that locale's
+# font_url in your site's own _data/locales/<lang>.yml (see Section 4.1.1 of the
+# v1.0.0 implementation plan) instead of a site-wide config key.
 
 # Disable remote Google Fonts fetching (useful for offline/intranet builds or strict GDPR compliance)
 # disable_google_fonts: true
@@ -228,9 +226,6 @@ analytics:
 
   # Google Analytics 4 (injects async gtag.js with measurement ID):
   # gtag: "G-XXXXXXXXXX"
-
-  # Legacy Google Analytics Universal Analytics (GA):
-  # ga: "UA-XXXXXXXXX-X"
 
 # ==============================================================================
 # 11. JEKYLL BUILD SETTINGS & PLUGINS

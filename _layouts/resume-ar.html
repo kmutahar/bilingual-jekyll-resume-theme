@@ -66,8 +66,10 @@
 
                 {%- comment -%}
                 Arabic Contact Information Bar:
-                Displays contact channels with mirrored layout (icon on right).
-                Phone numbers are wrapped with dir="ltr" to prevent bidirectional punctuation distortion.
+                Displays contact channels icon-first, then link/text, matching resume-en.html (Feature 2.8);
+                in RTL, the icon (first in source order) leads on the right.
+                Phone numbers and email addresses are wrapped with dir="ltr" to prevent bidirectional
+                punctuation distortion.
                 Dates are formatted via _includes/ar-date.html for Arabic month names.
                 {%- endcomment -%}
                 {% if site.display_header_contact_info == true %}
@@ -76,26 +78,26 @@
                         <p>
                             {% if site.enable_live == true %}
                                 {% if site.contact_info.phone_live %}
-                                    <a href="tel:{{ site.contact_info.phone_live | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone_live }}</a>&nbsp;{% include vendors/lineicons-v4.0/phone.svg %}
+                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone_live | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone_live }}</a>
                                 {% endif %}
                             {% else %}
                                 {% if site.contact_info.phone %}
-                                    <a href="tel:{{ site.contact_info.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone }}</a>&nbsp;{% include vendors/lineicons-v4.0/phone.svg %}
+                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone }}</a>
                                 {% endif %}
                             {% endif %}
 
                             {% if site.enable_live == true %}
                                 {% if site.contact_info.email_live %}
-                                    &nbsp;&nbsp;<a href="mailto:{{ site.contact_info.email_live }}" style="text-decoration: none; color: inherit;">{{ site.contact_info.email_live }}</a>&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}
+                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;<a href="mailto:{{ site.contact_info.email_live }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.email_live }}</a>
                                 {% endif %}
                             {% else %}
                                 {% if site.contact_info.email %}
-                                    &nbsp;&nbsp;<a href="mailto:{{ site.contact_info.email }}" style="text-decoration: none; color: inherit;">{{ site.contact_info.email }}</a>&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}
+                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;<a href="mailto:{{ site.contact_info.email }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.email }}</a>
                                 {% endif %}
                             {% endif %}
 
                             {% if site.contact_info.address_ar %}
-                                &nbsp;&nbsp;{{ site.contact_info.address_ar }}&nbsp;{% include vendors/lineicons-v4.0/postcard.svg %}
+                                &nbsp;&nbsp;{% include vendors/lineicons-v4.0/postcard.svg %}&nbsp;{{ site.contact_info.address_ar }}
                             {% endif %}
 
                             {% if site.contact_info.dob %}

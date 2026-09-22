@@ -1,19 +1,43 @@
-{% include data-loader.html path=site.active_resume_path_ar %}
+{%- assign lang = page.lang | default: site.default_lang | default: 'en' -%}
+{%- assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] -%}
+{%- assign lang_cfg = site.languages[lang] -%}
+{% include data-loader.html path=lang_cfg.data_path %}
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-    <!-- هذه الصفحة تم تحديثها آخر مرة في {{ "now" | date: "%Y-%m-%d %H:%M:%S" }}Z -->
+<html lang="{{ lang }}" dir="{{ locale.direction }}">
+    <!-- This page was last updated on {{ "now" | date: "%Y-%m-%d %H:%M:%S" }}Z -->
 
     <head>
         {%- comment -%}
         Head Assets:
         - shared-head: Shared charset, viewport, SEO base, and favicon links
-        - resume-head-ar: Arabic Google Web Fonts (Cairo) and RTL CSS (assets/css/cv-ar.scss)
+        - Locale web font (locale.font_url) and locale-driven CSS (assets/css/cv-{{ locale.direction }}.css)
         - seo: Jekyll SEO tag for social graph, search indexing, and canonical URLs
         - analytics-head: Google Analytics / GTM tracking scripts (optional)
         {%- endcomment -%}
         {% include shared-head.html %}
 
-        {% include resume-head-ar.html %}
+        {% if site.disable_google_fonts != true and site.resume_theme != 'no-custom-fonts' %}
+            {% if locale.font_url != "" %}
+                <!-- Locale web font, from _data/locales/{{ lang }}.yml -->
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="{{ locale.font_url }}" rel="stylesheet">
+            {% else %}
+                <!-- Default web font (Lora + Open Sans) for locales without a dedicated font_url -->
+                <link href='https://fonts.googleapis.com/css?family=Lora:400,700%7COpen+Sans:400,300,800,700' rel='stylesheet' type='text/css'>
+            {% endif %}
+        {% endif %}
+
+        <style>
+          :root {
+            {% if locale.font_family != "" %}--font-locale: {{ locale.font_family }};{% endif %}
+            --line-height-locale: {{ locale.line_height }};
+          }
+        </style>
+
+        <link rel="stylesheet" type="text/css" href="{{ 'assets/css/cv-' | append: locale.direction | append: '.css' | relative_url }}">
+
+        {% include hreflang.html %}
 
         {% seo %}
 
@@ -21,8 +45,8 @@
     </head>
 
     <body class="theme-{% if site.resume_theme %}{{ site.resume_theme }}{% endif %}">
-        <!-- رابط تخطي إلى المحتوى الرئيسي لسهولة الوصول (WCAG 2.4.1) -->
-        <a href="#main-content" class="skip-link no-print">الانتقال إلى المحتوى الرئيسي</a>
+        <!-- Accessible skip-to-content link (WCAG 2.4.1) -->
+        <a href="#main-content" class="skip-link no-print">{{ locale.ui.skip_to_content }}</a>
 
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}
@@ -48,29 +72,28 @@
             <meta itemprop="email" content="{{ site.contact_info.email }}" />
             {% endif %}
 
-            {% if site.contact_info.address_ar or site.contact_info.address %}
-            <meta itemprop="address" content="{{ site.contact_info.address_ar | default: site.contact_info.address }}" />
+            {% if lang_cfg.address %}
+            <meta itemprop="address" content="{{ lang_cfg.address }}" />
             {% endif %}
 
             <header class="page-header" role="banner">
 
                 {% if site.resume_avatar == true %}
                     <!-- You can turn off the avatar in _config.yml by setting resume_avatar to false -->
-                    {% include avatar.html lang="ar" %}
+                    {% include avatar.html lang=lang %}
                 {% endif %}
 
-                <!-- Your name is defined in the _config.yml file -->
+                <!-- Your name is defined in _config.yml under languages.{{ lang }}.name -->
                 <h1 class="header-name" itemprop="name">
-                    {{ site.name_ar.first }} {{ site.name_ar.middle }} {{ site.name_ar.last }}
+                    {{ lang_cfg.name }}
                 </h1>
 
                 {%- comment -%}
-                Arabic Contact Information Bar:
-                Displays contact channels icon-first, then link/text, matching resume-en.html (Feature 2.8);
-                in RTL, the icon (first in source order) leads on the right.
-                Phone numbers and email addresses are wrapped with dir="ltr" to prevent bidirectional
-                punctuation distortion.
-                Dates are formatted via _includes/ar-date.html for Arabic month names.
+                Contact Information Bar (Feature 2.8, icon-first for every direction):
+                Displays contact channels (phone, email, address, date of birth, languages).
+                When site.enable_live is true, sanitized live contact points are rendered.
+                Phone numbers and email addresses are wrapped with dir="ltr" to prevent
+                bidirectional punctuation distortion in RTL locales, and are harmless no-ops in LTR ones.
                 {%- endcomment -%}
                 {% if site.display_header_contact_info == true %}
                     <!-- To display contact info here, change `display_header_contact_info` value in _config.yml to true -->
@@ -96,25 +119,26 @@
                                 {% endif %}
                             {% endif %}
 
-                            {% if site.contact_info.address_ar %}
-                                &nbsp;&nbsp;{% include vendors/lineicons-v4.0/postcard.svg %}&nbsp;{{ site.contact_info.address_ar }}
+                            {% if lang_cfg.address %}
+                                &nbsp;&nbsp;{% include vendors/lineicons-v4.0/postcard.svg %}&nbsp;{{ lang_cfg.address }}
                             {% endif %}
 
                             {% if site.contact_info.dob %}
-                                &nbsp;&nbsp;تاريخ الميلاد:&nbsp;{% include ar-date.html date=site.contact_info.dob style="MDY" %}
+                                &nbsp;&nbsp;{{ locale.ui.date_of_birth }}&nbsp;{% include date-formatter.html date=site.contact_info.dob style="MDY" lang=lang %}
                             {% endif %}
                         </p>
 
                         {%- comment -%}
-                        Active Languages Header Summary (Arabic):
-                        Uses Arabic comma ("، ") for correct RTL punctuation on a dedicated centered line.
+                        Active Languages Header Summary:
+                        Filters languages where active: true and renders a dedicated centered line,
+                        joined with the locale's list_separator (e.g. Arabic comma "، ").
                         {%- endcomment -%}
                         {% assign active_languages = resume_data.languages | where: "active", true %}
                         {% if site.resume_section.lang_header and active_languages.size > 0 %}
                             <p class="header-languages">
-                                <strong>اللغات:</strong>
-                                {% for lang in active_languages %}
-                                    {{ lang.language }} ({{ lang.descrp_short }}){% unless forloop.last %}، {% endunless %}
+                                <strong>{{ locale.ui.languages }}</strong>
+                                {% for language in active_languages %}
+                                    {{ language.language }} ({{ language.descrp_short }}){% unless forloop.last %}{{ locale.ui.list_separator }}{% endunless %}
                                 {% endfor %}
                             </p>
                         {% endif %}
@@ -122,8 +146,8 @@
                 {% endif %}
 
                 <div class="title-bar no-print">
-                    <!-- Your title is also defined in the _config.yml file -->
-                    <h2 class="header-title" itemprop="jobTitle">{{ site.resume_title_ar }}</h2>
+                    <!-- Your title is defined in _config.yml under languages.{{ lang }}.resume_title -->
+                    <h2 class="header-title" itemprop="jobTitle">{{ lang_cfg.resume_title }}</h2>
 
                     <!-- This is the markup for the icon links; moved out to an include because it's very verbose, and you shouldn't ever need to edit the markup (unless you want to re-order the icons); if you want to customize which links appear, define them in the _config.yml file -->
                     {% if site.social_links %}
@@ -134,16 +158,16 @@
                     {% endif %}
                 </div>
 
-                {% if site.resume_header_intro_ar == true %}
+                {% if lang_cfg.header_intro == true %}
                 <div class="executive-summary" itemprop="description">
                     <p>{{ resume_data.header.intro }}</p>
                 </div>
                 {% endif %}
 
                 {%- comment -%}
-                Arabic Availability / Call-to-Action:
-                - true: Displays localized "تواصل معي" (Contact me) mailto CTA.
-                - false: Displays "لستُ باحثاً عن عمل حالياً." badge.
+                Job Seeking / Availability Call-to-Action:
+                - true: Displays localized "Contact me" mailto CTA.
+                - false: Displays localized "I'm not looking for work" badge.
                 - nil: Hidden entirely.
                 {%- endcomment -%}
                 {% if site.resume_looking_for_work == true %}
@@ -151,9 +175,9 @@
                     {% if site.enable_live == true and site.contact_info.email_live %}
                         {% assign contact_email = site.contact_info.email_live %}
                     {% endif %}
-                    <a href="mailto:{{ contact_email }}" class="contact-button no-print" itemprop="email">تواصل معي</a>
+                    <a href="mailto:{{ contact_email }}" class="contact-button no-print" itemprop="email">{{ locale.ui.contact_me }}</a>
                 {% elsif site.resume_looking_for_work == false %}
-                    <a class="contact-button not-looking no-print">لستُ باحثاً عن عمل حالياً.</a>
+                    <a class="contact-button not-looking no-print">{{ locale.ui.not_looking_for_work }}</a>
                 {% else %}
                 {% endif %}
             </header>
@@ -162,13 +186,14 @@
             <main id="main-content" class="resume-main-content" role="main" tabindex="-1">
                 {% comment %}
                 =============================================================================
-                  DYNAMIC SECTION RENDERING (ARABIC)
+                  DYNAMIC SECTION RENDERING
                 =============================================================================
                   Loop through resume_section_order from _config.yml and render each section
-                  with Arabic labels and "حتى الآن" for Present.
+                  through the locale-driven dispatcher. This allows you to customize section
+                  order without editing the layout.
                 {% endcomment %}
                 {%- for section_name in site.resume_section_order -%}
-                    {% include resume-section.html section_name=section_name lang="ar" %}
+                    {% include resume-section.html section_name=section_name lang=lang %}
                 {%- endfor -%}
 
                 {% if site.resume_print_social_links %}
@@ -176,7 +201,7 @@
                     <section class="content-section print-only">
 
                         <header class="section-header">
-                            <h2>روابط التواصل</h2>
+                            <h2>{{ locale.ui.social_links }}</h2>
                         </header>
 
                         <div class="resume-item">
@@ -190,20 +215,20 @@
 
             <footer class="page-footer no-print" role="contentinfo">
                 <p class="footer-line">
-                    تم إنشاء هذه الصفحة بتاريخ {{ "now" | date: "%Y-%m-%d" }} في {{ "now" | date: "%H:%M:%S" }}Z.
+                    {{ locale.ui.page_last_generated_on }} {{ "now" | date: "%Y-%m-%d" }} {{ locale.ui.at }} {{ "now" | date: "%H:%M:%S" }}Z.
                 </p>
                 <p class="copyright">{{ site.title }} &copy; 2018 - {{ "now" | date: "%Y" }}</p>
             </footer>
 
             {%- comment -%}
-            Print-Only Footer (Arabic):
+            Print-Only Footer:
             When site.enable_live == false, appends the canonical permalink of the online resume
             to printed versions/PDF exports for offline verification.
             {%- endcomment -%}
             {% if site.enable_live == false %}
                 <footer class="page-footer print-only" role="contentinfo">
                     <p class="footer-line">
-                        تم إنشاء هذه السيرة الذاتية بتاريخ {{ "now" | date: "%Y-%m-%d" }} في {{ "now" | date: "%H:%M:%S" }}Z.
+                        {{ locale.ui.cv_last_generated_on }} {{ "now" | date: "%Y-%m-%d" }} {{ locale.ui.at }} {{ "now" | date: "%H:%M:%S" }}Z.
                         <br>
                         <a href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" target="_blank" rel="noopener noreferrer" style="font-weight: 100; color: #999;">
                             {{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}

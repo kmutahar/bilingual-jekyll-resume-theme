@@ -105,6 +105,32 @@ social_links:
   # mastodon: https://mastodon.social/@yourhandle # Emits <link rel="me"> in default layout
 
 # ==============================================================================
+# 6.5 LANGUAGES (v1.0.0 locale-agnostic `layout: resume`)
+# ==============================================================================
+# Direction and fonts come from _data/locales/<lang>.yml, never from here.
+# Each entry's data_path/url/header_intro/name/resume_title/address/avatar_alt
+# feed the single `_layouts/resume.html` layout for that language.
+languages:
+  en:
+    data_path: en
+    url: /en/cv/
+    header_intro: true
+    name: "Your Full Name"
+    resume_title: "Your Job Title"
+    address: "Your City, Country"
+    avatar_alt: "Profile photo"
+  ar:
+    data_path: ar
+    url: /ar/cv/
+    header_intro: false
+    name: "اسمك الكامل"
+    resume_title: "مسماك الوظيفي"
+    address: "مدينتك، دولتك"
+    avatar_alt: "الصورة الشخصية"
+
+default_lang: en                     # Drives hreflang x-default and fallback lookups
+
+# ==============================================================================
 # 7. RESUME DISPLAY & BEHAVIOR CONTROLS
 # ==============================================================================
 # Data source subpath within _data/ (dot-separated path, omitting _data/ prefix)

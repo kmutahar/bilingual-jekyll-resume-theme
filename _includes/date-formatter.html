@@ -1,0 +1,50 @@
+{%- comment -%}
+  Universal Date Formatter
+  Formats a single date for any locale from _data/locales/<lang>.yml. Single canonical date
+  formatting hook for every language, designed to cleanly host future calendar-system
+  extensions (e.g. Feature 2.9 Dual Gregorian / Hijri Localization) without reintroducing
+  language-isolated includes such as the legacy _includes/ar-date.html.
+
+  Usage:
+    {% include date-formatter.html date=role.startdate %}
+    {% include date-formatter.html date=role.startdate style="MDY" %}
+    {% include date-formatter.html date=role.startdate lang="ar" %}
+
+  Parameters:
+    - date: the date to format, or a present-tense marker string (e.g. "Present"). Required.
+    - style: "MDY" for "Month Day, Year"; anything else (default "MY") for "Month Year".
+    - lang: locale code to format in. Defaults to the active page/site language.
+{%- endcomment -%}
+{%- assign lang = include.lang | default: page.lang | default: site.default_lang | default: 'en' -%}
+{%- assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] -%}
+{%- assign style = include.style | default: "MY" -%}
+
+{%- if include.date and include.date != "" -%}
+  {%- comment -%} Case-insensitive match against locale.present_values (e.g. "Present", "حتى الآن") {%- endcomment -%}
+  {%- assign date_downcase = include.date | downcase -%}
+  {%- assign is_present = false -%}
+  {%- for present_value in locale.present_values -%}
+    {%- assign present_value_downcase = present_value | downcase -%}
+    {%- if present_value_downcase == date_downcase -%}
+      {%- assign is_present = true -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if is_present -%}
+    {{ locale.ui.present }}
+  {%- else -%}
+    {%- assign month_index = include.date | date: "%m" | plus: 0 | minus: 1 -%}
+    {%- assign month_name = locale.months[month_index] -%}
+    {%- assign day = include.date | date: "%-d" -%}
+    {%- assign year = include.date | date: "%Y" -%}
+    {%- if month_name -%}
+      {%- if style == "MDY" -%}
+        {{ month_name }} {{ day }}, {{ year }}
+      {%- else -%}
+        {{ month_name }} {{ year }}
+      {%- endif -%}
+    {%- else -%}
+      {{ include.date }}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}

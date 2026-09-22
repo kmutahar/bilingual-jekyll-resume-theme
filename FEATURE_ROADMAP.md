@@ -2,8 +2,8 @@
 
 **Project:** `bilingual-jekyll-resume-theme`  
 **Document Status:** Authoritative Master Document (Single Source of Truth)  
-**Current Release:** `v0.8.0`  
-**Target Release Horizon:** `v0.9.0` (Tooling & CI/CD) &rarr; `v1.0.0` (Ecosystem & Multi-locale)  
+**Current Release:** `v0.9.0`  
+**Target Release Horizon:** `v1.0.0` (Multi-locale, Deprecation Retirement & Validator), executed per [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md)  
 **Date:** September 2026  
 
 ---
@@ -34,23 +34,23 @@ All 22 active, uncompleted features are mapped below with their canonical GitHub
 | **P1** | **1.3** | Expanded Modern Social Media Platforms (9 Platforms) | [#204](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/204) | `Closes #204` | ⭐⭐ | Med-High | 1–2 hrs | `_includes/social-links.html`, LineIcons SVGs |
 | **P1** | **1.5** | Dynamic Contact / Resume QR Code Component | [#14](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/14) | `Closes #14` | ⭐⭐ | Low-Med | 1–2 hrs | `_includes/qr-code.html`, layouts, SCSS |
 | **P1** | **1.6** | Achievement Badges & Credential Icons | [#19](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/19) | `Closes #19` | ⭐⭐ | Low-Med | 1–2 hrs | `_includes/badge-display.html`, sections, SCSS |
-| **P1** | **1.7** | Native Email Support in Social Links Include | [#215](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/215) | `Closes #215` | ⭐ | High | 1 hr | `_includes/social-links.html`, `_config.yml` |
+| **P1** | **1.7** | Native Email Support in Social Links Include | [#215](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/215) | `Closes #215` | ⭐ | High | 1 hr | `_includes/social-links.html`, `_includes/print-social-links.html` (v1.0.0 plan, Task 2.1) |
 | **P2** | **2.1** | Comprehensive JSON-LD Structured Data (ATS/SEO) | [#9](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/9) | `Closes #9` | ⭐⭐ | High | 3–4 hrs | `_includes/json-ld-resume.html`, layouts |
 | **P2** | **2.2** | Skills Level Indicators & Visual Progress Bars | [#10](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/10) | `Closes #10` | ⭐⭐ | Med-High | 3–4 hrs | `_includes/skill-level-bar.html`, sections, SCSS |
 | **P2** | **2.3** | Professional Print Pagination & Spacing Engine | [#12](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/12) | `Closes #12` | ⭐⭐ | High | 2–3 hrs | `_sass/_print-optimization.scss`, `_resume.scss` |
 | **P2** | **2.5** | Skills Taxonomy & Categorized Tagging System | [#18](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/18) | `Closes #18` | ⭐⭐ | Low | 2–3 hrs | `_includes/resume-section-*.html`, `skills.yml` |
 | **P2** | **2.6** | Social Media Cards Generation (Open Graph & Twitter) | [#22](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/22) | `Closes #22` | ⭐⭐ | Med-High | 2–3 hrs | `_includes/shared-head.html`, SEO guides |
-| **P2** | **2.8** | Header Contact Icon and Text Alignment in Arabic Layout | [#217](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217) | `Closes #217` | ⭐ | Med-High | 1 hr | `_layouts/resume-ar.html`, `_sass/_resume-rtl.scss` |
-| **P2** | **2.9** | Dual Gregorian / Hijri (Islamic) Calendar Localization | [#218](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218) | `Closes #218` | ⭐⭐ | High (MENA) | 2–3 hrs | `_includes/ar-date.html`, `_data/ar/hijri_months.yml` |
+| **P2** | **2.8** | Header Contact Icon and Text Alignment in Arabic Layout | [#217](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217) | `Closes #217` | ⭐ | Med-High | 1 hr | `_layouts/resume-ar.html`, then `_layouts/resume.html` (v1.0.0 plan, Tasks 2.2 and 3.3) |
+| **P2** | **2.9** | Dual Gregorian / Hijri (Islamic) Calendar Localization | [#218](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218) | `Closes #218` | ⭐⭐ | High (MENA) | 2–3 hrs | `_includes/date-formatter.html`, `_data/locales/ar.yml` |
 | **P3** | **3.1** | Standard JSON Resume Exporter (`/resume.json`) | [#6](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/6) | `Closes #6` | ⭐⭐⭐ | High | 4–5 hrs | `resume.json`, `resume-ar.json` |
 | **P3** | **3.2** | Automated CI/CD Build & Verification Pipeline | [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206) | `Closes #206` | ⭐⭐ | High | 2–3 hrs | `.github/workflows/ci.yml` |
 | **P3** | **3.3** | YAML Resume Data Validator & Schema Linter | [#13](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/13) | `Closes #13` | ⭐⭐⭐ | Med-High | 4–5 hrs | `bin/validate-resume`, `Rakefile` |
-| **P4** | **4.1** | Extended Multilingual Support Beyond EN/AR | [#15](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/15) | `Closes #15` | ⭐⭐⭐⭐ | Medium | 8–10 hrs | `_data/locales/*.yml`, `resume-multi.html` |
+| **P4** | **4.1** | Extended Multilingual Support (EN, AR, ES, FR, DE, UR) | [#15](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/15) | `Closes #15` | ⭐⭐⭐⭐ | Medium | 8–10 hrs | `_data/locales/*.yml`, `_layouts/resume.html` (v1.0.0 plan) |
 | **P4** | **4.2** | Interactive Career Timeline Visualization | [#16](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/16) | `Closes #16` | ⭐⭐⭐⭐ | Low-Med | 6–8 hrs | `_layouts/resume-timeline.html`, `_timeline.scss` |
 | **P4** | **4.3** | Secure Contact Form Integration (Formspree/Netlify) | [#20](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/20) | `Closes #20` | ⭐⭐⭐ | Low-Med | 3–4 hrs | `_includes/contact-form.html`, layouts, SCSS |
 | **P4** | **4.4** | Privacy-First Resume Engagement Analytics | [#17](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/17) | `Closes #17` | ⭐⭐⭐ | Low-Med | 3–4 hrs | `assets/js/resume-analytics.js`, analytics body |
 | **P4** | **4.5** | Resume Comparison & A/B Testing View | [#23](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/23) | `Closes #23` | ⭐⭐⭐ | Low | 4–5 hrs | `_layouts/resume-comparison.html`, `_comparison.scss` |
-| **P4** | **4.6** | Deprecation Retirement & Legacy Fallbacks Cleanup | [#214](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214) | `Closes #214` | ⭐ | High | 1–2 hrs | `_includes/resume-section-*.html`, layouts, docs |
+| **P4** | **4.6** | Deprecation Retirement & Legacy Fallbacks Cleanup | [#214](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214) | `Closes #214` | ⭐ | High | 1–2 hrs | `_includes/avatar.html`, `_includes/analytics-head.html`, `_includes/resume-section.html` (v1.0.0 plan, Task 3.4) |
 | **P4** | **4.7** | Dynamic Custom Resume Sections Engine | [#219](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219) | `Closes #219` | ⭐⭐⭐ | Med-High | 3–4 hrs | `_includes/resume-custom-section.html`, dispatchers |
 
 *(Note on Canonical References: Issue #204 is canonical for Expanded Social Media, superseding redundant duplicates #36–#190. Issue #206 is canonical for Automated CI/CD Pipeline, superseding redundant duplicates #38–#192. GitHub Issue #216 is verified as implemented in v0.8.0 via `_layouts/error.html`).*
@@ -62,16 +62,18 @@ In accordance with Living Docs Governance, this Delete-Zone catalogs files, patt
 
 | # | Path / Pattern / Concept | Lifecycle Status | Why Removed / Forbidden | Canonical Replacement | Revisit Condition |
 |---|---|---|---|---|---|
-| 1 | Static return URLs (`/resume/en/`, `/resume/ar/` in `_layouts/error.html`) | **Removed in v0.8.0 (Issue #216)** | Hardcoded paths broke return navigation for sites using custom resume paths (e.g. `/en/cv/`, `/ar/cv/`). | Dynamic resolution via `site.resume_en_url \| default: resume_en_page.url \| default: '/en/cv/'` (and matching Arabic mirror). | Never revert to hardcoded static URLs. Future locale extensions (Feature 4.1) must follow dynamic resolution. |
-| 2 | Gravatar MD5 email hashing & fallback initials claims | **Purged in v0.8.0** | Fictional feature documented in old drafts; neither Gravatar hashing nor initials fallback was ever implemented in `_includes/avatar.html`. Documenting `resume_avatar` as a Hash broke Liquid's strict boolean check `{% if site.resume_avatar == true %}`. | Direct image path via `site.avatar_url` (or fallback `site.avatar`), defaulting to `/assets/images/Profile-min.jpg`, with `resume_avatar: true` (Boolean). | Revisit only if a verified Jekyll Liquid MD5 plugin or client-side JS hashing filter is formally designed, approved in an ADR, and tested. |
+| 1 | Static return URLs (`/resume/en/`, `/resume/ar/` in `_layouts/error.html`) | **Removed in v0.8.0 (Issue #216)** | Hardcoded paths broke return navigation for sites using custom resume paths (e.g. `/en/cv/`, `/ar/cv/`). | v1.0.0: dynamic resolution via `languages.<lang>.url`, falling back to the page with `layout: resume` and matching `lang`. | Never revert to hardcoded static URLs. Future locale extensions (Feature 4.1) must follow dynamic resolution. |
+| 2 | Gravatar MD5 email hashing & fallback initials claims | **Purged in v0.8.0** | Fictional feature documented in old drafts; neither Gravatar hashing nor initials fallback was ever implemented in `_includes/avatar.html`. Documenting `resume_avatar` as a Hash broke Liquid's strict boolean check `{% if site.resume_avatar == true %}`. | Direct image path via `site.avatar_url` (the `site.avatar` fallback is removed in v1.0.0), defaulting to `/assets/images/Profile-min.jpg`, with `resume_avatar: true` (Boolean). | Revisit only if a verified Jekyll Liquid MD5 plugin or client-side JS hashing filter is formally designed, approved in an ADR, and tested. |
 | 3 | `resume_avatar: Hash` in `_config.yml` | **Forbidden in v0.8.0** | Liquid `{% if site.resume_avatar == true %}` checks boolean equality; a hash evaluates to `false`. | `resume_avatar: true` (strictly Boolean) and `avatar_url: "..."`. | Never use a hash for `resume_avatar`. |
-| 4 | Singular section keys: `resume_section.recognition` | **Scheduled (v1.0.0, #214)** | Inconsistent singular syntax across sections. Standardized to plural `recognitions`. Fallback supported until `v1.0.0`. | `resume_section.recognitions` and `resume_section_order: - recognitions`. | Standardize all section names to plural. |
-| 5 | Scoped dark mode key: `site.resume_dark_mode` | **Scheduled (v1.0.0, #214)** | Scoped key confusingly duplicated site-wide dark mode toggle. Fallback supported until `v1.0.0`. | `site.dark_mode: enabled / auto / disabled`. | Use global `site.dark_mode` exclusively. |
+| 4 | Singular section keys: `resume_section.recognition` | **Removed in v1.0.0 (#214)** | Inconsistent singular syntax across sections. Standardized to plural `recognitions`. | `resume_section.recognitions` and `resume_section_order: - recognitions`. | Standardize all section names to plural. |
+| 5 | Scoped dark mode key: `site.resume_dark_mode` | **Removed (confirmed absent in v1.0.0, #214)** | Scoped key confusingly duplicated site-wide dark mode toggle. | `site.dark_mode: enabled / auto / disabled`. | Use global `site.dark_mode` exclusively. |
 | 6 | Global header intro key: `site.resume_header_intro` | **Retired in v0.4.0** | Stored candidate intro in `_config.yml`, preventing bilingual localization. | `_data/en/header.yml` and `_data/ar/header.yml` (`intro:` field). | Never store translatable content in config. |
 | 7 | Universal Analytics: `analytics.ga` (`UA-XXXXX-X`) | **Retired (P0.3 / #214)** | Google UA is deprecated and shut down; caused parameter mismatch. | GA4 (`analytics.gtag: "G-..."`) or GTM (`analytics.gtm: "GTM-..."`). | Never restore Universal Analytics. |
 | 8 | Duplicate manual `<link rel="canonical">` | **Retired in v0.7.0 (P0.7)** | Conflicted with `jekyll-seo-tag` canonical tag emission. | Canonical tags emitted exclusively via `{% seo %}`. | Do not emit manual canonical tags in `<head>`. |
 | 9 | Global unscoped `svg` CSS selector | **Retired in v0.7.0 (P0.9)** | Applied 30px width and grey fill to all SVGs, distorting toggle buttons. | Scoped selectors `.svg-icon, .icon-link svg, .social-links svg, .page-footer svg`. | Never style unscoped `svg` or `img` tags. |
 | 10 | Bare relative favicon paths (`favicon.ico`) | **Retired in v0.7.0 (P0.6)** | Caused 404s on subpaths (`/resume/en/`, baseurl). | Modern favicon suite in `_includes/shared-head.html` using `relative_url`. | Always filter static assets with `relative_url`. |
+| 11 | Per-language layouts and includes (`resume-en.html`, `resume-ar.html`, `resume-section-{en,ar}.html`, `resume-head-{en,ar}.html`, `ar-date.html`) | **Removed in v1.0.0 (#15)** | Duplicated about 1,100 lines of Liquid and blocked languages beyond EN/AR. | `_layouts/resume.html`, `_includes/resume-section.html`, `_includes/date-formatter.html`, driven by `_data/locales/<lang>.yml`. | Never add a per-language layout or include. |
+| 12 | Per-language config keys (`active_resume_path_*`, `resume_*_url`, `resume_header_intro_*`, `name_ar`, `resume_title_ar`, `address_ar`, `avatar_alt_*`) and `dir` in config | **Removed in v1.0.0 (#15)** | Suffix keys cannot scale past two languages; direction in config duplicated the locale file. | `languages.<lang>.*` in `_config.yml`; direction only in `_data/locales/<lang>.yml`. | Never add `_<lang>` suffixed config keys. |
 
 ---
 
@@ -105,7 +107,7 @@ flowchart TD
     end
 
     subgraph P4["Priority 4: Ecosystem Expansion"]
-        F41["4.1 Multilingual System (ES, FR, DE, UR)<br/>#15"]
+        F41["4.1 Multilingual System (EN, AR, ES, FR, DE, UR)<br/>#15"]
         F42["4.2 Interactive Career Timeline Layout<br/>#16"]
         F43["4.3 Secure Contact Form (Formspree/Netlify)<br/>#20"]
         F44["4.4 Privacy Engagement Analytics<br/>#17"]
@@ -284,6 +286,8 @@ In `_layouts/resume-en.html` and `_layouts/resume-ar.html`:
 ---
 
 ### Feature 1.7: Native Email Support in Social Links Include
+
+> **v1.0.0 Plan Supersedes This Blueprint:** This feature ships as part of the v1.0.0 multilingual release. Where this blueprint disagrees with [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), the implementation plan wins.
 
 - **Canonical Issue:** [#215](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/215)
 - **Auto-Closing Reference:** `Closes #215`
@@ -1433,6 +1437,8 @@ In `_includes/shared-head.html`:
 
 ### Feature 2.8: Header Contact Icon and Text Alignment in Arabic Layout
 
+> **v1.0.0 Plan Supersedes This Blueprint:** This feature ships as part of the v1.0.0 multilingual release. Where this blueprint disagrees with [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), the implementation plan wins.
+
 - **Canonical Issue:** [#217](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217)
 - **Auto-Closing Reference:** `Closes #217`
 - **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217`
@@ -1500,7 +1506,7 @@ In `_layouts/resume-ar.html`:
 - **Files to Create:**
   - `_data/ar/hijri_months.yml` (Dictionary containing Arabic names of the 12 Islamic lunar months)
 - **Files to Modify:**
-  - `_includes/ar-date.html` (Add calendar formatting parameter: `gregorian`, `hijri`, `dual`)
+  - `_includes/date-formatter.html` (Add calendar formatting parameter: `gregorian`, `hijri`, `dual`; `ar-date.html` is deleted in v1.0.0)
   - `docs/_data/_config.sample.yml` (Document `arabic_date_calendar` setting)
   - `docs/CONFIG_GUIDE.md`
   - `docs/DATA_GUIDE.md`
@@ -2006,6 +2012,8 @@ permalink: /resume.json
 
 ### Feature 3.2: Automated CI/CD Build & Verification Pipeline
 
+> **v1.0.0 Delivery:** `.github/workflows/ci.yml` and `lint.yml` from `feature/resume-validator-ecosystem` (commit `88290ee`) are imported in Stage 5 of [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md).
+
 - **Canonical Issue:** [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206)
 - **Auto-Closing Reference:** `Closes #206`
 - **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206`
@@ -2075,7 +2083,7 @@ jobs:
 ```
 
 #### Acceptance Criteria & Verification
-- [ ] Workflow passes cleanly across Ruby 3.1, 3.2, and 3.3.
+- [ ] Workflow passes cleanly across Ruby 3.3, 3.4, and 4.0 (v1.0.0 raises the minimum to Ruby 3.3; the original 3.1/3.2/3.3 matrix is superseded).
 - [ ] Catches malformed YAML or broken gemspec syntax and terminates with exit code 1.
 - [ ] **Bash Verification Command:**
   ```bash
@@ -2091,6 +2099,8 @@ jobs:
 ---
 
 ### Feature 3.3: YAML Resume Data Validator & Schema Linter
+
+> **v1.0.0 Delivery:** The validator from `feature/resume-validator-ecosystem` (commit `88290ee`) is imported and adapted to the locale system in Stage 5 of [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md).
 
 - **Canonical Issue:** [#13](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/13)
 - **Auto-Closing Reference:** `Closes #13`
@@ -2355,7 +2365,7 @@ exit validator.validate
 #### Acceptance Criteria & Verification
 - [ ] Executing `bundle exec bin/validate-resume` parses all YAML data files and validates schema constraints.
 - [ ] Returns exit code 0 when clean, exit code 1 when syntax, URL, or inverted date errors exist.
-- [ ] Flags parity mismatches between `_data/en/` and `_data/ar/`.
+- [ ] Flags parity mismatches across all languages configured under `languages:` (v1.0.0 supersedes the original `_data/en/` vs `_data/ar/` check).
 - [ ] **Bash Verification Command:**
   ```bash
   chmod +x bin/validate-resume && \
@@ -2375,7 +2385,11 @@ exit validator.validate
 
 ---
 
-### Feature 4.1: Extended Multilingual Support Beyond EN/AR (ES, FR, DE, UR)
+### Feature 4.1: Extended Multilingual Support (EN, AR, ES, FR, DE, UR)
+
+> **v1.0.0 Plan Supersedes This Blueprint:** This feature ships as part of the v1.0.0 multilingual release. Where this blueprint disagrees with [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), the implementation plan wins.
+
+> Key differences from the original blueprint: the unified files are `_layouts/resume.html` and `_includes/resume-section.html` (not `resume-multi.html` / `resume-section-multi.html`); text direction lives only in `_data/locales/<lang>.yml`; per-language config moves under `languages.<lang>`; stylesheets are `cv-ltr.css` / `cv-rtl.css`.
 
 - **Canonical Issue:** [#15](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/15)
 - **Auto-Closing Reference:** `Closes #15`
@@ -2453,7 +2467,7 @@ ui:
     volunteering: "Voluntariado"
     projects: "Proyectos"
     skills: "Habilidades"
-    recognition: "Reconocimientos"
+    recognitions: "Reconocimientos"
     associations: "Asociaciones"
     interests: "Intereses"
     languages: "Idiomas"
@@ -2503,7 +2517,7 @@ ui:
     volunteering: "رضاکارانہ خدمات"
     projects: "منصوبے"
     skills: "مہارتیں"
-    recognition: "اعزازات"
+    recognitions: "اعزازات"
     associations: "تنظیمیں"
     interests: "دلچسپیاں"
     languages: "زبانیں"
@@ -3137,6 +3151,10 @@ Styling in `_sass/_comparison.scss`:
 ---
 
 ### Feature 4.6: Deprecation Retirement & Legacy Fallbacks Cleanup (v1.0.0 Horizon)
+
+> **v1.0.0 Plan Supersedes This Blueprint:** This feature ships as part of the v1.0.0 multilingual release. Where this blueprint disagrees with [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), the implementation plan wins.
+
+> Audit correction: only `site.avatar`, `analytics.ga`, and singular `recognition` are still present in code. `site.resume_dark_mode` has no remaining references and `site.resume_header_intro` was retired in v0.4.0; v1.0.0 confirms both are absent. The per-language keys `resume_header_intro_en` / `_ar` are removed by the Feature 4.1 config migration.
 
 - **Canonical Issue:** [#214](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214)
 - **Auto-Closing Reference:** `Closes #214`

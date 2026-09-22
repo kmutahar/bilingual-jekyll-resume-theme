@@ -166,7 +166,7 @@
                   This allows you to customize section order without editing the layout.
                 {% endcomment %}
                 {%- for section_name in site.resume_section_order -%}
-                    {% include resume-section-en.html section_name=section_name %}
+                    {% include resume-section.html section_name=section_name lang="en" %}
                 {%- endfor -%}
 
                 {% if site.resume_print_social_links %}

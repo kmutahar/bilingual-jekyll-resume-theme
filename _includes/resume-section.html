@@ -1,30 +1,51 @@
 {% comment %}
-  Arabic version of resume-section-en.html with Arabic section titles and "حتى الآن" for Present.
-  Usage: {% include resume-section-ar.html section_name="experience" %}
+  Unified Section Dispatcher (all locales)
+  Renders a single resume section based on the 'section_name' parameter, replacing the
+  separate resume-section-en.html / resume-section-ar.html per-language dispatchers.
+  Usage: {% include resume-section.html section_name="experience" %}
 
-  Arabic RTL Dispatcher Architecture:
-  - Iterated over by `_layouts/resume-ar.html` looping through `site.resume_section_order`.
-  - Strict Bilingual Parity: Identical data bindings, filtering, and microdata schema as resume-section-en.html.
-  - Arabic Date Localization: Discrete dates are processed through `_includes/ar-date.html` (style="MY" or "MDY")
-    using month names translated from `_data/ar/months.yml`.
-  - Ongoing Role Indicator: Active positions render the localized string "حتى الآن" rather than "Present".
-  - Bidi Text Protection: URLs, credential IDs, and web links are enclosed in `<span dir="ltr">` to prevent
-    bidirectional text rendering glitches and reversed slash/punctuation artifacts under RTL layouts.
+  Dispatcher Architecture:
+  - Iterated over by the active resume layout, looping through `site.resume_section_order`.
+  - Dual-Condition Gate: Each section is evaluated against `include.section_name == "<name>"`
+    and its configuration flag `site.resume_section.<name>` in `_config.yml`.
+  - Data Source: Binds to `resume_data.<section>` resolved dynamically by the parent layout.
+  - Locale Resolution: Resolves `lang`/`locale` the same way every other template does
+    (page.lang, falling back to site.default_lang), and reads section headers from
+    `locale.ui.section_titles`.
+  - Dates: Uses `_includes/date-formatter.html` for every date interval. A blank/omitted
+    `enddate` is passed through as "Present" (matched by every locale's `present_values`),
+    so ongoing roles render the locale's present-tense string automatically.
+  - RTL Bidi Protection: When `locale.direction == 'rtl'`, wraps URLs and credential IDs in
+    `dir="ltr"` so Latin punctuation and alphanumeric IDs aren't scrambled by the bidi
+    algorithm. No-op for LTR locales.
+  - Recognitions: Accepts only the plural `site.resume_section.recognitions` flag; the legacy
+    singular `site.resume_section.recognition` fallback is dropped (Task 3.4 confirms no
+    references remain).
+  - Microdata: Incorporates Schema.org semantic tags (Organization, CollegeOrUniversity, CreativeWork).
+  - Print Media: Hyperlinks include print-only text fallbacks to ensure URLs remain legible on physical paper or exported PDFs.
 {% endcomment %}
+{%- assign lang = include.lang | default: page.lang | default: site.default_lang | default: 'en' -%}
+{%- assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] -%}
+{%- assign rtl = false -%}
+{%- if locale.direction == 'rtl' -%}
+  {%- assign rtl = true -%}
+{%- endif -%}
 
 {%- comment -%}
-  Section: Experience (الخبرات العملية)
+  Section: Experience
   - Data: `resume_data.experience` filtered by `active: true`.
   - Grouping: Groups multiple sequential roles under the same organization via `group_by: "company"`.
   - Sorting: Sorts positions chronologically by `startdate` in reverse order (newest first).
-  - Localization: Formats dates with `_includes/ar-date.html` (style="MY") and renders "حتى الآن" for ongoing positions.
+  - Formatting: Dynamically displays position, dates, and location with bullet separators (`&bull;`) only between non-empty fields.
+  - Durations vs Date Ranges: Renders explicit `durations` array if present (pre-formatted, not
+    passed through date-formatter.html), otherwise formats startdate to enddate/Present.
   - Microdata: Schema.org `Organization` with `worksFor` itemprop.
 {%- endcomment -%}
 {% if include.section_name == "experience" and site.resume_section.experience %}
     <!-- begin Experience -->
     <section class="content-section">
         <header class="section-header">
-            <h2>الخبرات العملية</h2>
+            <h2>{{ locale.ui.section_titles.experience }}</h2>
         </header>
 
         {%- assign active_jobs = resume_data.experience | where: "active", true -%}
@@ -52,12 +73,9 @@
                                 {% if role.durations %}
                                     {% for time in role.durations %}{{ time.duration }} {% endfor %}
                                 {% else %}
-                                    {% include ar-date.html date=role.startdate style="MY" %} &ndash;
-                                    {% if role.enddate and role.enddate != 'Present' and role.enddate != 'حتى الآن' and role.enddate != 'حاليًا' %}
-                                        {% include ar-date.html date=role.enddate style="MY" %}
-                                    {% else %}
-                                        حتى الآن
-                                    {% endif %}
+                                    {%- assign role_enddate = role.enddate | default: "Present" -%}
+                                    {% include date-formatter.html date=role.startdate lang=lang style="MY" %} &ndash;
+                                    {% include date-formatter.html date=role_enddate lang=lang style="MY" %}
                                 {% endif %}
                             {%- endif -%}
 
@@ -79,9 +97,8 @@
 
 
 {%- comment -%}
-  Section: Education (التعليم)
+  Section: Education
   - Data: `resume_data.education` filtered by `active == true`.
-  - Localization: Formats dates with `_includes/ar-date.html` (style="MY") and renders "حتى الآن" for ongoing studies.
   - Microdata: Schema.org `CollegeOrUniversity` with `alumniOf` itemprop.
   - Awards: Supports both single `award` string (h5) and multiple `awards` list (ul/li).
 {%- endcomment -%}
@@ -89,7 +106,7 @@
     <!-- begin Education -->
     <section class="content-section">
         <header class="section-header">
-            <h2>التعليم</h2>
+            <h2>{{ locale.ui.section_titles.education }}</h2>
         </header>
 
         {% for education in resume_data.education %}
@@ -136,16 +153,17 @@
     <!-- end Education -->
 
 {%- comment -%}
-  Section: Licenses & Certifications (التراخيص والشهادات)
+  Section: Licenses & Certifications
   - Data: `resume_data.certifications` filtered by `active == true`.
-  - Date Localization: Formats issue and expiration dates with `_includes/ar-date.html` (style="MDY").
-  - Credential Verification: Renders credential ID with optional verification link and `<span dir="ltr">` for URLs.
+  - Date Localization: Formats issue and expiration dates with `date-formatter.html` (style="MDY").
+  - Credential Verification: Renders credential ID with optional verification link; wraps the
+    credential ID and the print-only URL fallback in dir="ltr" for RTL locales.
 {%- endcomment -%}
 {% elsif include.section_name == "certifications" and site.resume_section.certifications %}
     <!-- begin Licenses & Certifications -->
     <section class="content-section">
         <header class="section-header">
-            <h2>التراخيص والشهادات</h2>
+            <h2>{{ locale.ui.section_titles.certifications }}</h2>
         </header>
 
         {% for certification in resume_data.certifications %}
@@ -159,17 +177,17 @@
                             {%- endif -%}
                             {%- if certification.issue_date != blank -%}
                                 {% if certification.issuing_organization != blank %} &bull; {% endif %}
-                                {% include ar-date.html date=certification.issue_date style="MDY" %}
-                                {% if certification.expiration %} &ndash; {% include ar-date.html date=certification.expiration style="MDY" %} {% endif %}
+                                {% include date-formatter.html date=certification.issue_date lang=lang style="MDY" %}
+                                {% if certification.expiration %} &ndash; {% include date-formatter.html date=certification.expiration lang=lang style="MDY" %} {% endif %}
                             {%- endif -%}
                             {%- if certification.credential_id != blank -%}
                                 {% if certification.issuing_organization != blank or certification.issue_date != blank %} &bull; {% endif %}
-                                <span class="resume-item-copy-license-cert-id">معرّف الاعتماد:
+                                <span class="resume-item-copy-license-cert-id">{{ locale.ui.credential_id }}
                                 {% if certification.credential_url and certification.credential_url != "" %}
-                                    <a href="{{ certification.credential_url }}" target="_blank" rel="noopener nofollow noreferrer">{{ certification.credential_id }}</a>
-                                    <span class="print-only-inline" dir="ltr">&nbsp;({{ certification.credential_url }})</span>
+                                    <a href="{{ certification.credential_url }}" target="_blank" rel="noopener nofollow noreferrer"{% if rtl %} dir="ltr"{% endif %}>{{ certification.credential_id }}</a>
+                                    <span class="print-only-inline"{% if rtl %} dir="ltr"{% endif %}>&nbsp;({{ certification.credential_url }})</span>
                                 {% else %}
-                                    {{ certification.credential_id }}
+                                    <span{% if rtl %} dir="ltr"{% endif %}>{{ certification.credential_id }}</span>
                                 {% endif %}
                                 </span>
                             {%- endif -%}
@@ -182,15 +200,16 @@
     <!-- end Licenses & Certifications -->
 
 {%- comment -%}
-  Section: Courses (الدورات)
+  Section: Courses
   - Data: `resume_data.courses` filtered by `active == true`.
-  - Formatting: Displays course name, issuing organization, dates formatted with `_includes/ar-date.html` (style="MDY"), and credential ID.
+  - Content: Displays course name, issuing organization, date ranges (style="MDY"), summary,
+    and credential ID, with the same RTL dir="ltr" protection as Certifications.
 {%- endcomment -%}
 {% elsif include.section_name == "courses" and site.resume_section.courses %}
     <!-- begin Courses -->
     <section class="content-section">
         <header class="section-header">
-            <h2>الدورات</h2>
+            <h2>{{ locale.ui.section_titles.courses }}</h2>
         </header>
 
         {% for course in resume_data.courses %}
@@ -204,8 +223,8 @@
                             {%- endif -%}
                             {%- if course.startdate != blank -%}
                                 {% if course.issuing_organization != blank %} &bull; {% endif %}
-                                {% include ar-date.html date=course.startdate style="MDY" %}
-                                {% if course.enddate %} &ndash; {% include ar-date.html date=course.enddate style="MDY" %} {% endif %}
+                                {% include date-formatter.html date=course.startdate lang=lang style="MDY" %}
+                                {% if course.enddate %} &ndash; {% include date-formatter.html date=course.enddate lang=lang style="MDY" %} {% endif %}
                             {%- endif -%}
                         </h4>
                     {%- endif -%}
@@ -215,12 +234,12 @@
                     {% endif %}
 
                     {% if course.credential_id and course.credential_id != "" %}
-                        <p class="resume-item-copy">معرّف الاعتماد:
+                        <p class="resume-item-copy">{{ locale.ui.credential_id }}
                             {% if course.credential_url and course.credential_url != "" %}
-                                <a href="{{ course.credential_url }}" target="_blank" rel="noopener nofollow noreferrer">{{ course.credential_id }}</a>
-                                <span class="print-only-inline" dir="ltr">&nbsp;({{ course.credential_url }})</span>
+                                <a href="{{ course.credential_url }}" target="_blank" rel="noopener nofollow noreferrer"{% if rtl %} dir="ltr"{% endif %}>{{ course.credential_id }}</a>
+                                <span class="print-only-inline"{% if rtl %} dir="ltr"{% endif %}>&nbsp;({{ course.credential_url }})</span>
                             {% else %}
-                                {{ course.credential_id }}
+                                <span{% if rtl %} dir="ltr"{% endif %}>{{ course.credential_id }}</span>
                             {% endif %}
                         </p>
                     {% endif %}
@@ -231,17 +250,17 @@
     <!-- end Courses -->
 
 {%- comment -%}
-  Section: Volunteering (الأعمال التطوعية)
+  Section: Volunteering
   - Data: `resume_data.volunteering` filtered by `active: true`.
-  - Grouping: Groups volunteer positions by organization with reverse chronological role sorting.
-  - Localization: Formats dates with `_includes/ar-date.html` (style="MY") and renders "حتى الآن" for ongoing roles.
+  - Grouping: Groups volunteer positions under the same organization via `group_by: "company"`.
+  - Sorting: Reverse chronological order by `startdate`.
   - Microdata: Schema.org `Organization` with `worksFor` itemprop.
 {%- endcomment -%}
 {% elsif include.section_name == "volunteering" and site.resume_section.volunteering %}
     <!-- begin Volunteering -->
     <section class="content-section">
         <header class="section-header">
-            <h2>الأعمال التطوعية</h2>
+            <h2>{{ locale.ui.section_titles.volunteering }}</h2>
         </header>
 
         {%- assign active_vol = resume_data.volunteering | where: "active", true -%}
@@ -269,12 +288,9 @@
                                 {% if v.durations %}
                                     {% for time in v.durations %}{{ time.duration }} {% endfor %}
                                 {% else %}
-                                    {% include ar-date.html date=v.startdate style="MY" %} &ndash;
-                                    {% if v.enddate and v.enddate != 'Present' and v.enddate != 'حتى الآن' and v.enddate != 'حاليًا' %}
-                                        {% include ar-date.html date=v.enddate style="MY" %}
-                                    {% else %}
-                                        حتى الآن
-                                    {% endif %}
+                                    {%- assign v_enddate = v.enddate | default: "Present" -%}
+                                    {% include date-formatter.html date=v.startdate lang=lang style="MY" %} &ndash;
+                                    {% include date-formatter.html date=v_enddate lang=lang style="MY" %}
                                 {% endif %}
                             {%- endif -%}
 
@@ -295,16 +311,17 @@
     <!-- end Volunteering -->
 
 {%- comment -%}
-  Section: Projects (المشاريع)
+  Section: Projects
   - Data: `resume_data.projects` filtered by `active == true`.
   - Microdata: Schema.org `CreativeWork` with author/creator person metadata.
-  - Bidi Protection: Wraps project URLs in `<span dir="ltr">` to prevent punctuation distortion.
+  - Links: External project URLs with `target="_blank" rel="noopener nofollow noreferrer"` and
+    inline print URL fallbacks, wrapped in dir="ltr" for RTL locales.
 {%- endcomment -%}
 {% elsif include.section_name == "projects" and site.resume_section.projects %}
     <!-- begin Projects -->
     <section class="content-section">
         <header class="section-header">
-            <h2>المشاريع</h2>
+            <h2>{{ locale.ui.section_titles.projects }}</h2>
         </header>
 
         {% for project in resume_data.projects %}
@@ -320,7 +337,7 @@
                     </h3>
 
                     {% if project.url and project.url != "" %}
-                        <span class="print-only-inline" dir="ltr" style="display: inline;">&nbsp;{{ project.url }}</span>
+                        <span class="print-only-inline"{% if rtl %} dir="ltr"{% endif %} style="display: inline;">&nbsp;{{ project.url }}</span>
                     {% endif %}
 
                     {%- if project.role != blank or project.duration != blank -%}
@@ -342,7 +359,7 @@
     <!-- end Projects -->
 
 {%- comment -%}
-  Section: Skills (المهارات)
+  Section: Skills
   - Data: `resume_data.skills` filtered by `active == true`.
   - Formatting: Displays categorized competencies and skill descriptions.
 {%- endcomment -%}
@@ -350,7 +367,7 @@
     <!-- begin Skills -->
     <section class="content-section">
         <header class="section-header">
-            <h2>المهارات</h2>
+            <h2>{{ locale.ui.section_titles.skills }}</h2>
         </header>
 
         {% for skill in resume_data.skills %}
@@ -367,24 +384,16 @@
     <!-- end Skills -->
 
 {%- comment -%}
-  Section: Recognitions / Awards (الجوائز والتكريم)
-  - Backward Compatibility: Evaluates both plural `site.resume_section.recognitions` and legacy singular `site.resume_section.recognition`.
+  Section: Recognitions / Awards
   - Data: `resume_data.recognitions` filtered by `active == true`.
+  - Content: Displays award name, issuing organization, year, and summary.
+  - Only the plural `site.resume_section.recognitions` flag is honored.
 {%- endcomment -%}
-{% elsif include.section_name == "recognitions" or include.section_name == "recognition" %}
-    {% assign section_active = false %}
-    {% if site.resume_section.recognitions != nil %}
-        {% if site.resume_section.recognitions == true %}
-            {% assign section_active = true %}
-        {% endif %}
-    {% elsif site.resume_section.recognition == true %}
-        {% assign section_active = true %}
-    {% endif %}
-    {% if section_active %}
+{% elsif include.section_name == "recognitions" and site.resume_section.recognitions %}
     <!-- begin Recognition -->
     <section class="content-section">
         <header class="section-header">
-            <h2>الجوائز والتكريم</h2>
+            <h2>{{ locale.ui.section_titles.recognitions }}</h2>
         </header>
 
         {% for recognition in resume_data.recognitions %}
@@ -410,19 +419,18 @@
         {% endfor %}
     </section>
     <!-- end Recognition -->
-    {% endif %}
 
 {%- comment -%}
-  Section: Associations & Professional Memberships (العضويات)
+  Section: Associations & Professional Memberships
   - Data: `resume_data.associations` filtered by `active == true`.
   - Microdata: Schema.org `Organization` with `memberOf` itemprop.
-  - Bidi Protection: Wraps URLs in `<span dir="ltr">`.
+  - Links: External organization URLs with print fallback, wrapped in dir="ltr" for RTL locales.
 {%- endcomment -%}
 {% elsif include.section_name == "associations" and site.resume_section.associations %}
     <!-- begin Associations -->
     <section class="content-section">
         <header class="section-header">
-            <h2>العضويات</h2>
+            <h2>{{ locale.ui.section_titles.associations }}</h2>
         </header>
 
         {% for association in resume_data.associations %}
@@ -437,7 +445,7 @@
                     </h3>
 
                     {% if association.url and association.url != "" %}
-                        <span class="print-only-inline" dir="ltr" style="display: inline;">&nbsp;{{ association.url }}</span>
+                        <span class="print-only-inline"{% if rtl %} dir="ltr"{% endif %} style="display: inline;">&nbsp;{{ association.url }}</span>
                     {% endif %}
 
                     {%- if association.role != blank or association.year != blank -%}
@@ -461,7 +469,7 @@
     <!-- end Associations -->
 
 {%- comment -%}
-  Section: Outside Interests (الاهتمامات الخارجية)
+  Section: Outside Interests
   - Data: `resume_data.interests`.
   - Formatting: Unordered list highlighting personal hobbies and extracurricular activities.
 {%- endcomment -%}
@@ -469,7 +477,7 @@
     <!-- begin Interests -->
     <section class="content-section">
         <header class="section-header">
-            <h2>الاهتمامات الخارجية</h2>
+            <h2>{{ locale.ui.section_titles.interests }}</h2>
         </header>
 
         <div class="resume-item">
@@ -483,22 +491,23 @@
     <!-- end Interests -->
 
 {%- comment -%}
-  Section: Languages (اللغات)
-  - Display Placement Check: Rendered as a distinct section only if `site.resume_section.lang_header != true`.
-  - 2-Column Balanced Table: Uses Liquid `modulo: 2` arithmetic to balance entries into RTL rows.
-    Injects an empty `<td class="lang-cell"></td>` on the final odd entry.
+  Section: Languages
+  - Display Placement Check: Rendered as a distinct section only if `site.resume_section.lang_header != true`
+    (when lang_header is enabled, languages appear in the resume header instead).
+  - 2-Column Balanced Table: Uses Liquid `modulo: 2` arithmetic to balance entries into rows.
+    Injects an empty `<td class="lang-cell"></td>` on the final odd entry to maintain valid HTML table structure.
 {%- endcomment -%}
 {% elsif include.section_name == "languages" and site.resume_section.languages and site.resume_section.lang_header != true %}
     <!-- begin Languages -->
     <section class="content-section">
         <header class="section-header">
-            <h2>اللغات</h2>
+            <h2>{{ locale.ui.section_titles.languages }}</h2>
         </header>
 
         {%- assign active_languages = resume_data.languages | where: "active", true -%}
         <table class="languages-table">
             <tbody>
-                {%- for lang in active_languages -%}
+                {%- for language in active_languages -%}
                     {%- assign mod = forloop.index0 | modulo: 2 -%}
                     {%- if mod == 0 -%}
                         <tr>
@@ -506,9 +515,9 @@
 
                     <td class="lang-cell">
                         <p class="lang-entry">
-                            <span class="resume-item-details">{{ lang.language }}</span>
+                            <span class="resume-item-details">{{ language.language }}</span>
                             &ndash;
-                            <span class="resume-item-copy">{{ lang.description }}</span>
+                            <span class="resume-item-copy">{{ language.description }}</span>
                         </p>
                     </td>
 
@@ -525,15 +534,16 @@
     <!-- end Languages -->
 
 {%- comment -%}
-  Section: Additional Links (روابط إضافية)
+  Section: Additional Links
   - Data: `resume_data.links` filtered by `active == true`.
-  - Bidi & Print: Accompanied by inline plaintext URLs wrapped in `<span dir="ltr">` for print readability.
+  - Print Media: Accompanied by inline plaintext URLs for print readability, wrapped in
+    dir="ltr" for RTL locales.
 {%- endcomment -%}
 {% elsif include.section_name == "links" and site.resume_section.links %}
     <!-- begin Links -->
     <section class="content-section">
         <header class="section-header">
-            <h2>روابط إضافية</h2>
+            <h2>{{ locale.ui.section_titles.links }}</h2>
         </header>
 
         <div class="resume-item">
@@ -542,7 +552,7 @@
                     {% if link.active == true %}
                         <li>
                             <a href="{{ link.url }}" target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ link.description }}</a>
-                            <span class="print-only-inline" dir="ltr">&nbsp;{{ link.url }}</span>
+                            <span class="print-only-inline"{% if rtl %} dir="ltr"{% endif %}>&nbsp;{{ link.url }}</span>
                         </li>
                     {% endif %}
                 {% endfor %}

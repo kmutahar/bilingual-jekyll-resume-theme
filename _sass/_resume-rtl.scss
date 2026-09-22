@@ -1,53 +1,30 @@
-// RTL and Arabic typography overrides for the resume layout
+// RTL positioning overrides for the resume layout
 // ---------------------------------------/
 // bilingual-jekyll-resume-theme
-// Authoritative Arabic styling overrides loaded via assets/css/cv-ar.scss.
-// Scoped strictly under html[dir="rtl"] to ensure complete style isolation from
-// English LTR layouts. Handles horizontal mirroring, Arabic font stack configuration,
-// diacritic protection, cursive ligature stabilization, and RTL element repositioning.
+// Language-neutral RTL overrides loaded last via assets/css/cv-rtl.scss, on top of
+// _resume-ltr.scss. Scoped strictly under html[dir="rtl"] to ensure complete style
+// isolation from LTR layouts. Handles horizontal mirroring and RTL element repositioning
+// only; font-family and line-height are locale-driven (--font-locale / --line-height-locale,
+// set per language in the page head from _data/locales/<lang>.yml) so Arabic, Urdu, and any
+// future RTL locale each get their own typeface and line spacing without editing this file.
 // ---------------------------------------/
 
 @use "mixins";
 
-// Scoped root selector: activates automatically when _layouts/resume-ar.html sets <html dir="rtl">.
+// Scoped root selector: activates automatically when the page sets <html dir="rtl">.
 html[dir="rtl"] {
   body {
     direction: rtl;
-    // Arabic typographic stack: Cairo is a modern geometric Kufi-hybrid typeface optimized
-    // for digital screen legibility; Noto Naskh Arabic provides traditional fallback legibility.
-    font-family: 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif;
-    line-height: 1.6;
   }
 
-  // Headings and common typographic elements
-  // Explicitly assign the Arabic font stack across all heading and body selectors to
-  // override any Latin sans-serif font-family rules inherited from _resume.scss.
-  .section-header h2,
-  .page-header .header-name,
-  .page-header .header-title,
-  .resume-item-title,
-  .resume-item-details,
-  .content-section .resume-item-title,
-  .content-section .resume-item-details,
-  .content-section .resume-item-copy {
-    font-family: 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif;
-  }
-
-  // Prevent diacritic/dot clipping and preserve cursive ligatures in Arabic script
+  // Cursive ligature stabilization
   // ==========================================================================
-  // 1. line-height: 1.6 (Strict Minimum)
-  //    WHY: Arabic characters possess tall ascenders (Alif 'ا', Lam 'ل'), deep descenders
-  //    (Raa 'ر', Yaa 'ي', Noon 'ن'), consonant dots (Nuqṭah on 'ش', 'ث', 'ب'), and vocalization
-  //    diacritics (Tashkeel like Fatḥah, Ḍammah, Kasrah, Shaddah, Sukūn). Standard Latin
-  //    line heights (1.0-1.2) cause dots and diacritics to be clipped by bounding boxes or
-  //    collide with adjacent lines. A minimum line-height of 1.6 guarantees sufficient vertical room.
-  //
-  // 2. letter-spacing: normal
-  //    WHY: Arabic is an intrinsically cursive script where letters within words must connect
-  //    seamlessly via contextual ligatures. Latin headlines often apply negative letter-spacing
-  //    (e.g., -.05rem). If applied to Arabic, negative or positive tracking causes glyph connection
-  //    failure, detaching letters into broken, isolated forms. letter-spacing: normal restores
-  //    natural cursive ligature rendering.
+  // WHY: Arabic and Urdu are intrinsically cursive scripts where letters within words must
+  // connect seamlessly via contextual ligatures. Latin headlines often apply negative
+  // letter-spacing (e.g., -.05rem). If applied to a cursive RTL script, negative or positive
+  // tracking causes glyph connection failure, detaching letters into broken, isolated forms.
+  // letter-spacing: normal restores natural cursive ligature rendering, and applies equally
+  // to every RTL locale regardless of its specific font or line-height.
   // ==========================================================================
   .section-header h2,
   .page-header .header-name,
@@ -56,7 +33,6 @@ html[dir="rtl"] {
   .resume-item-details,
   .content-section .resume-item-title,
   .content-section .resume-item-details {
-    line-height: 1.6;
     letter-spacing: normal;
   }
 

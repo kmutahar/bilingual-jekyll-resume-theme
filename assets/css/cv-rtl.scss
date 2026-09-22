@@ -1,0 +1,36 @@
+---
+---
+
+// ==========================================================================
+// RTL Resume Stylesheet Entrypoint
+// bilingual-jekyll-resume-theme
+//
+// Primary SCSS compilation entrypoint for every right-to-left resume locale
+// (_layouts/resume-ar.html, and any other RTL locale such as Urdu). Compiles into
+// assets/css/cv-rtl.css via Jekyll SASS processing.
+// Strict Bilingual Parity (Rule 1):
+// Compiles identical base foundations as cv-ltr.scss, followed by @use "resume-rtl"
+// at the very end of the cascade. This ensures that RTL ligature stability
+// (letter-spacing: normal) and mirrored horizontal alignment override preceding LTR
+// positioning cleanly. Typography (font-family, line-height) is not set here; it is
+// locale-driven via --font-locale / --line-height-locale, emitted per language in the
+// page head from _data/locales/<lang>.yml.
+// ==========================================================================
+
+// "Reset" styles and SCSS reusable components
+// RTL CV entrypoint: load base styles then RTL overrides
+@use "normalize";
+@use "mixins";
+@use "variables";
+@use "dark-mode";
+
+// Generic site base & layout styles
+@use "base";
+@use "layout";
+
+// Layouts
+@use "resume-ltr";
+@use "all-pages";
+
+// RTL-specific positioning overrides
+@use "resume-rtl";

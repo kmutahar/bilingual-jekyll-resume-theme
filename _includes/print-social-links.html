@@ -16,6 +16,11 @@
 {% endif %}
 <ul>
 
+    {% if site.social_links.email %}
+        <!-- Email link -->
+        <li><strong>{% if is_ar %}البريد الإلكتروني (Email){% else %}Email{% endif %}</strong>: <span dir="ltr">{{ site.social_links.email }}</span></li>
+    {% endif %}
+
     {% if site.social_links.github %}
         <!-- GitHub link -->
         <li><strong>{% if is_ar %}جيت هاب (GitHub){% else %}GitHub{% endif %}</strong>: <span dir="ltr">{{ site.social_links.github }}</span></li>

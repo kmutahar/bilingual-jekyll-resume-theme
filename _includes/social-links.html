@@ -1,7 +1,7 @@
 {%- comment -%}
   Component: Social & Professional Links List
   - Purpose: Renders interactive social network and contact links defined in `site.social_links` in `_config.yml`.
-  - Supported Platforms: GitHub, LinkedIn, Telegram, Twitter/X, Medium, Dribbble, Facebook, Instagram,
+  - Supported Platforms: Email, GitHub, LinkedIn, Telegram, Twitter/X, Medium, Dribbble, Facebook, Instagram,
     Website, WhatsApp, Dev.to, Flickr, Pinterest, YouTube.
 
   Architecture & Implementation Details:
@@ -25,6 +25,14 @@
   5. WCAG 2.2 Accessibility:
      - Every icon anchor includes `aria-label="<Platform>"`, `title="<Platform>"`, and a visually-hidden `<span class="sr-only"><Platform></span>`.
 {%- endcomment -%}
+
+{% if site.social_links.email %}
+    <!-- Email link -->
+    <li class="icon-link-item">
+        <a href="mailto:{{ site.social_links.email }}" class="icon-link" itemprop="email" aria-label="Email" title="Email">{% include vendors/lineicons-v4.0/envelope.svg %}<span class="sr-only">Email</span></a>
+    </li>
+{% endif %}
+
 
 {% if site.social_links.github %}
     <!-- GitHub link -->

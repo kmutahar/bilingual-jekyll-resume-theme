@@ -168,7 +168,7 @@
                   with Arabic labels and "حتى الآن" for Present.
                 {% endcomment %}
                 {%- for section_name in site.resume_section_order -%}
-                    {% include resume-section-ar.html section_name=section_name %}
+                    {% include resume-section.html section_name=section_name lang="ar" %}
                 {%- endfor -%}
 
                 {% if site.resume_print_social_links %}

@@ -1,9 +1,11 @@
 {%- comment -%}
   Arabic Date Formatter Include (compatibility wrapper)
-  Thin wrapper around the universal _includes/date-formatter.html, kept only so existing
-  callers (_includes/resume-section-ar.html, _layouts/resume-ar.html) don't need to change
-  yet. Task 3.2/3.3 will repoint those callers at date-formatter.html directly and delete
-  this file, per IMPLEMENTATION_PLAN.md Task 3.1.
+  Thin wrapper around the universal _includes/date-formatter.html, kept only so its one
+  remaining caller (_layouts/resume-ar.html, for the header DoB field) doesn't need to
+  change yet. Task 3.3 will repoint that call at date-formatter.html directly and delete
+  this file, per IMPLEMENTATION_PLAN.md Task 3.1. (_includes/resume-section-ar.html, the
+  other original caller, was retired by Task 3.2's unified resume-section.html, which calls
+  date-formatter.html directly.)
 
   Usage:
     {% include ar-date.html date=page.date style="MDY" %}

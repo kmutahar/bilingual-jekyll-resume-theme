@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 {%- comment -%}
 Dynamic <html> tag:
-- Language attribute: defaults to page.lang, then site.lang, then 'en'.
-- Direction attribute: sets dir="rtl" if page or site specifies Arabic ('ar') or 'rtl' directionality.
+- Language attribute: defaults to page.lang, then site.default_lang, then 'en'.
+- Direction attribute: comes from that language's locale file (_data/locales/<lang>.yml).
 {%- endcomment -%}
-<html lang="{{ page.lang | default: site.lang | default: 'en' }}"{% if page.lang == 'ar' or site.lang == 'ar' or page.dir == 'rtl' or site.dir == 'rtl' %} dir="rtl"{% endif %}>
+{%- assign lang = page.lang | default: site.default_lang | default: 'en' -%}
+{%- assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] | default: site.data.locales['en'] -%}
+<html lang="{{ lang }}" dir="{{ locale.direction }}">
     {%- comment -%}
     <!-- Layout: Profile layout used for the landing page / CV homepage.
          - Purpose: Dedicated standalone layout with clean unconstrained centering.
@@ -37,7 +39,7 @@ Dynamic <html> tag:
 
     <body>
         <!-- Accessible skip-to-content link (WCAG 2.4.1) -->
-        <a href="#main-content" class="skip-link no-print">{% if page.lang == 'ar' or site.lang == 'ar' or page.dir == 'rtl' or site.dir == 'rtl' %}الانتقال إلى المحتوى الرئيسي{% else %}Skip to main content{% endif %}</a>
+        <a href="#main-content" class="skip-link no-print">{{ locale.ui.skip_to_content }}</a>
 
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}

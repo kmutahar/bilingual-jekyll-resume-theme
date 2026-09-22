@@ -21,9 +21,11 @@ Inspired by and originally forked from [Joel Glovier’s resume template](https:
 
 ### Installation
 
-1. Add to your Jekyll site's `Gemfile`:
+1. Add to your Jekyll site's `Gemfile`, inside `group :jekyll_plugins`. A plain `gem "bilingual-jekyll-resume-theme"` line never requires the theme's `lib/bilingual-jekyll-resume-theme.rb`, so its bundled plugins (e.g. the error page generator) silently never run:
 ```ruby
-gem "bilingual-jekyll-resume-theme"
+group :jekyll_plugins do
+  gem "bilingual-jekyll-resume-theme"
+end
 ```
 
 2. Add to your `_config.yml`:

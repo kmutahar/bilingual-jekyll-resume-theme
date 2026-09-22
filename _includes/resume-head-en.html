@@ -2,14 +2,14 @@
   English Resume Head Include
   - Loaded by: `_layouts/resume-en.html` inside the HTML <head>.
   - Typography: Injects Google Web Fonts for Lora (serif headings) and Open Sans (sans-serif body).
-  - Stylesheet: Links the compiled English LTR stylesheet `assets/css/cv.css` using `relative_url` for subpath safety.
+  - Stylesheet: Links the compiled LTR stylesheet `assets/css/cv-ltr.css` using `relative_url` for subpath safety.
   - Multilingual SEO: Includes `_includes/hreflang.html` to output alternate language annotations for search engines.
 {%- endcomment -%}
 <!-- Google font typography settings - defined in _config.yml -->
 <link href='https://fonts.googleapis.com/css?family=Lora:400,700%7COpen+Sans:400,300,800,700' rel='stylesheet' type='text/css'>
 
 
-<link rel="stylesheet" type="text/css" href="{{ 'assets/css/cv.css' | relative_url }}">
+<link rel="stylesheet" type="text/css" href="{{ 'assets/css/cv-ltr.css' | relative_url }}">
 
 
 {% include hreflang.html %}

@@ -1,15 +1,26 @@
 // Resume styles
 // ---------------------------------------/
 // bilingual-jekyll-resume-theme
-// Core stylesheet for Left-to-Right (LTR) English resume layout (_layouts/resume-en.html)
-// and portfolio landing pages. Manages header typography, section dividers, unboxed card
-// items, responsive tables, social icons, and print media optimizations.
+// Core stylesheet shared by every locale (_layouts/resume-en.html, resume-ar.html, and
+// portfolio landing pages). Provides the default LTR positioning; _resume-rtl.scss layers
+// mirrored positioning on top for right-to-left locales. Manages header typography, section
+// dividers, unboxed card items, responsive tables, social icons, and print media optimizations.
+// Text typography (font-family, line-height) reads from the --font-locale / --line-height-locale
+// CSS custom properties, set per language from _data/locales/<lang>.yml (see IMPLEMENTATION_PLAN.md
+// Section 4.1); the values below are the fallbacks used when a locale does not set them.
 // ---------------------------------------/
 
 // util
 // Modular Dart Sass imports: encapsulate mixins and design variables without global pollution.
 @use "mixins";
 @use "variables";
+
+// Locale-driven body typography: font-family and line-height are supplied per-language via
+// --font-locale / --line-height-locale (falls back to the current English/Lora values when unset).
+body {
+  font-family: var(--font-locale, "Lora", "Minion Pro", Palatino, Georgia, serif);
+  line-height: var(--line-height-locale, 1.5);
+}
 
 // ==========================================================================
 // Section Header Component
@@ -23,7 +34,7 @@
   // Primary section title: heavy sans-serif weight (900) with slightly tightened
   // letter-spacing (-.05rem) to deliver a modern, authoritative editorial aesthetic.
   h2 {
-    @include mixins.sans;
+    font-family: var(--font-locale, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif);
     font-weight: 900;
     font-size: 1.75rem;
     letter-spacing: -.05rem;
@@ -53,12 +64,12 @@
   // Scales dynamically between 2rem (mobile minimum) and 3rem (desktop maximum) based on 8vw,
   // preventing awkward word wrapping on smaller mobile screens without discrete breakpoint jumps.
   .header-name {
-    @include mixins.sans;
+    font-family: var(--font-locale, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif);
     font-size: clamp(2rem, 8vw, 3rem);
     font-weight: 900;
     text-align: center;
     letter-spacing: -.15rem;
-    line-height: 1;
+    line-height: var(--line-height-locale, 1);
     margin: 1rem 0 0;
   }
 
@@ -91,10 +102,10 @@
 
     // Professional subtitle: centered on mobile viewports; floats left on desktop screens.
     .header-title {
-      @include mixins.sans;
+      font-family: var(--font-locale, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif);
       font-weight: 300;
       font-size: 1.75rem;
-      line-height: 2rem;
+      line-height: var(--line-height-locale, 2rem);
       letter-spacing: -.05rem;
       text-align: center;
       margin: 0 0 .5rem;
@@ -231,18 +242,19 @@
 
   // Role/Job/Degree Title: authoritative bold sans typography (1.5rem).
   .resume-item-title {
-    @include mixins.sans_bold;
+    font-family: var(--font-locale, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif);
+    font-weight: 700;
     margin: 0 0 .75rem;
     font-size: 1.5rem;
     letter-spacing: -.05rem;
-    line-height: 1;
+    line-height: var(--line-height-locale, 1);
   }
 
   // Organization, dates, and subtitle details: 1.125rem font size.
   .resume-item-details {
     font-size: 1.125rem;
     margin: 0 0 .75rem;
-    line-height: 1;
+    line-height: var(--line-height-locale, 1);
 
     &.award-title {
       font-size: 1rem;

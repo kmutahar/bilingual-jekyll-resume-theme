@@ -7,22 +7,27 @@
 # - `description`: Detailed narrative description of technical expertise, tools, and practices.
 # - `active`: Set to false to omit from generated resume.
 
-- skill: "Cloud Infrastructure &amp; Distributed Architecture"
+- skill: "Chemistry &amp; Forensic Analysis"
   active: true
   description: >-
-    Expertise in designing resilient, highly available multi-region architectures across AWS and Google Cloud Platform. Advanced orchestration with Kubernetes, Terraform, Service Meshes (Istio), and immutable infrastructure pipelines.
+    Expert in analytical and organic chemistry as applied to criminal investigation, including blood, poison, and trace-residue detection, and the comparative analysis of tobacco ash, ink, and paper.
 
-- skill: "High-Concurrency Backend Engineering"
+- skill: "Observation, Deduction &amp; Inference"
   active: true
   description: >-
-    Deep technical proficiency in Go, Python, and Rust. Specialized in low-latency concurrent processing, gRPC, Apache Kafka, database sharding, and distributed caching with Redis and Memcached.
+    The science of deduction: reasoning backward from observed trifles, dust, stains, calluses, and habits of dress, to the exact chain of events and character of the person under examination.
 
-- skill: "Technical Strategy, Mentorship &amp; Agile Leadership"
+- skill: "Disguise, Impersonation &amp; Undercover Method"
   active: true
   description: >-
-    Proven track record establishing engineering standards, defining multi-year architectural roadmaps, conducting architecture reviews, and mentoring senior engineers into staff and principal engineering roles.
+    Skilled in physical disguise, dialect, and assumed identity, employed for surveillance and infiltration where direct inquiry would defeat the purpose of an investigation.
 
-- skill: "Legacy Monolith Refactoring &amp; Migration"
+- skill: "Baritsu, Boxing &amp; Singlestick"
+  active: true
+  description: >-
+    Trained in the Japanese-European hybrid combat art of baritsu, amateur boxing, and singlestick fencing, applied to physical confrontation and self-defense in the course of casework.
+
+- skill: "Cryptanalysis &amp; Cipher Solving"
   active: false
   description: >-
-    Decomposition of legacy monolithic applications into domain-driven microservices using the strangler fig pattern and event-driven data synchronization.
+    Solving of substitution and transposition ciphers and coded correspondence, retained as a specialised sideline rather than a primary practice area.

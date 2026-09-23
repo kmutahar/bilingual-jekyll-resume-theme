@@ -1,0 +1,44 @@
+# Projets
+# Fichier : _data/fr/projects.yml
+# Projets personnels et professionnels
+#
+# Notes de schéma :
+# - `project` : Nom du projet.
+# - `role` : Titre ou responsabilité sur le projet.
+# - `duration` : Période affichée (prend en charge &ndash;).
+# - `url` : URL optionnelle de destination ou de dépôt source.
+# - `description` : Aperçu narratif des technologies, de l'architecture et de l'impact.
+# - `active` : Mettre à false pour omettre du CV généré.
+
+# Monographie médico-légale signature
+- project: "De la distinction entre les cendres des divers tabacs"
+  active: true
+  role: "Auteur"
+  duration: "1887"
+  url: "https://example.com/monographs/tobacco-ashes"
+  description: >-
+    Une monographie recensant cent quarante formes de cendres de tabac de pipe, de cigare et de cigarette, illustrée de planches, pour la distinction médico-légale des résidus de tabac trouvés sur une scène.
+
+# Manuel d'apiculture de l'époque de la retraite
+- project: "Manuel pratique d'apiculture, avec quelques observations sur la ségrégation de la reine"
+  active: true
+  role: "Auteur"
+  duration: "1903 &ndash; présent"
+  description: >-
+    Un manuel de gestion apicole rédigé pendant la retraite dans les South Downs, alliant l'observation minutieuse du comportement des ruches à la même rigueur méthodique appliquée aux enquêtes précédentes.
+
+# Étude sur les écritures secrètes
+- project: "Monographie sur le relevé des empreintes de pas, avec des remarques sur le plâtre de Paris comme moyen de conservation des empreintes"
+  active: true
+  role: "Auteur"
+  duration: "1889"
+  description: >-
+    Une étude technique sur la conservation et l'analyse comparative des empreintes de pas au moyen de moulages en plâtre, développée pour normaliser la collecte d'indices sur les scènes extérieures.
+
+# Projet inactif démontrant le champ active
+- project: "Étude de l'influence d'un métier sur la forme de la main"
+  active: false
+  role: "Auteur"
+  duration: "1883"
+  description: >-
+    Une étude précoce et non publiée comparant les callosités et déformations de la main selon divers métiers, plus tard supplantée par des monographies publiées plus complètes.

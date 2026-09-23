@@ -1,0 +1,44 @@
+# Ehrenamt
+# File: _data/de/volunteering.yml
+# Ehrenamtliche Tätigkeit und gemeinnütziges Engagement
+#
+# Schema-Hinweise:
+# - Gruppiert nach `company`-Namen; mehrere Positionen bei derselben Organisation erscheinen zusammen.
+# - Durchgehende Positionen verwenden ISO-Daten (`startdate: YYYY-MM-DD`, `enddate: YYYY-MM-DD` oder `enddate: Present`).
+# - Nicht durchgehende Positionen verwenden das `durations`-Array mit HTML-Entitäten (`&ndash;`, `&amp;`).
+# - `summary` wird angezeigt, wenn `enable_summary: true` in der `_config.yml` konfiguriert ist.
+# - `active: false` bewahrt Einträge, ohne sie darzustellen.
+
+# Laufende unentgeltliche Fallarbeit
+- company: "Selbstständige Pro-bono-Praxis"
+  position: "Unbezahlter Beratender Detektiv für Klienten mit begrenzten Mitteln"
+  startdate: 1881-01-01
+  enddate: Present
+  location: "London, England"
+  active: true
+  notes: "Kein Honorar, wenn der Klient nicht zahlen kann und der Fall von Interesse ist"
+  summary: >-
+    Übernimmt Fälle ohne Honorar, wann immer der Klient nicht zahlen kann und der Fall selbst Merkmale von wissenschaftlichem oder öffentlichem Interesse aufweist, von Gouvernanten bis zu kleinen Gewerbetreibenden.
+
+# Gemeinschaftsunterricht im Ruhestand
+- company: "Bienenzüchterkreis der Sussex Downs"
+  position: "Mentor &amp; Dozent für Bienenstockmanagement"
+  durations:
+    - duration: "Frühjahr 1904"
+    - duration: "&amp; Herbst 1905"
+  location: "Sussex, England"
+  active: true
+  notes: "Örtlicher Bauernverband, während des Ruhestands"
+  summary: >-
+    Beriet örtliche Kleinbauern zu Bienenstockmanagement und Techniken der Königinnentrennung, aufbauend auf privaten Forschungen, die später als Handbuch über Bienenzucht veröffentlicht wurden.
+
+# Inaktiver Ehrenamtseintrag zur Demonstration des active-Flags
+- company: "Hilfskomitee des Bezirks Whitechapel"
+  position: "Gelegentlicher Ermittler, unbezahlt"
+  startdate: 1888-09-01
+  enddate: 1888-11-30
+  location: "London, England"
+  active: false
+  notes: "Kurze, inoffizielle Beteiligung; aus dem Standardbericht ausgelassen"
+  summary: >-
+    Leistete gelegentliche inoffizielle Unterstützung bei der Durchsicht von Fallakten während einer Zeit erhöhter öffentlicher Besorgnis im Bezirk.

@@ -1,0 +1,46 @@
+# Kurse
+# File: _data/de/courses.yml
+# Schulungen, Workshops und Weiterbildungsprogramme
+#
+# Schema-Hinweise:
+# - `name`: Kurstitel (unterstützt HTML-Entitäten).
+# - `issuing_organization`: Plattform oder Institution, die den Kurs anbietet.
+# - `credential_id`: Optionale Abschlussbescheinigung oder Zertifikats-ID.
+# - `credential_url`: Optionaler Verifizierungslink.
+# - `startdate`: Erforderliches Startdatum (YYYY-MM-DD).
+# - `enddate`: Optionales Abschlussdatum (YYYY-MM-DD).
+# - `summary`: Ausführliche Beschreibung des Lehrplans (angezeigt, wenn `enable_summary: true`).
+# - `active`: Auf false setzen, um den Eintrag im Lebenslauf auszulassen.
+
+# Kurs mit Daten, Zertifikats-ID, Verifizierungs-URL und Zusammenfassung
+- name: "Baritsu &amp; Stockfechten-Kampftechniken"
+  active: true
+  issuing_organization: "Bartitsu Club, London"
+  credential_id: "BARTITSU-LDN-1897"
+  credential_url: "https://example.com/bartitsu-club/verify/1897"
+  startdate: 1897-01-10
+  enddate: 1897-06-30
+  notes: "Grundlage für Nahkampf-Selbstverteidigung im Einsatz"
+  summary: >-
+    Unterweisung in der japanisch-europäischen Mischkampfkunst, die Jiu-Jitsu-Griffe, Boxen und Stockfechten verbindet, später angewandt bei der Konfrontation an den Reichenbachfällen.
+
+# Kurs mit Daten und Zusammenfassung, ohne Zertifikat
+- name: "Kryptografie &amp; Chiffrenlösung"
+  active: true
+  issuing_organization: "Privatstudium"
+  startdate: 1893-01-01
+  enddate: 1893-12-01
+  notes: "Unternommen zur Vorbereitung einer Monografie über Geheimschriften"
+  summary: >-
+    Systematisches Studium von Substitutions- und Transpositionschiffren, später angewandt bei der Lösung der Chiffre der Tanzenden Männchen und anderer Fälle mit codierter Korrespondenz.
+
+# Inaktiver Kurs zur Demonstration des active-Flags
+- name: "Violintechnik, Fortgeschrittenenstudium"
+  active: false
+  issuing_organization: "Privater Unterricht"
+  credential_id: "VIOLIN-PRIV-1870"
+  startdate: 1870-01-01
+  enddate: 1871-12-01
+  notes: "Frühes persönliches Studium, beruflich nicht relevant"
+  summary: >-
+    Fortgeschrittener Violinunterricht, verfolgt als persönliches Interesse und nicht als berufliche Weiterentwicklung.

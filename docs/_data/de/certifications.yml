@@ -1,0 +1,51 @@
+# Zertifizierungen
+# File: _data/de/certifications.yml
+# Berufliche Zertifizierungen und Lizenzen
+#
+# Schema-Hinweise:
+# - `name`: Bezeichnung der Zertifizierung (unterstützt HTML-Entitäten wie &ndash;).
+# - `issuing_organization`: Ausstellende Organisation.
+# - `credential_id`: Optionale Zertifikats-ID.
+# - `credential_url`: Optionale Verifizierungs-URL, die mit der Zertifikats-ID verknüpft ist.
+# - `issue_date`: Erforderliches ISO-Datum (YYYY-MM-DD).
+# - `expiration`: Optionales Ablaufdatum im ISO-Format (bei unbefristeten Zertifikaten leer lassen).
+# - `courses`: Optionale verschachtelte Liste für interne Aufzeichnungen (wird nie im Lebenslauf angezeigt).
+# - `active`: Auf false setzen, um den Eintrag im generierten Lebenslauf auszulassen.
+
+# Privates Studienzertifikat, ohne Ablaufdatum (im Stil der Epoche)
+- name: "Erweiterte chemische Analyse &ndash; Zertifikat des Privatstudiums"
+  active: true
+  issuing_organization: "Labore des St. Bartholomew's Hospital"
+  credential_id: "BART-CHEM-1878"
+  issue_date: 1878-06-01
+
+# Zertifikat mit Verifizierungsverweis
+- name: "Registrierter Beratender Detektiv"
+  active: true
+  issuing_organization: "Privatregister Beratender Praktiker, London"
+  credential_id: "CD-LON-0001"
+  credential_url: "https://example.com/register/cd-lon-0001"
+  issue_date: 1881-01-01
+
+# Verschachtelte private Kurse für interne Aufzeichnungen
+- name: "Praktische Toxikologie &amp; Gifte"
+  active: true
+  issuing_organization: "Labore des St. Bartholomew's Hospital"
+  issue_date: 1879-02-15
+  courses: # Optional: NUR ZUR INTERNEN VERWENDUNG - wird nicht im Lebenslauf angezeigt
+    - name: "Vergleichende Studie der Asche von Zigarren-, Zigaretten- und Pfeifentabak"
+      active: false
+      issuing_organization: "Privatstudium"
+      issue_date: 1885-01-01
+
+# Zertifikat ohne ID, URL oder Ablaufdatum
+- name: "Vergleichende Handschriften- und Dokumentenanalyse"
+  active: true
+  issuing_organization: "Privatstudium"
+  issue_date: 1880-09-10
+
+# Inaktive Zertifizierung zur Demonstration des active-Flags
+- name: "Elementare Erste Hilfe und Verbandstechnik"
+  active: false
+  issuing_organization: "St. Bartholomew's Hospital"
+  issue_date: 1875-04-01

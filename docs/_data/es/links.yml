@@ -1,0 +1,24 @@
+# Enlaces
+# Archivo: _data/es/links.yml
+# Enlaces profesionales adicionales (portafolio, publicaciones, repositorios de código)
+#
+# Notas de esquema:
+# - `description`: Título o texto de ancla descriptivo del enlace.
+# - `url`: URL de destino (se imprime en línea en el medio de impresión).
+# - `active`: Establecer en false para omitirlo del currículum generado.
+
+- description: "Crónicas de Casos Relatadas por el Dr. John H. Watson"
+  active: true
+  url: "https://example.com/watson/case-chronicles"
+
+- description: "Monografías Publicadas sobre Ciencia Forense"
+  active: true
+  url: "https://example.com/monographs"
+
+- description: "Archivo de Correspondencia de 221B Baker Street"
+  active: true
+  url: "https://example.com/baker-street-archive"
+
+- description: "Notas Tempranas de Casos, Época de Montague Street"
+  active: false
+  url: "https://example.com/archive/montague-street"

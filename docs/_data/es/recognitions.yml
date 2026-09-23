@@ -1,0 +1,42 @@
+# Reconocimientos
+# Archivo: _data/es/recognitions.yml
+# Honores, premios y reconocimientos profesionales
+#
+# Notas de esquema:
+# - `award`: Título o nombre del reconocimiento.
+# - `organization`: Entidad, empresa o institución que lo otorga.
+# - `year`: Año único (p. ej., "2023") o años separados por comas para honores repetidos (p. ej., "2020, 2022").
+# - `summary`: Contexto narrativo y significado del honor.
+# - `active`: Establecer en false para omitirlo del currículum generado.
+
+# Servicio a un gobierno extranjero
+- award: "Reconocimiento por Servicios a la República Francesa"
+  active: true
+  organization: "República Francesa"
+  year: "1890"
+  summary: >-
+    Reconocido por un delicado asunto de estado resuelto en nombre del gobierno francés, cuyos detalles permanecen sin divulgar a petición de las partes interesadas.
+
+# Obsequio personal de la Corona
+- award: "Alfiler de Corbata de Esmeralda, Obsequio Personal"
+  active: true
+  organization: "Su Majestad la Reina"
+  year: "1895"
+  summary: >-
+    Entregado en reconocimiento personal por un servicio de considerable delicadeza e importancia, cuya naturaleza no es materia de divulgación.
+
+# Honor repetido a lo largo de los años
+- award: "Tabaquera Engastada con una Amatista"
+  active: true
+  organization: "Casas Reales Extranjeras"
+  year: "1888, 1892"
+  summary: >-
+    Recibida en dos ocasiones de clientes extranjeros agradecidos tras la resolución confidencial de asuntos que afectaban a sus casas.
+
+# Honor rechazado, inactivo por decisión propia
+- award: "Ofrecimiento de Nombramiento de Caballero (Rechazado)"
+  active: false
+  organization: "Corona Británica"
+  year: "1902"
+  summary: >-
+    Un honor ofrecido pero respetuosamente rechazado, prefiriendo la libertad de la práctica independiente a la distinción pública formal.

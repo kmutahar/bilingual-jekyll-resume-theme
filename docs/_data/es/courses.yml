@@ -1,0 +1,46 @@
+# Cursos
+# Archivo: _data/es/courses.yml
+# Cursos de formación, talleres y programas de educación ejecutiva
+#
+# Notas de esquema:
+# - `name`: Título del curso (admite entidades HTML).
+# - `issuing_organization`: Plataforma o institución que imparte el curso.
+# - `credential_id`: Identificador opcional del certificado o credencial de finalización.
+# - `credential_url`: Enlace opcional de verificación.
+# - `startdate`: Fecha de inicio obligatoria (YYYY-MM-DD).
+# - `enddate`: Fecha de finalización opcional (YYYY-MM-DD).
+# - `summary`: Narrativa detallada del temario (se muestra cuando `enable_summary: true`).
+# - `active`: Establecer en false para omitirlo del currículum.
+
+# Curso con fechas, identificador de credencial, URL de verificación y resumen
+- name: "Técnicas de Combate de Baritsu &amp; Esgrima de Bastón"
+  active: true
+  issuing_organization: "Club de Bartitsu, Londres"
+  credential_id: "BARTITSU-LDN-1897"
+  credential_url: "https://example.com/bartitsu-club/verify/1897"
+  startdate: 1897-01-10
+  enddate: 1897-06-30
+  notes: "Base para la autodefensa a corta distancia empleada sobre el terreno"
+  summary: >-
+    Instrucción en el arte marcial híbrido nipón-europeo que combina llaves de jiu-jitsu, boxeo y esgrima de bastón, aplicado más tarde durante el enfrentamiento en las Cataratas de Reichenbach.
+
+# Curso con fechas y resumen, sin credencial
+- name: "Criptografía &amp; Resolución de Cifrados"
+  active: true
+  issuing_organization: "Estudio Privado"
+  startdate: 1893-01-01
+  enddate: 1893-12-01
+  notes: "Emprendido para preparar una monografía sobre escrituras secretas"
+  summary: >-
+    Estudio sistemático de cifrados por sustitución y transposición, aplicado más tarde a la resolución del cifrado de los Hombres Danzantes y otros casos relacionados con correspondencia codificada.
+
+# Curso inactivo que demuestra el indicador active
+- name: "Técnica de Violín, Estudio Avanzado"
+  active: false
+  issuing_organization: "Tutoría Privada"
+  credential_id: "VIOLIN-PRIV-1870"
+  startdate: 1870-01-01
+  enddate: 1871-12-01
+  notes: "Estudio personal temprano, sin relevancia profesional"
+  summary: >-
+    Instrucción avanzada de violín cursada como interés personal más que como desarrollo profesional.

@@ -1,0 +1,36 @@
+# Asociaciones
+# Archivo: _data/es/associations.yml
+# Membresías profesionales, grupos de trabajo y asociaciones sectoriales
+#
+# Notas de esquema:
+# - `organization`: Nombre de la sociedad o grupo profesional.
+# - `role`: Nivel de membresía o puesto de liderazgo.
+# - `year`: Período (admite &ndash; para intervalos).
+# - `url`: URL oficial opcional (se muestra como enlace y se imprime en la hoja de estilo de impresión).
+# - `summary`: Descripción opcional de contribuciones y gobernanza.
+# - `active`: Establecer en false para omitirla del currículum generado.
+
+# Asociación con URL
+- organization: "El Club Diógenes"
+  active: true
+  role: "Miembro Invitado (a través de su hermano Mycroft Holmes)"
+  year: "1888 &ndash; Actualidad"
+  url: "https://example.com/diogenes-club"
+  summary: >-
+    Invitado ocasional del club más insociable de Londres, donde el silencio se impone por reglamento y Mycroft Holmes mantiene un asiento permanente junto a la ventana.
+
+# Asociación sin URL
+- organization: "Sociedad Química de Londres"
+  active: true
+  role: "Miembro Correspondiente"
+  year: "1878 &ndash; Actualidad"
+  summary: >-
+    Mantiene correspondencia ocasional sobre cuestiones de química analítica relevantes para la detección forense, sin asistencia regular a las sesiones.
+
+# Asociación inactiva que demuestra el indicador active
+- organization: "Sociedad Universitaria de Boxeo Amateur"
+  active: false
+  role: "Miembro General"
+  year: "1873 &ndash; 1876"
+  summary: >-
+    Membresía universitaria temprana, mantenida para la práctica de sparring más que para el desarrollo profesional.

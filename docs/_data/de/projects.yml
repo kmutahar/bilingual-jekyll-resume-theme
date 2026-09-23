@@ -1,0 +1,44 @@
+# Projekte
+# File: _data/de/projects.yml
+# Persönliche und berufliche Ingenieursprojekte
+#
+# Schema-Hinweise:
+# - `project`: Name des Projekts.
+# - `role`: Titel oder Verantwortlichkeit im Projekt.
+# - `duration`: Anzeigezeitraum (unterstützt &ndash;).
+# - `url`: Optionale Live-URL oder Quell-Repository-URL.
+# - `description`: Erzählender Überblick über Technologien, Architektur und Wirkung.
+# - `active`: Auf false setzen, um den Eintrag im generierten Lebenslauf auszulassen.
+
+# Bedeutende forensische Monografie
+- project: "Über die Unterscheidung der Aschen verschiedener Tabaksorten"
+  active: true
+  role: "Autor"
+  duration: "1887"
+  url: "https://example.com/monographs/tobacco-ashes"
+  description: >-
+    Eine Monografie, die einhundertvierzig Formen von Pfeifen-, Zigarren- und Zigarettentabakasche aufzählt, mit Tafeln illustriert, zur forensischen Unterscheidung von an einem Tatort gefundenen Tabakrückständen.
+
+# Handbuch zur Bienenzucht aus der Ruhestandszeit
+- project: "Praktisches Handbuch der Bienenzucht, mit einigen Beobachtungen zur Trennung der Königin"
+  active: true
+  role: "Autor"
+  duration: "1903 &ndash; Heute"
+  description: >-
+    Ein Handbuch zum Bienenstockmanagement, verfasst während des Ruhestands in den South Downs, das genaue Beobachtung des Bienenstockverhaltens mit derselben methodischen Strenge verbindet, die schon in früherer Fallarbeit angewandt wurde.
+
+# Studie über Geheimschriften
+- project: "Monografie über die Verfolgung von Fußspuren, mit Anmerkungen zu Gips als Erhalter von Abdrücken"
+  active: true
+  role: "Autor"
+  duration: "1889"
+  description: >-
+    Eine technische Studie zur Erhaltung und vergleichenden Analyse von Fußabdrücken mittels Gipsabgüssen, entwickelt zur Standardisierung der Beweissicherung an Außentatorten.
+
+# Inaktives Projekt zur Demonstration des active-Flags
+- project: "Studie über den Einfluss eines Gewerbes auf die Form der Hand"
+  active: false
+  role: "Autor"
+  duration: "1883"
+  description: >-
+    Eine frühe, unveröffentlichte Studie, die die Schwielen und Verformungen der Hand über verschiedene Gewerbe hinweg vergleicht, später abgelöst durch umfassendere veröffentlichte Monografien.

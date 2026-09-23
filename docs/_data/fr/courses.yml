@@ -1,0 +1,46 @@
+# Cours
+# Fichier : _data/fr/courses.yml
+# Cours de formation, ateliers et programmes de perfectionnement
+#
+# Notes de schéma :
+# - `name` : Intitulé du cours (prend en charge les entités HTML).
+# - `issuing_organization` : Plateforme ou établissement dispensant le cours.
+# - `credential_id` : Identifiant optionnel de certificat de réussite.
+# - `credential_url` : Lien de vérification optionnel.
+# - `startdate` : Date de début requise (AAAA-MM-JJ).
+# - `enddate` : Date d'achèvement optionnelle (AAAA-MM-JJ).
+# - `summary` : Récit détaillé du programme (affiché lorsque `enable_summary: true`).
+# - `active` : Mettre à false pour omettre du CV.
+
+# Cours avec dates, identifiant de certificat, URL de vérification et résumé
+- name: "Baritsu &amp; techniques de combat au bâton simple"
+  active: true
+  issuing_organization: "Bartitsu Club, Londres"
+  credential_id: "BARTITSU-LDN-1897"
+  credential_url: "https://example.com/bartitsu-club/verify/1897"
+  startdate: 1897-01-10
+  enddate: 1897-06-30
+  notes: "Fondement de l'autodéfense au corps à corps utilisé sur le terrain"
+  summary: >-
+    Instruction dans cet art martial hybride nippo-européen combinant les clés de jujitsu, la boxe et l'escrime au bâton simple, appliqué plus tard lors de l'affrontement aux chutes de Reichenbach.
+
+# Cours avec dates et résumé, sans certificat
+- name: "Cryptographie &amp; résolution de chiffres"
+  active: true
+  issuing_organization: "Étude privée"
+  startdate: 1893-01-01
+  enddate: 1893-12-01
+  notes: "Entreprise pour préparer une monographie sur les écritures secrètes"
+  summary: >-
+    Étude systématique des chiffres de substitution et de transposition, appliquée plus tard à la résolution du chiffre des Hommes dansants et d'autres affaires impliquant une correspondance codée.
+
+# Cours inactif démontrant le champ active
+- name: "Technique du violon, étude avancée"
+  active: false
+  issuing_organization: "Enseignement privé"
+  credential_id: "VIOLIN-PRIV-1870"
+  startdate: 1870-01-01
+  enddate: 1871-12-01
+  notes: "Étude personnelle de jeunesse, sans pertinence professionnelle"
+  summary: >-
+    Instruction avancée au violon poursuivie comme intérêt personnel plutôt que comme développement professionnel.

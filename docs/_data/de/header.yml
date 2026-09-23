@@ -1,0 +1,7 @@
+# Kopfzeilen-Einleitungstext
+# File: _data/de/header.yml
+# Diese Datei enthält den einleitenden Absatz, der unter Namen und Titel erscheint
+# In der _config.yml aktivieren mit: languages.de.header_intro: true
+
+intro: >-
+  Beratender Detektiv der Baker Street, spezialisiert auf die Wissenschaft der Deduktion, forensische Chemie und die Lösung von Fällen, die sich für die offizielle Polizei als unlösbar erwiesen haben. Beauftragt von Scotland Yard, privaten Klienten und gelegentlich den Königshäusern Europas, wann immer die gewöhnlichen Mittel des Gesetzes an ihre Grenzen gestoßen sind.

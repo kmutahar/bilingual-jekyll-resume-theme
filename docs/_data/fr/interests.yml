@@ -1,0 +1,15 @@
+# Centres d'intérêt
+# Fichier : _data/fr/interests.yml
+# Centres d'intérêt professionnels, créatifs et sportifs
+#
+# Notes de schéma :
+# - Simple liste de centres d'intérêt/loisirs affichée sous forme de puces sous « Centres d'intérêt ».
+# - Chaque entrée précise une `description`. Aucun bascule actif/inactif n'est requise.
+
+- description: "Jouer du violon, en particulier les œuvres de Sarasate, et improviser distraitement en pleine réflexion"
+
+- description: "Apiculture dans les South Downs, avec une attention particulière portée à la ségrégation de la reine"
+
+- description: "Expérimentation chimique privée et catalogage de curiosités chimiques"
+
+- description: "Collecte et recoupement de coupures de presse sur le crime, les poisons et les affaires d'intérêt criminel"

@@ -1,0 +1,36 @@
+# Mitgliedschaften
+# File: _data/de/associations.yml
+# Berufliche Mitgliedschaften, Arbeitsgruppen und Branchenverbände
+#
+# Schema-Hinweise:
+# - `organization`: Name der Fachgesellschaft oder Gruppe.
+# - `role`: Mitgliedschaftsebene oder Führungsposition.
+# - `year`: Zeitraum (unterstützt &ndash; für Zeitspannen).
+# - `url`: Optionale offizielle Website-URL (als Link dargestellt und in der Druckvorlage ausgegeben).
+# - `summary`: Optionale Beschreibung der Beiträge und Leitungstätigkeit.
+# - `active`: Auf false setzen, um den Eintrag im generierten Lebenslauf auszulassen.
+
+# Mitgliedschaft mit URL
+- organization: "The Diogenes Club"
+  active: true
+  role: "Gastmitglied (durch Bruder Mycroft Holmes)"
+  year: "1888 &ndash; Heute"
+  url: "https://example.com/diogenes-club"
+  summary: >-
+    Gelegentlicher Gast des ungeselligsten Clubs Londons, in dem Schweigen durch Regel erzwungen wird und Mycroft Holmes einen festen Platz am Fenster innehat.
+
+# Mitgliedschaft ohne URL
+- organization: "Chemical Society of London"
+  active: true
+  role: "Korrespondierendes Mitglied"
+  year: "1878 &ndash; Heute"
+  summary: >-
+    Korrespondiert gelegentlich zu Fragen der analytischen Chemie mit Relevanz für die forensische Ermittlung, ohne regelmäßige Teilnahme an den Sitzungen.
+
+# Inaktive Mitgliedschaft zur Demonstration des active-Flags
+- organization: "Universitäre Amateur-Boxgesellschaft"
+  active: false
+  role: "Allgemeines Mitglied"
+  year: "1873 &ndash; 1876"
+  summary: >-
+    Frühe Universitätsmitgliedschaft, eher zum Zwecke des Sparrings als zur beruflichen Weiterentwicklung aufrechterhalten.

@@ -1,0 +1,42 @@
+# Distinctions
+# Fichier : _data/fr/recognitions.yml
+# Distinctions, récompenses et reconnaissances professionnelles
+#
+# Notes de schéma :
+# - `award` : Titre ou nom de la distinction.
+# - `organization` : Organisme, entreprise ou institution à l'origine de la distinction.
+# - `year` : Année unique (ex. « 2023 ») ou années séparées par des virgules pour les distinctions répétées (ex. « 2020, 2022 »).
+# - `summary` : Contexte narratif et importance de la distinction.
+# - `active` : Mettre à false pour omettre du CV généré.
+
+# Service rendu à un gouvernement étranger
+- award: "Reconnaissance pour services rendus à la République française"
+  active: true
+  organization: "République française"
+  year: "1890"
+  summary: >-
+    Reconnu pour une affaire d'État délicate résolue pour le compte du gouvernement français, dont les détails demeurent non divulgués à la demande des parties concernées.
+
+# Don personnel de la Couronne
+- award: "Épingle de cravate en émeraude, cadeau personnel"
+  active: true
+  organization: "Sa Majesté la Reine"
+  year: "1895"
+  summary: >-
+    Offerte en reconnaissance personnelle d'un service d'une délicatesse et d'une importance considérables, dont la nature ne saurait être rendue publique.
+
+# Distinction reçue à plusieurs reprises
+- award: "Tabatière sertie d'une améthyste"
+  active: true
+  organization: "Maisons royales étrangères"
+  year: "1888, 1892"
+  summary: >-
+    Reçue à deux reprises de clients étrangers reconnaissants à la suite de la résolution confidentielle d'affaires touchant leurs maisons.
+
+# Distinction déclinée, inactive par choix
+- award: "Offre d'anoblissement (déclinée)"
+  active: false
+  organization: "Couronne britannique"
+  year: "1902"
+  summary: >-
+    Un honneur offert mais respectueusement décliné, préférant la liberté de la pratique indépendante à la distinction publique officielle.

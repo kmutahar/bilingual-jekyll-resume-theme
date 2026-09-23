@@ -1,0 +1,29 @@
+# Langues
+# Fichier : _data/fr/languages.yml
+# Compétences linguistiques
+#
+# Notes de schéma :
+# - `language` : Nom de la langue.
+# - `description` : Description complète du niveau de compétence (utilisée dans un tableau à 2 colonnes lorsque `resume_section.languages: true`).
+# - `descrp_short` : Descripteur compact (utilisé pour les badges d'en-tête lorsque `resume_section.lang_header: true`).
+# - `active` : Mettre à false pour omettre du CV.
+
+- language: "Anglais"
+  active: true
+  description: "Langue maternelle"
+  descrp_short: "Natif"
+
+- language: "Français"
+  active: true
+  description: "Compétence professionnelle"
+  descrp_short: "Professionnel"
+
+- language: "Allemand"
+  active: true
+  description: "Compétence de travail"
+  descrp_short: "Opérationnel"
+
+- language: "Latin"
+  active: false
+  description: "Compétence de lecture"
+  descrp_short: "Lecture"

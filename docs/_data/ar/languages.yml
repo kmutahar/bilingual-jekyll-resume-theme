@@ -10,20 +10,20 @@
 
 - language: "الإنجليزية"
   active: true
-  description: "إتقان ثنائي / لغة أم"
+  description: "إتقان اللغة الأم"
   descrp_short: "لغة أم"
 
-- language: "العربية"
-  active: true
-  description: "اللغة الأم / إتقان ثنائي كامل"
-  descrp_short: "لغة أم"
-
-- language: "الألمانية"
+- language: "الفرنسية"
   active: true
   description: "كفاءة مهنية عملية"
   descrp_short: "مهني"
 
-- language: "الإسبانية"
+- language: "الألمانية"
+  active: true
+  description: "كفاءة عملية"
+  descrp_short: "عملي"
+
+- language: "اللاتينية"
   active: false
-  description: "كفاءة عمل ابتدائية"
-  descrp_short: "ابتدائي"
+  description: "كفاءة قراءة"
+  descrp_short: "قراءة"

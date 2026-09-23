@@ -1,0 +1,55 @@
+# Berufserfahrung
+# File: _data/de/experience.yml
+# Berufliche Erfahrung und Beschäftigungsverlauf
+#
+# Schema-Hinweise:
+# - Positionen werden nach `company`-Namen gruppiert; mehrere Positionen beim selben Arbeitgeber erscheinen zusammen.
+# - Positionen beim selben Unternehmen werden nach `startdate` sortiert (neueste zuerst).
+# - Durchgehende Positionen verwenden ISO-Daten (`startdate: YYYY-MM-DD`, `enddate: YYYY-MM-DD` oder `enddate: Present`).
+# - Nicht durchgehende Positionen verwenden das `durations`-Array mit HTML-Entitäten (`&ndash;`, `&amp;`).
+# - `active: false` bewahrt historische oder Entwurfseinträge, ohne sie darzustellen.
+
+# Selbstständige Praxis (aktuell)
+- company: "221B Baker Street, Selbstständige Praxis"
+  position: "Beratender Detektiv"
+  startdate: 1881-01-01
+  enddate: Present
+  location: "London, England"
+  active: true
+  notes: "Der einzige praktizierende beratende Detektiv"
+  summary: >-
+    Begründete den Berufsstand des beratenden Detektivs. Untersucht Fälle, die von privaten Klienten, der offiziellen Polizei und ausländischen Regierungen zugetragen werden, unter Anwendung methodischer Beobachtung und deduktiver Schlussfolgerung, wo die konventionelle Ermittlung versagt hat.
+
+# Nicht durchgehende vertrauliche Beratungstätigkeit
+- company: "Metropolitan Police Service, Kriminalermittlungsabteilung"
+  position: "Beratender Berater (Inoffiziell)"
+  durations:
+    - duration: "1881 &ndash; 1888"
+    - duration: "&amp; 1894 &ndash; Heute"
+  location: "London, England"
+  active: true
+  notes: "Inoffizielle Tätigkeit, auf persönliche Bitte der Inspektoren Lestrade, Gregson und Athelney Jones"
+  summary: >-
+    Berät bei Fällen, die die gewöhnliche Zuständigkeit der offiziellen Polizei übersteigen, einschließlich Mord, Erpressung und Angelegenheiten der Staatssicherheit. Wird privat für die Lösung zahlreicher Fälle anerkannt, die unter offiziellem Abschluss veröffentlicht wurden.
+
+# Einzelnes vertrauliches Mandat für eine ausländische Krone
+- company: "Königreich Böhmen, Königshaus"
+  position: "Sonderermittler (Vertrauliches Mandat)"
+  startdate: 1888-03-01
+  enddate: 1888-03-20
+  location: "London, England"
+  active: true
+  notes: "Direkt beauftragt von Seiner Majestät dem König von Böhmen"
+  summary: >-
+    Unter strengster Vertraulichkeit beauftragt, ein kompromittierendes Foto zurückzuholen, das eine königliche Verlobung bedrohte, was Überwachung, Verkleidung und Verhandlungen mit einer ehemaligen Opernsängerin von beträchtlichem Verstand erforderte.
+
+# Frühe, weniger formelle Praxisphase
+- company: "Montague Street Kanzlei"
+  position: "Selbstständiger Ermittler (Frühe Praxis)"
+  startdate: 1877-01-01
+  enddate: 1880-12-31
+  location: "London, England"
+  active: false
+  notes: "Frühe Laufbahn, vor der Partnerschaft mit Dr. Watson in der Baker Street"
+  summary: >-
+    Übernahm gelegentliche Fälle, die von Studienkollegen der Chemie und des Rechts zugetragen wurden, während die Methoden der Beobachtung und Schlussfolgerung entwickelt wurden, die später die Praxis des beratenden Detektivs prägen sollten.

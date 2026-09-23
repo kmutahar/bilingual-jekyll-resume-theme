@@ -12,47 +12,40 @@
 # - `courses`: Optional nested list for internal record-keeping (never rendered on the resume).
 # - `active`: Set to false to omit from generated resume.
 
-# Credential with verification ID, URL, and expiration date
-- name: "AWS Certified Solutions Architect &ndash; Professional"
+# Private study certificate, no expiration (period-styled)
+- name: "Advanced Chemical Analysis &ndash; Private Study Certificate"
   active: true
-  issuing_organization: "Amazon Web Services"
-  credential_id: "AWS-PSA-7829104"
-  credential_url: "https://aws.amazon.com/verification"
-  issue_date: 2023-04-15
-  expiration: 2026-04-15
+  issuing_organization: "St. Bartholomew's Hospital Laboratories"
+  credential_id: "BART-CHEM-1878"
+  issue_date: 1878-06-01
 
-# Credential with ID, URL, expiration, and nested courses for personal record-keeping
-- name: "Certified Kubernetes Administrator (CKA)"
+# Credential with verification reference
+- name: "Registered Consulting Detective"
   active: true
-  issuing_organization: "Cloud Native Computing Foundation (CNCF)"
-  credential_id: "CKA-2409852"
-  credential_url: "https://www.cncf.io/certification/cka/"
-  issue_date: 2022-11-20
-  expiration: 2025-11-20
+  issuing_organization: "Private Register of Consulting Practitioners, London"
+  credential_id: "CD-LON-0001"
+  credential_url: "https://example.com/register/cd-lon-0001"
+  issue_date: 1881-01-01
+
+# Nested private courses for internal record-keeping
+- name: "Practical Toxicology &amp; Poisons"
+  active: true
+  issuing_organization: "St. Bartholomew's Hospital Laboratories"
+  issue_date: 1879-02-15
   courses: # Optional: INTERNAL USE ONLY - not displayed on resume
-    - name: "Kubernetes Deep Dive & Production Operations"
+    - name: "Comparative Study of Cigar, Cigarette, and Pipe Tobacco Ash"
       active: false
-      issuing_organization: "The Linux Foundation"
-      credential_id: "LF-K8S-019"
-      credential_url: "https://training.linuxfoundation.org"
-      issue_date: 2022-10-05
+      issuing_organization: "Private Study"
+      issue_date: 1885-01-01
 
-# Credential with ID, no URL, and no expiration date (lifetime credential)
-- name: "HashiCorp Certified: Terraform Associate"
+# Credential without ID, URL, or expiration
+- name: "Comparative Handwriting and Document Analysis"
   active: true
-  issuing_organization: "HashiCorp"
-  credential_id: "HC-TA-554109"
-  issue_date: 2021-06-10
-
-# Credential without ID, without URL, and without expiration date
-- name: "ITIL 4 Foundation in IT Service Management"
-  active: true
-  issuing_organization: "AXELOS Global Best Practice"
-  issue_date: 2020-02-18
+  issuing_organization: "Private Study"
+  issue_date: 1880-09-10
 
 # Inactive certification demonstrating the active flag
-- name: "Oracle Certified Associate Java Programmer"
+- name: "Elementary First Aid and Bandaging"
   active: false
-  issuing_organization: "Oracle"
-  credential_id: "OCJP-10928"
-  issue_date: 2015-08-10
+  issuing_organization: "St. Bartholomew's Hospital"
+  issue_date: 1875-04-01

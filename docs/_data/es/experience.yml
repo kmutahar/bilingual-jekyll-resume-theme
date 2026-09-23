@@ -1,0 +1,55 @@
+# Experiencia
+# Archivo: _data/es/experience.yml
+# Trayectoria y experiencia laboral profesional
+#
+# Notas de esquema:
+# - Los puestos se agrupan por nombre de `company`; varios puestos en el mismo empleador aparecen juntos.
+# - Los puestos dentro de la misma empresa se ordenan por `startdate` (el más reciente primero).
+# - Los puestos continuos usan fechas ISO (`startdate: YYYY-MM-DD`, `enddate: YYYY-MM-DD` o `enddate: Present`).
+# - Los puestos no continuos usan el arreglo `durations` con entidades HTML (`&ndash;`, `&amp;`).
+# - `active: false` conserva entradas históricas o en borrador sin mostrarlas.
+
+# Práctica independiente (actual)
+- company: "221B Baker Street, Práctica Independiente"
+  position: "Detective asesor"
+  startdate: 1881-01-01
+  enddate: Present
+  location: "Londres, Inglaterra"
+  active: true
+  notes: "El único detective asesor en ejercicio"
+  summary: >-
+    Creó la profesión de detective asesor. Investiga casos remitidos por clientes particulares, cuerpos policiales oficiales y gobiernos extranjeros, aplicando la observación metódica y el razonamiento deductivo allí donde la investigación convencional ha fracasado.
+
+# Trabajo de asesoría confidencial no continuo
+- company: "Servicio de Policía Metropolitana, Departamento de Investigación Criminal"
+  position: "Asesor Consultor (Extraoficial)"
+  durations:
+    - duration: "1881 &ndash; 1888"
+    - duration: "&amp; 1894 &ndash; Actualidad"
+  location: "Londres, Inglaterra"
+  active: true
+  notes: "Capacidad extraoficial, a petición personal de los inspectores Lestrade, Gregson y Athelney Jones"
+  summary: >-
+    Asesora en casos que superan la competencia ordinaria de la fuerza oficial, incluidos asesinatos, chantajes y asuntos de seguridad del Estado. Reconocido de forma privada por la resolución de numerosos casos publicados como cerrados por la vía oficial.
+
+# Contrato confidencial único para una corona extranjera
+- company: "Reino de Bohemia, Casa Real"
+  position: "Investigador Especial (Contrato Confidencial)"
+  startdate: 1888-03-01
+  enddate: 1888-03-20
+  location: "Londres, Inglaterra"
+  active: true
+  notes: "Contratado directamente por Su Majestad el Rey de Bohemia"
+  summary: >-
+    Contratado bajo estricta confidencialidad para recuperar una fotografía comprometedora que amenazaba un compromiso real, lo que exigió vigilancia, disfraz y negociación con una antigua cantante de ópera de considerable inteligencia.
+
+# Período inicial y menos formal de la práctica
+- company: "Despacho de Montague Street"
+  position: "Investigador Independiente (Primeros Años de Práctica)"
+  startdate: 1877-01-01
+  enddate: 1880-12-31
+  location: "Londres, Inglaterra"
+  active: false
+  notes: "Primeros años de carrera, antes de la asociación en Baker Street con el Dr. Watson"
+  summary: >-
+    Aceptaba casos ocasionales remitidos por compañeros de estudios de química y derecho mientras desarrollaba los métodos de observación e inferencia que más tarde definirían la práctica del detective asesor.

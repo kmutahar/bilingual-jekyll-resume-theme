@@ -10,20 +10,20 @@
 
 - language: "English"
   active: true
-  description: "Native / Bilingual proficiency"
+  description: "Native proficiency"
   descrp_short: "Native"
 
-- language: "Arabic"
-  active: true
-  description: "Native / Bilingual proficiency"
-  descrp_short: "Native"
-
-- language: "German"
+- language: "French"
   active: true
   description: "Professional working proficiency"
   descrp_short: "Professional"
 
-- language: "Spanish"
+- language: "German"
+  active: true
+  description: "Working proficiency"
+  descrp_short: "Working"
+
+- language: "Latin"
   active: false
-  description: "Elementary working proficiency"
-  descrp_short: "Elementary"
+  description: "Reading proficiency"
+  descrp_short: "Reading"

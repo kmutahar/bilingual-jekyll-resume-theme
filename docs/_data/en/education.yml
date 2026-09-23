@@ -12,40 +12,37 @@
 # - `summary`: Narrative paragraph detailing coursework, thesis, or academic honors.
 # - `active`: Set to false to preserve records without displaying them.
 
-# Degree with multiple awards list and summary
-- degree: "Master of Science in Computer Science"
-  uni: "Stanford University"
-  year: "Sep 2017 &ndash; Jun 2019"
-  location: "Stanford, CA"
+# University period (the canon leaves the institution unnamed)
+- degree: "Undergraduate Studies in Chemistry and the Natural Sciences"
+  uni: "University (institution undocumented in the surviving record)"
+  year: "1872 &ndash; 1876"
+  location: "England"
   active: true
-  awards:
-    - award: "Graduate Fellowship in Systems Architecture"
-    - award: "Outstanding Graduate Research Paper Award (2019)"
   summary: >-
-    Specialized in Distributed Systems and Cloud Infrastructure. Thesis: "Low-Latency Consensus Protocols for Heterogeneous Edge-Cloud Clusters."
+    Concentrated on organic chemistry, anatomy, and the sensational literature of crime, to the general neglect of the standard curriculum. Spent two years in rooms before removing to London to begin independent practice.
 
-# Degree with single award string and summary
-- degree: "Bachelor of Science in Software Engineering"
-  uni: "King Fahd University of Petroleum and Minerals"
-  year: "Sep 2012 &ndash; May 2016"
-  location: "Dhahran, Saudi Arabia"
+# Private laboratory study at Bart's, where the Watson partnership began
+- degree: "Private Study in Analytical and Forensic Chemistry"
+  uni: "St. Bartholomew's Hospital Laboratories"
+  year: "1877 &ndash; 1881"
+  location: "London, England"
   active: true
-  award: "First Class Honors &amp; Valedictorian Award"
+  award: "Devised a reagent for the detection of haemoglobin stains, precipitable by nothing else"
   summary: >-
-    Graduated top of class with core focus on operating systems, algorithm design, and networking. Led the university competitive programming team.
+    Independent laboratory research into blood detection, poisons, and the chemical analysis of trace evidence, conducted alongside occasional casework. It was in these laboratories that the partnership with Dr. John H. Watson began.
 
-# Degree demonstrating minimal optional fields (no awards or summary)
-- degree: "Executive Certificate in Technical Leadership"
-  uni: "MIT Sloan School of Management"
-  year: "2021"
-  location: "Cambridge, MA"
+# Minimal record demonstrating optional fields
+- degree: "Special Studies in Anatomy"
+  uni: "University of London"
+  year: "1876"
+  location: "London, England"
   active: true
 
 # Inactive record demonstrating the active flag
-- degree: "Associate Degree in Information Systems"
-  uni: "Community Technical College"
-  year: "2010 &ndash; 2012"
-  location: "Seattle, WA"
+- degree: "Preparatory Studies"
+  uni: "Yorkshire Boarding School"
+  year: "1866 &ndash; 1872"
+  location: "Yorkshire, England"
   active: false
   summary: >-
-    Foundational coursework in computer networking and relational database design.
+    Early schooling prior to university, omitted from the professional record.

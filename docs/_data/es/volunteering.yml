@@ -1,0 +1,44 @@
+# Voluntariado
+# Archivo: _data/es/volunteering.yml
+# Trabajo voluntario y servicio comunitario
+#
+# Notas de esquema:
+# - Se agrupa por nombre de `company`; varios puestos en la misma organización aparecen juntos.
+# - Los puestos continuos usan fechas ISO (`startdate: YYYY-MM-DD`, `enddate: YYYY-MM-DD` o `enddate: Present`).
+# - Los puestos no continuos usan el arreglo `durations` con entidades HTML (`&ndash;`, `&amp;`).
+# - `summary` se muestra cuando `enable_summary: true` está configurado en `_config.yml`.
+# - `active: false` conserva las entradas sin mostrarlas.
+
+# Trabajo pro bono en curso
+- company: "Práctica Pro Bono Independiente"
+  position: "Detective Asesor No Remunerado para Clientes de Recursos Limitados"
+  startdate: 1881-01-01
+  enddate: Present
+  location: "Londres, Inglaterra"
+  active: true
+  notes: "No se acepta honorario alguno cuando el cliente no puede pagar y el problema resulta de interés"
+  summary: >-
+    Acepta casos sin cobrar honorarios siempre que el cliente no pueda pagar y el problema en sí presente rasgos de interés científico o público, desde institutrices hasta pequeños comerciantes.
+
+# Instrucción comunitaria durante la etapa de retiro
+- company: "Círculo de Apicultores de Sussex Downs"
+  position: "Mentor &amp; Conferenciante sobre Gestión de Colmenares"
+  durations:
+    - duration: "Primavera de 1904"
+    - duration: "&amp; Otoño de 1905"
+  location: "Sussex, Inglaterra"
+  active: true
+  notes: "Asociación local de agricultores, durante el retiro"
+  summary: >-
+    Asesoró a pequeños agricultores locales sobre el manejo de colmenas y técnicas de segregación de la reina, basándose en investigaciones privadas publicadas posteriormente como manual de apicultura.
+
+# Registro de voluntariado inactivo que demuestra el indicador active
+- company: "Comité de Ayuda del Distrito de Whitechapel"
+  position: "Investigador Ocasional, No Remunerado"
+  startdate: 1888-09-01
+  enddate: 1888-11-30
+  location: "Londres, Inglaterra"
+  active: false
+  notes: "Participación breve y extraoficial; omitida del expediente estándar"
+  summary: >-
+    Prestó asistencia extraoficial ocasional revisando expedientes de casos durante un período de gran inquietud pública en el distrito.

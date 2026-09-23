@@ -7,18 +7,18 @@
 # - `url`: الرابط المستهدف (يظهر بجانب النص في وضع الطباعة).
 # - `active`: اضبط على false لاستبعاد الرابط من السيرة الذاتية.
 
-- description: "مدونة المعمارية التقنية وأبحاث النظم الموزعة"
+- description: "سجلّات القضايا كما دوّنها الدكتور جون هـ. واطسون"
   active: true
-  url: "https://blog.example.com"
+  url: "https://example.com/watson/case-chronicles"
 
-- description: "ملف مشاريع المصدر المفتوح والأدوات على GitHub"
+- description: "الدراسات المنشورة في العلوم الجنائية"
   active: true
-  url: "https://github.com/example"
+  url: "https://example.com/monographs"
 
-- description: "الأبحاث والمنشورات العلمية على باحث Google"
+- description: "أرشيف مراسلات ٢٢١ب شارع بيكر"
   active: true
-  url: "https://scholar.google.com"
+  url: "https://example.com/baker-street-archive"
 
-- description: "مذكرات هندسية مؤرشفة"
+- description: "ملاحظات القضايا المبكرة، فترة شارع مونتاغيو"
   active: false
-  url: "https://notes.example.com"
+  url: "https://example.com/archive/montague-street"

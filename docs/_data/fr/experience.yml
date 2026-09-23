@@ -1,0 +1,55 @@
+# Expérience
+# Fichier : _data/fr/experience.yml
+# Expérience professionnelle et parcours d'emploi
+#
+# Notes de schéma :
+# - Les postes sont regroupés par nom d'entreprise (`company`) ; plusieurs postes chez le même employeur apparaissent ensemble.
+# - Les postes chez la même entreprise sont triés par `startdate` (le plus récent en premier).
+# - Les postes continus utilisent des dates ISO (`startdate: AAAA-MM-JJ`, `enddate: AAAA-MM-JJ` ou `enddate: présent`).
+# - Les postes discontinus utilisent le tableau `durations` avec des entités HTML (`&ndash;`, `&amp;`).
+# - `active: false` conserve les entrées historiques ou provisoires sans les afficher.
+
+# Pratique indépendante (actuelle)
+- company: "221B Baker Street, Cabinet indépendant"
+  position: "Détective consultant"
+  startdate: 1881-01-01
+  enddate: présent
+  location: "Londres, Angleterre"
+  active: true
+  notes: "Le seul détective consultant en exercice"
+  summary: >-
+    A créé la profession de détective consultant. Enquête sur des affaires transmises par des clients privés, les forces de police officielles et des gouvernements étrangers, en appliquant une observation méthodique et un raisonnement déductif là où l'enquête conventionnelle a échoué.
+
+# Travail de conseil confidentiel discontinu
+- company: "Metropolitan Police Service, Département des enquêtes criminelles"
+  position: "Conseiller consultant (officieux)"
+  durations:
+    - duration: "1881 &ndash; 1888"
+    - duration: "&amp; 1894 &ndash; présent"
+  location: "Londres, Angleterre"
+  active: true
+  notes: "À titre officieux, à la demande personnelle des inspecteurs Lestrade, Gregson et Athelney Jones"
+  summary: >-
+    Conseille sur des affaires dépassant les compétences ordinaires de la police officielle, notamment des meurtres, des chantages et des questions de sécurité d'État. Crédité en privé de la résolution de nombreuses affaires publiées comme closes par les autorités.
+
+# Mission confidentielle unique pour une couronne étrangère
+- company: "Royaume de Bohême, Maison royale"
+  position: "Enquêteur spécial (mission confidentielle)"
+  startdate: 1888-03-01
+  enddate: 1888-03-20
+  location: "Londres, Angleterre"
+  active: true
+  notes: "Engagé directement par Sa Majesté le roi de Bohême"
+  summary: >-
+    Engagé sous stricte confidentialité pour récupérer une photographie compromettante menaçant des fiançailles royales, nécessitant surveillance, déguisement et négociation avec une ancienne cantatrice d'une intelligence considérable.
+
+# Période de pratique précoce, moins formelle
+- company: "Cabinet de Montague Street"
+  position: "Enquêteur indépendant (débuts de carrière)"
+  startdate: 1877-01-01
+  enddate: 1880-12-31
+  location: "Londres, Angleterre"
+  active: false
+  notes: "Débuts de carrière, avant l'association avec le Dr Watson à Baker Street"
+  summary: >-
+    A accepté quelques affaires occasionnelles transmises par d'autres étudiants en chimie et en droit, tout en développant les méthodes d'observation et de déduction qui définiraient plus tard la pratique du détective consultant.

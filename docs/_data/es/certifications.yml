@@ -1,0 +1,51 @@
+# Certificaciones
+# Archivo: _data/es/certifications.yml
+# Certificaciones y licencias profesionales
+#
+# Notas de esquema:
+# - `name`: Título de la certificación (admite entidades HTML como &ndash;).
+# - `issuing_organization`: Organización que otorga la credencial.
+# - `credential_id`: Identificador opcional del certificado.
+# - `credential_url`: URL opcional de verificación que enlaza el identificador de la credencial.
+# - `issue_date`: Fecha ISO obligatoria (YYYY-MM-DD).
+# - `expiration`: Fecha ISO opcional de expiración (dejar en blanco para credenciales sin caducidad).
+# - `courses`: Lista anidada opcional para uso interno (nunca se muestra en el currículum).
+# - `active`: Establecer en false para omitirla del currículum generado.
+
+# Certificado de estudios privados, sin expiración (con estilo de época)
+- name: "Análisis Químico Avanzado &ndash; Certificado de Estudios Privados"
+  active: true
+  issuing_organization: "Laboratorios del St. Bartholomew's Hospital"
+  credential_id: "BART-CHEM-1878"
+  issue_date: 1878-06-01
+
+# Credencial con referencia de verificación
+- name: "Detective Asesor Registrado"
+  active: true
+  issuing_organization: "Registro Privado de Profesionales Consultores, Londres"
+  credential_id: "CD-LON-0001"
+  credential_url: "https://example.com/register/cd-lon-0001"
+  issue_date: 1881-01-01
+
+# Cursos privados anidados para uso interno
+- name: "Toxicología Práctica &amp; Venenos"
+  active: true
+  issuing_organization: "Laboratorios del St. Bartholomew's Hospital"
+  issue_date: 1879-02-15
+  courses: # Opcional: SOLO PARA USO INTERNO - no se muestra en el currículum
+    - name: "Estudio Comparativo de la Ceniza de Puro, Cigarrillo y Pipa"
+      active: false
+      issuing_organization: "Estudio Privado"
+      issue_date: 1885-01-01
+
+# Credencial sin identificador, URL o expiración
+- name: "Análisis Comparativo de Caligrafía y Documentos"
+  active: true
+  issuing_organization: "Estudio Privado"
+  issue_date: 1880-09-10
+
+# Certificación inactiva que demuestra el indicador active
+- name: "Primeros Auxilios Elementales y Vendaje"
+  active: false
+  issuing_organization: "St. Bartholomew's Hospital"
+  issue_date: 1875-04-01

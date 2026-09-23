@@ -1,0 +1,29 @@
+# Idiomas
+# Archivo: _data/es/languages.yml
+# Competencias lingüísticas
+#
+# Notas de esquema:
+# - `language`: Nombre del idioma.
+# - `description`: Descripción completa del nivel de dominio (se usa en la tabla de dos columnas cuando `resume_section.languages: true`).
+# - `descrp_short`: Descriptor compacto (se usa en las insignias del encabezado cuando `resume_section.lang_header: true`).
+# - `active`: Establecer en false para omitirlo del currículum.
+
+- language: "Inglés"
+  active: true
+  description: "Dominio nativo"
+  descrp_short: "Nativo"
+
+- language: "Francés"
+  active: true
+  description: "Dominio profesional"
+  descrp_short: "Profesional"
+
+- language: "Alemán"
+  active: true
+  description: "Dominio funcional"
+  descrp_short: "Funcional"
+
+- language: "Latín"
+  active: false
+  description: "Dominio de lectura"
+  descrp_short: "Lectura"

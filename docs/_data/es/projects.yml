@@ -1,0 +1,44 @@
+# Proyectos
+# Archivo: _data/es/projects.yml
+# Proyectos personales y profesionales de ingeniería
+#
+# Notas de esquema:
+# - `project`: Nombre del proyecto.
+# - `role`: Tu título o responsabilidad en el proyecto.
+# - `duration`: Período mostrado (admite &ndash;).
+# - `url`: URL opcional del destino en producción o del repositorio de origen.
+# - `description`: Descripción narrativa de las tecnologías, la arquitectura y el impacto.
+# - `active`: Establecer en false para omitirlo del currículum generado.
+
+# Monografía forense insignia
+- project: "Sobre la Distinción entre las Cenizas de los Diversos Tabacos"
+  active: true
+  role: "Autor"
+  duration: "1887"
+  url: "https://example.com/monographs/tobacco-ashes"
+  description: >-
+    Una monografía que enumera ciento cuarenta formas de ceniza de tabaco de pipa, puro y cigarrillo, ilustrada con láminas, destinada a la distinción forense de los residuos de tabaco hallados en la escena.
+
+# Manual de apicultura de la etapa de retiro
+- project: "Manual Práctico de Apicultura, con Algunas Observaciones sobre la Segregación de la Reina"
+  active: true
+  role: "Autor"
+  duration: "1903 &ndash; Actualidad"
+  description: >-
+    Un manual de gestión de colmenares escrito durante el retiro en South Downs, que combina la observación minuciosa del comportamiento de las colmenas con el mismo rigor metódico aplicado a casos anteriores.
+
+# Estudio sobre escrituras secretas
+- project: "Monografía sobre el Rastreo de Huellas, con Observaciones sobre el Yeso de París como Conservador de Impresiones"
+  active: true
+  role: "Autor"
+  duration: "1889"
+  description: >-
+    Un estudio técnico sobre la conservación y el análisis comparativo de huellas mediante moldes de yeso, desarrollado para estandarizar la recogida de pruebas en escenarios al aire libre.
+
+# Proyecto inactivo que demuestra el indicador active
+- project: "Estudio sobre la Influencia de un Oficio en la Forma de la Mano"
+  active: false
+  role: "Autor"
+  duration: "1883"
+  description: >-
+    Un estudio temprano e inédito que compara los callos y deformaciones de la mano según diversos oficios, superado más tarde por monografías publicadas más completas.

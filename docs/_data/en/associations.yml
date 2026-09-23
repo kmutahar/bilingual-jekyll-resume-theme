@@ -10,27 +10,27 @@
 # - `summary`: Optional description of contributions and governance.
 # - `active`: Set to false to omit from generated resume.
 
-# Association with official URL
-- organization: "Association for Computing Machinery (ACM)"
+# Association with a URL
+- organization: "The Diogenes Club"
   active: true
-  role: "Senior Member &amp; Special Interest Group Contributor"
-  year: "2019 &ndash; Present"
-  url: "https://www.acm.org"
+  role: "Guest Member (through brother Mycroft Holmes)"
+  year: "1888 &ndash; Present"
+  url: "https://example.com/diogenes-club"
   summary: >-
-    Active peer reviewer for distributed systems publications and contributor to SIGMOD research initiatives on large-scale data storage systems.
+    Occasional guest of the most unsociable club in London, where silence is enforced by rule and Mycroft Holmes maintains a permanent chair by the window.
 
-# Association without URL
-- organization: "National Cloud &amp; Distributed Software Council"
+# Association without a URL
+- organization: "Chemical Society of London"
   active: true
-  role: "Advisory Board Member"
-  year: "2021 &ndash; 2024"
+  role: "Corresponding Member"
+  year: "1878 &ndash; Present"
   summary: >-
-    Advised industry working groups on national data sovereignty standards, interoperability frameworks, and secure cloud migration policies.
+    Corresponds occasionally on matters of analytical chemistry relevant to forensic detection, without regular attendance at proceedings.
 
-# Inactive association record demonstrating the active flag
-- organization: "Regional Software Engineers Guild"
+# Inactive association demonstrating the active flag
+- organization: "University Amateur Boxing Society"
   active: false
   role: "General Member"
-  year: "2015 &ndash; 2018"
+  year: "1873 &ndash; 1876"
   summary: >-
-    Participated in regional technical workshops and community coding hackathons.
+    Early university membership, maintained for sparring practice rather than professional development.

@@ -33,21 +33,9 @@ timezone: UTC                  # Timezone for date rendering (e.g., UTC, America
 # ==============================================================================
 # 3. PERSONAL INFORMATION & TITLES (Required)
 # ==============================================================================
-# English Name (used in header and fallback alt text)
-name:
-  first: "Your"
-  middle: "Middle" # Optional
-  last: "Lastname"
-
-# Arabic Name (used in Arabic resume layout and Arabic alt text)
-name_ar:
-  first: "الاسم"
-  middle: "الأوسط" # Optional
-  last: "الأخير"
-
-# Professional job titles
-resume_title: "Your Job Title"        # English job title
-resume_title_ar: "مسماك الوظيفي"      # Arabic job title
+# Name, job title, address, and avatar alt text are per-language in Section 6.5
+# (languages.<lang>.name / .resume_title / .address / .avatar_alt). There is no
+# site-wide name or title key in v1.0.0.
 
 # ==============================================================================
 # 4. PROFILE PICTURE / AVATAR SETTINGS
@@ -59,10 +47,8 @@ resume_avatar: true
 # Defaults to theme default '/assets/images/Profile-min.jpg' if not specified
 # avatar_url: "assets/images/Profile-min.jpg"
 
-# Accessible alt text overrides (defaults to English full name and Arabic full name)
-# avatar_alt_en: "Your Full Name"
-# avatar_alt_ar: "اسمك الكامل"
-# avatar_alt: "Profile photo"        # Universal fallback alt text
+# Accessible alt text falls back to languages.<lang>.avatar_alt (Section 6.5),
+# then languages.<lang>.name, then locale.ui.photo_alt if neither is set.
 
 # Clickable avatar link destination and behavior
 # Set to false to render as a plain standalone <img> without an <a> wrapper
@@ -73,10 +59,9 @@ resume_avatar: true
 # 5. CONTACT INFORMATION (Required: at least email)
 # ==============================================================================
 contact_info:
-  email: "your.email@example.com"    # Required for contact CTA button
-  phone: "+1 555 555 5555"           # Optional
-  address: "Your City, Country"      # Optional English address
-  address_ar: "مدينتك، دولتك"        # Optional Arabic address
+  email: "sherlock@example.com"      # Required for contact CTA button
+  phone: "+44 20 7946 0958"          # Optional
+  # Address is per-language: languages.<lang>.address (Section 6.5)
   # dob: 1990-01-01                  # Optional Date of Birth (YYYY-MM-DD)
   #
   # Advanced: alternate contact info used when enable_live: true
@@ -86,8 +71,10 @@ contact_info:
 # ==============================================================================
 # 6. SOCIAL MEDIA LINKS (Optional - only add platforms you actively use)
 # ==============================================================================
-# Supported platforms render interactive SVG icons on page and text in print:
+# Supported platforms render interactive SVG icons on page and text in print.
+# `email` renders a native mailto: link with an accessible label (Feature 1.7):
 social_links:
+  email: "you@example.com"
   github: https://github.com/yourusername
   linkedin: https://www.linkedin.com/in/yourhandle/
   twitter: https://twitter.com/yourhandle
@@ -117,38 +104,60 @@ languages:
     header_intro: true
     name: "Your Full Name"
     resume_title: "Your Job Title"
-    address: "Your City, Country"
-    avatar_alt: "Profile photo"
+    address: "Your City, Your Country"
+    avatar_alt: "Your profile photo"
   ar:
     data_path: ar
     url: /ar/cv/
-    header_intro: false
+    header_intro: true
     name: "اسمك الكامل"
     resume_title: "مسماك الوظيفي"
-    address: "مدينتك، دولتك"
-    avatar_alt: "الصورة الشخصية"
+    address: "مدينتك، بلدك"
+    avatar_alt: "صورتك الشخصية"
+  es:
+    data_path: es
+    url: /es/cv/
+    header_intro: true
+    name: "Tu Nombre Completo"
+    resume_title: "Tu Cargo"
+    address: "Tu Ciudad, Tu País"
+    avatar_alt: "Tu foto de perfil"
+  fr:
+    data_path: fr
+    url: /fr/cv/
+    header_intro: true
+    name: "Votre Nom Complet"
+    resume_title: "Votre Poste"
+    address: "Votre Ville, Votre Pays"
+    avatar_alt: "Votre photo de profil"
+  de:
+    data_path: de
+    url: /de/cv/
+    header_intro: true
+    name: "Ihr Vollständiger Name"
+    resume_title: "Ihre Berufsbezeichnung"
+    address: "Ihre Stadt, Ihr Land"
+    avatar_alt: "Ihr Profilbild"
+  ur:
+    data_path: ur
+    url: /ur/cv/
+    header_intro: true
+    name: "آپ کا پورا نام"
+    resume_title: "آپ کا عہدہ"
+    address: "آپ کا شہر، آپ کا ملک"
+    avatar_alt: "آپ کی پروفائل تصویر"
 
 default_lang: en                     # Drives hreflang x-default and fallback lookups
 
 # ==============================================================================
 # 7. RESUME DISPLAY & BEHAVIOR CONTROLS
 # ==============================================================================
-# Data source subpath within _data/ (dot-separated path, omitting _data/ prefix)
-active_resume_path_en: "en"          # Reads from _data/en/* (recommended)
-active_resume_path_ar: "ar"          # Reads from _data/ar/* (recommended)
-
-# Optional custom resume destination URLs (used by error pages and language navigation)
-# If omitted, auto-resolves from pages using layout: resume-en / resume-ar, defaulting to '/en/cv/' and '/ar/cv/'
-# resume_en_url: "/en/cv/"
-# resume_ar_url: "/ar/cv/"
-
-# Interactive bilingual language switcher (floating EN <-> AR button)
+# Interactive language switcher (floating button, lists every entry in `languages`)
 resume_language_switcher: true       # Toggle floating language switcher (default: true)
 
 # Header display toggles
 display_header_contact_info: true    # Show contact info row in header
-resume_header_intro_en: true         # Show English bio/intro below header (from _data/en/header.yml)
-resume_header_intro_ar: false        # Show Arabic bio/intro below header (from _data/ar/header.yml)
+# Per-language header intro toggle: languages.<lang>.header_intro (Section 6.5)
 
 # Job search status button in header:
 # true  -> Display contact button linked to contact_info.email
@@ -160,6 +169,11 @@ resume_looking_for_work: true
 enable_summary: false                # Show detailed summary/description for roles & courses
 enable_live: false                   # Use email_live & phone_live instead of standard contact info
 resume_print_social_links: true      # Render text list of social links in physical and PDF prints
+
+# Build-time resume data validation (warns by default; never fails the build
+# unless validate_resume_strict is also true)
+validate_resume: true
+validate_resume_strict: false
 
 # ==============================================================================
 # 8. RESUME SECTIONS TOGGLE & RENDER ORDER

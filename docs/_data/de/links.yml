@@ -1,0 +1,24 @@
+# Weitere Links
+# File: _data/de/links.yml
+# Zusätzliche berufliche Links (Portfolio, Veröffentlichungen, Code-Repositories)
+#
+# Schema-Hinweise:
+# - `description`: Titel oder beschreibender Ankertext für den Link.
+# - `url`: Ziel-URL (inline in der Druckversion ausgegeben).
+# - `active`: Auf false setzen, um den Eintrag im generierten Lebenslauf auszulassen.
+
+- description: "Fallchroniken, aufgezeichnet von Dr. John H. Watson"
+  active: true
+  url: "https://example.com/watson/case-chronicles"
+
+- description: "Veröffentlichte Monografien zur forensischen Wissenschaft"
+  active: true
+  url: "https://example.com/monographs"
+
+- description: "Korrespondenzarchiv 221B Baker Street"
+  active: true
+  url: "https://example.com/baker-street-archive"
+
+- description: "Frühe Fallnotizen, Montague-Street-Periode"
+  active: false
+  url: "https://example.com/archive/montague-street"

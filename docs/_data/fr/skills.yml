@@ -1,0 +1,33 @@
+# Compétences
+# Fichier : _data/fr/skills.yml
+# Compétences et aptitudes professionnelles
+#
+# Notes de schéma :
+# - `skill` : Domaine de compétence ou intitulé.
+# - `description` : Description narrative détaillée de l'expertise technique, des outils et des pratiques.
+# - `active` : Mettre à false pour omettre du CV généré.
+
+- skill: "Chimie &amp; analyse médico-légale"
+  active: true
+  description: >-
+    Expert en chimie analytique et organique appliquée à l'investigation criminelle, notamment la détection du sang, des poisons et des traces résiduelles, et l'analyse comparative des cendres de tabac, de l'encre et du papier.
+
+- skill: "Observation, déduction &amp; inférence"
+  active: true
+  description: >-
+    La science de la déduction : remonter à partir de menus détails observés, poussière, taches, callosités et habitudes vestimentaires, jusqu'à l'enchaînement exact des événements et au caractère de la personne examinée.
+
+- skill: "Déguisement, usurpation d'identité &amp; méthodes d'infiltration"
+  active: true
+  description: >-
+    Compétent en déguisement physique, dialectes et identités d'emprunt, employés pour la surveillance et l'infiltration lorsque l'enquête directe compromettrait l'objectif poursuivi.
+
+- skill: "Baritsu, boxe &amp; bâton simple"
+  active: true
+  description: >-
+    Formé à l'art de combat hybride nippo-européen du baritsu, à la boxe amateur et à l'escrime au bâton simple, appliqué à la confrontation physique et à l'autodéfense au cours des enquêtes.
+
+- skill: "Cryptanalyse &amp; résolution de chiffres"
+  active: false
+  description: >-
+    Résolution de chiffres de substitution et de transposition et de correspondances codées, conservée comme spécialité annexe plutôt que domaine de pratique principal.

@@ -1,0 +1,48 @@
+# Ausbildung
+# File: _data/de/education.yml
+# Akademische Abschlüsse und Ausbildungshintergrund
+#
+# Schema-Hinweise:
+# - `uni`: Name der Institution oder Universität.
+# - `degree`: Abschlussbezeichnung und Fachrichtung.
+# - `year`: Anzeigezeitraum (verwendet &ndash; für Zeitspannen).
+# - `location`: Standort der Institution.
+# - `awards`: Optionale Liste von Ehrungen/Stipendien.
+# - `award`: Optionale einzelne Auszeichnung als Zeichenkette (kann zusätzlich zur oder anstelle der awards-Liste verwendet werden).
+# - `summary`: Erzählender Absatz zu Lehrveranstaltungen, Abschlussarbeit oder akademischen Ehrungen.
+# - `active`: Auf false setzen, um Einträge zu bewahren, ohne sie anzuzeigen.
+
+# Universitätszeit (der Kanon lässt die Institution ungenannt)
+- degree: "Grundstudium der Chemie und Naturwissenschaften"
+  uni: "Universität (Institution im überlieferten Bericht nicht dokumentiert)"
+  year: "1872 &ndash; 1876"
+  location: "England"
+  active: true
+  summary: >-
+    Konzentrierte sich auf organische Chemie, Anatomie und die Sensationsliteratur des Verbrechens, unter allgemeiner Vernachlässigung des Standardlehrplans. Verbrachte zwei Jahre in Studentenzimmern, bevor er nach London zog, um die selbstständige Praxis aufzunehmen.
+
+# Privates Laborstudium in Bart's, wo die Partnerschaft mit Watson begann
+- degree: "Privates Studium der analytischen und forensischen Chemie"
+  uni: "Labore des St. Bartholomew's Hospital"
+  year: "1877 &ndash; 1881"
+  location: "London, England"
+  active: true
+  award: "Entwickelte ein Reagenz zum Nachweis von Hämoglobinflecken, das durch nichts anderes ausgefällt werden kann"
+  summary: >-
+    Selbstständige Laborforschung zum Nachweis von Blut, Giften und der chemischen Analyse von Spurenbeweisen, durchgeführt neben gelegentlicher Fallarbeit. In diesen Laboren begann die Partnerschaft mit Dr. John H. Watson.
+
+# Minimaler Eintrag zur Demonstration optionaler Felder
+- degree: "Sonderstudium der Anatomie"
+  uni: "University of London"
+  year: "1876"
+  location: "London, England"
+  active: true
+
+# Inaktiver Eintrag zur Demonstration des active-Flags
+- degree: "Vorbereitende Studien"
+  uni: "Internat in Yorkshire"
+  year: "1866 &ndash; 1872"
+  location: "Yorkshire, England"
+  active: false
+  summary: >-
+    Frühe Schulbildung vor dem Universitätsstudium, aus dem beruflichen Werdegang ausgelassen.

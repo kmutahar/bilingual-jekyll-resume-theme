@@ -1,0 +1,29 @@
+# زبانیں
+# فائل: _data/ur/languages.yml
+# زبانوں پر عبور
+#
+# اسکیمہ نوٹس:
+# - `language`: زبان کا نام۔
+# - `description`: عبور کی مکمل تفصیل (جب `resume_section.languages: true` ہو تو دو کالمی جدول میں استعمال ہوتی ہے)۔
+# - `descrp_short`: مختصر وضاحت (جب `resume_section.lang_header: true` ہو تو ہیڈر بیج میں استعمال ہوتی ہے)۔
+# - `active`: سی وی سے خارج کرنے کے لیے false کریں۔
+
+- language: "انگریزی"
+  active: true
+  description: "مادری زبان کی سطح کا عبور"
+  descrp_short: "مادری زبان"
+
+- language: "فرانسیسی"
+  active: true
+  description: "پیشہ ورانہ کام کی سطح کا عبور"
+  descrp_short: "پیشہ ورانہ"
+
+- language: "جرمن"
+  active: true
+  description: "کام چلانے کی سطح کا عبور"
+  descrp_short: "کام چلاؤ"
+
+- language: "لاطینی"
+  active: false
+  description: "مطالعہ و قرات کی سطح کا عبور"
+  descrp_short: "مطالعاتی"

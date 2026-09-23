@@ -1,0 +1,48 @@
+# Educación
+# Archivo: _data/es/education.yml
+# Titulaciones académicas y formación educativa
+#
+# Notas de esquema:
+# - `uni`: Nombre de la institución o universidad.
+# - `degree`: Título del grado y especialización.
+# - `year`: Período mostrado (usa &ndash; para intervalos de fechas).
+# - `location`: Ubicación de la institución.
+# - `awards`: Lista opcional de honores/becas.
+# - `award`: Cadena opcional de un único reconocimiento (puede usarse junto con o en lugar de la lista awards).
+# - `summary`: Párrafo narrativo detallando asignaturas, tesis u honores académicos.
+# - `active`: Establecer en false para conservar registros sin mostrarlos.
+
+# Período universitario (el canon no documenta el nombre de la institución)
+- degree: "Estudios de Grado en Química y Ciencias Naturales"
+  uni: "Universidad (institución no documentada en los registros conservados)"
+  year: "1872 &ndash; 1876"
+  location: "Inglaterra"
+  active: true
+  summary: >-
+    Se concentró en química orgánica, anatomía y la literatura sensacionalista sobre el crimen, en general descuidando el plan de estudios estándar. Pasó dos años en habitaciones de alquiler antes de trasladarse a Londres para iniciar la práctica independiente.
+
+# Estudio de laboratorio privado en Bart's, donde comenzó la asociación con Watson
+- degree: "Estudios Privados en Química Analítica y Forense"
+  uni: "Laboratorios del St. Bartholomew's Hospital"
+  year: "1877 &ndash; 1881"
+  location: "Londres, Inglaterra"
+  active: true
+  award: "Ideó un reactivo para la detección de manchas de hemoglobina, que no se precipita con ningún otro producto"
+  summary: >-
+    Investigación de laboratorio independiente sobre la detección de sangre, venenos y el análisis químico de indicios materiales, realizada junto con casos ocasionales. Fue en estos laboratorios donde comenzó la asociación con el Dr. John H. Watson.
+
+# Registro mínimo que demuestra los campos opcionales
+- degree: "Estudios Especiales en Anatomía"
+  uni: "Universidad de Londres"
+  year: "1876"
+  location: "Londres, Inglaterra"
+  active: true
+
+# Registro inactivo que demuestra el indicador active
+- degree: "Estudios Preparatorios"
+  uni: "Internado de Yorkshire"
+  year: "1866 &ndash; 1872"
+  location: "Yorkshire, Inglaterra"
+  active: false
+  summary: >-
+    Educación temprana previa a la universidad, omitida del expediente profesional.

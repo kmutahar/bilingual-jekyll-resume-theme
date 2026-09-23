@@ -9,26 +9,34 @@
 # - `summary`: Narrative context and significance of the honor.
 # - `active`: Set to false to omit from generated resume.
 
-# Award with single year
-- award: "Cloud Innovator of the Year"
+# Service to a foreign government
+- award: "Recognition for Services to the French Republic"
   active: true
-  organization: "Global Enterprise Cloud Summit"
-  year: "2023"
+  organization: "French Republic"
+  year: "1890"
   summary: >-
-    Awarded in recognition of pioneering zero-trust cloud orchestration architecture that reduced cross-region data transfer latency by 45% across global banking clients.
+    Acknowledged for a delicate matter of state resolved on behalf of the French government, the details of which remain undisclosed at the request of the parties concerned.
 
-# Award with multiple years
-- award: "Distinguished Engineering Excellence Award"
+# Personal gift from the Crown
+- award: "Emerald Tie-Pin, Personal Gift"
   active: true
-  organization: "Apex Cloud Systems"
-  year: "2020, 2022"
+  organization: "Her Majesty the Queen"
+  year: "1895"
   summary: >-
-    Conferred twice for outstanding technological leadership and architecting core fault-tolerant infrastructure during peak multi-petabyte processing events.
+    Presented in personal recognition of a service of considerable delicacy and importance, the nature of which is not a matter for publication.
 
-# Inactive recognition record demonstrating the active flag
-- award: "Outstanding Graduate Student Award"
+# Repeated honor across years
+- award: "Snuff-Box Set with an Amethyst"
+  active: true
+  organization: "Foreign Royal Households"
+  year: "1888, 1892"
+  summary: >-
+    Received on two occasions from grateful foreign clients following the confidential resolution of matters affecting their households.
+
+# Declined honor, inactive by choice
+- award: "Offer of Knighthood (Declined)"
   active: false
-  organization: "Stanford University School of Engineering"
-  year: "2019"
+  organization: "British Crown"
+  year: "1902"
   summary: >-
-    Recognized for academic excellence and contributions to distributed computing research.
+    An honour offered but respectfully declined, preferring the freedom of independent practice to formal public distinction.

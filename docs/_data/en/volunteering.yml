@@ -9,47 +9,36 @@
 # - `summary` is displayed when `enable_summary: true` is configured in `_config.yml`.
 # - `active: false` preserves entries without rendering them.
 
-# Organization with multiple positions (Role 1: Current position)
-- company: "Open Source Initiative &amp; Linux Foundation"
-  position: "Technical Steering Committee Mentor"
-  startdate: 2022-01-10
+# Ongoing pro bono casework
+- company: "Independent Pro Bono Practice"
+  position: "Unpaid Consulting Detective for Clients of Limited Means"
+  startdate: 1881-01-01
   enddate: Present
-  location: "Global (Remote)"
+  location: "London, England"
   active: true
-  notes: "Mentoring emerging cloud engineers"
+  notes: "No fee accepted where the client cannot pay and the problem is of interest"
   summary: >-
-    Mentor international contributors on cloud-native observability standards, review pull requests for CNCF telemetry projects, and organize global developer office hours.
+    Undertake cases without fee whenever the client is unable to pay and the problem itself presents features of scientific or public interest, from governesses to small tradesmen.
 
-# Organization with multiple positions (Role 2: Earlier position at same organization)
-- company: "Open Source Initiative &amp; Linux Foundation"
-  position: "Working Group Contributor"
-  startdate: 2019-03-01
-  enddate: 2021-12-31
-  location: "Remote"
-  active: true
-  notes: "Telemetry standardization group"
-  summary: >-
-    Drafted technical documentation and sample reference implementations for distributed telemetry protocols and API specifications.
-
-# Organization with non-continuous duration strings using HTML entities
-- company: "Tech For Community Non-Profit"
-  position: "Lead Hackathon Judge &amp; Career Coach"
+# Retirement-era community instruction
+- company: "Sussex Downs Beekeepers' Circle"
+  position: "Mentor &amp; Lecturer on Apiary Management"
   durations:
-    - duration: "Summer 2021"
-    - duration: "&amp; Fall 2023"
-  location: "Austin, TX"
+    - duration: "Spring 1904"
+    - duration: "&amp; Autumn 1905"
+  location: "Sussex, England"
   active: true
-  notes: "Annual civic innovation challenges"
+  notes: "Local farmers' association, during retirement"
   summary: >-
-    Evaluated civic technology solutions created by collegiate teams. Conducted technical resume reviews and career coaching sessions for 50+ aspiring software engineers.
+    Advised local smallholders on hive management and queen segregation techniques, drawing on private research later published as a handbook on bee culture.
 
 # Inactive volunteering record demonstrating the active flag
-- company: "Community Code Camp"
-  position: "Volunteer Lab Assistant"
-  startdate: 2015-06-01
-  enddate: 2015-08-31
-  location: "Seattle, WA"
+- company: "Whitechapel District Relief Committee"
+  position: "Occasional Investigator, Unpaid"
+  startdate: 1888-09-01
+  enddate: 1888-11-30
+  location: "London, England"
   active: false
-  notes: "Early volunteer engagement"
+  notes: "Brief, unofficial involvement; omitted from the standard record"
   summary: >-
-    Assisted instructors with setup of introductory Python programming workshops for high school students.
+    Provided occasional unofficial assistance reviewing case files during a period of heightened public concern in the district.

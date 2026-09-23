@@ -1,0 +1,24 @@
+# Liens
+# Fichier : _data/fr/links.yml
+# Liens professionnels complémentaires (portfolio, publications, dépôts de code)
+#
+# Notes de schéma :
+# - `description` : Titre ou texte d'ancrage descriptif pour le lien.
+# - `url` : URL de destination (imprimée en ligne dans les supports d'impression).
+# - `active` : Mettre à false pour omettre du CV généré.
+
+- description: "Chroniques des affaires consignées par le Dr John H. Watson"
+  active: true
+  url: "https://example.com/watson/case-chronicles"
+
+- description: "Monographies publiées sur la science médico-légale"
+  active: true
+  url: "https://example.com/monographs"
+
+- description: "Archives de correspondance du 221B Baker Street"
+  active: true
+  url: "https://example.com/baker-street-archive"
+
+- description: "Notes d'affaires anciennes, période de Montague Street"
+  active: false
+  url: "https://example.com/archive/montague-street"

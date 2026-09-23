@@ -1,0 +1,7 @@
+# Paragraphe d'introduction de l'en-tête
+# Fichier : _data/fr/header.yml
+# Ce fichier contient le résumé exécutif/paragraphe d'introduction affiché sous le nom et le titre
+# Activez cette option dans _config.yml avec : languages.fr.header_intro: true
+
+intro: >-
+  Détective consultant de Baker Street, spécialisé dans la science de la déduction, la chimie médico-légale et la résolution d'affaires jugées insolubles par la police officielle. Sollicité par Scotland Yard, des clients privés et, à l'occasion, les maisons royales d'Europe, lorsque les voies ordinaires de la justice ont atteint leurs limites.

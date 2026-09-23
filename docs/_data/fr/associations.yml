@@ -1,0 +1,36 @@
+# Associations
+# Fichier : _data/fr/associations.yml
+# Adhésions professionnelles, groupes de travail et associations sectorielles
+#
+# Notes de schéma :
+# - `organization` : Nom de la société savante ou du groupe professionnel.
+# - `role` : Niveau d'adhésion ou poste de direction.
+# - `year` : Période (prend en charge &ndash; pour les intervalles).
+# - `url` : URL du site officiel optionnelle (affichée en lien et imprimée dans la feuille de style d'impression).
+# - `summary` : Description optionnelle des contributions et de la gouvernance.
+# - `active` : Mettre à false pour omettre du CV généré.
+
+# Association avec une URL
+- organization: "Diogenes Club"
+  active: true
+  role: "Membre invité (par l'intermédiaire de son frère Mycroft Holmes)"
+  year: "1888 &ndash; présent"
+  url: "https://example.com/diogenes-club"
+  summary: >-
+    Invité occasionnel du club le plus insociable de Londres, où le silence est imposé par règlement et où Mycroft Holmes occupe en permanence un fauteuil près de la fenêtre.
+
+# Association sans URL
+- organization: "Société de chimie de Londres"
+  active: true
+  role: "Membre correspondant"
+  year: "1878 &ndash; présent"
+  summary: >-
+    Correspond occasionnellement sur des questions de chimie analytique pertinentes pour l'investigation médico-légale, sans assiduité régulière aux séances.
+
+# Association inactive démontrant le champ active
+- organization: "Société universitaire de boxe amateur"
+  active: false
+  role: "Membre"
+  year: "1873 &ndash; 1876"
+  summary: >-
+    Adhésion universitaire précoce, maintenue pour la pratique du sparring plutôt que pour le développement professionnel.

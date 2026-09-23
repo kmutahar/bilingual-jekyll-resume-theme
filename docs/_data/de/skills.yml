@@ -1,0 +1,33 @@
+# Fähigkeiten
+# File: _data/de/skills.yml
+# Berufliche Fähigkeiten und Kompetenzen
+#
+# Schema-Hinweise:
+# - `skill`: Kompetenzbereich oder Titel.
+# - `description`: Ausführliche Beschreibung der fachlichen Expertise, Werkzeuge und Methoden.
+# - `active`: Auf false setzen, um den Eintrag im generierten Lebenslauf auszulassen.
+
+- skill: "Chemie &amp; Forensische Analyse"
+  active: true
+  description: >-
+    Experte für analytische und organische Chemie in der Anwendung auf kriminalistische Ermittlungen, einschließlich Nachweis von Blut, Gift und Spurenrückständen sowie der vergleichenden Analyse von Tabakasche, Tinte und Papier.
+
+- skill: "Beobachtung, Deduktion &amp; Schlussfolgerung"
+  active: true
+  description: >-
+    Die Wissenschaft der Deduktion: Rückwärtsschließen von beobachteten Kleinigkeiten, Staub, Flecken, Schwielen und Kleidungsgewohnheiten, auf die exakte Kette der Ereignisse und den Charakter der untersuchten Person.
+
+- skill: "Verkleidung, Identitätswechsel &amp; verdeckte Ermittlungsmethoden"
+  active: true
+  description: >-
+    Geschult in physischer Verkleidung, Dialekt und angenommener Identität, eingesetzt für Überwachung und Infiltration, wo eine direkte Befragung den Zweck einer Ermittlung vereiteln würde.
+
+- skill: "Baritsu, Boxen &amp; Stockfechten"
+  active: true
+  description: >-
+    Ausgebildet in der japanisch-europäischen Mischkampfkunst Baritsu, im Amateurboxen und im Stockfechten, angewandt bei körperlichen Auseinandersetzungen und Selbstverteidigung im Zuge der Fallarbeit.
+
+- skill: "Kryptoanalyse &amp; Chiffrenlösung"
+  active: false
+  description: >-
+    Lösung von Substitutions- und Transpositionschiffren sowie codierter Korrespondenz, als spezialisiertes Nebengebiet und nicht als Haupttätigkeitsfeld beibehalten.

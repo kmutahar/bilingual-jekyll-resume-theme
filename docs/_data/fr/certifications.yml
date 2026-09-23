@@ -1,0 +1,51 @@
+# Certifications
+# Fichier : _data/fr/certifications.yml
+# Certifications professionnelles et licences
+#
+# Notes de schéma :
+# - `name` : Intitulé de la certification (prend en charge les entités HTML comme &ndash;).
+# - `issuing_organization` : Organisation délivrant la certification.
+# - `credential_id` : Identifiant optionnel du certificat.
+# - `credential_url` : URL de vérification optionnelle liée à l'identifiant.
+# - `issue_date` : Date ISO requise (AAAA-MM-JJ).
+# - `expiration` : Date d'expiration ISO optionnelle (laisser vide pour les certifications sans expiration).
+# - `courses` : Liste imbriquée optionnelle pour un usage interne (jamais affichée sur le CV).
+# - `active` : Mettre à false pour omettre du CV généré.
+
+# Certificat d'étude privée, sans expiration (style d'époque)
+- name: "Analyse chimique avancée &ndash; certificat d'étude privée"
+  active: true
+  issuing_organization: "Laboratoires de l'hôpital St. Bartholomew"
+  credential_id: "BART-CHEM-1878"
+  issue_date: 1878-06-01
+
+# Certification avec référence de vérification
+- name: "Détective consultant agréé"
+  active: true
+  issuing_organization: "Registre privé des praticiens consultants, Londres"
+  credential_id: "CD-LON-0001"
+  credential_url: "https://example.com/register/cd-lon-0001"
+  issue_date: 1881-01-01
+
+# Cours privés imbriqués pour usage interne
+- name: "Toxicologie pratique &amp; poisons"
+  active: true
+  issuing_organization: "Laboratoires de l'hôpital St. Bartholomew"
+  issue_date: 1879-02-15
+  courses: # Optionnel : USAGE INTERNE UNIQUEMENT - non affiché sur le CV
+    - name: "Étude comparative des cendres de tabac de cigare, cigarette et pipe"
+      active: false
+      issuing_organization: "Étude privée"
+      issue_date: 1885-01-01
+
+# Certification sans identifiant, URL ni expiration
+- name: "Analyse comparative de l'écriture et des documents"
+  active: true
+  issuing_organization: "Étude privée"
+  issue_date: 1880-09-10
+
+# Certification inactive démontrant le champ active
+- name: "Premiers secours et bandages élémentaires"
+  active: false
+  issuing_organization: "Hôpital St. Bartholomew"
+  issue_date: 1875-04-01

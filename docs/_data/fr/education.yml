@@ -1,0 +1,48 @@
+# Formation
+# Fichier : _data/fr/education.yml
+# Diplômes universitaires et parcours académique
+#
+# Notes de schéma :
+# - `uni` : Nom de l'établissement ou de l'université.
+# - `degree` : Intitulé du diplôme et spécialisation.
+# - `year` : Période affichée (utilise &ndash; pour les intervalles de dates).
+# - `location` : Lieu de l'établissement.
+# - `awards` : Liste optionnelle de distinctions/bourses.
+# - `award` : Chaîne optionnelle pour une distinction unique (utilisable avec ou à la place de la liste awards).
+# - `summary` : Paragraphe narratif détaillant les cours, la thèse ou les distinctions académiques.
+# - `active` : Mettre à false pour conserver l'enregistrement sans l'afficher.
+
+# Période universitaire (le canon ne nomme pas l'établissement)
+- degree: "Études de premier cycle en chimie et sciences naturelles"
+  uni: "Université (établissement non documenté dans les archives conservées)"
+  year: "1872 &ndash; 1876"
+  location: "Angleterre"
+  active: true
+  summary: >-
+    Concentré sur la chimie organique, l'anatomie et la littérature à sensation sur le crime, au détriment général du programme habituel. A passé deux ans en chambre avant de s'installer à Londres pour débuter une pratique indépendante.
+
+# Étude privée en laboratoire à St. Bartholomew, où débuta l'association avec Watson
+- degree: "Étude privée en chimie analytique et médico-légale"
+  uni: "Laboratoires de l'hôpital St. Bartholomew"
+  year: "1877 &ndash; 1881"
+  location: "Londres, Angleterre"
+  active: true
+  award: "Mis au point un réactif pour la détection des taches d'hémoglobine, précipitable par nul autre moyen"
+  summary: >-
+    Recherches personnelles en laboratoire sur la détection du sang, les poisons et l'analyse chimique de traces d'indices, menées parallèlement à des enquêtes occasionnelles. C'est dans ces laboratoires que débuta l'association avec le Dr John H. Watson.
+
+# Enregistrement minimal démontrant les champs optionnels
+- degree: "Études spécialisées en anatomie"
+  uni: "Université de Londres"
+  year: "1876"
+  location: "Londres, Angleterre"
+  active: true
+
+# Enregistrement inactif démontrant le champ active
+- degree: "Études préparatoires"
+  uni: "Pensionnat du Yorkshire"
+  year: "1866 &ndash; 1872"
+  location: "Yorkshire, Angleterre"
+  active: false
+  summary: >-
+    Scolarité précoce antérieure à l'université, omise du dossier professionnel.

@@ -1,0 +1,44 @@
+# Bénévolat
+# Fichier : _data/fr/volunteering.yml
+# Travail bénévole et engagement communautaire
+#
+# Notes de schéma :
+# - Regroupé par nom d'entreprise (`company`) ; plusieurs postes chez la même organisation apparaissent ensemble.
+# - Les postes continus utilisent des dates ISO (`startdate: AAAA-MM-JJ`, `enddate: AAAA-MM-JJ` ou `enddate: présent`).
+# - Les postes discontinus utilisent le tableau `durations` avec des entités HTML (`&ndash;`, `&amp;`).
+# - `summary` est affiché lorsque `enable_summary: true` est configuré dans `_config.yml`.
+# - `active: false` conserve les entrées sans les afficher.
+
+# Dossiers pro bono en cours
+- company: "Cabinet indépendant pro bono"
+  position: "Détective consultant bénévole pour clients aux moyens limités"
+  startdate: 1881-01-01
+  enddate: présent
+  location: "Londres, Angleterre"
+  active: true
+  notes: "Aucun honoraire accepté lorsque le client ne peut payer et que l'affaire présente un intérêt"
+  summary: >-
+    Accepte des affaires sans honoraires lorsque le client est dans l'incapacité de payer et que l'affaire elle-même présente des éléments d'intérêt scientifique ou public, des gouvernantes aux petits commerçants.
+
+# Enseignement communautaire durant la retraite
+- company: "Cercle des apiculteurs des Sussex Downs"
+  position: "Mentor &amp; conférencier en gestion apicole"
+  durations:
+    - duration: "Printemps 1904"
+    - duration: "&amp; Automne 1905"
+  location: "Sussex, Angleterre"
+  active: true
+  notes: "Association d'agriculteurs locaux, pendant la retraite"
+  summary: >-
+    A conseillé des petits exploitants locaux sur la gestion des ruches et les techniques de ségrégation de la reine, s'appuyant sur des recherches privées publiées plus tard sous forme de manuel d'apiculture.
+
+# Dossier de bénévolat inactif démontrant le champ active
+- company: "Comité de secours du district de Whitechapel"
+  position: "Enquêteur occasionnel, bénévole"
+  startdate: 1888-09-01
+  enddate: 1888-11-30
+  location: "Londres, Angleterre"
+  active: false
+  notes: "Brève implication officieuse ; omise du dossier officiel"
+  summary: >-
+    A fourni une assistance officieuse occasionnelle en examinant des dossiers d'affaires durant une période de vive inquiétude publique dans le quartier.

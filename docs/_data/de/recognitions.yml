@@ -1,0 +1,42 @@
+# Auszeichnungen
+# File: _data/de/recognitions.yml
+# Ehrungen, Auszeichnungen und berufliche Anerkennungen
+#
+# Schema-Hinweise:
+# - `award`: Titel oder Name der Auszeichnung.
+# - `organization`: Verleihende Stelle, Unternehmen oder Institution.
+# - `year`: Einzelnes Jahr (z. B. "2023") oder durch Komma getrennte Jahre bei wiederholten Ehrungen (z. B. "2020, 2022").
+# - `summary`: Erzählender Kontext und Bedeutung der Ehrung.
+# - `active`: Auf false setzen, um den Eintrag im generierten Lebenslauf auszulassen.
+
+# Dienst für eine ausländische Regierung
+- award: "Anerkennung für Dienste an der Französischen Republik"
+  active: true
+  organization: "Französische Republik"
+  year: "1890"
+  summary: >-
+    Anerkannt für eine heikle Staatsangelegenheit, die im Auftrag der französischen Regierung gelöst wurde, deren Einzelheiten auf Wunsch der Beteiligten weiterhin unveröffentlicht bleiben.
+
+# Persönliches Geschenk der Krone
+- award: "Smaragd-Krawattennadel, Persönliches Geschenk"
+  active: true
+  organization: "Ihre Majestät die Königin"
+  year: "1895"
+  summary: >-
+    Überreicht als persönliche Anerkennung für einen Dienst von beträchtlicher Heikelheit und Bedeutung, dessen Art keine Angelegenheit für die Veröffentlichung ist.
+
+# Wiederholte Ehrung über mehrere Jahre
+- award: "Schnupftabakdose, besetzt mit einem Amethyst"
+  active: true
+  organization: "Ausländische Königshäuser"
+  year: "1888, 1892"
+  summary: >-
+    Bei zwei Gelegenheiten von dankbaren ausländischen Klienten nach der vertraulichen Lösung von Angelegenheiten erhalten, die deren Haushalte betrafen.
+
+# Abgelehnte Ehrung, aus eigener Wahl inaktiv
+- award: "Angebot einer Ritterwürde (Abgelehnt)"
+  active: false
+  organization: "Britische Krone"
+  year: "1902"
+  summary: >-
+    Eine angebotene, jedoch respektvoll abgelehnte Ehrung, wobei die Freiheit der selbstständigen Praxis der formellen öffentlichen Auszeichnung vorgezogen wurde.

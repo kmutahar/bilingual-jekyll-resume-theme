@@ -12,47 +12,40 @@
 # - `courses`: مصفوفة دورات متداخلة اختيارية للسجلات الشخصية (لا تُعرض نهائياً في السيرة).
 # - `active`: اضبط على false لاستبعاد السجل من العرض في السيرة الذاتية.
 
-# شهادة مع معرّف اعتماد ورابط تحقق وتاريخ انتهاء
-- name: "مهندس حلول معتمد من AWS &ndash; المستوى المهني"
+# شهادة دراسة خاصة، بدون تاريخ انتهاء (بأسلوب العصر)
+- name: "التحليل الكيميائي المتقدم &ndash; شهادة دراسة خاصة"
   active: true
-  issuing_organization: "أمازون ويب سيرفيسز (AWS)"
-  credential_id: "AWS-PSA-7829104"
-  credential_url: "https://aws.amazon.com/verification"
-  issue_date: 2023-04-15
-  expiration: 2026-04-15
+  issuing_organization: "مختبرات مستشفى القديس بارثولوميو"
+  credential_id: "BART-CHEM-1878"
+  issue_date: 1878-06-01
 
-# شهادة مع معرّف ورابط وتاريخ انتهاء ودورات متداخلة للسجلات الشخصية
-- name: "مدير معتمد لكوبرنيتيس (CKA)"
+# شهادة مع مرجع تحقق
+- name: "محقق استشاري مسجل"
   active: true
-  issuing_organization: "مؤسسة الحوسبة السحابية الأصلية (CNCF)"
-  credential_id: "CKA-2409852"
-  credential_url: "https://www.cncf.io/certification/cka/"
-  issue_date: 2022-11-20
-  expiration: 2025-11-20
+  issuing_organization: "السجل الخاص للممارسين الاستشاريين، لندن"
+  credential_id: "CD-LON-0001"
+  credential_url: "https://example.com/register/cd-lon-0001"
+  issue_date: 1881-01-01
+
+# دورات خاصة متداخلة للسجلات الداخلية
+- name: "علم السموم التطبيقي &amp; السموم"
+  active: true
+  issuing_organization: "مختبرات مستشفى القديس بارثولوميو"
+  issue_date: 1879-02-15
   courses: # اختياري: للاستخدام الداخلي فقط - لا يتم عرضه في السيرة الذاتية
-    - name: "التعمق في كوبرنيتيس والعمليات التشغيلية"
+    - name: "دراسة مقارنة لرماد تبغ السيجار والسجائر والغليون"
       active: false
-      issuing_organization: "مؤسسة لينكس"
-      credential_id: "LF-K8S-019"
-      credential_url: "https://training.linuxfoundation.org"
-      issue_date: 2022-10-05
+      issuing_organization: "دراسة خاصة"
+      issue_date: 1885-01-01
 
-# شهادة مع معرّف وبدون رابط وبدون تاريخ انتهاء (شهادة دائمة الصلاحية)
-- name: "خبير معتمد من هاشيكورب: تيرافورم أسوشيت"
+# شهادة بدون معرّف أو رابط أو تاريخ انتهاء
+- name: "التحليل المقارن للخط اليدوي والمستندات"
   active: true
-  issuing_organization: "هاشيكورب"
-  credential_id: "HC-TA-554109"
-  issue_date: 2021-06-10
-
-# شهادة بدون معرّف وبدون رابط وبدون تاريخ انتهاء
-- name: "أساسيات آيتل 4 لإدارة خدمات تقنية المعلومات"
-  active: true
-  issuing_organization: "أكسيلوس لأفضل الممارسات العالمية"
-  issue_date: 2020-02-18
+  issuing_organization: "دراسة خاصة"
+  issue_date: 1880-09-10
 
 # شهادة غير نشطة توضح استخدام خاصية active
-- name: "مبرمج جافا مشارك معتمد من أوراكل"
+- name: "الإسعافات الأولية الأساسية والتضميد"
   active: false
-  issuing_organization: "أوراكل"
-  credential_id: "OCJP-10928"
-  issue_date: 2015-08-10
+  issuing_organization: "مستشفى القديس بارثولوميو"
+  issue_date: 1875-04-01

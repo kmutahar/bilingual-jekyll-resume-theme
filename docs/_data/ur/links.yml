@@ -1,0 +1,24 @@
+# مزید لنکس
+# فائل: _data/ur/links.yml
+# اضافی پیشہ ورانہ لنکس (پورٹ فولیو، مطبوعات، کوڈ ریپازٹریز)
+#
+# اسکیمہ نوٹس:
+# - `description`: لنک کا عنوان یا وضاحتی متن۔
+# - `url`: منزل کا یو آر ایل (پرنٹ میڈیا میں ان لائن دکھایا جاتا ہے)۔
+# - `active`: تیار کردہ سی وی سے خارج کرنے کے لیے false کریں۔
+
+- description: "ڈاکٹر جان ایچ۔ واٹسن کے قلم سے مقدمات کی روداد"
+  active: true
+  url: "https://example.com/watson/case-chronicles"
+
+- description: "فرانزک سائنس پر شائع شدہ مقالے"
+  active: true
+  url: "https://example.com/monographs"
+
+- description: "221B بیکر اسٹریٹ خط و کتابت کا آرکائیو"
+  active: true
+  url: "https://example.com/baker-street-archive"
+
+- description: "ابتدائی مقدماتی نوٹس، مونٹیگیو اسٹریٹ کا دور"
+  active: false
+  url: "https://example.com/archive/montague-street"

@@ -1,0 +1,7 @@
+# Párrafo introductorio del encabezado
+# Archivo: _data/es/header.yml
+# Este archivo contiene el resumen ejecutivo/párrafo introductorio que aparece debajo de tu nombre y título
+# Actívalo en _config.yml con: languages.es.header_intro: true
+
+intro: >-
+  Detective asesor de Baker Street, especializado en la ciencia de la deducción, la química forense y la resolución de casos que han resultado insolubles para la policía oficial. Contratado por Scotland Yard, clientes particulares y, en ocasiones, las casas reales de Europa, siempre que los cauces habituales de la ley hayan llegado a su límite.

@@ -1,0 +1,15 @@
+# Intereses
+# Archivo: _data/es/interests.yml
+# Intereses profesionales, creativos y deportivos fuera del trabajo
+#
+# Notas de esquema:
+# - Lista simple de intereses/aficiones mostrada como viñetas bajo "Intereses Personales".
+# - Cada entrada especifica una `description`. No se requiere el indicador active/inactive.
+
+- description: "Tocar el violín, en particular las obras de Sarasate, e improvisar ociosamente mientras reflexiona profundamente"
+
+- description: "Apicultura en South Downs, con especial atención a la segregación de la reina"
+
+- description: "Experimentación química privada y catalogación de curiosidades químicas"
+
+- description: "Recopilación y contraste de recortes de periódico sobre crímenes, venenos y asuntos de interés criminal"

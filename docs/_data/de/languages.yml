@@ -1,0 +1,29 @@
+# Sprachen
+# File: _data/de/languages.yml
+# Sprachkenntnisse
+#
+# Schema-Hinweise:
+# - `language`: Sprachname.
+# - `description`: Vollständige Beschreibung der Sprachkenntnisse (verwendet in der zweispaltigen Tabelle, wenn `resume_section.languages: true`).
+# - `descrp_short`: Kompakte Bezeichnung (verwendet für Badge-Chips in der Kopfzeile, wenn `resume_section.lang_header: true`).
+# - `active`: Auf false setzen, um den Eintrag im Lebenslauf auszulassen.
+
+- language: "Englisch"
+  active: true
+  description: "Muttersprachliches Niveau"
+  descrp_short: "Muttersprache"
+
+- language: "Französisch"
+  active: true
+  description: "Verhandlungssicheres berufliches Niveau"
+  descrp_short: "Verhandlungssicher"
+
+- language: "Deutsch"
+  active: true
+  description: "Gute Arbeitskenntnisse"
+  descrp_short: "Gut"
+
+- language: "Latein"
+  active: false
+  description: "Lesekenntnisse"
+  descrp_short: "Lesend"

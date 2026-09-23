@@ -10,28 +10,35 @@
 # - `description`: Narrative overview of technologies, architecture, and impact.
 # - `active`: Set to false to omit from generated resume.
 
-# Project with live URL
-- project: "OpenStream: Distributed Event Mesh"
+# Signature forensic monograph
+- project: "Upon the Distinction Between the Ashes of the Various Tobaccos"
   active: true
-  role: "Creator &amp; Lead Maintainer"
-  duration: "Jan 2023 &ndash; Present"
-  url: "https://github.com/example/openstream"
+  role: "Author"
+  duration: "1887"
+  url: "https://example.com/monographs/tobacco-ashes"
   description: >-
-    An open-source distributed event mesh developed in Go and eBPF for zero-copy stream processing. Powers real-time analytics across 10,000+ nodes with microsecond latency guarantees.
+    A monograph enumerating one hundred and forty forms of pipe, cigar, and cigarette tobacco ash, illustrated with plates, for the forensic distinction of tobacco residue found at a scene.
 
-# Project without live URL (internal / proprietary enterprise initiative)
-- project: "Core Banking Ledger Modernization"
+# Retirement-era apiary handbook
+- project: "Practical Handbook of Bee Culture, With Some Observations Upon the Segregation of the Queen"
   active: true
-  role: "Principal Infrastructure Consultant"
-  duration: "Mar 2021 &ndash; Nov 2022"
+  role: "Author"
+  duration: "1903 &ndash; Present"
   description: >-
-    Spearheaded zero-downtime database migration for a tier-1 retail bank, moving 85 million accounts from legacy mainframe to cloud-native CockroachDB with cryptographic audit trails.
+    A handbook of apiary management written during retirement on the South Downs, combining close observation of hive behaviour with the same methodical rigour applied to earlier casework.
 
-# Inactive project record demonstrating the active flag
-- project: "Legacy Mobile Telemetry SDK"
+# Study on footprint evidence
+- project: "Monograph Upon the Tracing of Footsteps, With Remarks on Plaster of Paris as a Preserver of Impressions"
+  active: true
+  role: "Author"
+  duration: "1889"
+  description: >-
+    A technical study on the preservation and comparative analysis of footprint impressions using plaster casts, developed to standardise evidence gathering at outdoor scenes.
+
+# Inactive project demonstrating the active flag
+- project: "Study of the Influence of a Trade Upon the Form of the Hand"
   active: false
-  role: "Core Developer"
-  duration: "Jan 2018 &ndash; Dec 2018"
-  url: "https://github.com/example/telemetry-sdk"
+  role: "Author"
+  duration: "1883"
   description: >-
-    Lightweight client-side telemetry SDK for Android and iOS devices providing crash diagnostics and telemetry buffering.
+    An early, unpublished study comparing the calluses and deformations of the hand across various trades, later superseded by more comprehensive published monographs.

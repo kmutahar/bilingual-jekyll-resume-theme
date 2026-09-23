@@ -7,18 +7,18 @@
 # - `url`: Destination URL (printed inline in print media).
 # - `active`: Set to false to omit from generated resume.
 
-- description: "Technical Architecture Blog &amp; Systems Research"
+- description: "Case Chronicles as Recorded by Dr. John H. Watson"
   active: true
-  url: "https://blog.example.com"
+  url: "https://example.com/watson/case-chronicles"
 
-- description: "GitHub Open Source Portfolio &amp; Tooling"
+- description: "Published Monographs on Forensic Science"
   active: true
-  url: "https://github.com/example"
+  url: "https://example.com/monographs"
 
-- description: "Google Scholar Research Publications"
+- description: "221B Baker Street Correspondence Archive"
   active: true
-  url: "https://scholar.google.com"
+  url: "https://example.com/baker-street-archive"
 
-- description: "Archived Engineering Notes"
+- description: "Early Case Notes, Montague Street Period"
   active: false
-  url: "https://notes.example.com"
+  url: "https://example.com/archive/montague-street"

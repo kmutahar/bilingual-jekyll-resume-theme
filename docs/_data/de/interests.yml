@@ -1,0 +1,15 @@
+# Interessen
+# File: _data/de/interests.yml
+# Berufliche, kreative und sportliche Interessen außerhalb des Berufs
+#
+# Schema-Hinweise:
+# - Einfache Liste von Interessen/Hobbys, dargestellt als Aufzählungspunkte unter "Außerberufliche Interessen".
+# - Jeder Eintrag gibt eine `description` an. Kein Ein-/Aus-Schalter erforderlich.
+
+- description: "Violinspiel, insbesondere die Werke von Sarasate, und beiläufige Improvisation, in tiefes Nachdenken versunken"
+
+- description: "Bienenzucht in den South Downs, mit besonderem Augenmerk auf die Trennung der Königin"
+
+- description: "Private chemische Experimente und die Katalogisierung chemischer Kuriositäten"
+
+- description: "Sammeln und Querverweisen von Zeitungsausschnitten über Verbrechen, Gifte und Angelegenheiten von kriminalistischem Interesse"

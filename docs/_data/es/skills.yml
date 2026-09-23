@@ -1,0 +1,33 @@
+# Habilidades
+# Archivo: _data/es/skills.yml
+# Habilidades y competencias profesionales
+#
+# Notas de esquema:
+# - `skill`: Dominio de la habilidad, área de competencia o título.
+# - `description`: Descripción narrativa detallada de la experiencia técnica, herramientas y prácticas.
+# - `active`: Establecer en false para omitirla del currículum generado.
+
+- skill: "Química &amp; Análisis Forense"
+  active: true
+  description: >-
+    Experto en química analítica y orgánica aplicada a la investigación criminal, incluida la detección de sangre, venenos y residuos, así como el análisis comparativo de cenizas de tabaco, tinta y papel.
+
+- skill: "Observación, Deducción &amp; Inferencia"
+  active: true
+  description: >-
+    La ciencia de la deducción: razonar hacia atrás desde nimiedades observadas —polvo, manchas, callos y hábitos de vestir— hasta la cadena exacta de sucesos y el carácter de la persona examinada.
+
+- skill: "Disfraz, Suplantación &amp; Método Encubierto"
+  active: true
+  description: >-
+    Hábil en el disfraz físico, los dialectos y la identidad asumida, empleados para la vigilancia y la infiltración cuando la indagación directa frustraría el propósito de una investigación.
+
+- skill: "Baritsu, Boxeo &amp; Esgrima de Bastón"
+  active: true
+  description: >-
+    Entrenado en el arte de combate híbrido nipón-europeo del baritsu, el boxeo amateur y la esgrima de bastón, aplicados a la confrontación física y la autodefensa en el curso de las investigaciones.
+
+- skill: "Criptoanálisis &amp; Resolución de Cifrados"
+  active: false
+  description: >-
+    Resolución de cifrados por sustitución y transposición y de correspondencia codificada, mantenida como especialidad secundaria más que como área principal de práctica.

@@ -9,58 +9,47 @@
 # - Non-continuous roles use the `durations` array with HTML entities (`&ndash;`, `&amp;`).
 # - `active: false` preserves historical or drafting entries without rendering them.
 
-# Company with multiple roles (Role 1: Current position)
-- company: "Apex Cloud Systems"
-  position: "Principal Cloud Architect"
-  startdate: 2022-04-01
+# Independent practice (current)
+- company: "221B Baker Street, Independent Practice"
+  position: "Consulting Detective"
+  startdate: 1881-01-01
   enddate: Present
-  location: "San Francisco, CA (Hybrid)"
+  location: "London, England"
   active: true
-  notes: "Executive technical leadership role"
+  notes: "The only consulting detective in practice"
   summary: >-
-    Lead enterprise architecture for a multi-region distributed cloud platform handling 40B+ monthly transactions with 99.999% SLA. Direct 18 staff engineers and infrastructure leads across cloud-native migrations and security initiatives.
+    Originated the profession of consulting detective. Investigate cases referred by private clients, official police forces, and foreign governments, applying methodical observation and deductive reasoning where conventional investigation has failed.
 
-# Company with multiple roles (Role 2: Earlier position at same company)
-- company: "Apex Cloud Systems"
-  position: "Senior Distributed Systems Engineer"
-  startdate: 2019-08-15
-  enddate: 2022-03-31
-  location: "San Francisco, CA"
-  active: true
-  notes: "Promoted to Principal Architect in April 2022"
-  summary: >-
-    Engineered high-throughput event streaming pipelines using Apache Kafka and Go, reducing data ingestion latency by 64%. Designed consensus protocols for resilient cross-datacenter replication.
-
-# Role with standard ISO date range at a different employer
-- company: "Nexus Global Technologies"
-  position: "Software Development Engineer II"
-  startdate: 2016-09-01
-  enddate: 2019-07-31
-  location: "Austin, TX"
-  active: true
-  notes: "Core platform team"
-  summary: >-
-    Developed microservices in Go and Python for high-frequency trading and algorithmic risk assessment with sub-millisecond execution guarantees.
-
-# Role with custom non-continuous duration strings using HTML entities
-- company: "Stanford University School of Engineering"
-  position: "Visiting Lecturer & Industry Fellow"
+# Non-continuous confidential advisory work
+- company: "Metropolitan Police Service, Criminal Investigation Department"
+  position: "Consulting Advisor (Unofficial)"
   durations:
-    - duration: "Jun 2020 &ndash; Dec 2020"
-    - duration: "&amp; Jun 2023 &ndash; Dec 2023"
-  location: "Stanford, CA"
+    - duration: "1881 &ndash; 1888"
+    - duration: "&amp; 1894 &ndash; Present"
+  location: "London, England"
   active: true
-  notes: "Special appointment for graduate seminars"
+  notes: "Unofficial capacity, at the personal request of Inspectors Lestrade, Gregson, and Athelney Jones"
   summary: >-
-    Co-lectured graduate seminar CS-349 on Distributed Systems at Scale and Advanced Consensus Protocols. Advised master students on cloud benchmarking and container orchestrators.
+    Advise on cases beyond the ordinary competence of the official force, including murder, blackmail, and matters of state security. Credited privately for the resolution of numerous cases published under official closure.
 
-# Inactive role demonstrating the active flag
-- company: "Legacy Software Labs"
-  position: "Junior Systems Administrator"
-  startdate: 2014-06-01
-  enddate: 2016-08-15
-  location: "Seattle, WA"
-  active: false
-  notes: "Early career role omitted from executive CV"
+# Single confidential retainer for a foreign crown
+- company: "Kingdom of Bohemia, Royal House"
+  position: "Special Investigator (Confidential Retainer)"
+  startdate: 1888-03-01
+  enddate: 1888-03-20
+  location: "London, England"
+  active: true
+  notes: "Retained directly by His Majesty the King of Bohemia"
   summary: >-
-    Managed on-premises Linux server farms, DNS routing, and automated deployment scripts.
+    Engaged under strict confidence to recover a compromising photograph threatening a royal engagement, requiring surveillance, disguise, and negotiation with a former opera singer of considerable intellect.
+
+# Early, less formal period of practice
+- company: "Montague Street Chambers"
+  position: "Independent Investigator (Early Practice)"
+  startdate: 1877-01-01
+  enddate: 1880-12-31
+  location: "London, England"
+  active: false
+  notes: "Early career, prior to the Baker Street partnership with Dr. Watson"
+  summary: >-
+    Took on occasional cases referred by fellow students of chemistry and law while developing the methods of observation and inference that would later define the consulting detective practice.

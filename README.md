@@ -154,7 +154,11 @@ bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_conf
 ./bin/validate-resume docs/_data
 bundle exec rake validate
 
-# Validator, RuboCop, and tests together
+# Check that the theme's own templates only reference real data keys (CLI or Rake)
+./bin/check-data-keys docs/_data
+bundle exec rake check_data_keys
+
+# Validators, RuboCop, and tests together
 bundle exec rake
 
 # Build the gem

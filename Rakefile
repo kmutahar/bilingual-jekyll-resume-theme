@@ -2,6 +2,7 @@
 
 require "rake"
 require_relative "lib/bilingual-jekyll-resume-theme/resume_validator"
+require_relative "lib/bilingual-jekyll-resume-theme/template_key_checker"
 
 desc "Validate bilingual resume YAML data files for schema conformance and parity"
 task :validate, [:data_dir] do |_t, args|
@@ -11,10 +12,20 @@ task :validate, [:data_dir] do |_t, args|
   exit exit_code unless exit_code.zero?
 end
 
+desc "Check theme templates for Liquid references to resume data keys that don't exist in the sample data " \
+     "(warnings only; unlike `rake validate`, this never fails the task, since a field's absence from the " \
+     "sample data doesn't always mean the template is wrong — see TemplateKeyChecker's class doc)"
+task :check_data_keys, [:data_dir] do |_t, args|
+  data_dir = args[:data_dir] || (Dir.exist?("_data/en") ? "_data" : "docs/_data")
+  checker = BilingualJekyllResumeTheme::TemplateKeyChecker.new(data_dir)
+  checker.check
+end
+
 desc "Run integration test suite"
 task :test do
   ruby "test/test_language_switcher.rb"
   ruby "test/test_resume_validator.rb"
+  ruby "test/test_template_key_checker.rb"
 end
 
 require "rubocop/rake_task"
@@ -67,4 +78,4 @@ task :proof, %i[site_dir config] do |_t, args|
 end
 
 desc "Run default validation and test suite"
-task default: %i[validate rubocop test]
+task default: %i[validate check_data_keys rubocop test]

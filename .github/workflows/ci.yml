@@ -52,6 +52,12 @@ jobs:
           ./bin/validate-resume docs/_data --fail-on-warnings
           bundle exec rake validate[docs/_data]
 
+      - name: Check Templates Against Data Keys
+        run: |
+          chmod +x bin/check-data-keys
+          ./bin/check-data-keys docs/_data
+          bundle exec rake check_data_keys[docs/_data]
+
       - name: Run Test Suite
         run: |
           bundle exec rake test

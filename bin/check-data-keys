@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+require_relative "../lib/bilingual-jekyll-resume-theme/template_key_checker"
+
+options = {
+  data_dir: nil,
+  config_path: nil,
+  verbose: false,
+  quiet: false,
+  fail_on_warnings: false
+}
+
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: check-data-keys [options] [DATA_DIR]"
+  opts.separator ""
+  opts.separator "Checks the theme's _layouts/_includes Liquid templates for references to resume data keys that " \
+                 "don't exist in DATA_DIR."
+  opts.separator ""
+  opts.separator "Options:"
+
+  opts.on("-d", "--dir DIR", "Path to data directory (default: _data or docs/_data)") do |d|
+    options[:data_dir] = d
+  end
+
+  opts.on("-c", "--config FILE", "Jekyll config declaring `languages:` (default: _config.yml / _config.sample.yml next to DATA_DIR)") do |c|
+    options[:config_path] = c
+  end
+
+  opts.on("-w", "--fail-on-warnings", "Treat warnings as errors and exit with code 1") do
+    options[:fail_on_warnings] = true
+  end
+
+  opts.on("-v", "--verbose", "Enable verbose output") do
+    options[:verbose] = true
+  end
+
+  opts.on("-q", "--quiet", "Suppress non-essential output (only report findings)") do
+    options[:quiet] = true
+  end
+
+  opts.on("-h", "--help", "Show this help message") do
+    puts opts
+    exit 0
+  end
+end
+
+parser.parse!
+
+# Positional argument takes precedence over -d, or fall back to standard data dirs
+data_dir = ARGV[0] || options[:data_dir]
+if data_dir.nil?
+  # Prefer a directory that holds at least one language folder (a site's _data, else the theme's docs sample).
+  data_dir = %w[_data docs/_data].find { |dir| BilingualJekyllResumeTheme::TemplateKeyChecker.new(dir).discover_languages.any? } ||
+             "docs/_data"
+end
+
+checker = BilingualJekyllResumeTheme::TemplateKeyChecker.new(data_dir, config_path: options[:config_path])
+exit_code = checker.check(
+  verbose: options[:verbose],
+  quiet: options[:quiet],
+  fail_on_warnings: options[:fail_on_warnings]
+)
+
+exit exit_code

@@ -14,6 +14,7 @@ AllCops:
     - "lib/**/*.rb"
     - "_plugins/**/*.rb"
     - "bin/validate-resume" # bin/release is a bash script, so it is not linted.
+    - "bin/check-data-keys"
     - "test/**/*.rb"
     - "Rakefile"
   Exclude:
@@ -46,6 +47,7 @@ Metrics/BlockLength:
   Exclude:
     - "Rakefile"
     - "bin/validate-resume"
+    - "bin/check-data-keys"
     - "test/**/*"
 Metrics/AbcSize:
   Max: 40

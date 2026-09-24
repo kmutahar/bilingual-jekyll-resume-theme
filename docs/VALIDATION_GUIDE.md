@@ -1,6 +1,6 @@
 # Resume Data Validation Guide
 
-The theme ships one validator engine, `lib/bilingual-jekyll-resume-theme/resume_validator.rb`, reached three ways: the `validate-resume` CLI, the `rake validate` task, and a Jekyll generator that runs during every build. This guide describes what it checks and how each entry point behaves.
+The theme ships two verification engines. `lib/bilingual-jekyll-resume-theme/resume_validator.rb` checks resume YAML data — reached three ways: the `validate-resume` CLI, the `rake validate` task, and a Jekyll generator that runs during every consuming site's build. `lib/bilingual-jekyll-resume-theme/template_key_checker.rb` checks the theme's own `_layouts`/`_includes` Liquid templates for references to data keys that don't exist — reached via the `check-data-keys` CLI and the `rake check_data_keys` task ([section 11](#11-template-key-checker-check-data-keys)); unlike the resume validator, it runs only in this repository's own development workflow and CI, never on a consuming site's build. This guide describes what each checks and how their entry points behave.
 
 ---
 
@@ -16,6 +16,7 @@ The theme ships one validator engine, `lib/bilingual-jekyll-resume-theme/resume_
 8. [Troubleshooting](#8-troubleshooting)
 9. [Continuous Integration](#9-continuous-integration)
 10. [Built-HTML Proofing & Static Analysis](#10-built-html-proofing--static-analysis)
+11. [Template Key Checker (`check-data-keys`)](#11-template-key-checker-check-data-keys)
 
 ---
 
@@ -190,10 +191,10 @@ Add the scheme, for example `https://github.com/user`.
 
 ## 9. Continuous Integration
 
-This repository runs the validator in two workflows:
+This repository runs the validator (and the template key checker, [section 11](#11-template-key-checker-check-data-keys)) in two workflows:
 
-- [`.github/workflows/lint.yml`](../.github/workflows/lint.yml): `./bin/validate-resume docs/_data --fail-on-warnings`, `rake validate[docs/_data]`, a gemspec executable check, and RuboCop.
-- [`.github/workflows/ci.yml`](../.github/workflows/ci.yml): gem packaging, a strict Jekyll build, built-HTML proofing, the validator, and the unit tests across Ruby 3.3, 3.4, and 4.0.
+- [`.github/workflows/lint.yml`](../.github/workflows/lint.yml): `./bin/validate-resume docs/_data --fail-on-warnings`, `rake validate[docs/_data]`, `./bin/check-data-keys docs/_data`, `rake check_data_keys[docs/_data]`, a gemspec executable check, and RuboCop.
+- [`.github/workflows/ci.yml`](../.github/workflows/ci.yml): gem packaging, a strict Jekyll build, built-HTML proofing, both checkers, and the unit tests across Ruby 3.3, 3.4, and 4.0.
 
 A consuming site can run the same check on every push:
 
@@ -235,3 +236,29 @@ bundle exec rake rubocop
 - External URLs are not fetched, so results are offline and deterministic.
 - Absolute URLs built from `site.url` (hreflang, canonical) are mapped onto local files so they are checked too.
 - When `_site/index.html` does not exist, `/`, `/en/cv/`, and `/ar/cv/` are exempted as link targets (the task reads the retired `resume_en_url` / `resume_ar_url` keys for these two paths, so they fall back to the defaults). A real site with a homepage gets no exemption.
+
+---
+
+## 11. Template Key Checker (`check-data-keys`)
+
+`check-data-keys` catches a different class of bug than the resume validator: not bad *data*, but a Liquid template in `_layouts` or `_includes` referencing a field that doesn't exist anywhere in the checked sample data (e.g. `item.discription` instead of `item.description`), which renders silently blank rather than raising an error. It traces `resume_data.<section>` bindings through `for`/`assign`/include-parameter chains — including the `grouped-item-list.html` include boundary and the `group_by` filter's synthetic `{name, items}` wrapper — since the theme's templates never write literal `site.data.foo.bar`.
+
+Because "known keys" are derived from whatever the checked sample data actually contains, a field a template correctly references but that no language in the checked data happens to exercise (an optional field, e.g. `education.yml`'s `awards` list) will warn even though nothing is wrong. For this reason `check-data-keys` **never defaults to `--fail-on-warnings` in this repository's Rake task or CI steps**, unlike `validate-resume`. Warnings are printed and worth reading, but a warning alone does not mean the template is broken — cross-check against the field before "fixing" it.
+
+```bash
+./bin/check-data-keys docs/_data                  # this repository's six-language demo (the default target)
+./bin/check-data-keys docs/_data --fail-on-warnings  # opt into strict mode yourself, once you trust your data's coverage
+bundle exec rake check_data_keys                     # docs/_data by default
+bundle exec rake "check_data_keys[path/to/_data]"
+```
+
+| Flag | Long flag | Description | Default |
+|---|---|---|---|
+| `-d DIR` | `--dir DIR` | Data directory | `_data` or `docs/_data` |
+| `-c FILE` | `--config FILE` | Jekyll config that declares `languages:` | First config found next to the data directory ([section 2](#2-how-languages-and-locales-are-resolved)) |
+| `-w` | `--fail-on-warnings` | Exit 1 on warnings | off |
+| `-v` | `--verbose` | Verbose output | off |
+| `-q` | `--quiet` | Print only when there are findings | off |
+| `-h` | `--help` | Show usage | |
+
+Scans only `_layouts/*.html` and `_includes/**/*.html` — this repository's own shipped templates, never a consuming site's `_pages/` or `_layouts/`/`_includes` overrides. Runs in `bundle exec rake` (the default task) and in both CI workflows ([section 9](#9-continuous-integration)), always without `--fail-on-warnings`.

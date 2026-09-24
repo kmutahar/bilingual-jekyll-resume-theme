@@ -91,18 +91,4 @@ html[dir="rtl"] {
   .page-footer {
     text-align: center; // keep centered
   }
-
-  // Dark mode toggle positioning for RTL
-  // Mirrors the floating theme switcher from top-right to top-left (left: 1.25rem; right: auto)
-  // to avoid colliding with right-aligned Arabic header titles.
-  .dark-mode-toggle {
-    right: auto;
-    left: 1.25rem;
-  }
-
-  // Language switcher positioning for RTL
-  .language-switcher {
-    left: auto;
-    right: 1.25rem;
-  }
 }

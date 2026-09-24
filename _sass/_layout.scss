@@ -137,14 +137,6 @@
   }
 }
 
-// RTL: mirror switcher to top-right (dark-mode toggle auto-mirrors to top-left)
-html[dir="rtl"] {
-  .language-switcher {
-    left: auto;
-    right: 1.25rem;
-  }
-}
-
 // Print: explicit safety net — .no-print on the element already handles most cases
 @media print {
   .language-switcher {

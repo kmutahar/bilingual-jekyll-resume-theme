@@ -48,50 +48,7 @@
             <h2>{{ locale.ui.section_titles.experience }}</h2>
         </header>
 
-        {%- assign active_jobs = resume_data.experience | where: "active", true -%}
-        {%- assign groups = active_jobs | group_by: "company" -%}
-
-        {%- for group in groups -%}
-            <div class="resume-item" itemscope itemprop="worksFor" itemtype="http://schema.org/Organization">
-                <h3 class="resume-item-title" itemprop="name">{{ group.name }}</h3>
-
-                {%- assign roles = group.items | sort: "startdate" | reverse -%}
-                {%- for role in roles -%}
-                    {%- assign has_dates = false -%}
-                    {%- if role.durations or role.startdate != blank -%}
-                        {%- assign has_dates = true -%}
-                    {%- endif -%}
-
-                    {%- if role.position != blank or has_dates or role.location != blank -%}
-                        <h4 class="resume-item-details" itemprop="description">
-                            {%- if role.position != blank -%}
-                                {{ role.position }}
-                            {%- endif -%}
-
-                            {%- if has_dates -%}
-                                {% if role.position != blank %} &bull; {% endif %}
-                                {% if role.durations %}
-                                    {% for time in role.durations %}{{ time.duration }} {% endfor %}
-                                {% else %}
-                                    {%- assign role_enddate = role.enddate | default: "Present" -%}
-                                    {% include date-formatter.html date=role.startdate lang=lang style="MY" %} &ndash;
-                                    {% include date-formatter.html date=role_enddate lang=lang style="MY" %}
-                                {% endif %}
-                            {%- endif -%}
-
-                            {%- if role.location != blank -%}
-                                {% if role.position != blank or has_dates %} &bull; {% endif %}
-                                {{ role.location }}
-                            {%- endif -%}
-                        </h4>
-                    {%- endif -%}
-
-                    {%- if site.enable_summary == true and role.summary -%}
-                        <div class="resume-item-copy">{{ role.summary }}</div>
-                    {%- endif -%}
-                {%- endfor -%}
-            </div><!-- end of grouped resume-item -->
-        {%- endfor -%}
+        {% include grouped-item-list.html items=resume_data.experience lang=lang %}
     </section>
     <!-- end Experience -->
 
@@ -263,50 +220,7 @@
             <h2>{{ locale.ui.section_titles.volunteering }}</h2>
         </header>
 
-        {%- assign active_vol = resume_data.volunteering | where: "active", true -%}
-        {%- assign vgroups = active_vol | group_by: "company" -%}
-
-        {%- for vgroup in vgroups -%}
-            <div class="resume-item" itemscope itemprop="worksFor" itemtype="http://schema.org/Organization">
-                <h3 class="resume-item-title" itemprop="name">{{ vgroup.name }}</h3>
-
-                {%- assign vroles = vgroup.items | sort: "startdate" | reverse -%}
-                {%- for v in vroles -%}
-                    {%- assign has_dates = false -%}
-                    {%- if v.durations or v.startdate != blank -%}
-                        {%- assign has_dates = true -%}
-                    {%- endif -%}
-
-                    {%- if v.position != blank or has_dates or v.location != blank -%}
-                        <h4 class="resume-item-details" itemprop="description">
-                            {%- if v.position != blank -%}
-                                {{ v.position }}
-                            {%- endif -%}
-
-                            {%- if has_dates -%}
-                                {% if v.position != blank %} &bull; {% endif %}
-                                {% if v.durations %}
-                                    {% for time in v.durations %}{{ time.duration }} {% endfor %}
-                                {% else %}
-                                    {%- assign v_enddate = v.enddate | default: "Present" -%}
-                                    {% include date-formatter.html date=v.startdate lang=lang style="MY" %} &ndash;
-                                    {% include date-formatter.html date=v_enddate lang=lang style="MY" %}
-                                {% endif %}
-                            {%- endif -%}
-
-                            {%- if v.location != blank -%}
-                                {% if v.position != blank or has_dates %} &bull; {% endif %}
-                                {{ v.location }}
-                            {%- endif -%}
-                        </h4>
-                    {%- endif -%}
-
-                    {%- if site.enable_summary == true and v.summary -%}
-                        <div class="resume-item-copy">{{ v.summary }}</div>
-                    {%- endif -%}
-                {%- endfor -%}
-            </div><!-- end of grouped volunteering item -->
-        {%- endfor -%}
+        {% include grouped-item-list.html items=resume_data.volunteering lang=lang %}
     </section>
     <!-- end Volunteering -->
 

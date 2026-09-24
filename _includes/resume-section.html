@@ -327,7 +327,7 @@
         {% for project in resume_data.projects %}
             {% if project.active == true %}
                 <div class="resume-item" itemscope itemtype="http://schema.org/CreativeWork">
-                    <meta itemprop="creator" content="{{ site.name.first }} {{ site.name.middle }} {{ site.name.last }}" itemtype="http://schema.org/Person" />
+                    <meta itemprop="creator" content="{{ lang_cfg.name }}" itemtype="http://schema.org/Person" />
                     <h3 class="resume-item-title" itemprop="name" style="display: inline-block;">
                         {% if project.url and project.url != "" %}
                             <a href="{{ project.url }}" target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ project.project }}</a>

@@ -3,7 +3,7 @@
 **Project:** `bilingual-jekyll-resume-theme`  
 **Document Status:** Authoritative Master Document (Single Source of Truth)  
 **Current Release:** `v0.9.0`  
-**Target Release Horizon:** `v1.0.0` (Multi-locale, Deprecation Retirement & Validator), executed per [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md)  
+**Target Release Horizon:** `v1.0.0` (Multi-locale, Deprecation Retirement & Validator). Features 1.7, 2.8, 4.1, and 4.6 are delivered on `feature/extended-multilingual-v1.0.0` and recorded in [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md#5-v100-delivered-features-17-28-41-46); Feature 3.3's closure check passes (`Closes #13`), Feature 3.2 remains active pending its closure check (`Refs #206`).  
 **Date:** September 2026  
 
 ---
@@ -287,7 +287,7 @@ In `_layouts/resume-en.html` and `_layouts/resume-ar.html`:
 
 ### Feature 1.7: Native Email Support in Social Links Include
 
-> **v1.0.0 Plan Supersedes This Blueprint:** This feature ships as part of the v1.0.0 multilingual release. Where this blueprint disagrees with [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), the implementation plan wins.
+> **v1.0.0 Status: delivered.** This feature shipped on `feature/extended-multilingual-v1.0.0`; see [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md#5-v100-delivered-features-17-28-41-46) for verification details.
 
 - **Canonical Issue:** [#215](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/215)
 - **Auto-Closing Reference:** `Closes #215`
@@ -1437,7 +1437,7 @@ In `_includes/shared-head.html`:
 
 ### Feature 2.8: Header Contact Icon and Text Alignment in Arabic Layout
 
-> **v1.0.0 Plan Supersedes This Blueprint:** This feature ships as part of the v1.0.0 multilingual release. Where this blueprint disagrees with [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), the implementation plan wins.
+> **v1.0.0 Status: delivered.** This feature shipped on `feature/extended-multilingual-v1.0.0`; see [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md#5-v100-delivered-features-17-28-41-46) for verification details.
 
 - **Canonical Issue:** [#217](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217)
 - **Auto-Closing Reference:** `Closes #217`
@@ -2012,7 +2012,7 @@ permalink: /resume.json
 
 ### Feature 3.2: Automated CI/CD Build & Verification Pipeline
 
-> **v1.0.0 Delivery:** `.github/workflows/ci.yml` and `lint.yml` from `feature/resume-validator-ecosystem` (commit `88290ee`) are imported in Stage 5 of [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md).
+> **v1.0.0 Status: implemented, closure check pending.** `.github/workflows/ci.yml` and `lint.yml` (imported from `feature/resume-validator-ecosystem`, commit `88290ee`) ship on `feature/extended-multilingual-v1.0.0`. Verified locally: the workflow YAML parses, the Ruby matrix is `3.3`/`3.4`/`4.0`, and `README.md` carries the CI status badge. Not yet verified: an actual GitHub Actions run confirming CI fails on malformed YAML or a broken gemspec (`gh run list` shows none on this branch, since it has never been pushed). The PR references this issue as `Refs #206` until that run is observed.
 
 - **Canonical Issue:** [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206)
 - **Auto-Closing Reference:** `Closes #206`
@@ -2038,6 +2038,7 @@ on:
     branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -2047,11 +2048,12 @@ jobs:
     name: Build & Verify (Ruby ${{ matrix.ruby }})
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        ruby: ['3.1', '3.2', '3.3']
+        ruby: ['3.3', '3.4', '4.0']
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -2062,24 +2064,17 @@ jobs:
       - name: Validate RubyGem Specification
         run: |
           gem build bilingual-jekyll-resume-theme.gemspec
+          rm -f bilingual-jekyll-resume-theme-*.gem
 
       - name: Build Jekyll Site with Strict Checks
         run: |
-          bundle exec jekyll build --source . --destination _site --strict_front_matter --trace
+          bundle exec jekyll build --config docs/_data/_config.sample.yml --strict_front_matter --trace
 
-      - name: Validate YAML Data Files Syntax
+      - name: Validate Resume Data Schemas & Parity
         run: |
-          ruby -ryaml -e '
-            Dir.glob("**/*.{yml,yaml}").reject { |f| f.include?("vendor/") }.each do |file|
-              begin
-                YAML.load_file(file)
-              rescue StandardError => e
-                puts "YAML Error in #{file}: #{e.message}"
-                exit 1
-              end
-            end
-            puts "All YAML data files parsed successfully!"
-          '
+          chmod +x bin/validate-resume
+          ./bin/validate-resume docs/_data --fail-on-warnings
+          bundle exec rake validate[docs/_data]
 ```
 
 #### Acceptance Criteria & Verification
@@ -2100,7 +2095,7 @@ jobs:
 
 ### Feature 3.3: YAML Resume Data Validator & Schema Linter
 
-> **v1.0.0 Delivery:** The validator from `feature/resume-validator-ecosystem` (commit `88290ee`) is imported and adapted to the locale system in Stage 5 of [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md).
+> **v1.0.0 Status: delivered, closure check passes.** The validator (imported from `feature/resume-validator-ecosystem`, commit `88290ee`, then adapted to the locale system) ships on `feature/extended-multilingual-v1.0.0`; behavior is documented in [`docs/VALIDATION_GUIDE.md`](docs/VALIDATION_GUIDE.md). Verified: all four target files are packaged in the gem, `bin/validate-resume` is a gemspec executable, `./bin/validate-resume docs/_data --all-locales` exits 0 on the Sherlock Holmes demo data, and `test/test_resume_validator.rb` covers a YAML syntax error, an invalid URL, an inverted date range, and a cross-language data-file parity mismatch. The PR closes this issue: `Closes #13`.
 
 - **Canonical Issue:** [#13](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/13)
 - **Auto-Closing Reference:** `Closes #13`
@@ -2387,7 +2382,7 @@ exit validator.validate
 
 ### Feature 4.1: Extended Multilingual Support (EN, AR, ES, FR, DE, UR)
 
-> **v1.0.0 Plan Supersedes This Blueprint:** This feature ships as part of the v1.0.0 multilingual release. Where this blueprint disagrees with [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), the implementation plan wins.
+> **v1.0.0 Status: delivered.** This feature shipped on `feature/extended-multilingual-v1.0.0`; see [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md#5-v100-delivered-features-17-28-41-46) for verification details.
 
 > Key differences from the original blueprint: the unified files are `_layouts/resume.html` and `_includes/resume-section.html` (not `resume-multi.html` / `resume-section-multi.html`); text direction lives only in `_data/locales/<lang>.yml`; per-language config moves under `languages.<lang>`; stylesheets are `cv-ltr.css` / `cv-rtl.css`.
 
@@ -3152,7 +3147,7 @@ Styling in `_sass/_comparison.scss`:
 
 ### Feature 4.6: Deprecation Retirement & Legacy Fallbacks Cleanup (v1.0.0 Horizon)
 
-> **v1.0.0 Plan Supersedes This Blueprint:** This feature ships as part of the v1.0.0 multilingual release. Where this blueprint disagrees with [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), the implementation plan wins.
+> **v1.0.0 Status: delivered.** This feature shipped on `feature/extended-multilingual-v1.0.0`; see [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md#5-v100-delivered-features-17-28-41-46) for verification details.
 
 > Audit correction: only `site.avatar`, `analytics.ga`, and singular `recognition` are still present in code. `site.resume_dark_mode` has no remaining references and `site.resume_header_intro` was retired in v0.4.0; v1.0.0 confirms both are absent. The per-language keys `resume_header_intro_en` / `_ar` are removed by the Feature 4.1 config migration.
 

@@ -6,10 +6,10 @@
 ## Quick Reference for Warp
 
 ### Living Docs Governance Signposts
-- **Constitution**: [`AGENTS.md`](AGENTS.md) — Authoritative agent operating rules & parity constraints.
-- **Map**: [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md) — Architecture, file maps, and component guide.
-- **Status**: [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) — Current release (v0.8.0), 20 active features, and the Delete-Zone.
-- **History**: [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) & [`CHANGELOG.md`](CHANGELOG.md) — Historical audits & release history.
+- **Constitution**: [`AGENTS.md`](AGENTS.md): Authoritative agent operating rules & all-locale parity constraints.
+- **Map**: [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md): Architecture, file maps, and component guide.
+- **Status**: [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md): Active features, blueprints, and the Delete-Zone.
+- **History**: [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) & [`CHANGELOG.md`](CHANGELOG.md): Completed work & release history.
 
 When working in this repository with Warp terminal, refer directly to **[`AGENTS.md`](AGENTS.md)**.
 
@@ -18,11 +18,14 @@ When working in this repository with Warp terminal, refer directly to **[`AGENTS
 # Install dependencies
 bundle install
 
-# Run local development server in theme repository
-bundle exec jekyll serve --config docs/_data/_config.sample.yml
+# Serve the six-language demo from the theme repository
+bundle exec jekyll serve --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
 
-# Static site build in theme repository
-bundle exec jekyll build --config docs/_data/_config.sample.yml
+# Static demo build in the theme repository
+bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+
+# Validator, RuboCop, and tests
+bundle exec rake
 
 # Build gem package locally
 gem build bilingual-jekyll-resume-theme.gemspec

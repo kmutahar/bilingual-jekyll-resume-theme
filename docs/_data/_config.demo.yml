@@ -18,6 +18,11 @@ data_dir: docs/_data
 title: "Sherlock Holmes"
 description: "Consulting Detective, 221B Baker Street, London"
 
+# Public-domain Sidney Paget portrait (1904; public domain in the US as published
+# before 1931, and worldwide as Paget died in 1908). Demo-only: lives under docs/
+# so it never ships as the theme's bundled default avatar for real consuming sites.
+avatar_url: "/docs/assets/images/sherlock-holmes.jpg"
+
 contact_info:
   email: "sherlock@example.com"
 

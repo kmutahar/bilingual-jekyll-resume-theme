@@ -1,17 +1,6 @@
 # frozen_string_literal: true
 
-begin
-  require "minitest/autorun"
-rescue LoadError
-  # When running in an isolated bundler sandbox where minitest is not declared in Gemfile,
-  # locate the system minitest gem and load it directly.
-  minitest_lib = Dir.glob(File.expand_path("~/.rbenv/versions/*/lib/ruby/gems/*/gems/minitest-*/lib")).first ||
-                 Dir.glob("/home/*/.rbenv/versions/*/lib/ruby/gems/*/gems/minitest-*/lib").first
-  raise unless minitest_lib && File.directory?(minitest_lib)
-
-  $LOAD_PATH.unshift(minitest_lib)
-  load File.join(minitest_lib, "minitest", "autorun.rb")
-end
+require "minitest/autorun"
 
 require "fileutils"
 require "tmpdir"

@@ -53,6 +53,7 @@ Gem::Specification.new do |spec|
 
   # --- Development Dependencies (verification tooling; never installed for theme consumers) ---
   spec.add_development_dependency "html-proofer", "~> 5.2"      # `rake proof`: dead links, anchors, images, hreflang
+  spec.add_development_dependency "minitest", "~> 5.25"         # `rake test`: unit tests
   spec.add_development_dependency "rubocop", "~> 1.75"          # `rake rubocop`: static analysis
   spec.add_development_dependency "rubocop-performance", "~> 1.25"
   spec.add_development_dependency "rubocop-rake", "~> 0.7"

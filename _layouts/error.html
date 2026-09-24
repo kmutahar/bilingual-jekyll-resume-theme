@@ -22,9 +22,12 @@ provides an integer or string.
 
     {%- comment -%}
     Single-language block: server-renders default_lang only (one <h1>, no landmark
-    ambiguity). A small script below swaps it to localStorage's 'preferred-lang' (set by
-    resume.html on every resume page visit) when that language is configured and JS is
-    available; with no stored preference or JS disabled, default_lang stands as-is.
+    ambiguity). A small script below swaps it based on the ACTUAL URL the visitor
+    requested (e.g. /ar/whatever -> ar), not a stored preference — static hosts serve
+    this one physical error page for every unmatched path while leaving the real URL
+    in the address bar, so window.location.pathname is the only reliable signal for
+    which language the visitor was trying to reach. A path with no configured
+    language prefix (e.g. /whatever) falls back to default_lang.
     {%- endcomment -%}
     <div class="error-multilingual-group">
         <div class="error-lang-block" id="error-lang-block" lang="{{ default_lang }}" dir="{{ default_locale.direction }}">
@@ -34,38 +37,64 @@ provides an integer or string.
     </div>
 
     {%- comment -%}
-    Per-language title/message/direction, built only from configured languages
-    (site.languages), for the preferred-language swap script below.
+    Per-language title/message/direction/home-url, built only from configured
+    languages (site.languages), for the URL-based language-detection script below.
+    home_url resolves to that language's profile homepage (layout: profile + lang),
+    falling back to its CV (languages.<lang>.url) if no profile page exists for it.
     {%- endcomment -%}
     <script type="application/json" id="error-lang-i18n">
     {
+        "default_lang": {{ default_lang | jsonify }},
         {%- for lang_entry in site.languages -%}
             {%- assign lang = lang_entry[0] -%}
+            {%- assign lang_cfg = lang_entry[1] -%}
             {%- assign locale = site.data.locales[lang] -%}
             {%- assign error_data = locale.error_pages[code_str] -%}
+            {%- assign profile_page = site.pages | where: "layout", "profile" | where: "lang", lang | first -%}
+            {%- assign home_url = profile_page.url | default: lang_cfg.url | default: "/" -%}
             "{{ lang }}": {
                 "title": {{ error_data.title | default: "Error" | jsonify }},
                 "message": {{ error_data.message | default: "An error has occurred." | jsonify }},
-                "direction": {{ locale.direction | jsonify }}
+                "direction": {{ locale.direction | jsonify }},
+                "home_label": {{ locale.ui.home | default: "Home" | jsonify }},
+                "home_url": {{ home_url | relative_url | jsonify }}
             }{% unless forloop.last %},{% endunless %}
         {%- endfor -%}
     }
     </script>
     <script>
-    (function () {
+    document.addEventListener('DOMContentLoaded', function () {
+        {%- comment -%}
+        Deferred to DOMContentLoaded: this script tag sits before <nav>#error-home-btn
+        in source order, so getElementById would see a still-unparsed button if run
+        immediately — the title/message swap "worked" only because error-lang-block
+        happens to precede the script; the button silently never got touched.
+        {%- endcomment -%}
         try {
-            var preferred = localStorage.getItem('preferred-lang');
-            if (!preferred) { return; }
             var i18n = JSON.parse(document.getElementById('error-lang-i18n').textContent);
-            var data = i18n[preferred];
+            var path = window.location.pathname;
+            var matched = null;
+            for (var key in i18n) {
+                if (key === 'default_lang' || !i18n.hasOwnProperty(key)) { continue; }
+                if (path.indexOf('/' + key + '/') === 0) { matched = key; break; }
+            }
+            if (!matched) { matched = i18n.default_lang; }
+            var data = i18n[matched];
             if (!data) { return; }
+
             var block = document.getElementById('error-lang-block');
-            block.setAttribute('lang', preferred);
+            block.setAttribute('lang', matched);
             block.setAttribute('dir', data.direction);
             block.querySelector('.error-title').textContent = data.title;
             block.querySelector('.error-description').textContent = data.message;
-        } catch (e) { /* localStorage unavailable or JS disabled: default_lang content stands. */ }
-    })();
+
+            var homeBtn = document.getElementById('error-home-btn');
+            if (homeBtn) {
+                homeBtn.href = data.home_url;
+                homeBtn.textContent = data.home_label;
+            }
+        } catch (e) { /* JS disabled: default_lang content and its Home button stand. */ }
+    });
     </script>
 
     {% if content and content != "" %}
@@ -86,22 +115,15 @@ provides an integer or string.
             {{ default_locale.ui.reload_page | default: "Reload Page" }}
         </button>
         {% endif %}
-        <a href="{{ '/' | relative_url }}" class="error-btn{% unless code_str == '500' or code_str == '503' or page.show_reload == true %} primary{% endunless %}">
+        {%- comment -%}
+        Single Home/return button. Server-rendered fallback points at default_lang's
+        own profile homepage (or its CV if no profile page exists); the script above
+        repoints it once it detects the visitor's actual language from the URL.
+        {%- endcomment -%}
+        {%- assign default_profile_page = site.pages | where: "layout", "profile" | where: "lang", default_lang | first -%}
+        {%- assign default_home_url = default_profile_page.url | default: site.languages[default_lang].url | default: "/" -%}
+        <a id="error-home-btn" href="{{ default_home_url | relative_url }}" class="error-btn{% unless code_str == '500' or code_str == '503' or page.show_reload == true %} primary{% endunless %}">
             {{ default_locale.ui.home | default: "Home" }}
         </a>
-        {%- comment -%}
-        Return link per language (two-tier): languages.<lang>.url from _config.yml, falling
-        back to the page found by layout: resume + lang.
-        {%- endcomment -%}
-        {% for lang_entry in site.languages %}
-            {%- assign lang = lang_entry[0] -%}
-            {%- assign lang_cfg = lang_entry[1] -%}
-            {%- assign locale = site.data.locales[lang] -%}
-            {%- assign resume_page = site.pages | where: "layout", "resume" | where: "lang", lang | first -%}
-            {%- assign resume_url = lang_cfg.url | default: resume_page.url -%}
-            <a href="{{ resume_url | relative_url }}" class="error-btn">
-                {{ locale.error_pages.return_link }} ({{ locale.ui.language_name }})
-            </a>
-        {% endfor %}
     </nav>
 </div>

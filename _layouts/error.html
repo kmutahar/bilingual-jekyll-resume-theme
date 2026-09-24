@@ -20,23 +20,53 @@ provides an integer or string.
     {%- comment -%} Large visual status code is aria-hidden to avoid screen reader clutter {%- endcomment -%}
     <div class="error-code" aria-hidden="true">{{ code_str }}</div>
 
+    {%- comment -%}
+    Single-language block: server-renders default_lang only (one <h1>, no landmark
+    ambiguity). A small script below swaps it to localStorage's 'preferred-lang' (set by
+    resume.html on every resume page visit) when that language is configured and JS is
+    available; with no stored preference or JS disabled, default_lang stands as-is.
+    {%- endcomment -%}
     <div class="error-multilingual-group">
-        {%- comment -%}
-        One block per entry in site.languages, in that config's order. Copy comes from
-        each language's own _data/locales/<lang>.yml error_pages[code_str]; per-page front
-        matter overrides (page.title_en/desc_en etc.) are gone along with _data/error_pages.yml.
-        {%- endcomment -%}
-        {% for lang_entry in site.languages %}
+        <div class="error-lang-block" id="error-lang-block" lang="{{ default_lang }}" dir="{{ default_locale.direction }}">
+            <h1 class="error-title">{{ default_locale.error_pages[code_str].title | default: "Error" }}</h1>
+            <p class="error-description">{{ default_locale.error_pages[code_str].message | default: "An error has occurred." }}</p>
+        </div>
+    </div>
+
+    {%- comment -%}
+    Per-language title/message/direction, built only from configured languages
+    (site.languages), for the preferred-language swap script below.
+    {%- endcomment -%}
+    <script type="application/json" id="error-lang-i18n">
+    {
+        {%- for lang_entry in site.languages -%}
             {%- assign lang = lang_entry[0] -%}
             {%- assign locale = site.data.locales[lang] -%}
             {%- assign error_data = locale.error_pages[code_str] -%}
-            {% unless forloop.first %}<hr class="error-divider" aria-hidden="true">{% endunless %}
-            <div class="error-lang-block" lang="{{ lang }}" dir="{{ locale.direction }}">
-                <h1 class="error-title">{{ error_data.title | default: "Error" }}</h1>
-                <p class="error-description">{{ error_data.message | default: "An error has occurred." }}</p>
-            </div>
-        {% endfor %}
-    </div>
+            "{{ lang }}": {
+                "title": {{ error_data.title | default: "Error" | jsonify }},
+                "message": {{ error_data.message | default: "An error has occurred." | jsonify }},
+                "direction": {{ locale.direction | jsonify }}
+            }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+    }
+    </script>
+    <script>
+    (function () {
+        try {
+            var preferred = localStorage.getItem('preferred-lang');
+            if (!preferred) { return; }
+            var i18n = JSON.parse(document.getElementById('error-lang-i18n').textContent);
+            var data = i18n[preferred];
+            if (!data) { return; }
+            var block = document.getElementById('error-lang-block');
+            block.setAttribute('lang', preferred);
+            block.setAttribute('dir', data.direction);
+            block.querySelector('.error-title').textContent = data.title;
+            block.querySelector('.error-description').textContent = data.message;
+        } catch (e) { /* localStorage unavailable or JS disabled: default_lang content stands. */ }
+    })();
+    </script>
 
     {% if content and content != "" %}
     <div class="error-custom-content">

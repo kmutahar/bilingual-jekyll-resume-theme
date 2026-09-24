@@ -234,5 +234,13 @@
             {% endif %}
         </div>
 
+        {%- comment -%}
+        Remembers the visitor's language across the site: written on every resume page
+        visit, read by _layouts/error.html to show a single matching-language error page
+        instead of default_lang when the visitor has one on record.
+        {%- endcomment -%}
+        <script>
+        try { localStorage.setItem('preferred-lang', '{{ lang }}'); } catch (e) { /* localStorage unavailable */ }
+        </script>
     </body>
 </html>

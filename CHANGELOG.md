@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.0.1] - 2026-09-24
+
+### Changed
+* Replace language-switcher button row with a dropdown ([`f37c6f6`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/f37c6f6b410f5de4841ed36115db60408c805293))
+
+* Pin language-switcher/dark-mode-toggle to fixed corners ([`305408c`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/305408c8885c194ad71d88831179b287d4a10ec3))
+
 ## [1.0.0] - 2026-09-24
 
 ### Added
@@ -350,6 +357,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[1.0.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.9.0...v1.0.0
 [0.9.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.7.0...v0.8.0

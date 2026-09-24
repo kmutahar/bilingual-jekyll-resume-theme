@@ -64,6 +64,9 @@ error_pages:
     title: "سروس عارضی طور پر دستیاب نہیں"
     message: "دیکھ بھال یا زیادہ لوڈ کی وجہ سے سرور فی الحال درخواست پر عمل کرنے سے قاصر ہے۔"
   return_link: "سی وی پر واپس جائیں"
+  search_label: "ویب سائٹ تلاش کریں"
+  search_placeholder: "ویب سائٹ تلاش کریں..."
+  search_button: "تلاش"
 present_values:
   - "present"
   - "حال"

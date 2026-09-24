@@ -64,6 +64,9 @@ error_pages:
     title: "الخدمة غير متوفرة مؤقتاً"
     message: "الخادم غير قادر على معالجة الطلب حالياً بسبب الصيانة أو زيادة الحمل."
   return_link: "العودة إلى السيرة الذاتية"
+  search_label: "البحث في الموقع"
+  search_placeholder: "البحث في الموقع..."
+  search_button: "بحث"
 present_values:
   - "present"
   - "حتى الآن"

@@ -64,6 +64,9 @@ error_pages:
     title: "Servicio No Disponible"
     message: "El servidor no puede procesar la solicitud actualmente debido a mantenimiento o sobrecarga."
   return_link: "Volver al currículum"
+  search_label: "Buscar en el sitio"
+  search_placeholder: "Buscar en el sitio..."
+  search_button: "Buscar"
 present_values:
   - "present"
   - "actualidad"

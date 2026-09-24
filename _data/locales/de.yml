@@ -64,6 +64,9 @@ error_pages:
     title: "Dienst Nicht Verfügbar"
     message: "Der Server kann die Anfrage derzeit aufgrund von Wartungsarbeiten oder Überlastung nicht bearbeiten."
   return_link: "Zurück zum Lebenslauf"
+  search_label: "Website durchsuchen"
+  search_placeholder: "Website durchsuchen..."
+  search_button: "Suchen"
 present_values:
   - "present"
   - "heute"

@@ -64,6 +64,9 @@ error_pages:
     title: "Service Indisponible"
     message: "Le serveur est actuellement incapable de traiter la demande en raison d'une maintenance ou d'une surcharge."
   return_link: "Retour au CV"
+  search_label: "Rechercher sur le site"
+  search_placeholder: "Rechercher sur le site..."
+  search_button: "Rechercher"
 present_values:
   - "present"
   - "actuel"

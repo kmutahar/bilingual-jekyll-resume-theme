@@ -88,7 +88,7 @@ Schemas for both are in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) and [`C
 
 - **File:** [`../_layouts/error.html`](../_layouts/error.html), extends `default.html`. Used by `404.html`, `403.html`, and `500.html`.
 - Reads `page.code` (default `"404"`) and renders one `lang` / `dir`-tagged block per entry in `site.languages`, in config order, with `title` and `message` from that language's `locale.error_pages[code]`.
-- Search form (`role="search"`) submitting `q` to the site root.
+- Search form (`role="search"`) submitting `q` to the site root, labelled from `default_lang`'s `locale.error_pages.search_*` keys. A static page can't negotiate language server-side, so a small inline script reads `navigator.language` and swaps in a configured language's `search_*` text when it matches; with JavaScript disabled, the `default_lang` text stands as-is.
 - Buttons: Reload (for `500`, `503`, or `page.show_reload: true`) and Home, labelled from the `default_lang` locale; then one return link per language, labelled `locale.error_pages.return_link (locale.ui.language_name)`, pointing at `languages.<lang>.url`, falling back to the first page with `layout: resume` and that `lang`.
 - [`../_plugins/error_pages_generator.rb`](../_plugins/error_pages_generator.rb) adds `404.html`, `403.html`, and `500.html` to consuming sites that do not define their own. It only runs when the gem is declared in the `Gemfile`'s `:jekyll_plugins` group.
 

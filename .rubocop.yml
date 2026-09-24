@@ -1,0 +1,72 @@
+# RuboCop configuration for bilingual-jekyll-resume-theme.
+# Scope: the Ruby that ships with or verifies the theme (lib/, _plugins/, bin/, test/, Rakefile).
+# Run with: bundle exec rake rubocop   (or: bundle exec rubocop)
+
+plugins:
+  - rubocop-performance
+  - rubocop-rake
+
+AllCops:
+  TargetRubyVersion: 3.3   # Matches spec.required_ruby_version in the gemspec.
+  NewCops: enable
+  SuggestExtensions: false
+  Include:
+    - "lib/**/*.rb"
+    - "_plugins/**/*.rb"
+    - "bin/validate-resume" # bin/release is a bash script, so it is not linted.
+    - "test/**/*.rb"
+    - "Rakefile"
+  Exclude:
+    - "vendor/**/*"
+    - "_site/**/*"
+    - ".agents/**/*"
+    - ".jekyll-cache/**/*"
+    - "graphify-out/**/*"
+    - "docs/**/*"
+
+# Every Ruby file must opt in to frozen string literals (also enforced for bin/ scripts).
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+
+# Double quotes are already the repository convention.
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# The validator is intentionally a single, well-commented schema engine and its test suite is
+# table-driven; the default size/complexity metrics fight that shape rather than improve it.
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Max: 15
+Metrics/PerceivedComplexity:
+  Max: 15
+# Tests are assertion-dense by design, and bin/ scripts hold a long OptionParser block.
+Metrics/BlockLength:
+  Exclude:
+    - "Rakefile"
+    - "bin/validate-resume"
+    - "test/**/*"
+Metrics/AbcSize:
+  Max: 40
+  Exclude:
+    - "test/**/*"
+Metrics/MethodLength:
+  Max: 40
+  Exclude:
+    - "test/**/*"
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
+Layout/LineLength:
+  Max: 140
+  AllowedPatterns:
+    - '^\s*#' # Long doc comments / URLs
+
+Style/Documentation:
+  Enabled: false
+
+# Bundler requires the gem entrypoint to match the gem name (with hyphens).
+Naming/FileName:
+  Exclude:
+    - "lib/bilingual-jekyll-resume-theme.rb"

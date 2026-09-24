@@ -69,4 +69,3 @@ module BilingualJekyllResumeTheme
     end
   end
 end
-

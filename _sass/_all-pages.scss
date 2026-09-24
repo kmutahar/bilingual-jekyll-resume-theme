@@ -280,14 +280,13 @@ footer,
   .error-lang-block {
     margin: 1.5rem 0;
 
-    // Arabic block in error suite: enforces direction: rtl and Cairo font.
-    &.arabic {
-      direction: rtl;
-      font-family: var(--font-ar, 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif);
-
+    // RTL block in error suite: locale-driven font (Cairo for Arabic, Noto Nastaliq Urdu
+    // for Urdu, etc.) via --font-locale, matching every other component. Gated on the
+    // real dir="rtl" attribute error.html renders, not a class that's never applied.
+    &[dir="rtl"] {
       .error-title,
       .error-description {
-        font-family: var(--font-ar, 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif);
+        font-family: var(--font-locale, 'Cairo', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif);
         line-height: 1.6;
       }
     }

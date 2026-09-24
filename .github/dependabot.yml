@@ -4,35 +4,34 @@
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 # .github/dependabot.yml
-# Basic Dependabot config file for a Jekyll site
-# You always need to set this to 2.
+# Dependabot configuration for Ruby gems and GitHub Actions
 version: 2
 
-# This 'updates' block is the main section where you list all the
-# different package managers you want Dependabot to check.
 updates:
-
-  # This is the first entry in your 'updates' list.
-  # Each entry starts with a hyphen (-).
-  - 
-    # 'package-ecosystem' specifies the package manager.
-    # For Jekyll (a Ruby project), the package manager is "bundler"
-    # which reads your 'Gemfile' and 'Gemfile.lock'.
-    package-ecosystem: "bundler"
-    
-    # 'directory' tells Dependabot where to find the 'Gemfile'.
-    # "/" means the root (main folder) of your repository.
+  # 1. Ruby/Bundler dependencies (Gemfile and Gemfile.lock)
+  - package-ecosystem: "bundler"
     directory: "/"
-    
-    # 'schedule' defines how often Dependabot should check for updates.
     schedule:
-      # 'interval: "daily"' is the most common setting.
-      # Other options are "weekly" or "monthly".
       interval: "daily"
-      
-    # 'labels' (optional) automatically adds GitHub labels to the
-    # pull requests that Dependabot creates. This makes them
-    # easy to filter and identify.
     labels:
-      - "dependencies"  # A general label for dependency updates
-      - "ruby"          # A specific label for Ruby/Bundler updates
+      - "dependencies"
+      - "ruby"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # 2. GitHub Actions dependencies (.github/workflows/)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

@@ -1,0 +1,70 @@
+# frozen_string_literal: true
+
+require "rake"
+require_relative "lib/bilingual-jekyll-resume-theme/resume_validator"
+
+desc "Validate bilingual resume YAML data files for schema conformance and parity"
+task :validate, [:data_dir] do |_t, args|
+  data_dir = args[:data_dir] || (Dir.exist?("_data/en") ? "_data" : "docs/_data")
+  validator = BilingualJekyllResumeTheme::ResumeValidator.new(data_dir)
+  exit_code = validator.validate
+  exit exit_code unless exit_code.zero?
+end
+
+desc "Run integration test suite"
+task :test do
+  ruby "test/test_language_switcher.rb"
+  ruby "test/test_resume_validator.rb"
+end
+
+require "rubocop/rake_task"
+
+RuboCop::RakeTask.new(:rubocop) do |task|
+  task.options = ["--display-cop-names"]
+end
+
+# Locates the Jekyll config that produced a built site, so absolute URLs (canonical, hreflang,
+# social cards) can be mapped back onto local files. Consumer sites keep _config.yml next to _site/.
+def proof_config_for(site_dir, explicit)
+  candidates = [explicit, File.join(File.dirname(site_dir), "_config.yml"), "docs/_data/_config.sample.yml"]
+  path = candidates.compact.find { |candidate| File.file?(candidate) }
+  path ? (YAML.safe_load_file(path, permitted_classes: [Date, Time]) || {}) : {}
+end
+
+desc "Verify built HTML: dead internal links, anchors, images, favicons and hreflang alternates"
+task :proof, %i[site_dir config] do |_t, args|
+  require "html-proofer"
+  require "yaml"
+
+  site_dir = args[:site_dir] || "_site"
+  unless Dir.exist?(site_dir)
+    abort "❌ '#{site_dir}' not found. Build first: " \
+          "bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml"
+  end
+
+  config = proof_config_for(site_dir, args[:config])
+  base_url = config["url"].to_s.chomp("/")
+  ignore_urls = []
+
+  # The theme's own build ships error pages but no homepage or CV pages: those routes only exist in a
+  # consuming site. Exempt them ONLY when there is no index.html, so a real site still fails if
+  # a configured language's CV route is genuinely missing.
+  unless File.exist?(File.join(site_dir, "index.html"))
+    language_urls = (config["languages"] || {}).values.filter_map { |lang| lang["url"] }
+    ignore_urls = ["/"] + language_urls
+  end
+
+  options = {
+    disable_external: true, # Offline and deterministic: only local files and anchors are verified.
+    checks: %w[Images Links Scripts Favicon], # Favicon is opt-in in html-proofer 5.
+    ignore_urls: ignore_urls,
+    ignore_files: [%r{/graphify-out/}, %r{/vendor/}, %r{/node_modules/}] # Repo tooling copied into _site by Jekyll.
+  }
+  # hreflang/canonical URLs are absolute (site.url + path); rewrite them to local paths so they are proofed too.
+  options[:swap_urls] = { /\A#{Regexp.escape(base_url)}/ => "" } unless base_url.empty?
+
+  HTMLProofer.check_directory(site_dir, options).run
+end
+
+desc "Run default validation and test suite"
+task default: %i[validate rubocop test]

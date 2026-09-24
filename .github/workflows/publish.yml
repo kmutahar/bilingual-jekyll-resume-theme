@@ -30,8 +30,8 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.2' # You can update this to '3.3' or higher as your project evolves
-        bundler-cache: true # Optional: Automatically runs 'bundle install' and caches gems
+        ruby-version: '3.4'
+        bundler-cache: true # Automatically runs 'bundle install' and caches gems
 
     # 3. Authenticate and Publish to RubyGems.org.
     # Since we are in a headless CI environment, we manually create the credentials file

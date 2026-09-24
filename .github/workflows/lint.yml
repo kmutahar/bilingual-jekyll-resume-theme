@@ -1,0 +1,59 @@
+name: YAML Schema & Data Linter
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-data:
+    name: Lint Resume Schemas & Parity
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+
+      - name: Validate Resume Data with CLI Linter
+        run: |
+          chmod +x bin/validate-resume
+          ./bin/validate-resume docs/_data --fail-on-warnings
+
+      - name: Run Rake Validation Task
+        run: |
+          bundle exec rake validate[docs/_data]
+
+      - name: Validate RubyGem Specification & Executables
+        run: |
+          gem build bilingual-jekyll-resume-theme.gemspec
+          gem spec bilingual-jekyll-resume-theme-*.gem executables | grep -q "validate-resume"
+          rm -f bilingual-jekyll-resume-theme-*.gem
+
+  lint-ruby:
+    name: Lint Ruby (RuboCop)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+
+      - name: Run RuboCop
+        run: |
+          bundle exec rake rubocop

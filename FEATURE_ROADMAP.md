@@ -10,9 +10,9 @@
 
 ## Executive Summary & Historical Audit Archival
 
-This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **21 active, uncompleted features** organized across four sequential implementation phases:
+This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **23 active, uncompleted features** organized across four sequential implementation phases:
 1. **Priority 1 (Quick Wins & Visual Polish):** High-visibility, low-friction UX improvements (4 active features).
-2. **Priority 2 (Core Functional & Architectural):** Data richness, typography, print fidelity, and RTL alignment (7 active features).
+2. **Priority 2 (Core Functional & Architectural):** Data richness, typography, print fidelity, and RTL alignment (9 active features).
 3. **Priority 3 (Interoperability, Tooling & CI/CD):** Industry schema standards, validation tooling, and test pipelines (3 active features).
 4. **Priority 4 (Ecosystem Expansion):** Generic internationalization, chronology views, contact mechanisms, telemetry, custom sections, page auto-generation, and v1.0.0 deprecation retirement (7 active features).
 
@@ -41,6 +41,8 @@ All 21 active, uncompleted features are mapped below with their canonical GitHub
 | **P2** | **2.6** | Social Media Cards Generation (Open Graph & Twitter) | [#22](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/22) | `Closes #22` | ⭐⭐ | Med-High | 2–3 hrs | `_includes/shared-head.html`, SEO guides |
 | **P2** | **2.9** | Dual Gregorian / Hijri (Islamic) Calendar Localization | [#218](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218) | `Closes #218` | ⭐⭐ | High (MENA) | 2–3 hrs | `_includes/date-formatter.html`, `_data/locales/ar.yml` |
 | **P2** | **2.10** | SCSS Deduplication Cleanup | [#224](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/224) | `Closes #224` | ⭐ | Low | 1 hr | `_sass/_base.scss`, `_sass/_all-pages.scss`, `_sass/_resume-ltr.scss`, `_sass/_resume-rtl.scss`, `_dark-mode.scss`, `_layout.scss` |
+| **P2** | **2.11** | Pin Language-Switcher/Dark-Mode-Toggle to Fixed Corners (Remove RTL Mirror) | [#227](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/227) | `Closes #227` | ⭐ | Med | 1–2 hrs | `_sass/_layout.scss`, `_sass/_dark-mode.scss`, `_sass/_resume-rtl.scss` |
+| **P2** | **2.12** | Dropdown Language Switcher (Replace Per-Language Button Row) | [#228](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/228) | `Closes #228` | ⭐⭐ | Med | 2–3 hrs | `_includes/language-switcher.html`, `_sass/_layout.scss` |
 | **P3** | **3.1** | Standard JSON Resume Exporter (`/resume.json`) | [#6](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/6) | `Closes #6` | ⭐⭐⭐ | High | 4–5 hrs | `resume.json`, `resume-ar.json` |
 | **P3** | **3.2** | Automated CI/CD Build & Verification Pipeline | [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206) | `Closes #206` | ⭐⭐ | High | 2–3 hrs | `.github/workflows/ci.yml` |
 | **P3** | **3.3** | YAML Resume Data Validator & Schema Linter | [#13](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/13) | `Closes #13` | ⭐⭐⭐ | Med-High | 4–5 hrs | `bin/validate-resume`, `Rakefile` |
@@ -1435,6 +1437,59 @@ In `_includes/ar-date.html`:
 - **PR Title:** `chore(sass): deduplicate repeated CSS rules (Closes #224)`
 - **Conventional Commit:** `chore(sass): remove duplicate .sr-only, icon-link, and RTL toggle rules (Closes #224)`
 - **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/224`
+
+---
+
+### Feature 2.11: Pin Language-Switcher/Dark-Mode-Toggle to Fixed Corners (Remove RTL Mirror)
+
+> **Origin:** User-requested during a design review of the two floating widgets, pre-v1.0.0 launch.
+
+- **Canonical Issue:** [#227](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/227)
+- **Auto-Closing Reference:** `Closes #227`
+- **Concept & Rationale:** `.language-switcher` and `.dark-mode-toggle` currently swap top-left/top-right corners based on `locale.direction`, via RTL-mirror rules duplicated across `_sass/_layout.scss`/`_sass/_dark-mode.scss` (generic `html[dir="rtl"]` rules) and `_sass/_resume-rtl.scss` (a resume-specific repeat, added "to avoid colliding with right-aligned Arabic header titles"). Pin each widget to one fixed corner in every locale instead — language-switcher top-left, dark-mode-toggle top-right, i.e. today's LTR arrangement made permanent — removing all three RTL override locations. Must be verified against a live RTL build to confirm the original collision concern no longer applies before merging (see Acceptance Criteria).
+- **Effort / Impact / Demand:** Effort: ⭐ (1–2 hrs) | Impact: Med (visible, intentional behavior change) | Demand: Med
+
+#### Exact Target Files
+- **Files to Modify:** `_sass/_layout.scss`, `_sass/_dark-mode.scss`, `_sass/_resume-rtl.scss`, `test/test_language_switcher.rb`, `docs/INCLUDES_GUIDE.md`
+
+#### Acceptance Criteria & Verification
+- [ ] `.language-switcher` renders fixed top-left and `.dark-mode-toggle` fixed top-right in every locale, LTR and RTL alike.
+- [ ] All `html[dir="rtl"]` repositioning rules for these two selectors are removed from `_sass/_layout.scss`, `_sass/_dark-mode.scss`, and `_sass/_resume-rtl.scss`.
+- [ ] `bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml`, then visual check of `_site/ar/cv/` and `_site/ur/cv/` confirms no overlap between the fixed-corner widgets and `.header-name`/`.header-title`.
+- [ ] `test/test_language_switcher.rb` no longer asserts RTL mirroring; asserts the fixed-corner rule instead.
+
+#### Git Workflow Specification
+- **Branch:** `feature/pin-widget-corners`
+- **PR Title:** `feat(layout): pin language-switcher/dark-mode-toggle to fixed corners (Closes #227)`
+- **Conventional Commit:** `feat(layout): remove RTL mirror, pin floating widgets to fixed corners (Closes #227)`
+- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/227`
+
+---
+
+### Feature 2.12: Dropdown Language Switcher (Replace Per-Language Button Row)
+
+> **Origin:** User-requested alongside Feature 2.11, pre-v1.0.0 launch.
+
+- **Canonical Issue:** [#228](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/228)
+- **Auto-Closing Reference:** `Closes #228`
+- **Concept & Rationale:** `_includes/language-switcher.html` currently renders one `<a class="lang-switch-btn">` per configured language (6 in the shipped demo), which grows linearly and doesn't scale as more locales are added. Replace the button row with a single `<details>/<summary>` disclosure wrapping the same per-language links, used unconditionally regardless of configured language count — zero new JavaScript, preserving the switcher's current no-JS graceful degradation. The closed `<summary>` reuses the existing `locale.ui.language_switcher` string (no new locale key). Since v1.0.0 has not yet shipped, class names are free to change; `.language-switcher` stays on the outer wrapper as the documented landmark class.
+- **Effort / Impact / Demand:** Effort: ⭐⭐ (2–3 hrs) | Impact: Med (visible, intentional behavior change) | Demand: Med
+
+#### Exact Target Files
+- **Files to Modify:** `_includes/language-switcher.html`, `_sass/_layout.scss`, `test/test_language_switcher.rb`, `docs/INCLUDES_GUIDE.md`, `docs/ACCESSIBILITY_GUIDE.md`, `docs/PROJECT_OVERVIEW.md`
+
+#### Acceptance Criteria & Verification
+- [ ] The switcher renders as a single `<details>/<summary>` control listing every other configured language, never the current page's own language.
+- [ ] No new JavaScript is introduced; the control works with JS fully disabled.
+- [ ] Trigger label uses `locale.ui.language_switcher`; per-link `href`/`aria-label`/`title`/`dir` attributes are unchanged from today's behavior.
+- [ ] `bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml`, then check all six demo pages: dropdown opens/closes via mouse and keyboard (Tab, Enter/Space, Esc).
+- [ ] `test/test_language_switcher.rb` updated to match the new markup shape; behavioral assertions (link targets, self-exclusion, aria-labels, toggles) still pass.
+
+#### Git Workflow Specification
+- **Branch:** `feature/dropdown-language-switcher`
+- **PR Title:** `feat(i18n): replace language-switcher button row with a dropdown (Closes #228)`
+- **Conventional Commit:** `feat(i18n): collapse per-language buttons into a details/summary dropdown (Closes #228)`
+- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/228`
 
 ---
 

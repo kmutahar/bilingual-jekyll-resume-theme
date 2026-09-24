@@ -122,7 +122,7 @@ class LanguageSwitcherTest < Minitest::Test
     assert_includes default_layout, "language-switcher.html", "_layouts/default.html must include language-switcher.html"
   end
 
-  # --- 2. SCSS positioning (fixed top-left LTR, mirrored top-right RTL) ---
+  # --- 2. SCSS positioning (fixed top-left in every locale, LTR and RTL alike) ---
 
   def test_scss_defines_language_switcher_positioning
     layout_scss = File.read(File.join(ROOT_DIR, "_sass", "_layout.scss"))
@@ -134,11 +134,17 @@ class LanguageSwitcherTest < Minitest::Test
     assert_includes main_scss, '@use "layout"', "assets/css/main.scss must import @use 'layout'"
   end
 
-  def test_scss_rtl_mirrors_language_switcher
+  def test_scss_does_not_mirror_widgets_in_rtl
+    layout_scss = File.read(File.join(ROOT_DIR, "_sass", "_layout.scss"))
+    dark_mode_scss = File.read(File.join(ROOT_DIR, "_sass", "_dark-mode.scss"))
     rtl_scss = File.read(File.join(ROOT_DIR, "_sass", "_resume-rtl.scss"))
 
-    assert_includes rtl_scss, ".language-switcher", "_sass/_resume-rtl.scss must mirror .language-switcher styles"
-    assert_includes rtl_scss, "right: 1.25rem", "_sass/_resume-rtl.scss must mirror .language-switcher to right: 1.25rem"
+    refute_match(/html\[dir="rtl"\]\s*{\s*\.language-switcher/, layout_scss,
+                 "_sass/_layout.scss must not reposition .language-switcher for RTL")
+    refute_match(/html\[dir="rtl"\]\s*{\s*\.dark-mode-toggle/, dark_mode_scss,
+                 "_sass/_dark-mode.scss must not reposition .dark-mode-toggle for RTL")
+    refute_includes rtl_scss, ".language-switcher", "_sass/_resume-rtl.scss must not reposition .language-switcher"
+    refute_includes rtl_scss, ".dark-mode-toggle", "_sass/_resume-rtl.scss must not reposition .dark-mode-toggle"
   end
 
   # --- 3. Rendering: every language's resume page links to the other five, never itself ---

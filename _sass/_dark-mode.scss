@@ -385,11 +385,3 @@ html.light {
   }
 }
 
-// RTL layout positioning
-// Repositions the toggle button to the top-left corner in Arabic layouts.
-html[dir="rtl"] {
-  .dark-mode-toggle {
-    right: auto;
-    left: 1.25rem;
-  }
-}

@@ -1,46 +1,19 @@
 # Completed Historical Remediation & Engineering Audit Log
 
 **Project:** `bilingual-jekyll-resume-theme`  
-**Current Release:** `v1.0.0` (Audited Baseline: `v0.7.0`)  
+**Current Release:** `v1.0.1` (Audited Baseline: `v0.7.0`)  
 **Milestone:** M1 Completed Audit Archival  
 **Audit Date:** September 2026  
 **Master Active Roadmap:** [`/FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md)  
-**Status:** Permanent Historical Record. 18 foundation items (through `v0.7.0`), later completed features, and the four v1.0.0 deliveries (Section 5), all completed and verified
+**Status:** Permanent Historical Record. All foundation items, completed features, and release deliverables are verified in git history and documented in this audit archive.
 
 ---
 
 ## 1. Executive Summary & Audit Overview
 
-This document provides the definitive, permanent engineering record of all **18 bug fixes, security hardenings, data resilience enhancements, accessibility upgrades, and architectural feature deliverables** completed across the `bilingual-jekyll-resume-theme` repository up through release `v0.7.0`. While the current project release has advanced to `v1.0.0`, this document is preserved as the immutable historical record of the 18 foundation remediations.
+This document provides the definitive, permanent engineering record of all **bug fixes, security hardenings, data resilience enhancements, accessibility upgrades, and architectural feature deliverables** completed across the `bilingual-jekyll-resume-theme` repository. It serves as the immutable historical record of foundation remediations and completed features across releases.
 
 To maintain strict hygiene in the active roadmap and eliminate document drift across planning cycles, completed items have been permanently retired from the active roadmap phases and archived in this audit document. For the active, forward-looking engineering roadmap detailing upcoming uncompleted features across Priorities 1 through 4, refer to the authoritative master roadmap at [`/FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md).
-
-### 1.1 Remediation Metrics & Completion Summary
-
-| Scope Phase | Total Audited | Completed & Verified | Completion Rate | Releases Delivered |
-|---|---|---|---|---|
-| **Priority 0 (Immediate Stability, Correctness & Security)** | 16 | 16 | **100%** | `v0.4.0`, `v0.7.0` |
-| **Priority 1 (Visual Enhancements & Quick Wins)** | 2 (P1.2, P1.4) | 2 | **100%** | `v0.7.0`, `v0.8.0` |
-| **Priority 2 (Core Functional & Architecture)** | 3 (P2.4, P2.7, #216) | 3 | **100%** | `v0.7.0`, `v0.8.0` |
-| **Total Completed Engineering Deliverables** | **21** | **21** | **100%** | `v0.4.0` – `v0.8.0` |
-| **v1.0.0 Roadmap Features (1.7, 2.8, 4.1, 4.6)** | 4 | 4 | **100%** | `v1.0.0` (on `feature/extended-multilingual-v1.0.0`, unreleased) |
-
-### 1.2 Categorical Remediation Distribution
-
-```
-+-------------------------------------------------------------+
-| Category Distribution of 21 Completed Items                 |
-+-------------------------------------------------------------+
-| Bug / Logic Fixes:              4 items (P0.1, P0.2, P0.3, P0.9)
-| Security & HTML Correctness:    2 items (P0.5, P0.7)
-| Data Resilience & Optionality:  3 items (P0.13, P0.14, P0.15)
-| Accessibility (WCAG 2.1/2.2):   3 items (P0.10, P1.4, P2.7)
-| RTL & Internationalization:     4 items (P0.8, P0.11, P1.4, P1.2)
-| Architecture & Navigation:      4 items (P0.4, P0.16, P2.4, #216)
-| Asset Management & 404s:        1 item  (P0.6)
-| Governance & Versioning:        1 item  (P0.12)
-+-------------------------------------------------------------+
-```
 
 ---
 
@@ -73,6 +46,10 @@ To maintain strict hygiene in the active roadmap and eliminate document drift ac
 | **F2.8** | Header Contact Icon and Text Alignment in Arabic Layout | Issue [#217](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/217) | RTL / a11y | `v1.0.0` | `315356972b326d9fcd5ff58e0208da9a2140116f` | `_layouts/resume-ar.html` (carried into `_layouts/resume.html`) |
 | **F4.1** | Extended Multilingual Support (EN, AR, ES, FR, DE, UR) | Issue [#15](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/15) | i18n / Architecture | `v1.0.0` | `54b40a4`, `3e840a7`, `5058532`, `c37df29`, `da2cd74`, `3f467fe`, `5188e96` | `_data/locales/*.yml`, `_layouts/resume.html`, `_includes/resume-section.html`, `_includes/date-formatter.html`, `_sass/_resume-ltr.scss`, `assets/css/cv-{ltr,rtl}.scss`, every locale consumer, `docs/_data/`, `docs/demo/` |
 | **F4.6** | Deprecation Retirement & Legacy Fallbacks Cleanup | Issue [#214](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/214) | Cleanup / Config | `v1.0.0` | `2c88adf75c915cb682634ac0c98a2211caedb101` | `_includes/avatar.html`, `_includes/analytics-head.html`, `_includes/resume-section.html` |
+| **F3.2** | Automated CI/CD Build & Verification Pipeline | Issue [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206) | CI/CD | `v1.0.0` | `3be935f` | `.github/workflows/ci.yml`, `.github/workflows/lint.yml`, `README.md` |
+| **F3.3** | YAML Resume Data Validator & Schema Linter | Issue [#13](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/13) | Tooling / Quality | `v1.0.0` | `3be935f` | `bin/validate-resume`, `lib/bilingual-jekyll-resume-theme/resume_validator.rb`, `_plugins/resume_validator.rb`, `docs/VALIDATION_GUIDE.md`, `test/test_resume_validator.rb` |
+| **F2.11** | Pin Language-Switcher/Dark-Mode-Toggle to Fixed Corners (Remove RTL Mirror) | Issue [#227](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/227) | Layout / RTL | `v1.0.1` | `305408c` | `_sass/_layout.scss`, `_sass/_dark-mode.scss`, `_sass/_resume-rtl.scss`, `test/test_language_switcher.rb`, `docs/INCLUDES_GUIDE.md` |
+| **F2.12** | Dropdown Language Switcher (Replace Per-Language Button Row) | Issue [#228](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/228) | i18n / a11y | `v1.0.1` | `f37c6f6` | `_includes/language-switcher.html`, `_sass/_layout.scss`, `test/test_language_switcher.rb`, `docs/INCLUDES_GUIDE.md`, `docs/ACCESSIBILITY_GUIDE.md`, `docs/PROJECT_OVERVIEW.md` |
 
 ---
 
@@ -603,9 +580,9 @@ To maintain strict hygiene in the active roadmap and eliminate document drift ac
 
 ---
 
-## 5. v1.0.0 Delivered Features (1.7, 2.8, 4.1, 4.6)
+## 5. v1.0.0 Delivered Features (1.7, 2.8, 3.2, 3.3, 4.1, 4.6)
 
-The v1.0.0 multilingual release was executed on branch `feature/extended-multilingual-v1.0.0` from an implementation plan that has since been retired; this section, [`../CHANGELOG.md`](../CHANGELOG.md), and [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) are its permanent record. v1.0.0 is a hard break with no compatibility aliases; the full removed-to-replacement table is in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#breaking-changes--migration-v090-to-v100). Features 3.2 (CI pipeline, #206) and 3.3 (validator, #13) were implemented on the same branch but stay in the active roadmap until their closure checks pass.
+The v1.0.0 multilingual release was executed on branch `feature/extended-multilingual-v1.0.0` from an implementation plan that has since been retired; this section, [`../CHANGELOG.md`](../CHANGELOG.md), and [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) are its permanent record. v1.0.0 is a hard break with no compatibility aliases; the full removed-to-replacement table is in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#breaking-changes--migration-v090-to-v100). All deliverables, including the CI/CD pipeline (#206) and the validator (#13), are verified live and permanently archived here.
 
 ### 5.1 Feature 1.7: Native Email Support in Social Links Include (#215)
 
@@ -638,35 +615,65 @@ The v1.0.0 multilingual release was executed on branch `feature/extended-multili
 - **Delivered:** Removed the `site.avatar` fallback from `_includes/avatar.html`, the `analytics.ga` Universal Analytics branch from `_includes/analytics-head.html`, and the singular `resume_section.recognition` fallback (dropped in `_includes/resume-section.html`). Confirmed `site.resume_dark_mode` and `site.resume_header_intro` have no remaining references.
 - **Commit:** `2c88adf75c915cb682634ac0c98a2211caedb101` (`chore(cleanup): purge deprecated site.avatar, analytics.ga, and resume_dark_mode fallbacks`).
 
+### 5.5 Feature 3.2: Automated CI/CD Build & Verification Pipeline (#206)
+
+- **Problem:** Absence of automated continuous integration allowed invalid front-matter, broken YAML data, or gem specification packaging defects to reach consumers unnoticed.
+- **Delivered:** Configured `.github/workflows/ci.yml` matrix testing across modern Ruby releases (3.3, 3.4, 4.0), strict Jekyll demo build, RuboCop, unit test execution, and gem packaging verification. Added `.github/workflows/lint.yml` and CI status badge to `README.md`.
+- **Commit:** `3be935f` (carried in from `feature/resume-validator-ecosystem`, verified live on PR #220).
+
+### 5.6 Feature 3.3: YAML Resume Data Validator & Schema Linter (#13)
+
+- **Problem:** Non-technical user errors in YAML syntax (missing fields, wrong data types, malformed dates, cross-locale file asymmetries) resulted in cryptic Liquid build failures.
+- **Delivered:** Standalone CLI tool `bin/validate-resume` and core engine `lib/bilingual-jekyll-resume-theme/resume_validator.rb` validating all 13 standard resume files, date formats, active flags, and multi-locale parity. Includes build-time Jekyll plugin `_plugins/resume_validator.rb`, Rake task `rake validate`, comprehensive guide `docs/VALIDATION_GUIDE.md`, and full Minitest suite `test/test_resume_validator.rb`.
+- **Commit:** `3be935f` (carried in from `feature/resume-validator-ecosystem`, verified live on PR #220).
+
 ---
 
-## 6. Verification Protocols & Independent Audit Attestation
+## 6. v1.0.1 Delivered Features (2.11, 2.12)
+
+The v1.0.1 maintenance release addressed two visual widget improvements scoped together before v1.0.0. Both were verified against live LTR and RTL builds and merged directly into `master`.
+
+### 6.1 Feature 2.11: Pin Language-Switcher/Dark-Mode-Toggle to Fixed Corners (#227)
+
+- **Problem:** `.language-switcher` and `.dark-mode-toggle` previously swapped top-left/top-right corners based on `locale.direction`, with mirror rules duplicated across `_sass/_layout.scss`, `_sass/_dark-mode.scss`, and `_sass/_resume-rtl.scss`.
+- **Delivered:** Pinned `.language-switcher` fixed to top-left and `.dark-mode-toggle` fixed to top-right across all locales (LTR and RTL), removing all three RTL override locations. Verified against live `ar/cv/` and `ur/cv/` builds at desktop and mobile widths confirming no collision with right-aligned Arabic header titles.
+- **Commit:** `305408c8885c194ad71d88831179b287d4a10ec3` (`feat(layout): pin language-switcher/dark-mode-toggle to fixed corners (Closes #227)`).
+
+### 6.2 Feature 2.12: Dropdown Language Switcher (#228)
+
+- **Problem:** `_includes/language-switcher.html` rendered one button per configured language in a flat row, taking excessive horizontal space and wrapping across multiple rows on mobile screens as locales increased.
+- **Delivered:** Replaced the button row with a semantic `<details>/<summary>` disclosure element wrapping a `<nav>` landmark of per-language links with zero new JavaScript. Preserves full no-JS graceful degradation, keyboard navigation (Tab, Enter/Space, Esc), and accessible screen-reader states.
+- **Commit:** `f37c6f6b410f5de4841ed36115db60408c805293` (`feat(i18n): replace language-switcher button row with a dropdown (Closes #228)`).
+
+---
+
+## 7. Verification Protocols & Independent Audit Attestation
 
 The following independent verification commands confirm the integrity of the codebase following the completion of all 18 remediation tasks:
 
-### 6.1 RubyGem Packaging Verification
+### 7.1 RubyGem Packaging Verification
 ```bash
 gem build bilingual-jekyll-resume-theme.gemspec
 ```
 *Passing Result:* Successfully built RubyGem `bilingual-jekyll-resume-theme-0.7.0.gem` with zero packaging errors. All new files (`404.html`, `403.html`, `500.html`, `_layouts/error.html`, `_data/error_pages.yml`, `_includes/avatar.html`) are verified in the gem manifest.
 
-### 6.2 Liquid Syntax & Template Tag Inspection
+### 7.2 Liquid Syntax & Template Tag Inspection
 All modified templates (`_layouts/resume-ar.html`, `_layouts/resume-en.html`, `_layouts/default.html`, `_layouts/error.html`, `_includes/analytics-body.html`, `_includes/analytics-head.html`, `_includes/avatar.html`, `_includes/resume-section-*.html`, `_includes/shared-head.html`, `_includes/social-links.html`, `_includes/print-social-links.html`) contain valid, balanced Liquid tags and conform to Jekyll 3.9+ / 4.x standards.
 
-### 6.3 WCAG 2.1 AA Accessibility Attestation
+### 7.3 WCAG 2.1 AA Accessibility Attestation
 - All social links contain `aria-label`, `title`, and visually-hidden `<span class="sr-only">` text.
 - All SVG icons contain `aria-hidden="true" focusable="false"`.
 - Avatar image component includes bilingual fallback alt text, Schema.org `itemprop="image"`, and accessible link targets.
 
-### 6.4 RTL & Bidirectional Text Isolation Attestation
+### 7.4 RTL & Bidirectional Text Isolation Attestation
 - Arabic templates enforce `dir="rtl"` root direction with `<span dir="ltr">` isolation for telephone links, URLs, and printed social links.
 - Arabic Google Font Cairo loads reliably across all themes and custom palettes with preconnect hints.
 
 ---
 
-## 7. Closed Redundant Duplicate Issues Registry & Root Cause Analysis
+## 8. Closed Redundant Duplicate Issues Registry & Root Cause Analysis
 
-### 7.1 Duplicate Creation Root Cause Analysis (RCA)
+### 8.1 Duplicate Creation Root Cause Analysis (RCA)
 
 Between `2026-09-12T11:37:00Z` and `2026-09-12T12:10:49Z`, an automated script executed 13 successive batch sweeps across the repository issue tracker. In each cycle, a batch of 14 items was generated:
 1. 11 remediation items corresponding to Phase 0 bug fixes (P0.1–P0.11): immediately closed upon creation.
@@ -681,9 +688,9 @@ Because 13 successive batch runs were triggered, 13 identical copies of the Soci
 
 The 13th batch produced `#204` and `#206`, which are designated as the **canonical active open issues** in [`/FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md). All preceding 24 issues were formally closed on GitHub using GitHub's native `state_reason: "duplicate"` linking to `#204` and `#206`, preceded by an explanatory cross-reference comment.
 
-### 7.2 Social Media Platform Closed Duplicates (12 Issues)
+### 8.2 Social Media Platform Closed Duplicates
 
-All 12 duplicate issues share the title `"Expand Social Media Platforms (Mastodon, Discord, Bluesky, etc.)"`, labels `["enhancement", "phase-1"]`, and milestone `"Phase 1 (Quick Wins - 1-2 weeks)"`.
+The duplicate issues share the title `"Expand Social Media Platforms (Mastodon, Discord, Bluesky, etc.)"`, labels `["enhancement", "phase-1"]`, and milestone `"Phase 1 (Quick Wins - 1-2 weeks)"`.
 
 | Issue # | Title | Created (UTC) | Closed (UTC) | Status | Canonical Reference | Resolution Details |
 |---|---|---|---|---|---|---|
@@ -700,9 +707,9 @@ All 12 duplicate issues share the title `"Expand Social Media Platforms (Mastodo
 | [#176](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/176) | Expand Social Media Platforms | 2026-09-12T12:05:43Z | 2026-09-12T14:06:23Z | `CLOSED (duplicate)` | [#204](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/204) | Closed via GitHub API with cross-reference comment to #204 |
 | [#190](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/190) | Expand Social Media Platforms | 2026-09-12T12:08:26Z | 2026-09-12T14:06:35Z | `CLOSED (duplicate)` | [#204](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/204) | Closed via GitHub API with cross-reference comment to #204 |
 
-### 7.3 CI/CD Pipeline Closed Duplicates (12 Issues)
+### 8.3 CI/CD Pipeline Closed Duplicates
 
-All 12 duplicate issues share the title `"Automated CI/CD Build & Verification Pipeline"`, labels `["enhancement", "phase-3"]`, and milestone `"Phase 3 (Long-term - 2-3 months)"`.
+The duplicate issues share the title `"Automated CI/CD Build & Verification Pipeline"`, labels `["enhancement", "phase-3"]`, and milestone `"Phase 3 (Long-term - 2-3 months)"`.
 
 | Issue # | Title | Created (UTC) | Closed (UTC) | Status | Canonical Reference | Resolution Details |
 |---|---|---|---|---|---|---|
@@ -719,7 +726,7 @@ All 12 duplicate issues share the title `"Automated CI/CD Build & Verification P
 | [#178](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/178) | Automated CI/CD Build & Pipeline | 2026-09-12T12:05:54Z | 2026-09-12T14:08:45Z | `CLOSED (duplicate)` | [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206) | Closed via GitHub API with cross-reference comment to #206 |
 | [#192](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/192) | Automated CI/CD Build & Pipeline | 2026-09-12T12:08:37Z | 2026-09-12T14:08:57Z | `CLOSED (duplicate)` | [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206) | Closed via GitHub API with cross-reference comment to #206 |
 
-### 7.4 Closing Comment Audit Trail
+### 8.4 Closing Comment Audit Trail
 
 Each duplicate issue received a courteous explanatory comment before closure on GitHub:
 - **Social Media Comment:**
@@ -733,7 +740,7 @@ Each duplicate issue received a courteous explanatory comment before closure on 
 
 ---
 
-## 8. Pull Requests & Ancillary GitHub Records
+## 9. Pull Requests & Ancillary GitHub Records
 
 | PR # | Status | Title | Description | Resolution |
 |---|---|---|---|---|

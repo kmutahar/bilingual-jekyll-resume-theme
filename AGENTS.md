@@ -62,7 +62,7 @@ All upcoming feature work is planned and blueprinted in [`FEATURE_ROADMAP.md`](F
 2. Follow the issue-closing git workflow specified in the roadmap.
 
 ### Rule 4: Historical Audit Awareness
-Before addressing bugs, security findings, or refactors, consult [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md). It records the 18 foundation remediations (P0.1 to P0.16, P1.4, P2.4), later completed features, and the four features delivered in v1.0.0 (1.7, 2.8, 4.1, 4.6). Never re-implement or revert an established remediation, and check the roadmap's Status Delete-Zone before recreating any file or key.
+Before addressing bugs, security findings, or refactors, consult [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md). It records the 18 foundation remediations (P0.1 to P0.16, P1.4, P2.4), later completed features, the four features delivered in v1.0.0 (1.7, 2.8, 4.1, 4.6), and the two features delivered in v1.0.1 (2.11, 2.12). Never re-implement or revert an established remediation, and check the roadmap's Status Delete-Zone before recreating any file or key.
 
 ### Rule 5: Build & Packaging Verification
 Never declare a task finished without running:

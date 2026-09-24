@@ -46,15 +46,11 @@ All theme layouts define explicit ARIA landmark roles alongside semantic HTML5 e
 
 To satisfy **WCAG 2.4.1 (Bypass Blocks)**, all layouts include an accessible skip link positioned as the first focusable element inside `<body>`.
 
-### English Layout (`_layouts/resume-en.html`, `_layouts/default.html`)
+`_layouts/resume.html`, `_layouts/default.html`, and `_layouts/profile.html` render the link text from the active locale's `ui.skip_to_content` key in `_data/locales/<lang>.yml`:
 ```html
-<a href="#main-content" class="skip-link no-print">Skip to main content</a>
+<a href="#main-content" class="skip-link no-print">{{ locale.ui.skip_to_content }}</a>
 ```
-
-### Arabic Layout (`_layouts/resume-ar.html`)
-```html
-<a href="#main-content" class="skip-link no-print">الانتقال إلى المحتوى الرئيسي</a>
-```
+English renders "Skip to main content"; Arabic renders "الانتقال إلى المحتوى الرئيسي".
 
 ### Behavior:
 - **Default State**: Visually hidden off-screen (`top: -100px`).

@@ -1,6 +1,8 @@
 # Data Structure Guide (`_data/`)
 
-This document provides complete documentation and YAML schemas for all resume data files used by the bilingual Jekyll resume theme. Each section of your resume is stored as a separate YAML file in the `_data/` directory.
+YAML schemas for every resume data file. Each resume section is one YAML file in a per-language data folder under `_data/`. The schemas are identical in every language; only the text values are translated.
+
+UI strings, month names, and error page copy are not resume data: they live in the theme's locale files, `_data/locales/<lang>.yml`, documented in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md).
 
 ---
 
@@ -21,7 +23,7 @@ This document provides complete documentation and YAML schemas for all resume da
   - [11. Links (`links.yml`)](#11-links-linksyml)
   - [12. Interests (`interests.yml`)](#12-interests-interestsyml)
 - [Header & Executive Summary (`header.yml`)](#header--executive-summary-headeryml)
-- [Error Pages Data (`error_pages.yml`)](#error-pages-data-error_pagesyml)
+- [Error Page Copy](#error-page-copy)
 - [General Guidelines](#general-guidelines)
   - [Date Formats & ISO Standards](#date-formats--iso-standards)
   - [Active / Inactive Visibility Flags](#active--inactive-visibility-flags)
@@ -33,12 +35,11 @@ This document provides complete documentation and YAML schemas for all resume da
 ## Overview & Folder Architecture
 
 > [!TIP]
-> **Recommended Structure:** Always organize your data into language-specific folders: `_data/en/` for English and `_data/ar/` for Arabic. Starter templates can be copied directly from [`_data/en/`](_data/en/) and [`_data/ar/`](_data/ar/).
+> Keep one folder per language (`_data/en/`, `_data/ar/`, `_data/es/`, ...), each holding the same file names. Complete starter data for six languages (a Sherlock Holmes demo persona) is in [`_data/`](_data/): `en`, `ar`, `es`, `fr`, `de`, `ur`.
 
 ```text
 _data/
 ├── ar/
-│   ├── months.yml            # (Bundled in theme root _data/ar/months.yml)
 │   ├── header.yml
 │   ├── experience.yml
 │   ├── education.yml
@@ -66,15 +67,20 @@ _data/
 │   ├── languages.yml
 │   ├── links.yml
 │   └── interests.yml
-└── error_pages.yml           # (Bundled in theme root _data/error_pages.yml)
+└── ...                       # one folder per language in `languages:`
 ```
 
-In your site's `_config.yml` (see [`CONFIG_GUIDE.md`](CONFIG_GUIDE.md) and [`_data/_config.sample.yml`](_data/_config.sample.yml)), point the active data paths to these folders:
+In your site's `_config.yml` (see [`CONFIG_GUIDE.md`](CONFIG_GUIDE.md#3-languages)), each language's `data_path` points at its folder:
 
 ```yaml
-active_resume_path_en: "en" # Points to _data/en/
-active_resume_path_ar: "ar" # Points to _data/ar/
+languages:
+  en:
+    data_path: en   # _data/en/
+  ar:
+    data_path: ar   # _data/ar/
 ```
+
+The file lists below name the English and Arabic starter files; every other language folder mirrors them.
 
 ---
 
@@ -111,7 +117,7 @@ active_resume_path_ar: "ar" # Points to _data/ar/
 - Company name appears as a prominent section item heading.
 - Multiple roles at the same company are automatically grouped together.
 - Each role displays: **Position • Date Range • Location**.
-- Structured ISO dates auto-format as `"Mon YYYY"` in English (e.g., `"Mar 2022"`) and localized Arabic months via [`../_includes/ar-date.html`](../_includes/ar-date.html) in Arabic layouts.
+- ISO dates render as `<month> <year>` through [`../_includes/date-formatter.html`](../_includes/date-formatter.html), with month names from the active locale (`March 2022` in English, `مارس 2022` in Arabic).
 - Summary paragraph displays below the role details when provided and `enable_summary: true` is configured in `_config.yml`.
 
 ---
@@ -186,7 +192,7 @@ active_resume_path_ar: "ar" # Points to _data/ar/
 
 **Display Format:**
 - Certification name appears as a bold heading.
-- Second line displays: **Issuing Organization • Issue Date — Expiration Date**.
+- Second line displays: **Issuing Organization • Issue Date – Expiration Date**.
 - Credential ID is rendered as a clickable link if `credential_url` is provided, and the full destination URL is printed in parentheses in physical and PDF outputs.
 
 ---
@@ -209,7 +215,7 @@ active_resume_path_ar: "ar" # Points to _data/ar/
 
 **Display Format:**
 - Course name appears as a heading.
-- Second line displays: **Issuing Organization • Start Date — End Date**.
+- Second line displays: **Issuing Organization • Start Date – End Date**.
 - Summary paragraph displays if provided and `enable_summary: true` is configured in `_config.yml`.
 - Credential ID displays with an interactive link when `credential_url` is provided.
 
@@ -285,7 +291,7 @@ active_resume_path_ar: "ar" # Points to _data/ar/
 - **Config Toggle:** `resume_section.recognitions: true`
 
 > [!NOTE]
-> The canonical configuration toggle and render order key is **`recognitions`** (plural), directly matching the data file **`recognitions.yml`**. The legacy singular key `recognition` is supported as a backward-compatible fallback until `v1.0.0`.
+> The configuration toggle and render order key is **`recognitions`** (plural), matching the data file **`recognitions.yml`**. The singular `recognition` key was removed in v1.0.0.
 
 ```yaml
 - award: "Innovator of the Year"
@@ -355,7 +361,7 @@ active_resume_path_ar: "ar" # Points to _data/ar/
 ```
 
 **Display Format:**
-- **Table Mode (`resume_section.languages: true`):** Renders a responsive two-column table in the main body. Each entry displays: **Language — Description**.
+- **Table Mode (`resume_section.languages: true`):** Renders a responsive two-column table in the main body. Each entry displays: **Language: Description**.
 - **Header Chips Mode (`resume_section.lang_header: true`):** Renders inline compact badges below the job title in the resume header using the `descrp_short` attribute.
 
 ---
@@ -401,7 +407,7 @@ active_resume_path_ar: "ar" # Points to _data/ar/
 ## Header & Executive Summary (`header.yml`)
 
 - **Files:** [`_data/en/header.yml`](_data/en/header.yml) / [`_data/ar/header.yml`](_data/ar/header.yml)
-- **Config Toggles:** `resume_header_intro_en: true` / `resume_header_intro_ar: true`
+- **Config Toggle:** `languages.<lang>.header_intro: true` (per language)
 
 Contains the executive bio summary rendered directly beneath the candidate name, job title, and social links bar:
 
@@ -419,95 +425,28 @@ intro: >-
 
 **Display Format:**
 - Appears as a prominent narrative paragraph immediately below candidate name, title, contact row, and social links in the resume header.
-- Only displays when `resume_header_intro_en: true` (for English) or `resume_header_intro_ar: true` (for Arabic) is configured in `_config.yml`.
+- Only displays when `languages.<lang>.header_intro: true` is set for that language in `_config.yml`.
 - Fully supports basic HTML inline formatting (e.g., `<strong>`, `<em>`).
 
 ---
 
-## Error Pages Data (`error_pages.yml`)
+## Error Page Copy
 
-- **File:** `_data/error_pages.yml` (Bundled in theme root)
-- **Consumed by:** [`../_layouts/error.html`](../_layouts/error.html)
-- **Consuming Pages:** `404.html`, `403.html`, `500.html`
-
-Centralized data repository powering the theme's bilingual HTTP error suite. It provides side-by-side English and Arabic headings, descriptions, and action button labels.
-
-### Data Schema
+Error page text is not in your data folders. Each locale file carries an `error_pages` map, and [`../_layouts/error.html`](../_layouts/error.html) renders one block per language in `site.languages`, in config order:
 
 ```yaml
-# Action Button Labels
-labels:
-  home: "Home / الرئيسية"
-  resume_en: "Resume (EN)"
-  resume_ar: "السيرة الذاتية (عربي)"
-  reload: "Reload Page / إعادة تحميل الصفحة"
-
-# Status Code 404: Page Not Found
-"404":
-  title_en: "Page Not Found"
-  desc_en: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
-  title_ar: "الصفحة غير موجودة"
-  desc_ar: "ربما تمت إزالة الصفحة التي تبحث عنها، أو تم تغيير اسمها، أو أنها غير متوفرة مؤقتاً."
-
-# Status Code 403: Forbidden
-"403":
-  title_en: "Access Forbidden"
-  desc_en: "You do not have permission to access the requested resource or directory."
-  title_ar: "الوصول محظور"
-  desc_ar: "ليس لديك الصلاحية اللازمة للوصول إلى هذا المورد أو الدليل المطلوب."
-
-# Status Code 500: Server Error
-"500":
-  title_en: "Internal Server Error"
-  desc_en: "The server encountered an unexpected condition that prevented it from fulfilling the request. Please try again later."
-  title_ar: "خطأ داخلي في الخادم"
-  desc_ar: "واجه الخادم ظرفاً غير متوقع منعه من إكمال الطلب. يرجى المحاولة مرة أخرى لاحقاً."
-
-# Status Code 503: Service Unavailable
-"503":
-  title_en: "Service Unavailable"
-  desc_en: "The server is currently unable to handle the request due to maintenance or capacity overload."
-  title_ar: "الخدمة غير متوفرة مؤقتاً"
-  desc_ar: "الخادم غير قادر على معالجة الطلب حالياً بسبب الصيانة أو زيادة الحمل."
+# _data/locales/en.yml (excerpt)
+error_pages:
+  "404":
+    title: "Page Not Found"
+    message: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
+  "403": { title: "...", message: "..." }
+  "500": { title: "...", message: "..." }
+  "503": { title: "...", message: "..." }
+  return_link: "Return to resume"
 ```
 
-### Schema Field Reference
-
-| Field | Type | Description |
-|---|---|---|
-| `labels.home` | String | Label for the primary return button to domain root (`/`). |
-| `labels.resume_en` | String | Label for the navigation button to the English resume (`/resume/en/`). |
-| `labels.resume_ar` | String | Label for the navigation button to the Arabic resume (`/resume/ar/`). |
-| `labels.reload` | String | Label for the interactive reload button on server errors (`500`, `503`). |
-| `<code>.title_en` | String | English HTTP status error title (`<h1>`). |
-| `<code>.desc_en` | String | English explanatory error message. |
-| `<code>.title_ar` | String | Localized Arabic HTTP status error title (`<h2>`). |
-| `<code>.desc_ar` | String | Localized Arabic explanatory error message. |
-
-### Page Front-Matter Overrides
-
-Any page consuming `layout: error` can optionally override default copy via YAML front matter:
-
-```yaml
----
-layout: error
-code: "404"
-title_en: "Custom English Error Heading"
-desc_en: "Custom English explanation."
-title_ar: "عنوان مخصص باللغة العربية"
-desc_ar: "توضيح مخصص باللغة العربية."
-show_reload: true # Force reload button to display even on 404
----
-
-Optional custom Markdown content rendered inside `<div class="error-custom-content">`.
-```
-
-**Display Format:**
-- Centered, high-contrast numeric error badge (`404`, `403`, `500`, `503`).
-- Bilingual message block with English on the left (`lang="en"`) and RTL Arabic on the right (`lang="ar" dir="rtl"`), separated by a subtle vertical divider.
-- Interactive **"Reload Page / إعادة تحميل الصفحة"** button displayed automatically on `500` and `503` errors.
-- Navigation button group providing direct routes to Home (`/`), English Resume (`/resume/en/`), and Arabic Resume (`/resume/ar/`).
-- Seamlessly adapts to light and dark themes using theme design tokens.
+To change the copy, override `error_pages` in your site's `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#overriding-theme-locales)). Pages using `layout: error` accept `code` (default `"404"`) and `show_reload: true` in front matter; the reload button also appears automatically for `500` and `503`. Return links point at each `languages.<lang>.url`.
 
 ---
 
@@ -517,9 +456,9 @@ Optional custom Markdown content rendered inside `<div class="error-custom-conte
 
 1. **Structured Dates (`startdate`, `enddate`, `issue_date`):**
    - Always specify dates in ISO format: `YYYY-MM-DD` (e.g., `2024-03-15`).
-   - English layouts auto-format dates as `"Mon YYYY"` (e.g., `"Mar 2024"`).
-   - Arabic layouts format dates via [`../_includes/ar-date.html`](../_includes/ar-date.html) using localized month names from [`../_data/ar/months.yml`](../_data/ar/months.yml).
-   - Use `"Present"` for ongoing positions.
+   - `YYYY-MM` and `YYYY` are also accepted by the validator.
+   - Every language formats dates through [`../_includes/date-formatter.html`](../_includes/date-formatter.html), using the `months` list in `_data/locales/<lang>.yml`.
+   - For ongoing positions leave `enddate` blank or use a word from the locale's `present_values` (for example `Present`); it renders as the locale's `ui.present`.
 
 2. **Freeform Display Strings (`year`, `duration`):**
    - Used in education, projects, and associations.
@@ -530,6 +469,7 @@ Optional custom Markdown content rendered inside `<div class="error-custom-conte
 All resume items support the boolean `active:` flag:
 - `active: true`: Item renders on the resume.
 - `active: false`: Item is preserved in your YAML record but omitted from generated HTML.
+- No `active` key: the item does not render either, and the validator warns. `interests.yml` is the exception: its items have no flag and always render.
 
 ### YAML Formatting & Special Characters
 
@@ -555,9 +495,9 @@ All resume items support the boolean `active:` flag:
 | Volunteering | `volunteering` | `volunteering` | `volunteering.yml` |
 | Projects | `projects` | `projects` | `projects.yml` |
 | Skills | `skills` | `skills` | `skills.yml` |
-| Recognition | `recognitions` *(legacy: `recognition`)* | `recognitions` *(legacy: `recognition`)* | `recognitions.yml` |
+| Recognition | `recognitions` | `recognitions` | `recognitions.yml` |
 | Associations | `associations` | `associations` | `associations.yml` |
 | Languages | `languages` / `lang_header` | `languages` | `languages.yml` |
 | Links | `links` | `links` | `links.yml` |
 | Interests | `interests` | `interests` | `interests.yml` |
-| Header Intro | `resume_header_intro_en` / `_ar` | *(rendered in header)* | `header.yml` |
+| Header Intro | `languages.<lang>.header_intro` | *(rendered in header)* | `header.yml` |

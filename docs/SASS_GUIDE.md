@@ -16,7 +16,7 @@ A technical tour of the theme's styling system in [`../_sass/`](../_sass/) and e
   - [3. `_normalize.scss`](#3-_normalizescss)
   - [4. `_base.scss`](#4-_basescss)
   - [5. `_layout.scss`](#5-_layoutscss)
-  - [6. `_resume.scss`](#6-_resumescss)
+  - [6. `_resume-ltr.scss`](#6-_resume-ltrscss)
   - [7. `_resume-rtl.scss`](#7-_resume-rtlscss)
   - [8. `_profile-page.scss`](#8-_profile-pagescss)
   - [9. `_all-pages.scss`](#9-_all-pagesscss)
@@ -26,7 +26,7 @@ A technical tour of the theme's styling system in [`../_sass/`](../_sass/) and e
   - [Two-Tier Activation Mechanism](#two-tier-activation-mechanism)
   - [Print Media Resets](#print-media-resets)
 - [WCAG 2.2 Accessibility & High-Contrast Standards](#wcag-22-accessibility--high-contrast-standards)
-- [Arabic (RTL) Layout Mechanics](#arabic-rtl-layout-mechanics)
+- [Locale Typography & RTL Mechanics](#locale-typography--rtl-mechanics)
 
 ---
 
@@ -38,8 +38,8 @@ Jekyll compiles files in [`../assets/css/`](../assets/css/) that start with YAML
 
 | Source SCSS | Compiled Output CSS | Consuming Layouts |
 |---|---|---|
-| [`../assets/css/cv.scss`](../assets/css/cv.scss) | `assets/css/cv.css` | [`../_layouts/resume-en.html`](../_layouts/resume-en.html) |
-| [`../assets/css/cv-ar.scss`](../assets/css/cv-ar.scss) | `assets/css/cv-ar.css` | [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html) |
+| [`../assets/css/cv-ltr.scss`](../assets/css/cv-ltr.scss) | `assets/css/cv-ltr.css` | [`../_layouts/resume.html`](../_layouts/resume.html) for every locale with `direction: ltr` |
+| [`../assets/css/cv-rtl.scss`](../assets/css/cv-rtl.scss) | `assets/css/cv-rtl.css` | [`../_layouts/resume.html`](../_layouts/resume.html) for every locale with `direction: rtl` |
 | [`../assets/css/profile.scss`](../assets/css/profile.scss) | `assets/css/profile.css` | [`../_layouts/profile.html`](../_layouts/profile.html) |
 | [`../assets/css/main.scss`](../assets/css/main.scss) | `assets/css/main.css` | [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/error.html`](../_layouts/error.html) |
 
@@ -64,9 +64,9 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 - **File:** [`../_sass/_variables.scss`](../_sass/_variables.scss)
 - **Role:** Base layout widths, grid gutters, and font stacks.
 - **Key Variables:**
-  - `$container-width: 980px !default;` — Maximum resume container width.
-  - `$grid-gutter: 10px !default;` — Grid column padding and gutters.
-  - `$body-font`, `$mono-font` — Base fallback typography stacks.
+  - `$container-width: 980px !default;`: Maximum resume container width.
+  - `$grid-gutter: 10px !default;`: Grid column padding and gutters.
+  - `$body-font`, `$mono-font`: Base fallback typography stacks.
 
 ---
 
@@ -106,10 +106,11 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ---
 
-### 6. `_resume.scss`
+### 6. `_resume-ltr.scss`
 
-- **File:** [`../_sass/_resume.scss`](../_sass/_resume.scss)
-- **Role:** English (LTR) resume styling.
+- **File:** [`../_sass/_resume-ltr.scss`](../_sass/_resume-ltr.scss)
+- **Role:** The main resume stylesheet: every shared rule plus LTR positioning. Both entrypoints load it; `cv-rtl.scss` then layers `_resume-rtl.scss` on top.
+- **Typography:** resume text reads `var(--font-locale, <default stack>)` and `var(--line-height-locale, <default>)`, so each locale's font and line height apply without per-language rules.
 - **Components Styled:**
   - Header: Avatar (`.avatar`), candidate name, contact info row, and social links bar.
   - Contact CTA button (`.contact-button`) and "not looking" modifier.
@@ -122,11 +123,12 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 ### 7. `_resume-rtl.scss`
 
 - **File:** [`../_sass/_resume-rtl.scss`](../_sass/_resume-rtl.scss)
-- **Role:** RTL Arabic overrides scoped under `html[dir="rtl"]`.
+- **Role:** Language-neutral RTL overrides scoped under `html[dir="rtl"]`, loaded last by `cv-rtl.scss`. Serves Arabic, Urdu, and any future RTL locale.
 - **Key Overrides:**
-  - Sets Arabic font stacks (Cairo, Noto Naskh Arabic) with increased line-heights (`1.6`) to prevent diacritic clipping.
   - Flips horizontal floats, text alignments, borders, and margins.
-  - Repositions timeline bullets and contact icons for natural RTL reading order.
+  - Repositions timeline bullets and contact icons for RTL reading order.
+  - Resets `letter-spacing` to `normal` on headings so cursive scripts keep their ligatures.
+  - Sets no `font-family` or `line-height`; those come from the locale CSS variables.
 
 ---
 
@@ -275,8 +277,10 @@ When printing to physical paper or PDF, [`../_sass/_dark-mode.scss`](../_sass/_d
 
 ---
 
-## Arabic (RTL) Layout Mechanics
+## Locale Typography & RTL Mechanics
 
-1. **Root Direction:** RTL styles activate via `html[dir="rtl"]`.
-2. **Horizontal Mirroring:** Floating elements (avatar, social bar, job title) flip alignment.
-3. **Punctuation Isolation:** In Arabic templates, phone numbers and URLs are enclosed in `<span dir="ltr">` to prevent bidirectional punctuation flipping.
+1. **Per-locale typography:** `_layouts/resume.html` emits `--font-locale` (from the locale's `font_family`, when non-empty) and `--line-height-locale` (from `line_height`) in an inline `:root` style. `_sass/_resume-ltr.scss` reads both with the theme defaults as fallbacks. To change a language's font, override its locale file (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#typography--rtl)); no SCSS edit is needed.
+2. **Direction selects the entrypoint:** the layout links `cv-<direction>.css`, where `direction` comes from the locale file.
+3. **Root direction:** RTL overrides activate via `html[dir="rtl"]`.
+4. **Horizontal mirroring:** floated elements (avatar, social bar, job title) flip alignment.
+5. **Punctuation isolation:** in RTL locales the templates wrap phone numbers, emails, URLs, and credential IDs in `dir="ltr"`.

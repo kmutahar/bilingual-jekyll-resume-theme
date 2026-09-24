@@ -1,0 +1,88 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+require_relative "../lib/bilingual-jekyll-resume-theme/resume_validator"
+
+options = {
+  data_dir: nil,
+  config_path: nil,
+  languages: nil,
+  all_locales: false,
+  primary_locale: "en",
+  verbose: false,
+  quiet: false,
+  fail_on_warnings: false
+}
+
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: validate-resume [options] [DATA_DIR]"
+  opts.separator ""
+  opts.separator "Validates multilingual Jekyll resume YAML data for schema conformance, parity, and formatting."
+  opts.separator ""
+  opts.separator "Options:"
+
+  opts.on("-d", "--dir DIR", "Path to data directory (default: _data or docs/_data)") do |d|
+    options[:data_dir] = d
+  end
+
+  opts.on("-c", "--config FILE", "Jekyll config declaring `languages:` (default: _config.yml / _config.sample.yml next to DATA_DIR)") do |c|
+    options[:config_path] = c
+  end
+
+  opts.on("-l", "--languages LANGS", Array, "Comma-separated languages to validate (default: the config's `languages:`)") do |langs|
+    options[:languages] ||= []
+    options[:languages].concat(langs).uniq!
+  end
+
+  opts.on("-a", "--all-locales", "Also validate every language directory found in the data dir") do
+    options[:all_locales] = true
+  end
+
+  opts.on("-p", "--primary LOCALE", "Primary reference locale for parity checking (default: en)") do |p|
+    options[:primary_locale] = p
+  end
+
+  opts.on("-w", "--fail-on-warnings", "Treat warnings as errors and exit with code 1") do
+    options[:fail_on_warnings] = true
+  end
+
+  opts.on("-v", "--verbose", "Enable verbose validation output") do
+    options[:verbose] = true
+  end
+
+  opts.on("-q", "--quiet", "Suppress non-essential output (only report failures)") do
+    options[:quiet] = true
+  end
+
+  opts.on("-h", "--help", "Show this help message") do
+    puts opts
+    exit 0
+  end
+end
+
+parser.parse!
+
+# Positional argument takes precedence over -d, or fall back to standard data dirs
+data_dir = ARGV[0] || options[:data_dir]
+if data_dir.nil?
+  # Prefer a directory that holds at least one language folder (a site's _data, else the theme's docs sample).
+  data_dir = %w[_data docs/_data].find { |dir| BilingualJekyllResumeTheme::ResumeValidator.new(dir).discover_languages.any? } ||
+             "_data"
+end
+
+validator = BilingualJekyllResumeTheme::ResumeValidator.new(
+  data_dir,
+  config_path: options[:config_path],
+  primary_locale: options[:primary_locale]
+)
+exit_code = validator.validate(
+  languages: options[:languages],
+  all_locales: options[:all_locales],
+  primary_locale: options[:primary_locale],
+  verbose: options[:verbose],
+  quiet: options[:quiet],
+  fail_on_warnings: options[:fail_on_warnings]
+)
+
+exit exit_code

@@ -1,60 +1,55 @@
 # `_includes` Component Guide
 
-A comprehensive architectural guide to the theme’s reusable component library in [`../_includes/`](../_includes/). This guide details component responsibilities, parameters, Liquid data flow, and step-by-step instructions for extending or overriding components.
+The theme's reusable partials in [`../_includes/`](../_includes/): what each one renders, its parameters, and how to add a resume section or social network.
+
+Every include that shows text resolves the active language the same way the layouts do (`page.lang`, then `site.default_lang`, then `en`) and reads its strings from `site.data.locales[lang]`. No include branches on a specific language code, so every include works for every configured language. See [`LAYOUTS_GUIDE.md`](LAYOUTS_GUIDE.md#language-resolution).
 
 ---
 
 ## Table of Contents
 
-- [Overview & Architecture](#overview--architecture)
+- [Include Map](#include-map)
 - [Component Inventory](#component-inventory)
   - [1. `shared-head.html`](#1-shared-headhtml)
-  - [2. `main-head.html`](#2-main-headhtml)
-  - [3. `resume-head-en.html`](#3-resume-head-enhtml)
-  - [4. `resume-head-ar.html`](#4-resume-head-arhtml)
-  - [5. `avatar.html`](#5-avatarhtml)
-  - [6. `dark-mode-toggle.html`](#6-dark-mode-togglehtml)
-  - [7. `language-switcher.html`](#7-language-switcherhtml)
-  - [8. `ar-date.html`](#8-ardatehtml)
-  - [9. `social-links.html`](#9-social-linkshtml)
-  - [10. `print-social-links.html`](#10-print-social-linkshtml)
-  - [11. `hreflang.html`](#11-hreflanghtml)
-  - [12. `analytics-head.html` & `analytics-body.html`](#12-analytics-headhtml--analytics-bodyhtml)
-  - [13. `vendors/` (SVG Icon Packs)](#13-vendors-svg-icon-packs)
+  - [2. `main-head.html` & `profile-head.html`](#2-main-headhtml--profile-headhtml)
+  - [3. `avatar.html`](#3-avatarhtml)
+  - [4. `dark-mode-toggle.html`](#4-dark-mode-togglehtml)
+  - [5. `language-switcher.html`](#5-language-switcherhtml)
+  - [6. `date-formatter.html`](#6-date-formatterhtml)
+  - [7. `social-links.html`](#7-social-linkshtml)
+  - [8. `print-social-links.html`](#8-print-social-linkshtml)
+  - [9. `hreflang.html`](#9-hreflanghtml)
+  - [10. `data-loader.html`](#10-data-loaderhtml)
+  - [11. `analytics-head.html` & `analytics-body.html`](#11-analytics-headhtml--analytics-bodyhtml)
+  - [12. `vendors/` (SVG Icon Packs)](#12-vendors-svg-icon-packs)
 - [Multilingual SEO with hreflang](#multilingual-seo-with-hreflang)
-- [Dynamic Section Rendering Engine](#dynamic-section-rendering-engine)
-  - [How Section Dispatch Works](#how-section-dispatch-works)
+- [Section Dispatcher (`resume-section.html`)](#section-dispatcher-resume-sectionhtml)
   - [Section Dispatch Inventory](#section-dispatch-inventory)
   - [Adding a New Custom Section](#adding-a-new-custom-section)
 - [Customization Recipes](#customization-recipes)
-  - [Swap Remote Arabic Fonts](#swap-remote-arabic-fonts)
-  - [Add a New Social Network](#add-a-new-social-network)
-  - [Compact Language Header vs Dedicated Section](#compact-language-header-vs-dedicated-section)
 
 ---
 
-## Overview & Architecture
-
-Jekyll includes are modular partial templates located in [`../_includes/`](../_includes/). In this theme, includes are utilized to:
-1. Guarantee **strict bilingual parity** between English (LTR) and Arabic (RTL) views.
-2. Abstract repetitive markup (headers, favicons, analytics, SVGs).
-3. Implement dynamic, data-driven section dispatching based on user configuration in [`_data/_config.sample.yml`](_data/_config.sample.yml).
-
-### Include Resolution in Layouts
+## Include Map
 
 ```text
-Layout (e.g., _layouts/resume-en.html)
+_layouts/resume.html
+ ├── data-loader.html        (binds resume_data from languages.<lang>.data_path)
  ├── shared-head.html        (anti-FOUC script, metadata, favicon suite)
- ├── resume-head-en.html     (Google Fonts, cv.css, hreflang)
- ├── analytics-head.html     (GTM / GA4 tracking script)
- ├── analytics-body.html     (GTM noscript fallback iframe)
- ├── avatar.html             (accessible, configurable profile image)
- ├── social-links.html       (interactive SVG social icons)
- ├── resume-section-en.html  (dynamic section dispatcher loop)
- ├── dark-mode-toggle.html   (interactive two-state theme toggle)
- ├── language-switcher.html  (interactive bilingual language switcher)
- └── print-social-links.html (print-only plaintext contact listing)
+ ├── hreflang.html           (alternate-language links)
+ ├── analytics-head.html     (GTM / GA4 head script)
+ ├── analytics-body.html     (GTM noscript iframe)
+ ├── dark-mode-toggle.html   (floating theme toggle)
+ ├── language-switcher.html  (floating links to the other languages)
+ ├── avatar.html             (profile image)
+ ├── date-formatter.html     (date of birth)
+ ├── social-links.html       (header social icons)
+ ├── resume-section.html     (one call per entry in resume_section_order)
+ │    └── date-formatter.html
+ └── print-social-links.html (print-only text list)
 ```
+
+`default.html` and `profile.html` use `shared-head.html`, their own stylesheet include (`main-head.html` / `profile-head.html`), the analytics includes, `dark-mode-toggle.html`, and `language-switcher.html`.
 
 ---
 
@@ -62,234 +57,156 @@ Layout (e.g., _layouts/resume-en.html)
 
 ### 1. `shared-head.html`
 
-- **Location:** [`../_includes/shared-head.html`](../_includes/shared-head.html)
-- **Consumed by:** [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
-- **Key Responsibilities:**
-  - Viewport, charset, and modern `color-scheme` metadata.
-  - **Inline Anti-FOUC Script:** Synchronously reads `localStorage.getItem('color-scheme')` before CSS renders to prevent theme flashing on reload.
-  - **Favicon Suite:** Emits high-resolution favicon links (`favicon`, `apple_touch_icon`, `favicon_32`, `favicon_16`) and webmanifest with `relative_url` filtering.
-  - **Robots Meta:** Automatically applies `noindex noarchive nosnippet noimageindex` when `page.noindex: true`.
+- **Consumed by:** every layout.
+- Charset, viewport, and `color-scheme` meta.
+- **Anti-FOUC script:** reads `localStorage['color-scheme']` synchronously and sets `data-color-scheme` / `data-theme` on `<html>` before CSS loads.
+- **Favicons:** `favicon`, `apple_touch_icon`, `favicon_32`, `favicon_16`, and the web manifest, all through `relative_url`.
+- **Robots:** `noindex noarchive nosnippet noimageindex` when `page.noindex: true`.
 
----
+### 2. `main-head.html` & `profile-head.html`
 
-### 2. `main-head.html`
+- `main-head.html` (in `default.html`, therefore also error pages) links `assets/css/main.css`.
+- `profile-head.html` (in `profile.html`) links `assets/css/profile.css`.
 
-- **Location:** [`../_includes/main-head.html`](../_includes/main-head.html)
-- **Consumed by:** [`../_layouts/default.html`](../_layouts/default.html)
-- **Key Responsibilities:** Loads `assets/css/main.css` for landing pages, documentation, and error pages.
+### 3. `avatar.html`
 
----
-
-### 3. `resume-head-en.html`
-
-- **Location:** [`../_includes/resume-head-en.html`](../_includes/resume-head-en.html)
-- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html)
-- **Key Responsibilities:**
-  - Enqueues Google Fonts (Lora and Open Sans).
-  - Enqueues English resume stylesheet (`assets/css/cv.css`).
-  - Calls `{% include hreflang.html %}` for SEO alternate links.
-
----
-
-### 4. `resume-head-ar.html`
-
-- **Location:** [`../_includes/resume-head-ar.html`](../_includes/resume-head-ar.html)
-- **Consumed by:** [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
-- **Key Responsibilities:**
-  - Supports self-hosted or alternate CDN fonts via `site.font_ar_url`.
-  - Enqueues Cairo Arabic font by default unless `site.disable_google_fonts: true` or `site.resume_theme == 'no-custom-fonts'`.
-  - Enqueues RTL Arabic stylesheet (`assets/css/cv-ar.css`).
-  - Calls `{% include hreflang.html %}`.
-
----
-
-### 5. `avatar.html`
-
-- **Location:** [`../_includes/avatar.html`](../_includes/avatar.html)
-- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
-- **Parameters:**
-  - `lang`: Optional language code (`'en'` | `'ar'`). Defaults to `page.lang` or `'en'`.
-  - `link`: Optional boolean (`false` disables enclosing `<a>` wrapper).
-  - `class`: Optional additional CSS class names.
-- **Key Features:**
-  - **Image Resolution:** Reads `site.avatar_url` (or fallback `site.avatar`), defaulting to `/assets/images/Profile-min.jpg`. Correctly handles both local relative assets and external CDN URLs (`https://...`).
-  - **Bilingual Alt Text:** Dynamically evaluates `site.avatar_alt_en` (English) or `site.avatar_alt_ar` (Arabic), falling back to full candidate name or default string.
-  - **Accessible Link Wrapping:** Wraps image in `<a href="{{ avatar_href }}">` unless `site.avatar_link: false` or `include.link == false`.
+- **Consumed by:** `resume.html` when `site.resume_avatar == true`.
+- **Parameters:** `lang` (default: active language), `link` (`false` renders a bare `<img>`), `class` (extra CSS classes).
+- **Source:** `site.avatar_url`, default `/assets/images/Profile-min.jpg`. Values containing `://` are used as-is; others pass through `relative_url`.
+- **Alt text:** `languages.<lang>.avatar_alt`, then `languages.<lang>.name`, then `locale.ui.photo_alt`.
+- **Link:** wraps the image in a link to `site.avatar_link` (default `/`) with `site.avatar_link_target` (default `_self`), unless `site.avatar_link: false` or `link=false`.
 
 ```liquid
-{% comment %} Standard usage in layouts {% endcomment %}
-{% include avatar.html lang="en" %}
-{% include avatar.html lang="ar" %}
-
-{% comment %} Standalone unlinked image {% endcomment %}
+{% include avatar.html lang=lang %}
 {% include avatar.html link=false class="avatar-large" %}
 ```
 
----
+### 4. `dark-mode-toggle.html`
 
-### 6. `dark-mode-toggle.html`
+- **Consumed by:** `resume.html`, `default.html`, `profile.html`.
+- Renders only when `site.dark_mode` is `"enabled"` or `true`, or front matter `dark_mode` is `true` / `"enabled"`; front matter `dark_mode: false` suppresses it.
+- Two states: unpinned (follows `prefers-color-scheme`, live via `matchMedia`) and pinned (`"dark"` / `"light"` saved to `localStorage['color-scheme']`). Clicking a pinned toggle clears the pin.
+- `aria-label` and `title` from `locale.ui.dark_mode_toggle`. Hidden in print via `.no-print`.
 
-- **Location:** [`../_includes/dark-mode-toggle.html`](../_includes/dark-mode-toggle.html)
-- **Consumed by:** [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
-- **Inclusion Logic:** Self-contained evaluation; layouts directly invoke:
+### 5. `language-switcher.html`
 
-```liquid
-{% include dark-mode-toggle.html %}
-```
+- **Consumed by:** `resume.html`, `default.html`, `profile.html`. Hidden on `layout: error` pages, when `site.resume_language_switcher: false`, or when front matter sets `language_switcher: false`.
+- Renders one link for every entry in `site.languages` except the current one, labelled with the target locale's `ui.language_name`. The group's `aria-label` is the current locale's `ui.language_switcher`.
+- **Link resolution per target language:** the page in `site.pages` with the same `t_id` and the target `lang`; otherwise `languages.<lang>.url`.
+- Positioned opposite the dark mode toggle and mirrored in RTL. Hidden in print.
+- Loop variables are prefixed `switch_` because includes share the caller's Liquid scope; unprefixed names would overwrite `resume.html`'s `lang` and `locale`.
 
-The include internally evaluates `site.dark_mode`, `site.resume_dark_mode`, and front matter `page.dark_mode` overrides before rendering button markup and client controller logic.
+### 6. `date-formatter.html`
 
-- **Two-State Finite State Machine (FSM):**
-  - **System Default (Unpinned):** No `localStorage` entry; theme follows OS `prefers-color-scheme`. Dynamic `matchMedia` listener updates button visuals in real-time.
-  - **Pinned Override:** Saves `"dark"` or `"light"` to `localStorage['color-scheme']` and updates `data-theme` on `<html>`. Clicking again clears the pin and reverts to System Default.
-- **Accessibility:** High-contrast focus rings, keyboard activation (<kbd>Enter</kbd> / <kbd>Space</kbd>), and localized `aria-label` and `title` attributes in English and Arabic.
-- **Print Optimization:** Automatically suppressed in print output via `.no-print`.
-
----
-
-### 7. `language-switcher.html`
-
-- **Location:** [`../_includes/language-switcher.html`](../_includes/language-switcher.html)
-- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html), [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html)
-- **Purpose:** Renders a floating interactive pill button to switch seamlessly between English and Arabic versions of the page.
-- **Two-Tier URL Resolution:**
-  1. **Page Translation ID (`page.t_id`):** Finds the counterpart page in `site.pages` sharing the same `t_id` and matching target language.
-  2. **Config Fallback:** Falls back to `site.resume_en_url` (`/en/cv/`) and `site.resume_ar_url` (`/ar/cv/`).
-- **Positioning & Parity:** Symmetrically placed opposite the dark mode toggle (top-left on LTR, mirrored to top-right on RTL layouts).
-- **Accessibility & Print:** Emits localized `aria-label` / `title` attributes, visible keyboard focus rings, and is hidden on print via `.no-print`.
-
----
-
-### 8. `ar-date.html`
-
-- **Location:** [`../_includes/ar-date.html`](../_includes/ar-date.html)
-- **Consumed by:** [`../_includes/resume-section-ar.html`](../_includes/resume-section-ar.html)
-- **Parameters:**
-  - `date`: An ISO date string (`YYYY-MM-DD`).
-  - `style`: `"MY"` (Month Year) or `"MDY"` (Month Day, Year).
-- **Behavior:** Extracts month number (1–12) and performs dictionary lookup in `site.data.ar.months` (bundled in [`../_data/ar/months.yml`](../_data/ar/months.yml)).
+- **Consumed by:** `resume-section.html` (every date) and `resume.html` (date of birth).
+- **Parameters:** `date` (required), `style` (`"MY"` default: `<month> <year>`; `"MDY"`: `<month> <day>, <year>`), `lang` (default: active language).
+- A `date` matching any of the locale's `present_values` (case-insensitive) renders `locale.ui.present`. Otherwise the month name comes from `locale.months`. An unparseable value is printed unchanged.
 
 ```liquid
-{% include ar-date.html date=job.startdate style="MY" %}
+{% include date-formatter.html date=role.startdate %}
+{% include date-formatter.html date=site.contact_info.dob style="MDY" lang=lang %}
 ```
 
----
+This include is the single date hook for every language; calendar extensions (for example Hijri dates, roadmap Feature 2.9) belong here rather than in a language-specific include.
 
-### 9. `social-links.html`
+### 7. `social-links.html`
 
-- **Location:** [`../_includes/social-links.html`](../_includes/social-links.html)
-- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
-- **Supported Platforms:** 14 bundled platforms:
-  `github`, `linkedin`, `telegram`, `twitter`, `medium`, `dribbble`, `facebook`, `instagram`, `website`, `whatsapp`, `devto`, `flickr`, `pinterest`, `youtube`.
-- **Security & WCAG:** Emits `rel="noopener nofollow noreferrer"`, `target="_blank"`, dynamic `title`, `aria-label`, and `.sr-only` screen-reader spans.
+- **Consumed by:** `resume.html` header, inside `<ul class="social-links">`, when `site.social_links` is set.
+- `email` renders a `mailto:` link with `itemprop="email"`. The other 14 platforms (`github`, `linkedin`, `telegram`, `twitter`, `medium`, `dribbble`, `facebook`, `instagram`, `website`, `whatsapp`, `devto`, `flickr`, `pinterest`, `youtube`) open in a new tab with `rel="noopener nofollow noreferrer"`.
+- Every icon link carries `aria-label`, `title`, and a `.sr-only` text span.
 
----
+### 8. `print-social-links.html`
 
-### 10. `print-social-links.html`
+- **Consumed by:** `resume.html` print-only section when `site.resume_print_social_links` is set.
+- One line per configured platform (including `email`), labelled from `locale.ui.social_labels`, with the value wrapped in `<span dir="ltr">`.
 
-- **Location:** [`../_includes/print-social-links.html`](../_includes/print-social-links.html)
-- **Consumed by:** Both resume layouts when `resume_print_social_links: true`.
-- **Behavior:** Generates a plaintext list of active social URLs wrapped in `<span dir="ltr">` to guarantee bidirectional punctuation integrity during physical and PDF printing.
+### 9. `hreflang.html`
 
----
+- **Consumed by:** `resume.html` head.
+- Runs only when the page has a `t_id`. Emits `<link rel="alternate" hreflang="<lang>">` for every page sharing that `t_id`, and `hreflang="x-default"` for the one whose `lang` is `site.default_lang`. URLs are absolute (`absolute_url`), so `site.url` must be set.
 
-### 11. `hreflang.html`
+### 10. `data-loader.html`
 
-- **Location:** [`../_includes/hreflang.html`](../_includes/hreflang.html)
-- **Consumed by:** `resume-head-en.html` and `resume-head-ar.html`.
-- **Behavior:** Queries `site.pages` matching the current page’s translation group (`page.t_id`), emitting `<link rel="alternate" hreflang="...">` tags and an `x-default` pointer to the English version. See [Multilingual SEO with hreflang](#multilingual-seo-with-hreflang) below for setup instructions.
+- **Consumed by:** `resume.html`.
+- **Parameter:** `path`, a dot-separated data path. Default: `site.languages[page.lang or default_lang].data_path`.
+- Sets `resume_data` in the caller's scope by walking `site.data` with bracket access. Details in [`LAYOUTS_GUIDE.md`](LAYOUTS_GUIDE.md#dynamic-data-resolution).
 
----
+### 11. `analytics-head.html` & `analytics-body.html`
 
-### 12. `data-loader.html`
+- **Head:** Google Tag Manager (`site.analytics.gtm`) or Google Analytics 4 (`site.analytics.gtag`). Universal Analytics (`analytics.ga`) was removed in v1.0.0.
+- **Body:** the GTM `<noscript><iframe>` right after `<body>` in every layout.
 
-- **Location:** [`../_includes/data-loader.html`](../_includes/data-loader.html)
-- **Consumed by:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html), [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
-- **Key Responsibilities:**
-  - Dynamically resolves dot-separated subpaths (e.g. `"en"`, `"ar"`, `"2025-06.v1"`) from `site.data` into `resume_data`.
-  - Accepts `path` parameter with fallback to `site.active_resume_path_en`.
+### 12. `vendors/` (SVG Icon Packs)
 
----
-
-### 13. `analytics-head.html` & `analytics-body.html`
-
-- **Head Include:** Injects Google Tag Manager container or Google Analytics 4 (`gtag.js`) based on `site.analytics.gtm` or `site.analytics.gtag` in `_config.yml`.
-- **Body Include:** Injects `<noscript><iframe>` fallback for Google Tag Manager immediately after the opening `<body>` tag across all primary layouts: [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/profile.html`](../_layouts/profile.html), [`../_layouts/resume-en.html`](../_layouts/resume-en.html), and [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html).
-
----
-
-### 13. `vendors/` (SVG Icon Packs)
-
-Bundled scalable vector graphics:
-- `vendors/lineicons-v4.0/`: Contact row icons (envelope, phone, location pin).
-- `vendors/lineicons-v5.0/`: Social platform brand icons.
+- `vendors/lineicons-v4.0/`: contact row icons (envelope, phone, postcard).
+- `vendors/lineicons-v5.0/`: social platform icons.
 
 ---
 
 ## Multilingual SEO with hreflang
 
-To ensure search engines index both English and Arabic versions properly and serve the right version to users based on their locale, the theme integrates automated `hreflang` generation via [`../_includes/hreflang.html`](../_includes/hreflang.html).
-
-Set `lang` and a shared `t_id` in both language pages (e.g., EN and AR resume pages):
+Give every translation of a page the same `t_id`:
 
 ```yaml
 ---
-layout: resume-en
-permalink: /resume/en/
+layout: resume
 lang: en
+permalink: /en/cv/
 t_id: resume
 ---
 ```
 
 ```yaml
 ---
-layout: resume-ar
-permalink: /resume/ar/
+layout: resume
 lang: ar
+permalink: /ar/cv/
 t_id: resume
 ---
 ```
 
-### How It Operates
+With `default_lang: en`, each page then emits:
 
-1. Searches `site.pages` for all pages that have the identical `t_id` value (e.g., `"resume"`).
-2. Generates an alternate link for each translation found:
-   ```html
-   <link rel="alternate" hreflang="en" href="https://your-domain.com/resume/en/" />
-   <link rel="alternate" hreflang="ar" href="https://your-domain.com/resume/ar/" />
-   ```
-3. Identifies the English page (`lang: en`) within the translation group and outputs the `x-default` fallback tag:
-   ```html
-   <link rel="alternate" hreflang="x-default" href="https://your-domain.com/resume/en/" />
-   ```
+```html
+<link rel="alternate" hreflang="en" href="https://your-domain.com/en/cv/" />
+<link rel="alternate" hreflang="ar" href="https://your-domain.com/ar/cv/" />
+<link rel="alternate" hreflang="x-default" href="https://your-domain.com/en/cv/" />
+```
+
+The same `t_id` also lets the language switcher find the exact counterpart page instead of falling back to `languages.<lang>.url`.
 
 ---
 
-## Dynamic Section Rendering Engine
+## Section Dispatcher (`resume-section.html`)
 
-### How Section Dispatch Works
-
-In both [`../_layouts/resume-en.html`](../_layouts/resume-en.html) and [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html), sections are rendered dynamically by looping through the array defined in `site.resume_section_order`:
+`resume.html` renders sections by looping over `site.resume_section_order`:
 
 ```liquid
-{% for section in site.resume_section_order %}
-  {% include resume-section-en.html section_name=section %}
-{% endfor %}
+{%- for section_name in site.resume_section_order -%}
+  {% include resume-section.html section_name=section_name lang=lang %}
+{%- endfor -%}
 ```
 
-Inside [`../_includes/resume-section-en.html`](../_includes/resume-section-en.html) and [`../_includes/resume-section-ar.html`](../_includes/resume-section-ar.html), an `{% if / elsif %}` dispatcher evaluates the requested section:
+[`../_includes/resume-section.html`](../_includes/resume-section.html) is one `{% if %} / {% elsif %}` chain. A branch renders when `include.section_name` matches and `site.resume_section.<name>` is truthy:
 
 ```liquid
-{% if include.section_name == 'experience' and site.resume_section.experience != false and resume_data.experience %}
-  <!-- Renders Experience Section -->
-{% elsif include.section_name == 'education' and site.resume_section.education != false and resume_data.education %}
-  <!-- Renders Education Section -->
+{% if include.section_name == "experience" and site.resume_section.experience %}
+  <!-- Experience -->
+{% elsif include.section_name == "education" and site.resume_section.education %}
+  <!-- Education -->
 ...
 ```
 
+Inside every branch:
+
+- The heading is `locale.ui.section_titles.<name>`.
+- Dates go through `date-formatter.html`; a blank `enddate` renders as the locale's "Present".
+- When `locale.direction == 'rtl'`, URLs and credential IDs are wrapped in `dir="ltr"`.
+- Only items with `active: true` render; an item without the flag is hidden (`interests.yml` has no flag).
+
 ### Section Dispatch Inventory
 
-| Section Name (`section_name`) | Config Toggle (`resume_section`) | Data File | Data Expression |
+| `section_name` | Config toggle (`resume_section`) | Data file | Data expression |
 |---|---|---|---|
 | `experience` | `experience` | `experience.yml` | `resume_data.experience` |
 | `education` | `education` | `education.yml` | `resume_data.education` |
@@ -298,53 +215,55 @@ Inside [`../_includes/resume-section-en.html`](../_includes/resume-section-en.ht
 | `volunteering` | `volunteering` | `volunteering.yml` | `resume_data.volunteering` |
 | `projects` | `projects` | `projects.yml` | `resume_data.projects` |
 | `skills` | `skills` | `skills.yml` | `resume_data.skills` |
-| `recognitions` *(legacy: `recognition`)* | `recognitions` *(legacy: `recognition`)* | `recognitions.yml` | `resume_data.recognitions` |
+| `recognitions` | `recognitions` | `recognitions.yml` | `resume_data.recognitions` |
 | `associations` | `associations` | `associations.yml` | `resume_data.associations` |
-| `languages` | `languages` | `languages.yml` | `resume_data.languages` |
-| `links` | `links` | `links.yml` | `resume_data.links` |
 | `interests` | `interests` | `interests.yml` | `resume_data.interests` |
-
----
+| `languages` | `languages` (and `lang_header` not `true`) | `languages.yml` | `resume_data.languages` |
+| `links` | `links` | `links.yml` | `resume_data.links` |
 
 ### Adding a New Custom Section
 
-To add a new resume section (e.g., `publications`):
+Adding `publications`:
 
-1. **Update English Dispatcher:** Add an `{% elsif %}` branch in [`../_includes/resume-section-en.html`](../_includes/resume-section-en.html):
+1. **Add the heading to every locale.** Add `ui.section_titles.publications` to each `_data/locales/<lang>.yml` you ship (in a consuming site, add it through site locale overrides; nested keys merge, so a one-key file per language is enough).
+2. **Add one branch** to `_includes/resume-section.html`. It serves every language:
    ```liquid
-   {% elsif include.section_name == 'publications' and site.resume_section.publications != false and resume_data.publications %}
-     <section class="resume-section section-publications">
-       <h2 class="section-header">Publications</h2>
+   {% elsif include.section_name == "publications" and site.resume_section.publications %}
+     <section class="content-section">
+       <header class="section-header">
+         <h2>{{ locale.ui.section_titles.publications }}</h2>
+       </header>
        {% for item in resume_data.publications %}
-         {% if item.active != false %}
+         {% if item.active == true %}
            <div class="resume-item">
              <h3 class="resume-item-title">{{ item.title }}</h3>
-             <p class="resume-item-details">{{ item.publisher }} • {{ item.year }}</p>
+             <p class="resume-item-details">{{ item.publisher }} &bull; {{ item.year }}</p>
            </div>
          {% endif %}
        {% endfor %}
      </section>
    ```
-2. **Update Arabic Dispatcher:** Add the mirrored RTL branch in [`../_includes/resume-section-ar.html`](../_includes/resume-section-ar.html) with localized headings.
-3. **Add Data:** Create `_data/en/publications.yml` and `_data/ar/publications.yml`.
-4. **Update Configuration:** Add `publications: true` to `resume_section` and add `- publications` to `resume_section_order` in `_config.yml`.
+3. **Add data** as `publications.yml` in every language folder.
+4. **Enable it:** `resume_section.publications: true` and `- publications` in `resume_section_order`.
 
 ---
 
 ## Customization Recipes
 
-### Swap Remote Arabic Fonts
+### Change a Language's Font
 
-In your site’s `_config.yml`, specify a custom Google Fonts or self-hosted stylesheet:
+Fonts are locale data, not config. Override them in your site's locale file:
 
 ```yaml
-font_ar_url: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
+# consuming site: _data/locales/ar.yml
+font_family: "'Tajawal', sans-serif"
+font_url: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
 ```
 
 ### Add a New Social Network
 
 1. Place an optimized SVG in `_includes/vendors/lineicons-v5.0/newplatform.svg`.
-2. Add the Liquid block to [`../_includes/social-links.html`](../_includes/social-links.html):
+2. Add a block to [`../_includes/social-links.html`](../_includes/social-links.html):
    ```liquid
    {% if site.social_links.newplatform %}
      <li class="icon-link-item">
@@ -355,19 +274,18 @@ font_ar_url: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&
      </li>
    {% endif %}
    ```
-3. Add the plaintext print entry in [`../_includes/print-social-links.html`](../_includes/print-social-links.html).
+3. Add the print line to [`../_includes/print-social-links.html`](../_includes/print-social-links.html) and a `ui.social_labels.newplatform` key to every locale file.
 
 ### Compact Language Header vs Dedicated Section
 
-- For compact language chips under candidate titles in the header:
-  ```yaml
-  resume_section:
-    lang_header: true
-    languages: false
-  ```
-- For a full two-column languages table section:
-  ```yaml
-  resume_section:
-    lang_header: false
-    languages: true
-  ```
+```yaml
+resume_section:
+  lang_header: true    # compact list in the header (the full section is suppressed)
+  languages: false
+```
+
+```yaml
+resume_section:
+  lang_header: false
+  languages: true      # full two-column section
+```

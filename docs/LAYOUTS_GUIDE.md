@@ -1,41 +1,53 @@
 # `_layouts` Architecture Guide
 
-A comprehensive architectural overview of the theme’s layout system in [`../_layouts/`](../_layouts/). This document details layout responsibilities, dynamic data loading, rendering pipelines, bilingual RTL mechanics, error handling, and extending layouts for additional languages.
+The theme's layouts in [`../_layouts/`](../_layouts/): what each one renders, how the resume layout resolves its language and data, and how to build a custom layout on the same pieces.
 
 ---
 
 ## Table of Contents
 
 - [Overview & Layout Hierarchy](#overview--layout-hierarchy)
+- [Language Resolution](#language-resolution)
 - [Layout Inventory](#layout-inventory)
   - [1. `default.html` (Base Layout)](#1-defaulthtml-base-layout)
   - [2. `profile.html` (Portfolio Landing)](#2-profilehtml-portfolio-landing)
-  - [3. `resume-en.html` (English Resume - LTR)](#3-resume-enhtml-english-resume---ltr)
-  - [4. `resume-ar.html` (Arabic Resume - RTL)](#4-resume-arhtml-arabic-resume---rtl)
-  - [5. `error.html` (Bilingual HTTP Error Suite)](#5-errorhtml-bilingual-http-error-suite)
-- [Dynamic Data Resolution Engine](#dynamic-data-resolution-engine)
-  - [How `resume_data` is Resolved](#how-resume_data-is-resolved)
-  - [Dot-Path Traversal & Bracket Notation](#dot-path-traversal--bracket-notation)
-  - [Configuration Examples](#configuration-examples)
+  - [3. `resume.html` (Resume, Every Language)](#3-resumehtml-resume-every-language)
+  - [4. `error.html` (Multilingual HTTP Error Suite)](#4-errorhtml-multilingual-http-error-suite)
+- [Dynamic Data Resolution](#dynamic-data-resolution)
 - [Resume Rendering Pipeline](#resume-rendering-pipeline)
 - [Dark Mode & Anti-FOUC Mechanics](#dark-mode--anti-fouc-mechanics)
-- [Creating a New Resume-Like Layout (Another Language or Variant)](#creating-a-new-resume-like-layout-another-language-or-variant)
-- [Creating Custom General Layouts](#creating-custom-general-layouts)
+- [Creating Custom Layouts](#creating-custom-layouts)
 
 ---
 
 ## Overview & Layout Hierarchy
 
-Layouts define the outer HTML skeleton of pages in Jekyll. Pages select their layout through YAML front matter (e.g., `layout: resume-en`).
+Pages select a layout in front matter. A resume page is `layout: resume` plus `lang: <code>`; there is no per-language layout.
 
 ```text
-_layouts/default.html (Base shell, <head>, anti-FOUC, dark mode, footer)
- └── _layouts/error.html (HTTP 404, 403, 500 error suite)
+_layouts/default.html   (base shell: <head>, anti-FOUC, dark mode, footer)
+ └── _layouts/error.html  (HTTP 404, 403, 500, 503)
 
-_layouts/profile.html (Standalone landing page card wrapper)
-_layouts/resume-en.html (Standalone LTR English resume pipeline)
-_layouts/resume-ar.html (Standalone RTL Arabic resume pipeline)
+_layouts/profile.html   (standalone landing page)
+_layouts/resume.html    (standalone resume, one layout for every language and direction)
 ```
+
+---
+
+## Language Resolution
+
+Every layout and include resolves the active language the same way:
+
+```liquid
+{% assign lang = page.lang | default: site.default_lang | default: 'en' %}
+{% assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] %}
+{% assign lang_cfg = site.languages[lang] %}
+```
+
+- `locale` is the merged locale file `_data/locales/<lang>.yml` (theme file with any site override on top). It supplies `direction`, fonts, line height, UI strings, month names, and error copy.
+- `lang_cfg` is the `languages.<lang>` config block. It supplies `data_path`, `url`, `header_intro`, `name`, `resume_title`, `address`, and `avatar_alt`.
+
+Schemas for both are in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) and [`CONFIG_GUIDE.md`](CONFIG_GUIDE.md#3-languages).
 
 ---
 
@@ -44,227 +56,114 @@ _layouts/resume-ar.html (Standalone RTL Arabic resume pipeline)
 ### 1. `default.html` (Base Layout)
 
 - **File:** [`../_layouts/default.html`](../_layouts/default.html)
-- **Role:** Foundational shell for custom markdown pages, profile landing pages, and HTTP error pages.
-- **Key Features:**
-  - Dynamic `<html lang="..." dir="...">` attributes supporting bidirectional layouts.
-  - Injects [`../_includes/shared-head.html`](../_includes/shared-head.html) (metadata, anti-FOUC script, favicons).
-  - Loads general stylesheet via [`../_includes/main-head.html`](../_includes/main-head.html) (`assets/css/main.css`).
-  - Emits SEO tags via `{% seo %}` and analytics via [`../_includes/analytics-head.html`](../_includes/analytics-head.html) and [`../_includes/analytics-body.html`](../_includes/analytics-body.html).
-  - Evaluates site-wide and front-matter dark mode conditions to conditionally inject [`../_includes/dark-mode-toggle.html`](../_includes/dark-mode-toggle.html).
-  - Adds `<link rel="me">` verification when `site.social_links.mastodon` is configured.
-  - Wraps page content inside `<main class="main-content" id="main-content">`.
-  - Accessible footer with copyright year range.
-
----
+- **Role:** Shell for markdown pages and error pages.
+- `<html lang="{{ lang }}" dir="{{ locale.direction }}">`, skip link text from `locale.ui.skip_to_content`.
+- Includes [`shared-head.html`](../_includes/shared-head.html), [`main-head.html`](../_includes/main-head.html) (`assets/css/main.css`), `{% seo %}`, and the analytics includes.
+- Emits `<link rel="me">` when `site.social_links.mastodon` is set.
+- Includes [`dark-mode-toggle.html`](../_includes/dark-mode-toggle.html) and [`language-switcher.html`](../_includes/language-switcher.html) (suppressed on `layout: error` pages), and wraps content in `<main class="main-content" id="main-content">`.
 
 ### 2. `profile.html` (Portfolio Landing)
 
 - **File:** [`../_layouts/profile.html`](../_layouts/profile.html)
-- **Role:** Dedicated standalone landing page layout for personal portfolios and bio links.
-- **Key Features:**
-  - Independent layout decoupled from `default.html` to prevent container constraint or margin leakage.
-  - Dedicated stylesheet entrypoint [`../assets/css/profile.scss`](../assets/css/profile.scss) compiled to `assets/css/profile.css` and linked via [`../_includes/profile-head.html`](../_includes/profile-head.html).
-  - Unconstrained, clean vertical centering and card styling via [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss).
-  - Integrated conditional dark mode toggle without shifting document flow.
+- **Role:** Standalone landing page, independent of `default.html` so its centering styles do not leak.
+- Same `lang` / `dir` resolution, skip link, dark mode toggle, and language switcher as `default.html`.
+- Stylesheet [`../assets/css/profile.scss`](../assets/css/profile.scss) (compiled to `assets/css/profile.css`) via [`profile-head.html`](../_includes/profile-head.html), styled by [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss).
+
+### 3. `resume.html` (Resume, Every Language)
+
+- **File:** [`../_layouts/resume.html`](../_layouts/resume.html)
+- **Role:** The resume for any configured language, LTR or RTL.
+- **Head:**
+  - `<html lang="{{ lang }}" dir="{{ locale.direction }}">`.
+  - Loads `locale.font_url` when set, else the default Lora and Open Sans stylesheet; neither loads when `disable_google_fonts: true` or `resume_theme: no-custom-fonts`.
+  - Emits `--font-locale` (from `locale.font_family`, when non-empty) and `--line-height-locale` (from `locale.line_height`) in an inline `:root` style.
+  - Links `assets/css/cv-{{ locale.direction }}.css`, so LTR locales get `cv-ltr.css` and RTL locales get `cv-rtl.css`.
+  - Includes [`hreflang.html`](../_includes/hreflang.html), `{% seo %}`, and the analytics head include.
+- **Header:** avatar (when `resume_avatar: true`), `lang_cfg.name`, the contact row (when `display_header_contact_info: true`), the header language list (when `resume_section.lang_header` is set), `lang_cfg.resume_title`, social icons, the `header.yml` intro (when `lang_cfg.header_intro: true`), and the contact button (per `resume_looking_for_work`).
+- **Contact row:** icon first, then text, in every direction. Phone numbers and emails carry `dir="ltr"`. The date of birth goes through [`date-formatter.html`](../_includes/date-formatter.html).
+- **Body:** loops `site.resume_section_order` through [`resume-section.html`](../_includes/resume-section.html), then the print-only social links section when `resume_print_social_links` is set.
+- **Footer:** localized "last generated" line and, when `enable_live == false`, a print-only footer with the page's permalink.
+
+### 4. `error.html` (Multilingual HTTP Error Suite)
+
+- **File:** [`../_layouts/error.html`](../_layouts/error.html), extends `default.html`. Used by `404.html`, `403.html`, and `500.html`.
+- Reads `page.code` (default `"404"`) and renders one `lang` / `dir`-tagged block per entry in `site.languages`, in config order, with `title` and `message` from that language's `locale.error_pages[code]`.
+- Search form (`role="search"`) submitting `q` to the site root.
+- Buttons: Reload (for `500`, `503`, or `page.show_reload: true`) and Home, labelled from the `default_lang` locale; then one return link per language, labelled `locale.error_pages.return_link (locale.ui.language_name)`, pointing at `languages.<lang>.url`, falling back to the first page with `layout: resume` and that `lang`.
+- [`../_plugins/error_pages_generator.rb`](../_plugins/error_pages_generator.rb) adds `404.html`, `403.html`, and `500.html` to consuming sites that do not define their own. It only runs when the gem is declared in the `Gemfile`'s `:jekyll_plugins` group.
 
 ---
 
-### 3. `resume-en.html` (English Resume - LTR)
+## Dynamic Data Resolution
 
-- **File:** [`../_layouts/resume-en.html`](../_layouts/resume-en.html)
-- **Role:** Production-ready Left-to-Right English resume.
-- **Key Features:**
-  - Resolves `resume_data` from `site.active_resume_path_en` (default: `"en"`).
-  - Enqueues Lora and Open Sans fonts via [`../_includes/resume-head-en.html`](../_includes/resume-head-en.html) and `assets/css/cv.css`.
-  - Renders configurable header: avatar ([`../_includes/avatar.html`](../_includes/avatar.html)), candidate name, job title, contact row, social links bar ([`../_includes/social-links.html`](../_includes/social-links.html)), executive bio intro (`_data/en/header.yml`), and contact CTA button.
-  - Dynamically renders sections using [`../_includes/resume-section-en.html`](../_includes/resume-section-en.html) in the order defined by `site.resume_section_order`.
-  - Injects print-only plaintext social contact listing ([`../_includes/print-social-links.html`](../_includes/print-social-links.html)) when `resume_print_social_links: true`.
-  - Emits localized footer timestamp and version notice.
-
----
-
-### 4. `resume-ar.html` (Arabic Resume - RTL)
-
-- **File:** [`../_layouts/resume-ar.html`](../_layouts/resume-ar.html)
-- **Role:** Right-to-Left Arabic resume engineered for strict parity with the English layout.
-- **Key Features:**
-  - `<html lang="ar" dir="rtl">`.
-  - Resolves `resume_data` from `site.active_resume_path_ar` (default: `"ar"`).
-  - Enqueues Cairo Arabic font (or custom CDN via `site.font_ar_url`) via [`../_includes/resume-head-ar.html`](../_includes/resume-head-ar.html) and `assets/css/cv-ar.css`.
-  - Localized Arabic header text, contact labels, and CTA button.
-  - Dynamically renders sections using [`../_includes/resume-section-ar.html`](../_includes/resume-section-ar.html) with localized date translations via [`../_includes/ar-date.html`](../_includes/ar-date.html).
-  - RTL-mirrored print social links with `<span dir="ltr">` wrapping for URLs and phone numbers to prevent bidirectional distortion.
-
----
-
-### 5. `error.html` (Bilingual HTTP Error Suite)
-
-- **File:** [`../_layouts/error.html`](../_layouts/error.html)
-- **Role:** Specialized error layout extending `default.html` used by `404.html`, `403.html`, and `500.html`.
-- **Key Features:**
-  - Reads `page.code` (`404`, `403`, `500`, `503`) and loads bilingual copy from [`../_data/error_pages.yml`](../_data/error_pages.yml).
-  - High-contrast status code display with dual-language status headings and descriptions.
-  - English description block (`lang="en"`) alongside an isolated Arabic RTL description block (`lang="ar" dir="rtl"`).
-  - Accessible bilingual search form (`<form role="search" class="error-search">`) targeting the homepage (`/`) with a search input (`name="q"`).
-  - Dynamic resume navigation returns:
-    - English Resume: resolves from `site.resume_en_url`, falls back to first page using `layout: resume-en`, and defaults to `'/en/cv/'`.
-    - Arabic Resume: resolves from `site.resume_ar_url`, falls back to first page using `layout: resume-ar`, and defaults to `'/ar/cv/'`.
-    - Home: returns to site root (`'/' | relative_url`).
-  - Interactive "Reload Page / إعادة تحميل الصفحة" button (`window.location.reload()`) automatically rendered for server errors (`500`, `503`) or when `page.show_reload == true`.
-  - Automatic error page synthesis: The theme gem includes `_plugins/error_pages_generator.rb` (`BilingualJekyllResumeTheme::ErrorPagesGenerator < Jekyll::Generator`), which automatically synthesizes `404.html`, `403.html`, and `500.html` into `site.pages` if they are not already defined in the consuming site's source or `_pages/` directory.
-  - Fully supports universal dark mode and custom front-matter overrides (`title_en`, `desc_en`, `title_ar`, `desc_ar`).
-
----
-
-## Dynamic Data Resolution Engine
-
-### How `resume_data` is Resolved
-
-Both resume layouts decouple templates from data filenames. Rather than hardcoding references to `site.data.en` or `site.data.ar`, layouts resolve a dynamic pointer called `resume_data`:
+`resume.html` calls [`../_includes/data-loader.html`](../_includes/data-loader.html) with `path=lang_cfg.data_path`. The include binds `resume_data` by walking `site.data` one dot-separated segment at a time:
 
 ```liquid
-{% assign resume_data = site.data %}
-{% assign data_path = site.active_resume_path_en %}
-
-{% if data_path and data_path != "" %}
-  {% assign path_parts = data_path | split: "." %}
-  {% assign current_data = site.data %}
-  {% for part in path_parts %}
-    {% if current_data[part] %}
-      {% assign current_data = current_data[part] %}
-    {% endif %}
-  {% endfor %}
-  {% assign resume_data = current_data %}
-{% endif %}
+{%- assign resume_data = site.data -%}
+{%- if data_path != blank -%}
+  {%- assign path_parts = data_path | split: '.' -%}
+  {%- for part in path_parts -%}
+    {%- assign resume_data = resume_data[part] -%}
+  {%- endfor -%}
+{%- endif -%}
 ```
 
-### Dot-Path Traversal & Bracket Notation
-
-#### Implementation Highlights Inside the Layouts
-- **String Splitting:** Splits the configured path string by `.` into array segments:
-  ```liquid
-  {% assign path_parts = data_path | split: "." %}
-  ```
-- **Recursive Traversal:** Initializes traversal at `site.data` and iterates through each path part, reassigning the pointer:
-  ```liquid
-  {% assign current_data = site.data %}
-  {% for part in path_parts %}
-    {% if current_data[part] %}
-      {% assign current_data = current_data[part] %}
-    {% endif %}
-  {% endfor %}
-  ```
-- **Bracket Notation Rationale:** In Liquid, standard dot-notation (e.g. `site.data.2025-06.v1`) causes syntax errors or is parsed as a mathematical subtraction when keys begin with numbers or contain hyphens. Using dynamic bracket notation (`current_data[part]`) ensures that arbitrary folder names like `2025-06` or `20250621-PM` are safely evaluated without errors.
-- **Pointer Assignment:** After completing the traversal loop, the resulting dataset object is bound:
-  ```liquid
-  {% assign resume_data = current_data %}
-  ```
-
-### Configuration Examples
+Bracket access (`resume_data[part]`) is what makes folder names like `2025-06` or `20250621-PM` work; Liquid dot notation (`site.data.2025-06`) fails on leading digits and hyphens.
 
 ```yaml
-# Standard language folders (recommended):
-active_resume_path_en: "en" # -> site.data.en
-active_resume_path_ar: "ar" # -> site.data.ar
-
-# Versioned datasets:
-active_resume_path_en: "2025-06.v1" # -> site.data["2025-06"]["v1"]
-active_resume_path_ar: "2025-06.v1-ar" # -> site.data["2025-06"]["v1-ar"]
-
-# Root _data directory (advanced):
-active_resume_path_en: "" # -> site.data
-active_resume_path_ar: "" # -> site.data
+languages:
+  en:
+    data_path: en              # site.data.en
+  ar:
+    data_path: "2025-06.v1-ar" # site.data["2025-06"]["v1-ar"]
+  es:
+    data_path: ""              # site.data (files directly in _data/)
 ```
+
+When called without `path`, the include falls back to `site.languages[page.lang or default_lang].data_path`.
 
 ---
 
 ## Resume Rendering Pipeline
 
 ```text
-1. Load & Resolve Data (active_resume_path_en / active_resume_path_ar -> resume_data)
-2. Render <head> (shared-head.html, resume-head-*.html, SEO, analytics)
-3. Render Header
-   - Avatar Include (avatar.html)
-   - Candidate Name (site.name / site.name_ar)
-   - Professional Title (site.resume_title / site.resume_title_ar)
-   - Contact Row (if display_header_contact_info: true)
-   - Compact Languages (if resume_section.lang_header: true)
-   - Social Icons (social-links.html)
-   - Executive Summary (if resume_header_intro_en / ar: true)
-   - Contact CTA Button (if resume_looking_for_work is set)
-4. Dynamic Sections Loop
-   - For each section in site.resume_section_order:
-       {% include resume-section-en.html section_name=section %}
-5. Print Social Links (print-social-links.html)
-6. Footer & Timestamp
+1. Resolve lang, locale, lang_cfg; load resume_data from lang_cfg.data_path
+2. <head>: shared-head, locale font + CSS variables, cv-<direction>.css, hreflang, SEO, analytics
+3. Header: avatar, name, contact row, header languages, title, social icons, intro, contact button
+4. Sections: for each name in site.resume_section_order
+     {% include resume-section.html section_name=section_name lang=lang %}
+5. Print-only social links (print-social-links.html)
+6. Footer and print-only permalink footer
 ```
 
 ---
 
 ## Dark Mode & Anti-FOUC Mechanics
 
-Layouts include the self-contained toggle component directly:
+Layouts include the toggle directly:
 
 ```liquid
 {% include dark-mode-toggle.html %}
 ```
 
-The toggle include internally manages activation through a three-tier condition (`site.dark_mode`, `site.resume_dark_mode`, and front matter `page.dark_mode`).
-
-1. **Site Level:** Defaults to CSS-only system matching (`dark_mode: auto`). Setting `dark_mode: enabled` or `true` activates the interactive toggle.
-2. **Page Level:** Front matter can override site configuration:
-   ```yaml
-   ---
-   layout: default
-   title: "Documentation"
-   dark_mode: false # Suppress toggle on this specific page
-   ---
-   ```
-3. **Anti-FOUC Guarantee:** The script in [`../_includes/shared-head.html`](../_includes/shared-head.html) reads stored theme preferences before stylesheets are parsed, eliminating any theme flashing on page load.
+1. **Site level:** `dark_mode: auto` (default) is CSS-only system matching with no toggle. `dark_mode: enabled` or `true` renders the toggle.
+2. **Page level:** front matter `dark_mode: false` or `true` overrides the site setting for that page.
+3. **Anti-FOUC:** the inline script in [`../_includes/shared-head.html`](../_includes/shared-head.html) applies a stored preference before stylesheets load.
 
 ---
 
-## Creating a New Resume-Like Layout (Another Language or Variant)
+## Creating Custom Layouts
 
-To add support for a third language (e.g. French, Spanish, or German) or create a specialized resume layout variant:
+A new language never needs a new layout; see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#adding-a-language). For a different page design (for example `_layouts/academic-cv.html`):
 
-1. **Duplicate Base Layout:**
-   Copy `_layouts/resume-en.html` or `_layouts/resume-ar.html` to `_layouts/resume-xx.html` (where `xx` is your target ISO language code).
-2. **Configure Direction & Language Attributes:**
-   Set the root HTML tag appropriately: `<html lang="xx" dir="ltr">` (or `dir="rtl"` for right-to-left languages).
-3. **Create Head Include:**
-   Create `_includes/resume-head-xx.html` to load language-appropriate web fonts and stylesheets, and include `{% include hreflang.html %}` inside it for search engine alternates.
-4. **Create Section Dispatcher:**
-   Create `_includes/resume-section-xx.html` with localized headings and labels (e.g., "Expérience", "Éducation"), mirroring the section dispatch structure used by `resume-section-en.html` and `resume-section-ar.html`.
-5. **Add Localized Header Elements:**
-   Add localized CTA button labels and header contact tooltips in `_layouts/resume-xx.html`.
-6. **Configure Page Front Matter:**
-   Create a page (e.g., `resume-fr.md`) using your new layout and configure matching language and translation group tags:
-   ```yaml
-   ---
-   layout: resume-xx
-   permalink: /resume/xx/
-   lang: xx
-   t_id: resume
-   ---
-   ```
-
-> [!TIP]
-> Keep date formatting and ongoing position text (such as "Present" in English or "حتى الآن" in Arabic) consistent with the idioms of your target language.
-
----
-
-## Creating Custom General Layouts
-
-To create a new general page layout (e.g., `_layouts/academic-cv.html`):
-
-1. Extend `default.html` or replicate the clean base wrapper structure.
-2. Initialize `resume_data` using the dot-path resolution snippet above.
-3. Incorporate standard theme partials ([`../_includes/shared-head.html`](../_includes/shared-head.html), [`../_includes/avatar.html`](../_includes/avatar.html), [`../_includes/dark-mode-toggle.html`](../_includes/dark-mode-toggle.html)).
-4. Reference your custom layout in page front matter:
+1. Start from `default.html`, or copy `resume.html` for a resume variant.
+2. Resolve `lang`, `locale`, and `lang_cfg` with the three lines in [Language Resolution](#language-resolution), and read every visible string from `locale.ui` so the layout works in every language.
+3. Load data with `{% include data-loader.html path=lang_cfg.data_path %}`.
+4. Reuse the shared includes ([`shared-head.html`](../_includes/shared-head.html), [`avatar.html`](../_includes/avatar.html), [`dark-mode-toggle.html`](../_includes/dark-mode-toggle.html), [`resume-section.html`](../_includes/resume-section.html)).
+5. Reference it from a page:
    ```yaml
    ---
    layout: academic-cv
-   title: "Academic Curriculum Vitae"
+   lang: en
    ---
    ```

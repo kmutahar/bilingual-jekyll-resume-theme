@@ -10,11 +10,11 @@
 
 ## Executive Summary & Historical Audit Archival
 
-This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **19 active, uncompleted features** organized across four sequential implementation phases:
+This document establishes the single authoritative master feature roadmap for the `bilingual-jekyll-resume-theme` project. It contains turnkey, production-ready engineering blueprints for all **21 active, uncompleted features** organized across four sequential implementation phases:
 1. **Priority 1 (Quick Wins & Visual Polish):** High-visibility, low-friction UX improvements (4 active features).
 2. **Priority 2 (Core Functional & Architectural):** Data richness, typography, print fidelity, and RTL alignment (7 active features).
 3. **Priority 3 (Interoperability, Tooling & CI/CD):** Industry schema standards, validation tooling, and test pipelines (3 active features).
-4. **Priority 4 (Ecosystem Expansion):** Generic internationalization, chronology views, contact mechanisms, telemetry, custom sections, and v1.0.0 deprecation retirement (5 active features).
+4. **Priority 4 (Ecosystem Expansion):** Generic internationalization, chronology views, contact mechanisms, telemetry, custom sections, page auto-generation, and v1.0.0 deprecation retirement (7 active features).
 
 ### Historical Remediation Archival Notice
 In accordance with repository governance and engineering hygiene rules, **all completed remediation tasks and finished features (P0.1–P0.16, P1.4 Configurable Avatar, P2.4 Universal Dark Mode & Error Suite, Feature 1.2 Interactive Language Switcher [#11], Feature 2.7 Advanced WCAG 2.1/2.2 AA Accessibility Polish [#21], Feature 1.7 Native Email Support [#215], Feature 2.8 Arabic Header Alignment [#217], Feature 4.1 Extended Multilingual Support [#15], and Feature 4.6 Deprecation Retirement [#214]) have been audited, verified in git history, and purged from this active roadmap document**. Features 3.2 and 3.3 are implemented but stay in this active document until their closure checks pass, per `docs/COMPLETED_AUDIT.md` §5.
@@ -26,7 +26,7 @@ For complete historical records, commit SHAs, root cause analyses, before-and-af
 
 ## 1. Active Features Master Matrix
 
-All 20 active, uncompleted features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
+All 21 active, uncompleted features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
 
 | Phase | ID | Feature Title | Canonical Issue | Auto-Closing Reference | Effort | Demand | Time Est. | Target Files Key |
 |---|---|---|---|---|---|---|---|---|
@@ -50,6 +50,7 @@ All 20 active, uncompleted features are mapped below with their canonical GitHub
 | **P4** | **4.5** | Resume Comparison & A/B Testing View | [#23](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/23) | `Closes #23` | ⭐⭐⭐ | Low | 4–5 hrs | `_layouts/resume-comparison.html`, `_comparison.scss` |
 | **P4** | **4.7** | Dynamic Custom Resume Sections Engine | [#219](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219) | `Closes #219` | ⭐⭐⭐ | Med-High | 3–4 hrs | `_includes/resume-custom-section.html`, dispatchers |
 | **P4** | **4.8** | Client-Side Site Search Index | [#225](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225) | `Closes #225` | ⭐⭐⭐ | Low-Med | 4–6 hrs | `_layouts/error.html`, `search.json`, `assets/js/site-search.js` |
+| **P4** | **4.9** | Auto-Generate CV & Profile Pages per Configured Language (v1.1.0) | [#226](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/226) | `Closes #226` | ⭐⭐⭐ | Med-High | 3–4 hrs | `_plugins/resume_pages_generator.rb`, `docs/_data/_config.sample.yml`, `lib/bilingual-jekyll-resume-theme/resume_validator.rb` |
 
 *(Note on Canonical References: Issue #204 is canonical for Expanded Social Media, superseding redundant duplicates #36–#190. Issue #206 is canonical for Automated CI/CD Pipeline, superseding redundant duplicates #38–#192. GitHub Issue #216 is verified as implemented in v0.8.0 via `_layouts/error.html`).*
 
@@ -3017,6 +3018,104 @@ Still needed for a working feature: `search.json` generation (a Liquid template,
 
 ---
 
+### Feature 4.9: Auto-Generate CV & Profile Pages per Configured Language
+
+- **Target Release:** `v1.1.0`
+- **Canonical Issue:** [#226](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/226)
+- **Auto-Closing Reference:** `Closes #226`
+- **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/226`
+- **Concept & User Demand Rationale:**
+  Both `_layouts/resume.html` and `_layouts/profile.html` are fully data-driven: page content comes entirely from `_data/<lang>/*.yml` and `languages.<lang>.*` in `_config.yml`, so a real page for either layout is already just a front-matter shell (`layout`, `lang`, `t_id`, `permalink` — see `_pages/cv-en.html`, `_pages/cv-ar.html`, `_pages/index.html`, `_pages/index-ar.html` in a consuming site). Every new `languages.<lang>` entry currently still requires hand-creating both shells, or the language switcher and hreflang tags have nothing to link to for that language. `_plugins/error_pages_generator.rb` already solves the identical problem for `404`/`403`/`500` pages via a `Jekyll::Generator` with a three-tier collision check (in-memory `site.pages`, a root file, a `_pages/` file) that skips generation whenever the consuming site already provides its own — this feature applies that same proven pattern to CV and profile pages, and simultaneously gives `languages.<lang>.url` (previously a semi-redundant fallback value in `language-switcher.html`/`error.html`) a clear, load-bearing purpose: the actual generation target.
+- **Effort / Impact / Demand:** Effort: ⭐⭐⭐ (3–4 hrs) | Impact: ⭐⭐⭐ | Demand: Med-High
+
+#### Exact Target Files
+- **Files to Create:**
+  - `_plugins/resume_pages_generator.rb`
+  - `docs/MULTILINGUAL_GUIDE.md` §"Adding a Language" update (or new subsection)
+- **Files to Modify:**
+  - `docs/_data/_config.sample.yml` (document `resume_auto_generate_pages`)
+  - `docs/CONFIG_GUIDE.md`
+  - `lib/bilingual-jekyll-resume-theme/resume_validator.rb` (recognize auto-generated pages so it stops warning about a "missing" CV/profile page for a language that has no physical `_pages/` file)
+  - `AGENTS.md` (Rule 1 / multilingual workflow section: adding a language no longer requires hand-authoring page shells)
+
+#### Data Models & Configuration
+In `_config.yml`:
+```yaml
+# ==============================================================================
+# Auto-Generated Language Pages
+# ==============================================================================
+resume_auto_generate_pages: true  # Master toggle (default: true). Set false to require
+                                   # every languages.<lang> entry to have its own hand-written
+                                   # CV/profile page, matching pre-v1.1.0 behavior.
+```
+
+#### Architecture & Ruby Implementation
+Create `_plugins/resume_pages_generator.rb`, mirroring `error_pages_generator.rb`'s generator/collision-check shape:
+```ruby
+# frozen_string_literal: true
+
+module BilingualJekyllResumeTheme
+  # Synthesizes a CV (layout: resume) and profile (layout: profile) page for
+  # every languages.<lang> entry in _config.yml that doesn't already have one,
+  # the same way ErrorPagesGenerator synthesizes 404/403/500 pages.
+  class ResumePagesGenerator < Jekyll::Generator
+    safe true
+    priority :low # run after physical pages are parsed, so collision checks are accurate
+
+    def generate(site)
+      return if site.config["resume_auto_generate_pages"] == false
+
+      languages = site.config["languages"] || {}
+      default_lang = site.config["default_lang"] || "en"
+
+      languages.each do |lang, lang_cfg|
+        synthesize(site, "resume", lang, "cv-main", lang_cfg["url"])
+
+        profile_url = (lang == default_lang) ? "/" : "/#{lang}/"
+        synthesize(site, "profile", lang, "profile-main", profile_url)
+      end
+    end
+
+    private
+
+    def synthesize(site, layout, lang, t_id, permalink)
+      return if permalink.nil?
+      return if site.pages.any? { |p| p.data["layout"] == layout && p.data["lang"] == lang }
+      return if site.pages.any? { |p| p.url == permalink }
+
+      page = Jekyll::PageWithoutAFile.new(site, site.source, "", "#{layout}-#{lang}.html")
+      page.content = ""
+      page.data["layout"] = layout
+      page.data["lang"] = lang
+      page.data["t_id"] = t_id
+      page.data["permalink"] = permalink
+      site.pages << page
+    end
+  end
+end
+```
+Note: unlike `ErrorPagesGenerator`'s third collision tier (checking for a physical file on disk by exact filename), a hand-authored override page here can live at any filename in `_pages/` — it's matched by `layout`+`lang` (or by permalink collision) once Jekyll has already parsed it into `site.pages`, which `priority :low` guarantees happens first.
+
+#### Acceptance Criteria & Verification
+- [ ] A `languages.<lang>` entry with no matching `_pages/` file gets a working `/<lang>/cv/`-style CV page and a `/` (default) or `/<lang>/` profile page after `bundle exec jekyll build`, matching the hand-authored `en`/`ar` output byte-for-byte in structure.
+- [ ] A site's own physical page for that `layout`+`lang` (for redirects, extra `{{ content }}`, or any other reason) is left untouched — the generator detects and skips it.
+- [ ] `resume_auto_generate_pages: false` fully restores pre-v1.1.0 behavior (no pages synthesized).
+- [ ] `bin/validate-resume` no longer emits a false "missing page" warning for a language once its page is auto-generated.
+- [ ] **Bash Verification Command:**
+  ```bash
+  bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml && \
+  test -f _site/es/cv/index.html && test -f _site/es/index.html && \
+  echo "Auto-generated language pages verified."
+  ```
+
+#### Git Workflow Specification
+- **Branch:** `feature/auto-generate-language-pages`
+- **PR Title:** `feat(pages): auto-generate CV and profile pages per configured language`
+- **Conventional Commit:** `feat(pages): auto-generate CV/profile pages for each languages.<lang> entry (Closes #226)`
+- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/226`
+
+---
+
 ## 7. Cross-Cutting Configuration & Target Files Index
 
 ### 7.1 Unified Target Files Manifest
@@ -3079,6 +3178,7 @@ Documentation Files to Create or Update (12 Files):
 | `resume_contact_form` | Boolean | `false` | 4.3 | Enable secure visitor contact form |
 | `contact_form.provider` | String | `"formspree"` | 4.3 | Contact form backend provider (`formspree`, `netlify`, `getform`) |
 | `resume_engagement_analytics`| Boolean | `false` | 4.4 | Enable privacy-preserving print and click event dispatching |
+| `resume_auto_generate_pages` | Boolean | `true` | 4.9 | Master toggle for auto-generating CV/profile pages per `languages.<lang>` entry |
 
 ---
 

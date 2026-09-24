@@ -186,17 +186,31 @@ class LanguageSwitcherTest < Minitest::Test
     assert_includes es_link, 'dir="ltr"', "EN resume switcher link to Spanish must be marked dir=\"ltr\""
   end
 
-  def test_switcher_wrapper_aria_label_uses_current_page_locale
+  def test_switcher_wrapper_uses_details_summary_disclosure
+    en_html = page_html(File.join("en", "cv", "index.html"))
+
+    assert_includes en_html, '<details class="language-switcher no-print">',
+                    "EN page switcher must be a <details class=\"language-switcher no-print\"> disclosure"
+    assert_includes en_html, '<summary class="language-switcher-trigger">',
+                    "EN page switcher must have a <summary class=\"language-switcher-trigger\"> trigger"
+  end
+
+  def test_switcher_trigger_and_panel_label_use_current_page_locale
     en_html = page_html(File.join("en", "cv", "index.html"))
     ar_html = page_html(File.join("ar", "cv", "index.html"))
 
     en_label = locale_ui("en", "ui", "language_switcher")
     ar_label = locale_ui("ar", "ui", "language_switcher")
 
-    assert_includes en_html, %(<div class="language-switcher no-print" role="navigation" aria-label="#{en_label}">),
-                    "EN page switcher wrapper must use EN's own language_switcher label"
-    assert_includes ar_html, %(<div class="language-switcher no-print" role="navigation" aria-label="#{ar_label}">),
-                    "AR page switcher wrapper must use AR's own language_switcher label"
+    assert_includes en_html, %(<span class="language-switcher-label">#{en_label}</span>),
+                    "EN page switcher trigger must show EN's own language_switcher label"
+    assert_includes en_html, %(<nav class="language-switcher-panel" aria-label="#{en_label}">),
+                    "EN page switcher panel must use EN's own language_switcher label"
+
+    assert_includes ar_html, %(<span class="language-switcher-label">#{ar_label}</span>),
+                    "AR page switcher trigger must show AR's own language_switcher label"
+    assert_includes ar_html, %(<nav class="language-switcher-panel" aria-label="#{ar_label}">),
+                    "AR page switcher panel must use AR's own language_switcher label"
   end
 
   # --- 4. Toggles: page-level override, error layout suppression, site-wide override ---

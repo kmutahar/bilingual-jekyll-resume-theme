@@ -91,7 +91,7 @@ _layouts/resume.html
 ### 5. `language-switcher.html`
 
 - **Consumed by:** `resume.html`, `default.html`, `profile.html`. Hidden on `layout: error` pages, when `site.resume_language_switcher: false`, or when front matter sets `language_switcher: false`.
-- Renders one link for every entry in `site.languages` except the current one, labelled with the target locale's `ui.language_name`. The group's `aria-label` is the current locale's `ui.language_switcher`.
+- Renders as a `<details class="language-switcher">`/`<summary class="language-switcher-trigger">` disclosure — zero JavaScript. The trigger's visible label is the current locale's `ui.language_switcher`; opening it reveals a `<nav class="language-switcher-panel">` with one link for every entry in `site.languages` except the current one, each labelled with the target locale's `ui.language_name`.
 - **Link resolution per target language:** the page in `site.pages` with the same `t_id` and the target `lang`; otherwise `languages.<lang>.url`.
 - Fixed top-left in every locale, LTR and RTL alike (the dark mode toggle is fixed top-right); positions no longer mirror by direction. Hidden in print.
 - Loop variables are prefixed `switch_` because includes share the caller's Liquid scope; unprefixed names would overwrite `resume.html`'s `lang` and `locale`.

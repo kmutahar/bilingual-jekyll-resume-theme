@@ -37,7 +37,7 @@ All theme layouts define explicit ARIA landmark roles alongside semantic HTML5 e
 | `<header class="page-header">` | `role="banner"` | Page Header | Houses candidate name, title, avatar, and contact bar |
 | `<main class="main-content">` | `role="main"` | `id="main-content"` `tabindex="-1"` | Primary content container target of skip-to-content links |
 | `<footer class="page-footer">` | `role="contentinfo"` | Page Footer | Generation timestamp, copyright, and permalink |
-| `<nav class="language-switcher">`| `role="navigation"` | Language Switcher | Floating bilingual language selector |
+| `<details class="language-switcher">` → `<nav class="language-switcher-panel">` | native disclosure + `role="navigation"` (implicit on `<nav>`) | Language Switcher | Floating dropdown language selector, zero JavaScript |
 | `<form class="error-search">` | `role="search"` | Search Form | Search interface on error pages |
 
 ---

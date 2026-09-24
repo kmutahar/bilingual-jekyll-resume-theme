@@ -84,12 +84,12 @@
 }
 
 // --------------------------------------------------------------------------
-// Language Switcher Component (Feature 1.2)
+// Language Switcher Component (Feature 1.2; dropdown redesign Feature 2.12)
 // --------------------------------------------------------------------------
-// Floating pill button fixed to the top-left viewport corner in LTR layouts.
-// RTL coordinate flip is handled in _resume-rtl.scss for resume pages and
-// the html[dir="rtl"] block below for other layouts.
-// Mirrors the visual language of .dark-mode-toggle (same shadow and transition).
+// <details>/<summary> disclosure fixed to the top-left viewport corner.
+// The trigger (.language-switcher-trigger) mirrors the visual language of
+// .dark-mode-toggle (same pill shape, shadow, and transition); the opened
+// panel (.language-switcher-panel) lists every other configured language.
 // --------------------------------------------------------------------------
 
 .language-switcher {
@@ -98,7 +98,9 @@
   left: 1.25rem;
   z-index: 1000;
 
-  .lang-switch-btn {
+  // <summary> gets a default disclosure marker in most browsers; suppress it since the
+  // trigger already renders its own icon + label.
+  .language-switcher-trigger {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -109,16 +111,61 @@
     color: var(--text-color, #333333);
     border: 1px solid var(--toggle-btn-border, #e0e0e0);
     border-radius: 9999px;
+    cursor: pointer;
+    list-style: none;
     text-decoration: none;
     font-size: 0.85rem;
     font-weight: 700;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 
+    &::-webkit-details-marker {
+      display: none;
+    }
+
     &:hover {
       background-color: var(--toggle-btn-hover-bg, #f5f5f5);
       border-color: var(--accent-color, #007acc);
       transform: scale(1.05);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent-color, #007acc);
+      outline-offset: 2px;
+    }
+  }
+
+  &[open] .language-switcher-trigger {
+    border-color: var(--accent-color, #007acc);
+  }
+
+  .language-switcher-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 10rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: var(--bg-color, #ffffff);
+    border: 1px solid var(--toggle-btn-border, #e0e0e0);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  .lang-switch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    color: var(--text-color, #333333);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--toggle-btn-hover-bg, #f5f5f5);
     }
 
     &:focus-visible {

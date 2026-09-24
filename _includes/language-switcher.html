@@ -1,12 +1,17 @@
 {%- comment -%}
-Include: Reusable Multilingual Language Switcher Component (Feature 1.2)
-- Purpose: Floating list of links to every other configured language's resume.
-- Positioning: Fixed top-left (LTR layouts) / top-right (RTL layouts); mirrors the dark-mode toggle.
+Include: Reusable Multilingual Language Switcher Component (Feature 1.2; dropdown redesign Feature 2.12)
+- Purpose: Floating dropdown listing links to every other configured language's resume.
+- Positioning: Fixed top-left viewport corner (see _sass/_layout.scss).
+- Markup: Native <details>/<summary> disclosure — zero JavaScript, full keyboard support
+  (Enter/Space toggles the panel open and closed; browsers do not natively close it on Esc
+  or outside click, matching plain <details> behavior everywhere else). Scales to any number
+  of configured languages without growing a row of buttons.
 - Link Resolution (two-tier), per target language:
     1. Discovers the counterpart page via page.t_id + lang match (site.pages).
     2. Falls back to languages.<lang>.url from _config.yml.
-- Accessibility: Each link is labelled with its own locale's ui.language_name; the group
-  wrapper is labelled with the current page's own locale ui.language_switcher string.
+- Accessibility: The trigger's visible text is the current locale's ui.language_switcher
+  string. The panel is a <nav> landmark labelled with the same string. Each link is labelled
+  with its own locale's ui.language_name.
 - Print Safety: Decorated with class="no-print" — hidden on printed resume sheets.
 - Toggle: Disabled via site.resume_language_switcher: false in _config.yml.
 {%- endcomment -%}
@@ -15,47 +20,53 @@ Include: Reusable Multilingual Language Switcher Component (Feature 1.2)
   {%- assign current_lang = page.lang | default: site.default_lang | default: 'en' -%}
   {%- assign current_locale = site.data.locales[current_lang] | default: site.data.locales[site.default_lang] -%}
 
-  <div class="language-switcher no-print" role="navigation" aria-label="{{ current_locale.ui.language_switcher }}">
-    {%- comment -%}
-    IMPORTANT: {% include %} shares Liquid variable scope with its caller (resume.html),
-    so every variable assigned in this loop body must use a switch_-prefixed name that
-    cannot collide with resume.html's own lang/locale/lang_cfg - otherwise the last loop
-    iteration's values would silently leak out and corrupt the rest of the caller's render.
-    {%- endcomment -%}
-    {% for switch_entry in site.languages %}
-      {%- assign switch_lang = switch_entry[0] -%}
-      {%- assign switch_lang_cfg = switch_entry[1] -%}
-      {%- if switch_lang != current_lang -%}
-        {%- assign switch_locale = site.data.locales[switch_lang] -%}
+  <details class="language-switcher no-print">
+    <summary class="language-switcher-trigger">
+      <span class="lang-icon" aria-hidden="true">🌐</span>
+      <span class="language-switcher-label">{{ current_locale.ui.language_switcher }}</span>
+    </summary>
+    <nav class="language-switcher-panel" aria-label="{{ current_locale.ui.language_switcher }}">
+      {%- comment -%}
+      IMPORTANT: {% include %} shares Liquid variable scope with its caller (resume.html),
+      so every variable assigned in this loop body must use a switch_-prefixed name that
+      cannot collide with resume.html's own lang/locale/lang_cfg - otherwise the last loop
+      iteration's values would silently leak out and corrupt the rest of the caller's render.
+      {%- endcomment -%}
+      {% for switch_entry in site.languages %}
+        {%- assign switch_lang = switch_entry[0] -%}
+        {%- assign switch_lang_cfg = switch_entry[1] -%}
+        {%- if switch_lang != current_lang -%}
+          {%- assign switch_locale = site.data.locales[switch_lang] -%}
 
-        {%- comment -%}
-        TIER 1: Auto-discover counterpart page by matching page.t_id + target language.
-        Both pages must have the same t_id value in their front matter (e.g., t_id: cv-main).
-        {%- endcomment -%}
-        {%- assign switch_url = nil -%}
-        {%- if page.t_id -%}
-          {%- assign switch_matched_page = site.pages | where: "t_id", page.t_id | where: "lang", switch_lang | first -%}
-          {%- if switch_matched_page -%}
-            {%- assign switch_url = switch_matched_page.url | relative_url -%}
+          {%- comment -%}
+          TIER 1: Auto-discover counterpart page by matching page.t_id + target language.
+          Both pages must have the same t_id value in their front matter (e.g., t_id: cv-main).
+          {%- endcomment -%}
+          {%- assign switch_url = nil -%}
+          {%- if page.t_id -%}
+            {%- assign switch_matched_page = site.pages | where: "t_id", page.t_id | where: "lang", switch_lang | first -%}
+            {%- if switch_matched_page -%}
+              {%- assign switch_url = switch_matched_page.url | relative_url -%}
+            {%- endif -%}
           {%- endif -%}
+
+          {%- comment -%}
+          TIER 2: Fall back to languages.<lang>.url from _config.yml.
+          {%- endcomment -%}
+          {%- unless switch_url -%}
+            {%- assign switch_url = switch_lang_cfg.url | relative_url -%}
+          {%- endunless -%}
+
+          <a href="{{ switch_url }}"
+             class="lang-switch-btn"
+             aria-label="{{ switch_locale.ui.language_name }}"
+             title="{{ switch_locale.ui.language_name }}"
+             dir="{{ switch_locale.direction }}">
+            <span class="lang-icon" aria-hidden="true">🌐</span>
+            <span class="lang-label-target">{{ switch_locale.ui.language_name }}</span>
+          </a>
         {%- endif -%}
-
-        {%- comment -%}
-        TIER 2: Fall back to languages.<lang>.url from _config.yml.
-        {%- endcomment -%}
-        {%- unless switch_url -%}
-          {%- assign switch_url = switch_lang_cfg.url | relative_url -%}
-        {%- endunless -%}
-
-        <a href="{{ switch_url }}"
-           class="lang-switch-btn"
-           aria-label="{{ switch_locale.ui.language_name }}"
-           title="{{ switch_locale.ui.language_name }}"
-           dir="{{ switch_locale.direction }}">
-          <span class="lang-icon" aria-hidden="true">🌐</span>
-          <span class="lang-label-target">{{ switch_locale.ui.language_name }}</span>
-        </a>
-      {%- endif -%}
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </nav>
+  </details>
 {% endif %}

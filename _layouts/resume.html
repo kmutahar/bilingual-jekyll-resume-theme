@@ -99,24 +99,20 @@
                     <!-- To display contact info here, change `display_header_contact_info` value in _config.yml to true -->
                     <div class="header-contact-info">
                         <p>
-                            {% if site.enable_live == true %}
-                                {% if site.contact_info.phone_live %}
-                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone_live | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone_live }}</a>
-                                {% endif %}
-                            {% else %}
-                                {% if site.contact_info.phone %}
-                                    {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ site.contact_info.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.phone }}</a>
-                                {% endif %}
+                            {%- assign contact_phone = site.contact_info.phone -%}
+                            {%- if site.enable_live == true and site.contact_info.phone_live -%}
+                                {%- assign contact_phone = site.contact_info.phone_live -%}
+                            {%- endif -%}
+                            {% if contact_phone %}
+                                {% include vendors/lineicons-v4.0/phone.svg %}&nbsp;<a href="tel:{{ contact_phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ contact_phone }}</a>
                             {% endif %}
 
-                            {% if site.enable_live == true %}
-                                {% if site.contact_info.email_live %}
-                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;<a href="mailto:{{ site.contact_info.email_live }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.email_live }}</a>
-                                {% endif %}
-                            {% else %}
-                                {% if site.contact_info.email %}
-                                    &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;<a href="mailto:{{ site.contact_info.email }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ site.contact_info.email }}</a>
-                                {% endif %}
+                            {%- assign contact_email_display = site.contact_info.email -%}
+                            {%- if site.enable_live == true and site.contact_info.email_live -%}
+                                {%- assign contact_email_display = site.contact_info.email_live -%}
+                            {%- endif -%}
+                            {% if contact_email_display %}
+                                &nbsp;&nbsp;{% include vendors/lineicons-v4.0/envelope.svg %}&nbsp;<a href="mailto:{{ contact_email_display }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ contact_email_display }}</a>
                             {% endif %}
 
                             {% if lang_cfg.address %}

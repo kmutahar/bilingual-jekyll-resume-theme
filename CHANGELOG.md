@@ -4,6 +4,91 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.0.0] - 2026-09-24
+
+### Added
+* Add Feature 4.9, auto-generate CV/profile pages per language ([`8b473b7`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/8b473b731b3c5ecf58576db9b014d389c0ab06e5))
+
+* Add check-data-keys, a static checker for template-vs-data key mismatches ([`f4fcfcd`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/f4fcfcd7f8aaf2fbec08295a8029c0c5cfcfa6fe))
+
+* Add client-side site search blueprint ([`ac7f7ef`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ac7f7ef20fc3123bf28e79f390416d10ee7bcc5f))
+
+* Add public-domain sherlock holmes avatar image ([`c73945b`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/c73945bbbc283acee174f70435fb3e5a0a8ca993))
+
+* Add locale system reference guides ([`d4ebf9c`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/d4ebf9c236cc26b69c27a4e13588f919b6dfaf16))
+
+* Add locale, parity, and schema test coverage ([`1314632`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/131463239e0bb9446430c7d4f0a2fb0bff034921))
+
+* Add sherlock holmes demo resume in six languages ([`5194795`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/5194795f82c8ab2b0fbae721803efb5e59a9376e))
+
+* Add locale-agnostic resume layout ([`28239ec`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/28239ecb2a4039f91c8be94bf78bac8a92a89a1e))
+
+* Add unified section dispatcher for all locales ([`23cfc0d`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/23cfc0df8c4ee240d9298ee6a3f36dd4e572b99f))
+
+* Add universal date formatter for all six locales ([`1a830bd`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/1a830bd52a44266a0145fb7ece5432f32ac9570e))
+
+* Add native email support to social links ([`064e2e0`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/064e2e0ee7f4d5dac86911ee30becf32562d8aaa))
+
+* Add canonical locale dictionaries for six languages ([`20973be`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/20973be336c3b871f1278e8be655ed0e7e547ab5))
+
+* Add v1.0.0 multilingual implementation plan and align roadmap ([`9b71b02`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/9b71b02312a15dd002f28e899fc6fd315b3cf58c))
+
+
+### Changed
+* Make profile layout multilingual and data-driven ([`87d4c46`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/87d4c4680dfd8510c9dc9add4ef68619e9ed24f7))
+
+* Include base styles in profile page stylesheet ([`193f96b`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/193f96b41ccbc64938f8c54f6096c86fde69201d))
+
+* Bump documented version to v1.0.0, reconcile roadmap ([`1c77680`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/1c77680bca4b648104495860a0481622b6ddbee8))
+
+* Localize error-page search box to the visitor's browser language ([`256dbb3`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/256dbb3a4239d60cb1848f6db53d97e1b15780b2))
+
+* Extract shared grouped-item-list renderer ([`1b5a0a4`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/1b5a0a46d30f3fdc355d24ca05b7dca53d4870f4))
+
+* Bump actions/checkout in the github-actions group ([`0809e9c`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/0809e9cda99a6dd18e1daa3a83cdee1b2da26501))
+
+* Update minitest requirement from ~> 5.25 to ~> 6.0 ([`7fa8a8e`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/7fa8a8e8cc7ad5983394c72346ac3a8b6380b4cc))
+
+* Record PR #220's live CI verification for Feature 3.2 ([`00e8fdf`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00e8fdffd6ed9f43dd7586ff44bda74104e138af))
+
+* Update agent guidance and roadmap for v1.0.0; retire implementation plan ([`0579aa3`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/0579aa3fb4bb27ad221b6f13430500bfcb3692de))
+
+* Wire build/proof tooling to the locale-driven demo overlay ([`4f27143`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/4f2714381205c1133372aa3f3ec093eed10be0de))
+
+* Import and adapt locale-aware resume data validator ([`834969a`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/834969a7c2e2fb2e263687b81ccf60500b0e4bca))
+
+* Make every remaining EN/AR consumer locale-driven ([`faa5d7e`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/faa5d7e503ac0dfc63fa1cd781430334f61be465))
+
+* Purge deprecated site.avatar, analytics.ga, and resume_dark_mode fallbacks ([`e565de0`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/e565de054705c01cf572893c1ec35470f6f46dc0))
+
+* Align Arabic header contact icons icon-first ([`ed3e655`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ed3e655c7d6a413c87f5efd164bb06e22346383e))
+
+* Split resume stylesheet into locale-driven LTR/RTL layers ([`807b4e2`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/807b4e240ba83e98fb0b61e3657667ec3b729450))
+
+
+### Fixed
+* Resolve 404 language and Home button from the requested URL ([`8616bb2`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/8616bb201a4246cd2dee0f5b862f39d08f7a635b))
+
+* Require "date" so YAML.safe_load_file's permitted_classes resolves on Ruby 3.3 ([`ad4a1cd`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ad4a1cde235784d7e9e8c0fbc17741d1b959541a))
+
+* Render single-language error pages via remembered language preference ([`7105376`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/7105376c57763e98c977685c1a96c645bbb84505))
+
+* Tighten URL/section/language checks, require education year ([`86b8212`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/86b82122925fbb8557d0e7e4bb763730605558f6))
+
+* Use locale-driven font variable instead of undefined RTL tokens ([`2a08333`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/2a08333e35e1770adeb256a4844e071f3d360283))
+
+* Fall back to standard contact info when live fields are partial ([`dbd5e00`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/dbd5e001b43ef6688aab7a0d25c883a72d378ee6))
+
+* Declare minitest as a development dependency ([`3b51fd4`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/3b51fd4d2711de4c08ffb5b98e31f1e84a3b345e))
+
+* Use lang_cfg.name for creator microdata ([`83c97d9`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/83c97d9b99974f8860c514840c3b8682ada3c8df))
+
+* Update actions/checkout and action-gh-release versions for compatibility ([`d807bc3`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/d807bc3f36a30e64bad2b2e1ba2169c9990114d2))
+
+
+### Removed
+* Remove non-functional error-page search form ([`73e1ac5`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/73e1ac5515b548a245fd8443078909a265a6dfb3))
+
 ## [0.9.0] - 2026-09-21
 
 ### Added
@@ -265,6 +350,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[1.0.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.9.0...v1.0.0
 [0.9.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.6.1...v0.7.0

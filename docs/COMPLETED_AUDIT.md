@@ -1,7 +1,7 @@
 # Completed Historical Remediation & Engineering Audit Log
 
 **Project:** `bilingual-jekyll-resume-theme`  
-**Current Release:** `v0.8.0` (Audited Baseline: `v0.7.0`)  
+**Current Release:** `v1.0.0` (Audited Baseline: `v0.7.0`)  
 **Milestone:** M1 Completed Audit Archival  
 **Audit Date:** September 2026  
 **Master Active Roadmap:** [`/FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md)  
@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary & Audit Overview
 
-This document provides the definitive, permanent engineering record of all **18 bug fixes, security hardenings, data resilience enhancements, accessibility upgrades, and architectural feature deliverables** completed across the `bilingual-jekyll-resume-theme` repository up through release `v0.7.0`. While the current project release has advanced to `v0.8.0`, this document is preserved as the immutable historical record of the 18 foundation remediations.
+This document provides the definitive, permanent engineering record of all **18 bug fixes, security hardenings, data resilience enhancements, accessibility upgrades, and architectural feature deliverables** completed across the `bilingual-jekyll-resume-theme` repository up through release `v0.7.0`. While the current project release has advanced to `v1.0.0`, this document is preserved as the immutable historical record of the 18 foundation remediations.
 
 To maintain strict hygiene in the active roadmap and eliminate document drift across planning cycles, completed items have been permanently retired from the active roadmap phases and archived in this audit document. For the active, forward-looking engineering roadmap detailing upcoming uncompleted features across Priorities 1 through 4, refer to the authoritative master roadmap at [`/FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md).
 

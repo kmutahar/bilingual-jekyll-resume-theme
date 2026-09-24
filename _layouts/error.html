@@ -38,69 +38,6 @@ provides an integer or string.
         {% endfor %}
     </div>
 
-    <!-- Accessible Multilingual Search Form -->
-    {%- comment -%}
-    WCAG 2.2 Compliant Search:
-    - role="search" identifies landmark for assistive tech.
-    - label with .sr-only provides screen-reader accessible name.
-    - Submits query parameter `q` to root directory.
-    - A static error page can't negotiate language server-side, so it renders the site's
-      default_lang copy, then a small progressive-enhancement script below swaps in a
-      configured language's text when it matches the visitor's browser language
-      (navigator.language). With JS disabled, the default_lang text stands as-is.
-    {%- endcomment -%}
-    <form role="search" class="error-search" action="{{ '/' | relative_url }}" method="get">
-        <label for="error-search-input" class="sr-only" data-i18n="search_label">{{ default_locale.error_pages.search_label | default: "Search website" }}</label>
-        <div class="error-search-wrapper">
-            <input type="search" id="error-search-input" name="q" class="error-search-input" data-i18n="search_placeholder" placeholder="{{ default_locale.error_pages.search_placeholder | default: 'Search website...' }}" aria-label="{{ default_locale.error_pages.search_label | default: 'Search website' }}">
-            <button type="submit" class="error-search-button" data-i18n="search_button" aria-label="{{ default_locale.error_pages.search_button | default: 'Search' }}">
-                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
-            </button>
-        </div>
-    </form>
-
-    {%- comment -%}
-    Per-language search strings for the script below, built only from configured
-    languages (site.languages), never all six shipped locale files.
-    {%- endcomment -%}
-    <script type="application/json" id="error-search-i18n">
-    {
-        {%- for lang_entry in site.languages -%}
-            {%- assign lang = lang_entry[0] -%}
-            {%- assign locale = site.data.locales[lang] -%}
-            "{{ lang }}": {
-                "search_label": {{ locale.error_pages.search_label | default: default_locale.error_pages.search_label | jsonify }},
-                "search_placeholder": {{ locale.error_pages.search_placeholder | default: default_locale.error_pages.search_placeholder | jsonify }},
-                "search_button": {{ locale.error_pages.search_button | default: default_locale.error_pages.search_button | jsonify }}
-            }{% unless forloop.last %},{% endunless %}
-        {%- endfor -%}
-    }
-    </script>
-    <script>
-    (function () {
-        try {
-            var i18n = JSON.parse(document.getElementById('error-search-i18n').textContent);
-            var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
-            var strings = i18n[browserLang];
-            if (!strings) { return; }
-            document.querySelectorAll('[data-i18n]').forEach(function (el) {
-                var text = strings[el.getAttribute('data-i18n')];
-                if (!text) { return; }
-                if (el.tagName === 'INPUT') {
-                    el.placeholder = text;
-                    el.setAttribute('aria-label', text);
-                } else if (el.tagName === 'BUTTON') {
-                    el.setAttribute('aria-label', text);
-                } else {
-                    el.textContent = text;
-                }
-            });
-        } catch (e) { /* JS disabled or unsupported: default_lang text already rendered. */ }
-    })();
-    </script>
-
     {% if content and content != "" %}
     <div class="error-custom-content">
         {{ content }}
@@ -138,4 +75,3 @@ provides an integer or string.
         {% endfor %}
     </nav>
 </div>
-

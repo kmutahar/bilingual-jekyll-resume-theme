@@ -2012,7 +2012,7 @@ permalink: /resume.json
 
 ### Feature 3.2: Automated CI/CD Build & Verification Pipeline
 
-> **v1.0.0 Status: implemented, closure check pending.** `.github/workflows/ci.yml` and `lint.yml` (imported from `feature/resume-validator-ecosystem`, commit `88290ee`) ship on `feature/extended-multilingual-v1.0.0`. Verified locally: the workflow YAML parses, the Ruby matrix is `3.3`/`3.4`/`4.0`, and `README.md` carries the CI status badge. Not yet verified: an actual GitHub Actions run confirming CI fails on malformed YAML or a broken gemspec (`gh run list` shows none on this branch, since it has never been pushed). The PR references this issue as `Refs #206` until that run is observed.
+> **v1.0.0 Status: implemented, one closure check item pending.** `.github/workflows/ci.yml` and `lint.yml` (imported from `feature/resume-validator-ecosystem`, commit `88290ee`) ship on `feature/extended-multilingual-v1.0.0`. Verified live on [PR #220](https://github.com/kmutahar/bilingual-jekyll-resume-theme/pull/220): the workflow YAML parses, the Ruby 3.3/3.4/4.0 matrix passes end to end on GitHub Actions (initial run caught and fixed a real bug: `minitest` was never a declared dependency, so `bundle exec rake test` failed on every runner), CodeQL and both lint jobs pass, and `README.md` carries the CI status badge. Not yet verified: a deliberate throwaway push of malformed YAML or a broken gemspec confirming CI exits 1 and is then reverted. The PR references this issue as `Refs #206` until that negative-path run is observed.
 
 - **Canonical Issue:** [#206](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/206)
 - **Auto-Closing Reference:** `Closes #206`

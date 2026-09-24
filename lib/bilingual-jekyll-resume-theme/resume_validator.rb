@@ -368,6 +368,8 @@ module BilingualJekyllResumeTheme
       return unless Dir.exist?(dir)
 
       files = Dir.glob(File.join(dir, "*.{yml,yaml}"))
+      add_warning(lang, "No YAML data files found in '#{dir}'.") if files.empty?
+
       files.each do |file_path|
         filename = File.basename(file_path)
         section_name = File.basename(file_path, ".*")
@@ -443,7 +445,7 @@ module BilingualJekyllResumeTheme
         validate_project_entry(entry, item_context)
       when "skills"
         validate_skill_entry(entry, item_context)
-      when "recognitions", "recognition"
+      when "recognitions"
         validate_recognition_entry(entry, item_context)
       when "associations"
         validate_association_entry(entry, item_context)
@@ -517,6 +519,11 @@ module BilingualJekyllResumeTheme
 
       degree = entry["degree"]
       add_error(context, "Missing required field 'degree'") if degree.to_s.strip.empty?
+
+      # DATA_GUIDE.md documents education.yml with a freeform `year` string (not
+      # startdate/enddate) as the displayed date range; require it be present since
+      # nothing else here validates that education entries have a date at all.
+      add_error(context, "Missing required field 'year'") if entry["year"].to_s.strip.empty? && !entry["startdate"]
 
       validate_date(entry["startdate"], context, "startdate") if entry["startdate"]
       validate_date_or_present(entry["enddate"], context, "enddate", lang: lang) if entry["enddate"]
@@ -692,13 +699,15 @@ module BilingualJekyllResumeTheme
       nil
     end
 
-    # Helper: Validates HTTP / HTTPS URL syntax
+    # Helper: Validates HTTP / HTTPS URL syntax. Non-http(s) schemes (javascript:, data:, ...)
+    # are rejected outright: resume-section.html renders these fields into raw href attributes
+    # with no escaping, and there is no legitimate reason a resume link needs another scheme.
     def validate_url(url_val, context, field_name)
       return if url_val.nil? || url_val.to_s.strip.empty?
 
       uri = URI.parse(url_val.to_s.strip)
       unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        add_warning(context, "#{field_name} '#{url_val}' should begin with http:// or https://")
+        add_error(context, "#{field_name} '#{url_val}' must begin with http:// or https://")
       end
     rescue URI::InvalidURIError
       add_error(context, "Invalid URL format for '#{field_name}': '#{url_val}'")

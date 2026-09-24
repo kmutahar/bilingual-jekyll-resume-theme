@@ -126,6 +126,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 - **Files:** [`_data/en/education.yml`](_data/en/education.yml) / [`_data/ar/education.yml`](_data/ar/education.yml)
 - **Config Toggle:** `resume_section.education: true`
+- **Required fields:** `uni` (or `institution`/`school`), `degree`, and `year` (a freeform display string — the validator requires it be present, but does not parse or format-check it, since it's shown as-is rather than run through the date formatter). An entry may use `startdate`/`enddate` instead of `year`; when present those are validated as ISO dates like every other section.
 
 ```yaml
 - degree: "M.S. in Computer Science"

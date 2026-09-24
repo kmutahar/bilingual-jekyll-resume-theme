@@ -10,6 +10,7 @@ ui:
   date_of_birth: "DoB:"
   languages: "Languages:"
   contact_me: "Contact me"
+  cv_button: "Curriculum Vitae"
   not_looking_for_work: "I'm not looking for work right now."
   social_links: "Social Links"
   page_last_generated_on: "This page was last generated on"

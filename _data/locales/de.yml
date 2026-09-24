@@ -10,6 +10,7 @@ ui:
   date_of_birth: "Geburtsdatum:"
   languages: "Sprachen:"
   contact_me: "Kontaktieren Sie mich"
+  cv_button: "Lebenslauf"
   not_looking_for_work: "Ich bin derzeit nicht auf Jobsuche."
   social_links: "Soziale Links"
   page_last_generated_on: "Diese Seite wurde zuletzt generiert am"

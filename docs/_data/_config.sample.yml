@@ -97,6 +97,16 @@ social_links:
 # Direction and fonts come from _data/locales/<lang>.yml, never from here.
 # Each entry's data_path/url/header_intro/name/resume_title/address/avatar_alt
 # feed the single `_layouts/resume.html` layout for that language.
+#
+# Two more keys are optional and consumed only by `layout: profile` (the
+# bio-link homepage, not the CV):
+#   about      - Free-form bio rendered under the name. Markdown, raw HTML, or
+#                plain text all work (piped through markdownify).
+#   name_html  - Override for the <h1> name markup. Without it, the layout
+#                auto-bolds the last space-separated word (the common
+#                single-surname case). Set this for compound surnames,
+#                particles ("van der Berg"), or hyphenated names where that
+#                guess would bold the wrong part.
 languages:
   en:
     data_path: en
@@ -106,6 +116,9 @@ languages:
     resume_title: "Your Job Title"
     address: "Your City, Your Country"
     avatar_alt: "Your profile photo"
+    # about: >-
+    #   A brief bio for your homepage. Supports **Markdown**, <a href="https://example.com">raw HTML</a>, or plain text.
+    # name_html: "Your <b>Full Name</b>"
   ar:
     data_path: ar
     url: /ar/cv/
@@ -114,6 +127,9 @@ languages:
     resume_title: "مسماك الوظيفي"
     address: "مدينتك، بلدك"
     avatar_alt: "صورتك الشخصية"
+    # about: >-
+    #   نبذة مختصرة لصفحتك الرئيسية.
+    # name_html: "اسمك <b>الكامل</b>"
   es:
     data_path: es
     url: /es/cv/
@@ -122,6 +138,9 @@ languages:
     resume_title: "Tu Cargo"
     address: "Tu Ciudad, Tu País"
     avatar_alt: "Tu foto de perfil"
+    # about: >-
+    #   Una breve biografía para tu página principal.
+    # name_html: "Tu <b>Nombre Completo</b>"
   fr:
     data_path: fr
     url: /fr/cv/
@@ -130,6 +149,9 @@ languages:
     resume_title: "Votre Poste"
     address: "Votre Ville, Votre Pays"
     avatar_alt: "Votre photo de profil"
+    # about: >-
+    #   Une brève biographie pour votre page d'accueil.
+    # name_html: "Votre <b>Nom Complet</b>"
   de:
     data_path: de
     url: /de/cv/
@@ -138,6 +160,9 @@ languages:
     resume_title: "Ihre Berufsbezeichnung"
     address: "Ihre Stadt, Ihr Land"
     avatar_alt: "Ihr Profilbild"
+    # about: >-
+    #   Eine kurze Biografie für Ihre Startseite.
+    # name_html: "Ihr <b>Vollständiger Name</b>"
   ur:
     data_path: ur
     url: /ur/cv/
@@ -146,6 +171,9 @@ languages:
     resume_title: "آپ کا عہدہ"
     address: "آپ کا شہر، آپ کا ملک"
     avatar_alt: "آپ کی پروفائل تصویر"
+    # about: >-
+    #   آپ کے ہوم پیج کے لیے ایک مختصر تعارف۔
+    # name_html: "آپ کا <b>پورا نام</b>"
 
 default_lang: en                     # Drives hreflang x-default and fallback lookups
 

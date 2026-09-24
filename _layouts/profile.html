@@ -6,13 +6,18 @@ Dynamic <html> tag:
 {%- endcomment -%}
 {%- assign lang = page.lang | default: site.default_lang | default: 'en' -%}
 {%- assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] | default: site.data.locales['en'] -%}
+{%- assign lang_cfg = site.languages[lang] -%}
 <html lang="{{ lang }}" dir="{{ locale.direction }}">
     {%- comment -%}
-    <!-- Layout: Profile layout used for the landing page / CV homepage.
+    <!-- Layout: Profile layout used for the landing page / bio-link style homepage.
          - Purpose: Dedicated standalone layout with clean unconstrained centering.
          - Stylesheet: assets/css/profile.css
          - Architecture: Unlike default.html, this layout omits the max-width constrained .main-content container,
            allowing full-viewport vertical and horizontal centering of hero/profile sections.
+         - Localization: Pages using this layout set `lang` + `t_id` in front matter (same convention as
+           the resume layout's CV pages) so the language switcher and hreflang tags can find each other.
+           Name/about/CV link text come from _config.yml's `languages.<lang>` block, so a translator only
+           ever has to touch _config.yml, never this layout.
     -->
     {%- endcomment -%}
     <!-- This page was last updated on {{ "now" | date: "%Y-%m-%d %H:%M:%S" }}Z -->
@@ -23,6 +28,9 @@ Dynamic <html> tag:
 
         <!-- Profile head assets (CSS, theme files) -->
         {% include profile-head.html %}
+
+        <!-- hreflang alternates across language variants sharing this page's t_id -->
+        {% include hreflang.html %}
 
         <!-- SEO plugin output: title, meta, Open Graph, canonical -->
         {% seo %}
@@ -47,8 +55,57 @@ Dynamic <html> tag:
         {% include dark-mode-toggle.html %}
         {% include language-switcher.html %}
 
+        <header>
+            {% if site.resume_avatar == true %}
+                {% include avatar.html lang=lang %}
+            {% endif %}
+
+            <!-- Your name is defined in _config.yml under languages.{{ lang }}.name -->
+            {%- comment -%}
+            Display name rendering, two tiers:
+            1. languages.{{ lang }}.name_html (optional): explicit Markdown/HTML override for names
+               where "bold the last word" guesses wrong — compound surnames ("Garcia Lopez"),
+               particles ("van der Berg"), hyphenated names, etc. Rendered standalone so it never
+               touches the plain `name` field, which stays HTML-free for the avatar's alt text and
+               itemprop="name" microdata.
+            2. Fallback: bolds the last space-separated word, matching the original hand-written
+               markup for the common single-surname case with zero config.
+            {%- endcomment -%}
+            {% if lang_cfg.name_html %}
+                <h1 class="full-name">{{ lang_cfg.name_html | markdownify | strip_newlines | remove: '<p>' | remove: '</p>' }}</h1>
+            {% else %}
+                {%- assign name_parts = lang_cfg.name | split: " " -%}
+                <h1 class="full-name">{% for part in name_parts %}{% if forloop.last %}<b>{{ part }}</b>{% else %}{{ part }} {% endif %}{% endfor %}</h1>
+            {% endif %}
+
+            {%- comment -%}
+            Free-form bio block: rendered from _config.yml's `languages.{{ lang }}.about`.
+            Accepts Markdown, raw HTML, or plain text — markdownify passes HTML through untouched
+            and wraps plain text in a paragraph, so any of the three "just work".
+            {%- endcomment -%}
+            {% if lang_cfg.about %}
+                <div class="about">{{ lang_cfg.about | markdownify }}</div>
+            {% endif %}
+        </header>
+
         <!-- Main content injected by Jekyll pages/layouts -->
         <main id="main-content" role="main" tabindex="-1">
+            {% if site.social_links %}
+            <!-- and guess where these are defined? Yup, you guessed it: the _config.yml file -->
+            <ul class="social-links">
+
+                {% include social-links.html %}
+                <li class="icon-link-item"><a href="mailto:{{ site.contact_info.email }}" class="icon-link" itemprop="url"
+                    target="_blank" rel="noopener nofollow noreferrer">{% include vendors/lineicons-v4.0/envelope.svg %}</a>
+                </li>
+            </ul>
+            {% endif %}
+
+            {% if lang_cfg.url %}
+            <!-- CV link is this language's resume permalink, defined in _config.yml under languages.{{ lang }}.url -->
+            <a href="{{ lang_cfg.url | relative_url }}" class="cv-button">{{ locale.ui.cv_button }}</a>
+            {% endif %}
+
             {{ content }}
         </main>
 

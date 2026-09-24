@@ -26,7 +26,7 @@ For complete historical records, commit SHAs, root cause analyses, before-and-af
 
 ## 1. Active Features Master Matrix
 
-All 19 active, uncompleted features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
+All 20 active, uncompleted features are mapped below with their canonical GitHub issue references, auto-closing syntax, effort ratings, demand assessments, and target files.
 
 | Phase | ID | Feature Title | Canonical Issue | Auto-Closing Reference | Effort | Demand | Time Est. | Target Files Key |
 |---|---|---|---|---|---|---|---|---|
@@ -49,6 +49,7 @@ All 19 active, uncompleted features are mapped below with their canonical GitHub
 | **P4** | **4.4** | Privacy-First Resume Engagement Analytics | [#17](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/17) | `Closes #17` | ⭐⭐⭐ | Low-Med | 3–4 hrs | `assets/js/resume-analytics.js`, analytics body |
 | **P4** | **4.5** | Resume Comparison & A/B Testing View | [#23](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/23) | `Closes #23` | ⭐⭐⭐ | Low | 4–5 hrs | `_layouts/resume-comparison.html`, `_comparison.scss` |
 | **P4** | **4.7** | Dynamic Custom Resume Sections Engine | [#219](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219) | `Closes #219` | ⭐⭐⭐ | Med-High | 3–4 hrs | `_includes/resume-custom-section.html`, dispatchers |
+| **P4** | **4.8** | Client-Side Site Search Index | [#225](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225) | `Closes #225` | ⭐⭐⭐ | Low-Med | 4–6 hrs | `_layouts/error.html`, `search.json`, `assets/js/site-search.js` |
 
 *(Note on Canonical References: Issue #204 is canonical for Expanded Social Media, superseding redundant duplicates #36–#190. Issue #206 is canonical for Automated CI/CD Pipeline, superseding redundant duplicates #38–#192. GitHub Issue #216 is verified as implemented in v0.8.0 via `_layouts/error.html`).*
 
@@ -2857,6 +2858,162 @@ In `_includes/resume-section-en.html` (and matching Arabic dispatcher):
 - **PR Title:** `feat(sections): introduce dynamic custom resume sections engine`
 - **Conventional Commit:** `feat(sections): support arbitrary user-defined resume sections (Closes #219)`
 - **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219`
+
+---
+
+### Feature 4.8: Client-Side Site Search Index
+
+- **Canonical Issue:** [#225](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225)
+- **Auto-Closing Reference:** `Closes #225`
+- **Canonical URL:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225`
+- **Concept & User Demand Rationale:**
+  `_layouts/error.html` previously shipped a fully accessible `<form role="search">` (labeled input, ARIA button) on generated 403/404/500 pages, but no search backend ever read the submitted `q` parameter — submitting it silently navigated home and dropped the query, which is worse than no search box since it read as functional to sighted and screen-reader users alike. Removed in the theme's a11y fix for `ISSUES.md` issue #2; the markup, per-language i18n script, and already-translated locale strings (`error_pages.search_label/search_placeholder/search_button` in all six `_data/locales/<lang>.yml` files, left in place) are preserved below as the starting point for a real implementation: a build-time-generated search index over every configured language's resume data, with no server-side dependency (consistent with this theme being a static Jekyll site).
+- **Effort / Impact / Demand:** Effort: ⭐⭐⭐ (4–6 hrs) | Impact: ⭐⭐ | Demand: Low-Med
+
+#### Exact Target Files
+- **Files to Create:**
+  - `search.json` (Jekyll-generated JSON index, one entry per section item across every `languages.<lang>.data_path`, built with a Liquid front-matter template similar to `resume.json` in Feature 3.1)
+  - `assets/js/site-search.js` (fetches `search.json`, filters client-side, renders results)
+  - `docs/SEARCH_GUIDE.md`
+- **Files to Modify:**
+  - `_layouts/error.html` (reinstate the form below, wired to `site-search.js` instead of `action="/"`)
+  - `_sass/_all-pages.scss` (reinstate the `.error-search` styling below, removed alongside the form in the a11y fix)
+  - `docs/CONFIG_GUIDE.md`
+
+#### Architecture & Liquid/JS Implementation
+Starting-point markup and script, as they existed in `_layouts/error.html` before removal (form now needs its `action`/`method` replaced with a `site-search.js` submit handler that queries `search.json` instead of navigating to `/`):
+```liquid
+<form role="search" class="error-search" action="{{ '/' | relative_url }}" method="get">
+    <label for="error-search-input" class="sr-only" data-i18n="search_label">{{ default_locale.error_pages.search_label | default: "Search website" }}</label>
+    <div class="error-search-wrapper">
+        <input type="search" id="error-search-input" name="q" class="error-search-input" data-i18n="search_placeholder" placeholder="{{ default_locale.error_pages.search_placeholder | default: 'Search website...' }}" aria-label="{{ default_locale.error_pages.search_label | default: 'Search website' }}">
+        <button type="submit" class="error-search-button" data-i18n="search_button" aria-label="{{ default_locale.error_pages.search_button | default: 'Search' }}">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+        </button>
+    </div>
+</form>
+
+<script type="application/json" id="error-search-i18n">
+{
+    {%- for lang_entry in site.languages -%}
+        {%- assign lang = lang_entry[0] -%}
+        {%- assign locale = site.data.locales[lang] -%}
+        "{{ lang }}": {
+            "search_label": {{ locale.error_pages.search_label | default: default_locale.error_pages.search_label | jsonify }},
+            "search_placeholder": {{ locale.error_pages.search_placeholder | default: default_locale.error_pages.search_placeholder | jsonify }},
+            "search_button": {{ locale.error_pages.search_button | default: default_locale.error_pages.search_button | jsonify }}
+        }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+}
+</script>
+```
+Client-side text swap logic to relabel this markup per language (reusable as-is, was previously driven by `navigator.language`; a real implementation should instead read the `preferred-lang` `localStorage` key written by `_layouts/resume.html`, matching the pattern `_layouts/error.html` now uses for its single-language block):
+```js
+(function () {
+    try {
+        var i18n = JSON.parse(document.getElementById('error-search-i18n').textContent);
+        var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+        var strings = i18n[browserLang];
+        if (!strings) { return; }
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+            var text = strings[el.getAttribute('data-i18n')];
+            if (!text) { return; }
+            if (el.tagName === 'INPUT') {
+                el.placeholder = text;
+                el.setAttribute('aria-label', text);
+            } else if (el.tagName === 'BUTTON') {
+                el.setAttribute('aria-label', text);
+            } else {
+                el.textContent = text;
+            }
+        });
+    } catch (e) { /* JS disabled or unsupported: default_lang text already rendered. */ }
+})();
+```
+Removed SCSS, to reinstate in `_sass/_all-pages.scss` inside the `.error-page` block (as it existed there before removal):
+```scss
+  .error-search {
+    margin: 1.5rem auto 2rem;
+    max-width: 440px;
+    width: 100%;
+
+    .error-search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .error-search-input {
+      width: 100%;
+      padding: 0.75rem 2.75rem 0.75rem 1rem;
+      border: 1px solid var(--border-color, #c7c7c7);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      color: var(--text-color, #333);
+      background-color: var(--card-bg, var(--bg-color, #fff));
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &::placeholder {
+        color: var(--text-light, #888);
+        opacity: 0.8;
+      }
+
+      &:focus {
+        border-color: var(--accent-color, #3064a9);
+        box-shadow: 0 0 0 3px rgba(48, 100, 169, 0.2);
+      }
+    }
+
+    .error-search-button {
+      position: absolute;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      padding: 0.375rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light, #888);
+      transition: color 0.2s ease;
+
+      &:hover,
+      &:focus {
+        color: var(--accent-color, #3064a9);
+        outline: none;
+      }
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+```
+Still needed for a working feature: `search.json` generation (a Liquid template, one JSON object per active item across every section in every language's data folder, keyed by `lang`), and `assets/js/site-search.js` to fetch that index, filter by the submitted query scoped to the visitor's current language, and render results in place of the current no-op `action="{{ '/' | relative_url }}"` navigation.
+
+#### Acceptance Criteria & Verification
+- [ ] Submitting the search form returns matching resume sections/items for the visitor's current language, without a full page navigation.
+- [ ] `search.json` includes all 12 standard sections' `active: true` items for every configured language.
+- [ ] Empty query or no matches shows a localized "no results" state instead of a blank screen.
+- [ ] Fully keyboard-operable and screen-reader announced (reuses the existing `role="search"` / labeled-input / ARIA-button markup above).
+- [ ] **Bash Verification Command:**
+  ```bash
+  bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml && \
+  test -f _site/search.json && \
+  echo "Site search index build verified."
+  ```
+
+#### Git Workflow Specification
+- **Branch:** `feature/site-search`
+- **PR Title:** `feat(search): add client-side site search index (Closes #225)`
+- **Conventional Commit:** `feat(search): generate search.json and wire error-page search form (Closes #225)`
+- **Issue Reference:** `https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225`
 
 ---
 

@@ -87,7 +87,7 @@ bilingual-jekyll-resume-theme/
 │   ├── profile-head.html         # Stylesheet for the profile page (profile.css)
 │   ├── avatar.html               # Profile picture
 │   ├── dark-mode-toggle.html     # Floating theme toggle
-│   ├── language-switcher.html    # Floating links to every other configured language
+│   ├── language-switcher.html    # Floating dropdown linking to every other configured language
 │   ├── social-links.html         # Social icons (email + 14 platforms)
 │   ├── print-social-links.html   # Print-only social links text list
 │   ├── hreflang.html             # Alternate-language SEO links

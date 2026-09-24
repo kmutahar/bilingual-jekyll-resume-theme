@@ -14,5 +14,6 @@
 # =============================================================================
 
 require "jekyll"
+require_relative "bilingual-jekyll-resume-theme/resume_validator"
 require_relative "../_plugins/error_pages_generator"
-
+require_relative "../_plugins/resume_validator"

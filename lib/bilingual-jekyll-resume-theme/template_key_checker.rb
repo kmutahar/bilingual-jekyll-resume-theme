@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "yaml"
+require "date"
 
 module BilingualJekyllResumeTheme
   # Statically checks the theme's own _layouts/_includes Liquid templates for

@@ -220,9 +220,9 @@ class LanguageSwitcherTest < Minitest::Test
     refute_includes html, "lang-switch-btn", "Page with language_switcher: false must not render the switcher"
   end
 
-  def test_error_layout_suppresses_switcher
+  def test_error_layout_renders_switcher
     html = page_html("error-test.html")
-    refute_includes html, "lang-switch-btn", "Error layout must never render the language switcher"
+    assert_includes html, "lang-switch-btn", "Error layout must render the language switcher"
   end
 
   def test_site_wide_config_disables_switcher

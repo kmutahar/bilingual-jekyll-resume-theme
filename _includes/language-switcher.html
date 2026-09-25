@@ -16,7 +16,7 @@ Include: Reusable Multilingual Language Switcher Component (Feature 1.2; dropdow
 - Toggle: Disabled via site.resume_language_switcher: false in _config.yml.
 {%- endcomment -%}
 
-{% if site.resume_language_switcher != false and page.language_switcher != false and page.layout != 'error' %}
+{% if site.resume_language_switcher != false and page.language_switcher != false %}
   {%- assign current_lang = page.lang | default: site.default_lang | default: 'en' -%}
   {%- assign current_locale = site.data.locales[current_lang] | default: site.data.locales[site.default_lang] -%}
 

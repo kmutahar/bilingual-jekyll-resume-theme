@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   tracked_files = `git ls-files -z`.split("\x0")
   spec.files         = (tracked_files + Dir["_plugins/**/*", "lib/**/*", "bin/validate-resume", "bin/check-data-keys"]).uniq.select do |f|
-    f.match(%r!^(assets|_data|_layouts|_includes|_sass|_plugins|lib|bin|LICENSE|README|CHANGELOG|CODE_OF_CONDUCT|docs|404|403|500)!i) && File.file?(f) && f != "bin/release"
+    f.match(%r!^(assets|_data|_layouts|_includes|_sass|_plugins|lib|bin|LICENSE|README|CHANGELOG|CODE_OF_CONDUCT|docs|_config\.sample\.yml|404|403|500)!i) && File.file?(f) && f != "bin/release" && !f.start_with?("demo/")
   end
 
   spec.bindir        = "bin"

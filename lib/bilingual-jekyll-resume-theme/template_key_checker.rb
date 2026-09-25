@@ -62,7 +62,7 @@ module BilingualJekyllResumeTheme
     # template_root: overrides where _layouts/_includes are scanned from (default:
     # this gem's own root). Exists so tests can point the Liquid-tracing logic at
     # synthetic fixture templates instead of the theme's real ones.
-    def initialize(data_dir = "docs/_data", config_path: nil, config: nil, template_root: THEME_ROOT)
+    def initialize(data_dir = "_data", config_path: nil, config: nil, template_root: THEME_ROOT)
       @data_dir = data_dir.to_s.chomp("/")
       @config_path = config_path
       @config = config

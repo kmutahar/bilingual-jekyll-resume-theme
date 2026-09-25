@@ -127,7 +127,7 @@ Run the automated build and verify accessibility attributes:
 
 ```bash
 # Build static site
-bundle exec jekyll build --config docs/_data/_config.sample.yml
+bundle exec jekyll build --source demo --destination _site
 
 # Verify skip link presence
 grep -q 'class="skip-link' _site/index.html && echo "Skip link verified."

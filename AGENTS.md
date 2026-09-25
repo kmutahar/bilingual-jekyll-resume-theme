@@ -48,7 +48,7 @@ Every language renders through the same files: `_layouts/resume.html`, `_include
 
 - **Visible text** belongs in `_data/locales/<lang>.yml`. When you add or rename a key, make the same change in all six locale files (`en`, `ar`, `es`, `fr`, `de`, `ur`) so their key sets stay identical; the validator warns on any gap.
 - **Templates** read the active locale (`locale.ui.*`, `locale.direction`) and never branch on a specific language code (`== 'ar'`, `resume-ar`, `site.*_ar`).
-- **Demo data** under `docs/_data/<lang>/` keeps the same files and entries in the same order in all six languages, each natively translated.
+- **Demo data** under `demo/_data/<lang>/` keeps the same files and entries in the same order in all six languages, each natively translated.
 - **RTL** changes go in `_sass/_resume-rtl.scss` as language-neutral overrides under `html[dir="rtl"]`; fonts and line heights stay in the locale files.
 
 Verify a template or locale change by building the demo (Rule 5) and checking both an LTR page (`_site/en/cv/`) and both RTL pages (`_site/ar/cv/`, `_site/ur/cv/`).
@@ -67,8 +67,8 @@ Before addressing bugs, security findings, or refactors, consult [`docs/COMPLETE
 ### Rule 5: Build & Packaging Verification
 Never declare a task finished without running:
 ```bash
-# Demo build: sample config + overlay that points data_dir at docs/_data and renders docs/demo/*.md
-bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+# Demo build: demo consuming site source
+bundle exec jekyll build --source demo --destination _site
 
 # Validator, RuboCop, and tests
 bundle exec rake
@@ -115,7 +115,7 @@ Every feature in `FEATURE_ROADMAP.md` is mapped to an open GitHub issue. To auto
 
 ## 4. Common Developer Commands
 
-The theme repository has no resume pages of its own. The demo overlay `docs/_data/_config.demo.yml` sets `data_dir: docs/_data` so the six pages in `docs/demo/` render the Sherlock Holmes demo; building with the sample config alone renders only error pages and CSS.
+The theme repository contains the theme engine, while the full demo site lives in the `demo/` git submodule (which builds as a complete consuming Jekyll site).
 
 ### Environment Setup & Local Server
 ```bash
@@ -123,13 +123,13 @@ The theme repository has no resume pages of its own. The demo overlay `docs/_dat
 bundle install
 
 # Serve the demo at http://localhost:4000 (resume pages at /en/cv/, /ar/cv/, /es/cv/, /fr/cv/, /de/cv/, /ur/cv/)
-bundle exec jekyll serve --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+bundle exec jekyll serve --source demo --destination _site
 
 # Live reload and incremental builds
-bundle exec jekyll serve --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml --livereload --incremental
+bundle exec jekyll serve --source demo --destination _site --livereload --incremental
 
 # Build static output to _site/
-bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+bundle exec jekyll build --source demo --destination _site
 
 # Clean cached Jekyll build artifacts
 bundle exec jekyll clean
@@ -153,7 +153,7 @@ bundle exec rake                                           # validate + rubocop 
 bundle exec rake test                                      # Unit tests (validator + language switcher)
 bundle exec rake rubocop                                   # Static analysis; must report 0 offenses
 bundle exec rake proof                                     # Proof _site/ (build first); or proof[../site/_site]
-./bin/validate-resume docs/_data --all-locales --fail-on-warnings   # Multi-language data schema + parity
+./bin/validate-resume demo/_data --all-locales --fail-on-warnings   # Multi-language data schema + parity
 ```
 
 ### Dependency Audit
@@ -250,6 +250,12 @@ Inside `_includes/resume-section.html`, an `{% if / elsif %}` dispatcher renders
 ```text
 bilingual-jekyll-resume-theme/
 ├── 403.html / 404.html / 500.html  # Root HTTP error pages (layout: error)
+├── _config.sample.yml        # Master annotated sample configuration for consuming sites
+├── demo/                     # Git submodule: full live Sherlock Holmes demo consuming site
+│   ├── _config.yml
+│   ├── index.html            # Profile landing page
+│   ├── _pages/               # Resume pages for 6 languages
+│   └── _data/                # 6 languages YAML data
 │
 ├── _layouts/
 │   ├── default.html              # Base HTML shell
@@ -323,9 +329,7 @@ bilingual-jekyll-resume-theme/
 │   ├── MULTILINGUAL_GUIDE.md     # Locales, adding languages, v1.0.0 migration table
 │   ├── SASS_GUIDE.md             # Styling system, RTL overrides, dark mode tokens
 │   ├── VALIDATION_GUIDE.md       # Validator, CLI, CI, proofing
-│   ├── PROJECT_OVERVIEW.md       # High-level architecture summary
-│   ├── demo/                     # Six demo resume pages (layout: resume, lang: <code>)
-│   └── _data/                    # _config.sample.yml, _config.demo.yml, demo data for 6 languages
+│   └── PROJECT_OVERVIEW.md       # High-level architecture summary
 │
 ├── .github/
 │   ├── workflows/

@@ -15,8 +15,8 @@ require_relative "../_plugins/resume_validator"
 # errors, and the Jekyll::Generator plugin wrapper's default-on / strict-mode behavior.
 class ResumeValidatorTest < Minitest::Test
   REPO_ROOT = File.expand_path("..", __dir__)
-  SAMPLE_DATA_DIR = File.join(REPO_ROOT, "docs", "_data")
-  SAMPLE_CONFIG_PATH = File.join(SAMPLE_DATA_DIR, "_config.sample.yml")
+  SAMPLE_DATA_DIR = File.join(REPO_ROOT, "demo", "_data")
+  SAMPLE_CONFIG_PATH = File.join(REPO_ROOT, "_config.sample.yml")
   THEME_LOCALES_DIR = File.join(REPO_ROOT, "_data", "locales")
 
   def setup
@@ -229,13 +229,13 @@ class ResumeValidatorTest < Minitest::Test
 
   def test_generator_strict_mode_does_not_raise_on_clean_six_language_data
     config = @sample_config.merge(
-      "data_dir" => "docs/_data",
+      "data_dir" => "demo/_data",
       "validate_resume_strict" => true
     )
     site = FakeSite.new(config, REPO_ROOT)
     generator = BilingualJekyllResumeTheme::ResumeValidatorGenerator.new
 
-    capture_io { generator.generate(site) } # must not raise: docs/_data validates cleanly
+    capture_io { generator.generate(site) } # must not raise: demo/_data validates cleanly
   end
 
   # --- 10. Schema-level negative paths: malformed YAML, invalid URL, inverted dates, ---------

@@ -52,16 +52,16 @@ Sections render in the order of `site.resume_section_order` through one dispatch
 | Need / Task | Go To | Verification Method |
 |---|---|---|
 | Configure site settings, languages, avatar, or analytics | `_config.yml`, [`CONFIG_GUIDE.md`](CONFIG_GUIDE.md) | Demo build (below) |
-| Add a language or change UI strings, fonts, or month names | `_data/locales/<lang>.yml`, [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) | `./bin/validate-resume docs/_data`, then inspect `_site/<lang>/cv/` |
-| Modify resume section data | `_data/<lang>/*.yml`, [`DATA_GUIDE.md`](DATA_GUIDE.md) | `./bin/validate-resume docs/_data` |
+| Add a language or change UI strings, fonts, or month names | `_data/locales/<lang>.yml`, [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) | `./bin/validate-resume demo/_data`, then inspect `_site/<lang>/cv/` |
+| Modify resume section data | `_data/<lang>/*.yml`, [`DATA_GUIDE.md`](DATA_GUIDE.md) | `./bin/validate-resume demo/_data` |
 | Customize error pages or return URLs | `_layouts/error.html`, `_plugins/error_pages_generator.rb`, `error_pages` in the locale files, [`LAYOUTS_GUIDE.md`](LAYOUTS_GUIDE.md) | Inspect `_site/404.html`, `_site/500.html` |
 | Adjust dark mode colors or tokens | `_sass/_dark-mode.scss`, [`SASS_GUIDE.md`](SASS_GUIDE.md) | Inspect CSS variables on `:root` and `[data-theme="dark"]` |
 | Adjust RTL mirroring | `_sass/_resume-rtl.scss`, [`SASS_GUIDE.md`](SASS_GUIDE.md) | Inspect `_site/ar/cv/` and `_site/ur/cv/` |
 
-Demo build (renders the six-language Sherlock Holmes resume from `docs/`):
+Demo build (renders the six-language Sherlock Holmes resume from the `demo/` submodule):
 
 ```bash
-bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+bundle exec jekyll build --source demo --destination _site
 ```
 
 ---
@@ -144,12 +144,7 @@ bilingual-jekyll-resume-theme/
     ├── MULTILINGUAL_GUIDE.md     # Locales, adding languages, v1.0.0 migration table
     ├── SASS_GUIDE.md             # Styling system, tokens, RTL
     ├── VALIDATION_GUIDE.md       # Validator, CLI, CI, proofing
-    ├── PROJECT_OVERVIEW.md       # This file
-    ├── demo/                     # Six demo resume pages (layout: resume)
-    └── _data/
-        ├── _config.sample.yml    # Master sample configuration
-        ├── _config.demo.yml      # Demo overlay (data_dir: docs/_data, Sherlock Holmes persona)
-        └── en/ ar/ es/ fr/ de/ ur/  # Sherlock Holmes demo data, 13 files each
+    └── PROJECT_OVERVIEW.md       # This file
 ```
 
 ---
@@ -169,4 +164,4 @@ bilingual-jekyll-resume-theme/
 | **Completed Audit** | [`COMPLETED_AUDIT.md`](COMPLETED_AUDIT.md) | Historical record of completed fixes and features |
 | **Master AI Manual** | [`../AGENTS.md`](../AGENTS.md) | Operating rules for AI agents |
 | **Feature Roadmap** | [`../FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md) | Active feature blueprints, issue mappings, Delete-Zone |
-| **Sample Config** | [`_data/_config.sample.yml`](_data/_config.sample.yml) | Annotated configuration for consuming sites |
+| **Sample Config** | [`../_config.sample.yml`](../_config.sample.yml) | Annotated configuration for consuming sites |

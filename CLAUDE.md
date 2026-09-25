@@ -30,11 +30,11 @@ When working in this repository with Claude Code, adhere strictly to **[`AGENTS.
 # Install dependencies
 bundle install
 
-# Serve the six-language demo from the theme repository
-bundle exec jekyll serve --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+# Serve the six-language demo from the demo submodule
+bundle exec jekyll serve --source demo --destination _site
 
 # Static demo build in the theme repository
-bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+bundle exec jekyll build --source demo --destination _site
 
 # Validator, RuboCop, and tests
 bundle exec rake

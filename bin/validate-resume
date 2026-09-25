@@ -22,7 +22,7 @@ parser = OptionParser.new do |opts|
   opts.separator ""
   opts.separator "Options:"
 
-  opts.on("-d", "--dir DIR", "Path to data directory (default: _data or docs/_data)") do |d|
+  opts.on("-d", "--dir DIR", "Path to data directory (default: _data or demo/_data)") do |d|
     options[:data_dir] = d
   end
 
@@ -66,9 +66,10 @@ parser.parse!
 # Positional argument takes precedence over -d, or fall back to standard data dirs
 data_dir = ARGV[0] || options[:data_dir]
 if data_dir.nil?
-  # Prefer a directory that holds at least one language folder (a site's _data, else the theme's docs sample).
-  data_dir = %w[_data docs/_data].find { |dir| BilingualJekyllResumeTheme::ResumeValidator.new(dir).discover_languages.any? } ||
-             "_data"
+  # Prefer a directory that holds at least one language folder (a site's _data, else the theme's demo).
+  data_dir = %w[_data demo/_data].find do |dir|
+    BilingualJekyllResumeTheme::ResumeValidator.new(dir).discover_languages.any?
+  end || "_data"
 end
 
 validator = BilingualJekyllResumeTheme::ResumeValidator.new(

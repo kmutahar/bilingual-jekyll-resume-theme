@@ -13,7 +13,7 @@ require_relative "../lib/bilingual-jekyll-resume-theme/template_key_checker"
 # theme's real templates + demo data.
 class TemplateKeyCheckerTest < Minitest::Test
   REPO_ROOT = File.expand_path("..", __dir__)
-  SAMPLE_DATA_DIR = File.join(REPO_ROOT, "docs", "_data")
+  SAMPLE_DATA_DIR = File.join(REPO_ROOT, "demo", "_data")
 
   # --- Helpers -----------------------------------------------------------------------------
 

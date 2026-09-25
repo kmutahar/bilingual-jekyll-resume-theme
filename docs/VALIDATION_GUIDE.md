@@ -66,14 +66,14 @@ The gem installs `validate-resume` as an executable. In a consuming site run it 
 bundle exec validate-resume                       # auto-detects the data directory
 bundle exec validate-resume _data                 # explicit data directory
 bundle exec validate-resume _data -c _config.yml  # explicit config
-./bin/validate-resume docs/_data                  # this repository's six-language demo
+./bin/validate-resume demo/_data                  # this repository's six-language demo
 ```
 
-With no `DATA_DIR`, the CLI uses the first of `_data` and `docs/_data` that contains at least one language folder, else `_data`. A positional `DATA_DIR` wins over `-d`.
+With no `DATA_DIR`, the CLI uses the first of `_data` and `demo/_data` that contains at least one language folder, else `_data`. A positional `DATA_DIR` wins over `-d`.
 
 | Flag | Long flag | Description | Default |
 |---|---|---|---|
-| `-d DIR` | `--dir DIR` | Data directory | `_data` or `docs/_data` |
+| `-d DIR` | `--dir DIR` | Data directory | `_data` or `demo/_data` |
 | `-c FILE` | `--config FILE` | Jekyll config that declares `languages:` | First config found next to the data directory ([section 2](#2-how-languages-and-locales-are-resolved)) |
 | `-l LANGS` | `--languages LANGS` | Comma-separated languages to validate; overrides the config | The config's `languages:` |
 | `-a` | `--all-locales` | Also validate every language folder found by directory scan | off |
@@ -90,7 +90,7 @@ Exit codes: `0` when there are no errors (and no warnings under `-w`), `1` other
 ## 4. Rake Task (`rake validate`)
 
 ```bash
-bundle exec rake validate               # _data if _data/en exists, else docs/_data
+bundle exec rake validate               # _data if _data/en exists, else demo/_data
 bundle exec rake "validate[path/to/_data]"
 ```
 
@@ -193,7 +193,7 @@ Add the scheme, for example `https://github.com/user`.
 
 This repository runs the validator (and the template key checker, [section 11](#11-template-key-checker-check-data-keys)) in two workflows:
 
-- [`.github/workflows/lint.yml`](../.github/workflows/lint.yml): `./bin/validate-resume docs/_data --fail-on-warnings`, `rake validate[docs/_data]`, `./bin/check-data-keys docs/_data`, `rake check_data_keys[docs/_data]`, a gemspec executable check, and RuboCop.
+- [`.github/workflows/lint.yml`](../.github/workflows/lint.yml): `./bin/validate-resume demo/_data --fail-on-warnings`, `rake validate[demo/_data]`, `./bin/check-data-keys demo/_data`, `rake check_data_keys[demo/_data]`, a gemspec executable check, and RuboCop.
 - [`.github/workflows/ci.yml`](../.github/workflows/ci.yml): gem packaging, a strict Jekyll build, built-HTML proofing, both checkers, and the unit tests across Ruby 3.3, 3.4, and 4.0.
 
 A consuming site can run the same check on every push:
@@ -222,7 +222,7 @@ Two development-only Rake tasks complement the data validator. Their gems are de
 
 ```bash
 # Dead internal links, broken #anchors, missing images/favicons, hreflang/canonical targets.
-bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+bundle exec jekyll build --source demo --destination _site
 bundle exec rake proof                                   # proofs ./_site
 
 # Proof a consuming site (config auto-detected next to its _site/, or passed explicitly):
@@ -246,15 +246,15 @@ bundle exec rake rubocop
 Because "known keys" are derived from whatever the checked sample data actually contains, a field a template correctly references but that no language in the checked data happens to exercise (an optional field, e.g. `education.yml`'s `awards` list) will warn even though nothing is wrong. For this reason `check-data-keys` **never defaults to `--fail-on-warnings` in this repository's Rake task or CI steps**, unlike `validate-resume`. Warnings are printed and worth reading, but a warning alone does not mean the template is broken — cross-check against the field before "fixing" it.
 
 ```bash
-./bin/check-data-keys docs/_data                  # this repository's six-language demo (the default target)
-./bin/check-data-keys docs/_data --fail-on-warnings  # opt into strict mode yourself, once you trust your data's coverage
-bundle exec rake check_data_keys                     # docs/_data by default
+./bin/check-data-keys demo/_data                  # this repository's six-language demo (the default target)
+./bin/check-data-keys demo/_data --fail-on-warnings  # opt into strict mode yourself, once you trust your data's coverage
+bundle exec rake check_data_keys                     # demo/_data by default
 bundle exec rake "check_data_keys[path/to/_data]"
 ```
 
 | Flag | Long flag | Description | Default |
 |---|---|---|---|
-| `-d DIR` | `--dir DIR` | Data directory | `_data` or `docs/_data` |
+| `-d DIR` | `--dir DIR` | Data directory | `_data` or `demo/_data` |
 | `-c FILE` | `--config FILE` | Jekyll config that declares `languages:` | First config found next to the data directory ([section 2](#2-how-languages-and-locales-are-resolved)) |
 | `-w` | `--fail-on-warnings` | Exit 1 on warnings | off |
 | `-v` | `--verbose` | Verbose output | off |

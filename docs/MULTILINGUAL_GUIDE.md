@@ -125,9 +125,9 @@ The validator builds each locale the same way (theme file, then site file deep-m
 - Keep proper nouns consistent: transliterate them in non-Latin scripts and keep them as-is in Latin-script languages.
 - Write dates as ISO (`YYYY-MM-DD`, `YYYY-MM`, or `YYYY`). Month names come from the locale file, so the data stays language-neutral.
 - For ongoing roles, leave `enddate` blank or use any value from that locale's `present_values`.
-- The Sherlock Holmes demo in [`_data/`](_data/) (`en`, `ar`, `es`, `fr`, `de`, `ur`) is a complete, parity-clean reference. Build it from the repository root with:
+- The Sherlock Holmes demo in [`demo/_data/`](../demo/_data/) (`en`, `ar`, `es`, `fr`, `de`, `ur`) is a complete, parity-clean reference. Build it from the repository root with:
   ```bash
-  bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+  bundle exec jekyll build --source demo --destination _site
   ```
 
 ---

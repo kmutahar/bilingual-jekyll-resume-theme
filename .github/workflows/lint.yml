@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+        with:
+          submodules: true
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -28,20 +30,20 @@ jobs:
       - name: Validate Resume Data with CLI Linter
         run: |
           chmod +x bin/validate-resume
-          ./bin/validate-resume docs/_data --fail-on-warnings
+          ./bin/validate-resume demo/_data --fail-on-warnings
 
       - name: Run Rake Validation Task
         run: |
-          bundle exec rake validate[docs/_data]
+          bundle exec rake validate[demo/_data]
 
       - name: Check Templates Against Data Keys
         run: |
           chmod +x bin/check-data-keys
-          ./bin/check-data-keys docs/_data
+          ./bin/check-data-keys demo/_data
 
       - name: Run Rake Check-Data-Keys Task
         run: |
-          bundle exec rake check_data_keys[docs/_data]
+          bundle exec rake check_data_keys[demo/_data]
 
       - name: Validate RubyGem Specification & Executables
         run: |

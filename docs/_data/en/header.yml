@@ -1,7 +1,0 @@
-# Header intro paragraph
-# File: _data/en/header.yml
-# This file contains the executive summary/intro paragraph that appears below your name and title
-# Enable this in _config.yml with: languages.en.header_intro: true
-
-intro: >-
-  Consulting detective of Baker Street, specialising in the science of deduction, forensic chemistry, and the resolution of cases that have proved insoluble to the official police. Retained by Scotland Yard, private clients, and, upon occasion, the royal houses of Europe, whenever the ordinary channels of the law have reached their limit.

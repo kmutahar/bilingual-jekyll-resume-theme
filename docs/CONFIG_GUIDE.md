@@ -1,6 +1,6 @@
 # Configuration Guide (`_config.yml`)
 
-Every setting the theme reads from a consuming site's `_config.yml`. The annotated master copy is [`_data/_config.sample.yml`](_data/_config.sample.yml); when this guide and that file disagree, the sample file is the one the build uses.
+Every setting the theme reads from a consuming site's `_config.yml`. The annotated master copy is [`_config.sample.yml`](../_config.sample.yml); when this guide and that file disagree, the sample file is the one the build uses.
 
 Per-language settings (name, title, address, data path, URL) live under `languages.<lang>`. Direction, fonts, and UI strings are not config at all: they come from `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md)). Upgrading from v0.9.0? The key-by-key migration table is in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#breaking-changes--migration-v090-to-v100).
 
@@ -29,7 +29,7 @@ Per-language settings (name, title, address, data path, URL) live under `languag
 ## Quick Start
 
 > [!TIP]
-> Copy [`_data/_config.sample.yml`](_data/_config.sample.yml) to your site root as `_config.yml`. Starter resume data for six languages is in [`_data/`](_data/) (`en`, `ar`, `es`, `fr`, `de`, `ur`).
+> Copy [`_config.sample.yml`](../_config.sample.yml) to your site root as `_config.yml`. Starter resume data for six languages is available in the [`demo/_data/`](../demo/_data/) directory (`en`, `ar`, `es`, `fr`, `de`, `ur`).
 >
 > **System Requirements:** Ruby >= 3.3.0 (maintained on Ruby 3.3, 3.4, and 4.0) and Jekyll >= 4.4.0. Declare the gem inside `group :jekyll_plugins` in your `Gemfile`, or the error page generator and build-time validation never load.
 

@@ -42,9 +42,9 @@ bundle install
 
 ### Basic Setup
 
-1. **Copy sample configuration**: Use `docs/_data/_config.sample.yml` as a starting point for your `_config.yml`. Keep a `languages.<lang>` entry for each language you publish and delete the rest.
+1. **Copy sample configuration**: Use `_config.sample.yml` at the repository root as a starting point for your `_config.yml`. Keep a `languages.<lang>` entry for each language you publish and delete the rest.
 
-2. **Copy sample data files**: Copy each language folder you need from `docs/_data/` (`en`, `ar`, `es`, `fr`, `de`, `ur`) to your site's `_data/`. Each holds 13 files, including `header.yml` for the intro paragraph.
+2. **Copy sample data files**: Copy each language folder you need from `demo/_data/` (`en`, `ar`, `es`, `fr`, `de`, `ur`) to your site's `_data/`. Each holds 13 files, including `header.yml` for the intro paragraph.
 
 3. **Create resume pages**: One page per language, all using the `resume` layout:
 ```yaml
@@ -130,7 +130,7 @@ See the [Configuration Guide](docs/CONFIG_GUIDE.md#3-languages) for every per-la
 
 ### Sample Files
 
-`docs/_data/{en,ar,es,fr,de,ur}/` hold a complete Sherlock Holmes demo resume in six languages, covering all 12 section types. Copy the folders you need to your site.
+`demo/_data/{en,ar,es,fr,de,ur}/` hold a complete Sherlock Holmes demo resume in six languages, covering all 12 section types. Copy the folders you need to your site.
 
 ### Locales
 
@@ -144,18 +144,18 @@ To develop this theme locally:
 # Install dependencies
 bundle install
 
-# Serve the six-language demo (sample config + demo overlay pointing data_dir at docs/_data)
-bundle exec jekyll serve --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+# Serve the six-language demo from the demo submodule
+bundle exec jekyll serve --source demo --destination _site
 
 # Build static output
-bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml
+bundle exec jekyll build --source demo --destination _site
 
 # Validate resume data schemas and parity (CLI or Rake)
-./bin/validate-resume docs/_data
+./bin/validate-resume demo/_data
 bundle exec rake validate
 
 # Check that the theme's own templates only reference real data keys (CLI or Rake)
-./bin/check-data-keys docs/_data
+./bin/check-data-keys demo/_data
 bundle exec rake check_data_keys
 
 # Validators, RuboCop, and tests together

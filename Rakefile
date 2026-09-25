@@ -6,7 +6,7 @@ require_relative "lib/bilingual-jekyll-resume-theme/template_key_checker"
 
 desc "Validate bilingual resume YAML data files for schema conformance and parity"
 task :validate, [:data_dir] do |_t, args|
-  data_dir = args[:data_dir] || (Dir.exist?("_data/en") ? "_data" : "docs/_data")
+  data_dir = args[:data_dir] || (Dir.exist?("_data/en") ? "_data" : "demo/_data")
   validator = BilingualJekyllResumeTheme::ResumeValidator.new(data_dir)
   exit_code = validator.validate
   exit exit_code unless exit_code.zero?
@@ -16,7 +16,7 @@ desc "Check theme templates for Liquid references to resume data keys that don't
      "(warnings only; unlike `rake validate`, this never fails the task, since a field's absence from the " \
      "sample data doesn't always mean the template is wrong — see TemplateKeyChecker's class doc)"
 task :check_data_keys, [:data_dir] do |_t, args|
-  data_dir = args[:data_dir] || (Dir.exist?("_data/en") ? "_data" : "docs/_data")
+  data_dir = args[:data_dir] || (Dir.exist?("_data/en") ? "_data" : "demo/_data")
   checker = BilingualJekyllResumeTheme::TemplateKeyChecker.new(data_dir)
   checker.check
 end
@@ -37,7 +37,7 @@ end
 # Locates the Jekyll config that produced a built site, so absolute URLs (canonical, hreflang,
 # social cards) can be mapped back onto local files. Consumer sites keep _config.yml next to _site/.
 def proof_config_for(site_dir, explicit)
-  candidates = [explicit, File.join(File.dirname(site_dir), "_config.yml"), "docs/_data/_config.sample.yml"]
+  candidates = [explicit, File.join(File.dirname(site_dir), "_config.yml"), "demo/_config.yml", "_config.sample.yml"]
   path = candidates.compact.find { |candidate| File.file?(candidate) }
   path ? (YAML.safe_load_file(path, permitted_classes: [Date, Time]) || {}) : {}
 end
@@ -50,7 +50,7 @@ task :proof, %i[site_dir config] do |_t, args|
   site_dir = args[:site_dir] || "_site"
   unless Dir.exist?(site_dir)
     abort "❌ '#{site_dir}' not found. Build first: " \
-          "bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml"
+          "bundle exec jekyll build --source demo --destination _site"
   end
 
   config = proof_config_for(site_dir, args[:config])

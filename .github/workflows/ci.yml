@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+        with:
+          submodules: true
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -36,11 +38,11 @@ jobs:
 
       - name: Build Jekyll Site with Strict Checks
         run: |
-          bundle exec jekyll build --config docs/_data/_config.sample.yml,docs/_data/_config.demo.yml --strict_front_matter --trace
+          bundle exec jekyll build --source demo --destination _site --strict_front_matter --trace
 
       - name: Verify Built HTML (dead links, anchors, images, hreflang)
         run: |
-          bundle exec rake proof
+          bundle exec rake proof[_site,demo/_config.yml]
 
       - name: Static Analysis (RuboCop)
         run: |
@@ -49,14 +51,14 @@ jobs:
       - name: Validate Resume Data Schemas & Parity
         run: |
           chmod +x bin/validate-resume
-          ./bin/validate-resume docs/_data --fail-on-warnings
-          bundle exec rake validate[docs/_data]
+          ./bin/validate-resume demo/_data --fail-on-warnings
+          bundle exec rake validate[demo/_data]
 
       - name: Check Templates Against Data Keys
         run: |
           chmod +x bin/check-data-keys
-          ./bin/check-data-keys docs/_data
-          bundle exec rake check_data_keys[docs/_data]
+          ./bin/check-data-keys demo/_data
+          bundle exec rake check_data_keys[demo/_data]
 
       - name: Run Test Suite
         run: |

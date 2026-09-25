@@ -74,21 +74,7 @@
   }
 }
 
-/* Visually hidden utility for screen readers (WCAG 2.1 AA) */
-// Hides elements visually while keeping them accessible to screen readers (VoiceOver, NVDA).
-// Uses 1px clip rect and absolute positioning out of the visual layout flow.
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-  text-decoration: none !important;
-}
+// .sr-only lives in _base.scss (loaded earlier in every entrypoint) - not redeclared here.
 
 /* Following only apply to the resume header contact info icons */
 // Scoped 20px sizing for inline contact details (email, phone, location) in resume headers.

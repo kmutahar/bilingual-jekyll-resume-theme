@@ -5,16 +5,6 @@
 // responsive breakpoint queries, font stack utilities, and section divider borders.
 // ---------------------------------------/
 
-// Native CSS border-radius helper (retained for backward compatibility).
-@mixin border-radius($radius) {
-  border-radius: $radius;
-}
-
-// Native CSS transition helper (retained for backward compatibility).
-@mixin transition($value) {
-  transition: $value;
-}
-
 // Clearfix
 //
 // Clears floats via mixin (avoid using as a class).
@@ -121,4 +111,26 @@
   border-top: 1px solid var(--border-color, #c7c7c7);
   border-bottom: 1px solid var(--border-color, #c7c7c7);
   padding: .2rem 0 .2rem;
+}
+
+// buttons
+// Shared pill-button skin for .contact-button (resume) and .cv-button (profile page).
+// Callers add their own font-family/font-weight and width modifiers on top.
+@mixin cv-button-base {
+  border-radius: 3px;
+  background-color: var(--button-bg, #efefef);
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  margin: 1.5rem auto;
+  width: 220px;
+  font-size: 1.375rem;
+  color: var(--button-text, #333);
+  line-height: 55px;
+  transition: all .2s ease;
+
+  &:hover {
+    background-color: var(--button-hover-bg, #333);
+    color: var(--button-hover-text, #fff);
+  }
 }

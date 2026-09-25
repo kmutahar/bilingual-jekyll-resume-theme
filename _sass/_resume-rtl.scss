@@ -87,8 +87,5 @@ html[dir="rtl"] {
     direction: rtl;
   }
 
-  // Footer alignment
-  .page-footer {
-    text-align: center; // keep centered
-  }
+  // Footer: text-align: center already cascades from _all-pages.scss; no RTL override needed.
 }

@@ -152,25 +152,8 @@ body {
     margin-left: 5px;
   }
 
-  // SVG Anchor wrappers:
-  // 1. inline-flex + align-items: center prevents text descender spacing beneath vector graphics.
-  // 2. line-height: 0 removes inherited line-box vertical height.
-  // 3. text-decoration: none !important eliminates default anchor underlines on icons across all browsers.
-  .icon-link,
-  .social-links a,
-  .social-links li a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none !important;
-    vertical-align: middle;
-    line-height: 0;
-
-    &:hover,
-    &:focus {
-      text-decoration: none !important;
-    }
-  }
+  // Base layout/hover properties for .icon-link, .social-links a, .social-links li a
+  // are declared once, globally, in _all-pages.scss.
 
   // Vector fill cascading: ensures multi-path SVG icons inherit parent fill colors.
   .icon-link svg path,
@@ -196,26 +179,12 @@ body {
 // Contact & Status Call-to-Action (CTA) Buttons
 // ==========================================================================
 // Interactive pill button (.contact-button) for job inquiries and resume actions.
+// Shares its base skin with .cv-button (profile page) via mixins.cv-button-base.
 .contact-button {
-  border-radius: 3px;
-  background-color: var(--button-bg, #efefef);
-  text-decoration: none;
-  text-align: center;
-  display: block;
-  margin: 1.5rem auto;
-  width: 220px;
+  @include mixins.cv-button-base;
   max-width: 100%;
   box-sizing: border-box;
-  font-size: 1.375rem;
   @include mixins.sans_light;
-  color: var(--button-text, #333);
-  line-height: 55px;
-  transition: all .2s ease;
-
-  &:hover {
-    background-color: var(--button-hover-bg, #333);
-    color: var(--button-hover-text, #fff);
-  }
 
   // Modifier for extended status messages (e.g. "Currently not open to new roles").
   // Expands width to 400px to prevent multi-line text wrapping.
@@ -360,22 +329,10 @@ body {
 // ==========================================================================
 // Page Footer: Dividers and Copyright Information
 // ==========================================================================
+// Base padding/text-align/margin-bottom/.footer-line styling for .page-footer is
+// declared once, globally, in _all-pages.scss; only the resume-specific divider lives here.
 .page-footer {
   border-top: 4px solid var(--border-color, #c7c7c7);
-  padding-top: 1.5rem;
-  text-align: center;
-  margin-bottom: 3rem;
-
-  .footer-line {
-    margin: 0;
-    font-size: .875rem;
-    color: var(--text-muted, #999);
-
-    >a {
-      font-weight: 700;
-      color: var(--link-color, #333);
-    }
-  }
 }
 
 // ==========================================================================

@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "bilingual-jekyll-resume-theme"
-  spec.version       = "1.0.1"
+  spec.version       = "1.0.2"
   spec.authors       = ["Khaldoon Mutahar"]
   spec.email         = ["contact@mutahar.me"]
 

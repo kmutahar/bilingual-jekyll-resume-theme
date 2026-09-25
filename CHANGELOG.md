@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.0.2] - 2026-09-25
+
+### Changed
+* Update submodule to latest commit ([`f1779be`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/f1779be39697ccea22e9185b0bf57278e8a29707))
+
+* Extract Sherlock Holmes demo to submodule and relocate sample config ([`bfd9e83`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/bfd9e8374753885fece3098cfd00f40606e5d26b))
+
+* Archive completed features 3.2 and 3.3 and streamline audit log ([`39ae7f3`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/39ae7f346dff45828e74fafbfb445420b0d699dd))
+
+
+### Fixed
+* Render language switcher on error pages ([`8e942f9`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/8e942f9fccc23a2c6e097938992c3f23f446bf97))
+
+* Register theme gem in jekyll_plugins group; bump demo submodule ([`392c192`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/392c19209a42f629aba5e1c1e9a2a964832bf0a9))
+
 ## [1.0.1] - 2026-09-24
 
 ### Changed
@@ -357,6 +372,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[1.0.2]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.9.0...v1.0.0
 [0.9.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.8.0...v0.9.0

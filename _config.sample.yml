@@ -274,6 +274,11 @@ analytics:
 # ==============================================================================
 # Required plugins (bundled as theme runtime dependencies)
 plugins:
+  # Belt-and-suspenders: Jekyll auto-requires gems listed here (site.gems) regardless
+  # of Bundler group, guarding against a Gemfile that forgets to put the theme gem in
+  # the `:jekyll_plugins` group — without that, the build-time resume validator and
+  # HTTP error page generator silently never run.
+  - bilingual-jekyll-resume-theme
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap

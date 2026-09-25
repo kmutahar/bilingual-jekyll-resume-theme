@@ -22,13 +22,22 @@ Gem::Specification.new do |spec|
     "allowed_push_host" => "https://rubygems.org" # Security lock to prevent pushing to wrong host
   }
 
+  # bin/check-data-keys and lib/.../template_key_checker.rb are dev/CI-only tools
+  # (they check the theme's own templates against its own demo data — see
+  # docs/VALIDATION_GUIDE.md) and are intentionally excluded from the packaged gem.
   tracked_files = `git ls-files -z`.split("\x0")
-  spec.files         = (tracked_files + Dir["_plugins/**/*", "lib/**/*", "bin/validate-resume", "bin/check-data-keys"]).uniq.select do |f|
-    f.match(%r!^(assets|_data|_layouts|_includes|_sass|_plugins|lib|bin|LICENSE|README|CHANGELOG|CODE_OF_CONDUCT|docs|_config\.sample\.yml|404|403|500)!i) && File.file?(f) && f != "bin/release" && !f.start_with?("demo/")
+  spec.files         = (tracked_files + Dir["_plugins/**/*", "lib/**/*", "bin/validate-resume"]).uniq.select do |f|
+    f.match(%r!^(assets|_data|_layouts|_includes|_sass|_plugins|lib|bin|LICENSE|README|CHANGELOG|CODE_OF_CONDUCT|SECURITY|docs|_config\.sample\.yml|404|403|500)!i) &&
+      File.file?(f) &&
+      f != "bin/release" &&
+      f != "bin/check-data-keys" &&
+      f != "lib/bilingual-jekyll-resume-theme/template_key_checker.rb" &&
+      f != "docs/COMPLETED_AUDIT.md" &&
+      !f.start_with?("demo/")
   end
 
   spec.bindir        = "bin"
-  spec.executables   = ["validate-resume", "check-data-keys"]
+  spec.executables   = ["validate-resume"]
 
   # --- A helpful message shown to users after installation ---
   spec.post_install_message = <<~MSG

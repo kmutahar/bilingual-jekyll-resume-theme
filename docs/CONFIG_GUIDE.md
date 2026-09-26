@@ -123,7 +123,9 @@ One entry per language, keyed by language code. The same code names the page's `
 | `languages.<lang>.resume_title` | String | Job title shown under the name. |
 | `languages.<lang>.address` | String | Location shown in the contact row and in Schema.org microdata. |
 | `languages.<lang>.avatar_alt` | String | Avatar alt text. Falls back to `name`, then the locale's `ui.photo_alt`. |
+| `languages.<lang>.auto_generate_pages` | Boolean | Per-language override of `resume_auto_generate_pages` below. Set `false` to require a hand-authored page for just this language even when auto-generation is on globally, or `true` to auto-generate just this language even when it's off globally. |
 | `default_lang` | String | Language used when a page has no `lang`, for the hreflang `x-default` link, and for error page button labels. Default `en`. |
+| `resume_auto_generate_pages` | Boolean | Default `true`. When a `languages.<lang>` entry has no hand-authored CV (`layout: resume`) or profile (`layout: profile`) page, the theme synthesizes one automatically at `languages.<lang>.url` (CV) and `/` for `default_lang` or `/<lang>/` for any other language (profile), each carrying `t_id: resume` / `t_id: profile` so hreflang and the language switcher match them like any hand-authored page. A hand-authored page for a given `layout`+`lang` always wins over auto-generation. Set `false` to require every language to have its own hand-authored page (pre-v1.1.0 behavior); a language left without a page (auto-generation off and no hand-authored file) logs a build warning instead of failing silently. |
 
 ```yaml
 languages:

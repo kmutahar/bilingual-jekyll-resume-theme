@@ -57,7 +57,7 @@ This walkthrough adds Italian (`it`). The theme has no `it.yml`, so the site sup
        address: "Città, Paese"
        avatar_alt: "Foto di Nome Cognome"
    ```
-4. **Create the page** `it/cv.md` (or any path) with `layout: resume`, `lang: it`, and a `permalink` matching `languages.it.url`.
+4. **Page (optional).** With `resume_auto_generate_pages` at its default `true`, the theme auto-generates the CV page at `languages.it.url` and a profile page at `/it/` for you, both carrying `t_id: resume` / `t_id: profile`. Create your own `it/cv.md` (`layout: resume`, `lang: it`, `permalink` matching `languages.it.url`) only if you want to hand-author it instead - a hand-authored page always takes precedence. See `resume_auto_generate_pages` / `languages.<lang>.auto_generate_pages` in [`CONFIG_GUIDE.md`](CONFIG_GUIDE.md).
 5. **Validate and build:**
    ```bash
    bundle exec validate-resume _data

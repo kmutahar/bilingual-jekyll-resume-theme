@@ -26,6 +26,7 @@ task :test do
   ruby "test/test_language_switcher.rb"
   ruby "test/test_resume_validator.rb"
   ruby "test/test_template_key_checker.rb"
+  ruby "test/test_resume_pages_generator.rb"
 end
 
 require "rubocop/rake_task"

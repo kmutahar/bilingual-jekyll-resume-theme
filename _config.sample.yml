@@ -177,6 +177,12 @@ languages:
 
 default_lang: en                     # Drives hreflang x-default and fallback lookups
 
+# A languages.<lang> entry with no hand-authored CV/profile page gets one auto-generated
+# (CV at languages.<lang>.url, profile at "/" for default_lang or "/<lang>/" otherwise).
+# Set false to require every language to have its own hand-authored page. Override per
+# language with languages.<lang>.auto_generate_pages: true/false.
+resume_auto_generate_pages: true
+
 # ==============================================================================
 # 7. RESUME DISPLAY & BEHAVIOR CONTROLS
 # ==============================================================================

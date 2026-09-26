@@ -58,7 +58,7 @@ Schemas for both are in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) and [`C
 - **File:** [`../_layouts/default.html`](../_layouts/default.html)
 - **Role:** Shell for markdown pages and error pages.
 - `<html lang="{{ lang }}" dir="{{ locale.direction }}">`, skip link text from `locale.ui.skip_to_content`.
-- Includes [`shared-head.html`](../_includes/shared-head.html), [`main-head.html`](../_includes/main-head.html) (`assets/css/main.css`), `{% seo %}`, and the analytics includes.
+- Includes [`shared-head.html`](../_includes/shared-head.html), a stylesheet link to `assets/css/main.css`, `{% seo %}`, and the analytics includes.
 - Emits `<link rel="me">` when `site.social_links.mastodon` is set.
 - Includes [`dark-mode-toggle.html`](../_includes/dark-mode-toggle.html) and [`language-switcher.html`](../_includes/language-switcher.html) (suppressed on `layout: error` pages), and wraps content in `<main class="main-content" id="main-content">`.
 
@@ -67,7 +67,7 @@ Schemas for both are in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) and [`C
 - **File:** [`../_layouts/profile.html`](../_layouts/profile.html)
 - **Role:** Standalone landing page, independent of `default.html` so its centering styles do not leak.
 - Same `lang` / `dir` resolution, skip link, dark mode toggle, and language switcher as `default.html`.
-- Stylesheet [`../assets/css/profile.scss`](../assets/css/profile.scss) (compiled to `assets/css/profile.css`) via [`profile-head.html`](../_includes/profile-head.html), styled by [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss).
+- Stylesheet [`../assets/css/profile.scss`](../assets/css/profile.scss) (compiled to `assets/css/profile.css`, linked directly in the layout's `<head>`), styled by [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss).
 
 ### 3. `resume.html` (Resume, Every Language)
 

@@ -19,8 +19,8 @@ Dynamic <html> tag:
         <!-- Shared meta tags, charset, viewport, and favicons -->
         {% include shared-head.html %}
 
-        <!-- Main head assets (CSS, theme files) -->
-        {% include main-head.html %}
+        <!-- Stylesheet -->
+        <link rel="stylesheet" type="text/css" href="{{ 'assets/css/main.css' | relative_url }}">
 
         <!-- SEO plugin output: title, meta, Open Graph, canonical -->
         {% seo %}

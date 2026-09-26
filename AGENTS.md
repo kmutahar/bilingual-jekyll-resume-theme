@@ -268,8 +268,6 @@ bilingual-jekyll-resume-theme/
 │   ├── date-formatter.html       # Locale-driven dates and "Present"
 │   ├── data-loader.html          # Dot-path data resolution into resume_data
 │   ├── shared-head.html          # Meta, anti-FOUC script, favicons
-│   ├── main-head.html            # Default/error page stylesheet (main.css)
-│   ├── profile-head.html         # Profile page stylesheet (profile.css)
 │   ├── avatar.html               # Configurable, accessible profile picture
 │   ├── dark-mode-toggle.html     # Floating dark mode toggle
 │   ├── language-switcher.html    # Floating links to every other configured language

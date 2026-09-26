@@ -26,8 +26,8 @@ Dynamic <html> tag:
         <!-- Shared meta tags, charset, viewport, and favicons -->
         {% include shared-head.html %}
 
-        <!-- Profile head assets (CSS, theme files) -->
-        {% include profile-head.html %}
+        <!-- Profile stylesheet -->
+        <link rel="stylesheet" type="text/css" href="{{ 'assets/css/profile.css' | relative_url }}">
 
         <!-- hreflang alternates across language variants sharing this page's t_id -->
         {% include hreflang.html %}

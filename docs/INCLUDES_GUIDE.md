@@ -11,7 +11,7 @@ Every include that shows text resolves the active language the same way the layo
 - [Include Map](#include-map)
 - [Component Inventory](#component-inventory)
   - [1. `shared-head.html`](#1-shared-headhtml)
-  - [2. `main-head.html` & `profile-head.html`](#2-main-headhtml--profile-headhtml)
+  - [2. Stylesheet links (inline in each layout)](#2-stylesheet-links-inline-in-each-layout)
   - [3. `avatar.html`](#3-avatarhtml)
   - [4. `dark-mode-toggle.html`](#4-dark-mode-togglehtml)
   - [5. `language-switcher.html`](#5-language-switcherhtml)
@@ -49,7 +49,7 @@ _layouts/resume.html
  └── print-social-links.html (print-only text list)
 ```
 
-`default.html` and `profile.html` use `shared-head.html`, their own stylesheet include (`main-head.html` / `profile-head.html`), the analytics includes, `dark-mode-toggle.html`, and `language-switcher.html`.
+`default.html` and `profile.html` use `shared-head.html`, their own inline stylesheet `<link>` (`main.css` / `profile.css`), the analytics includes, `dark-mode-toggle.html`, and `language-switcher.html`.
 
 ---
 
@@ -63,10 +63,10 @@ _layouts/resume.html
 - **Favicons:** `favicon`, `apple_touch_icon`, `favicon_32`, `favicon_16`, and the web manifest, all through `relative_url`.
 - **Robots:** `noindex noarchive nosnippet noimageindex` when `page.noindex: true`.
 
-### 2. `main-head.html` & `profile-head.html`
+### 2. Stylesheet links (inline in each layout)
 
-- `main-head.html` (in `default.html`, therefore also error pages) links `assets/css/main.css`.
-- `profile-head.html` (in `profile.html`) links `assets/css/profile.css`.
+- `default.html` (therefore also error pages) links `assets/css/main.css` directly, no include.
+- `profile.html` links `assets/css/profile.css` directly, no include.
 
 ### 3. `avatar.html`
 

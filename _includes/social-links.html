@@ -5,7 +5,7 @@
     Website, WhatsApp, Dev.to, Flickr, Pinterest, YouTube.
 
   Architecture & Implementation Details:
-  1. Bundled Local SVGs: Vector icons are sourced locally from `_includes/vendors/lineicons-v5.0/`.
+  1. Bundled Local SVGs: Vector icons are sourced locally from `_includes/vendors/lineicons-v5.1/`.
      Inlining SVGs eliminates external network dependencies and enables direct CSS fill/color inheritance.
   2. Security & SEO Best Practices:
      - `target="_blank"`: Opens external profiles in a new tab.
@@ -29,7 +29,7 @@
 {% if site.social_links.email %}
     <!-- Email link -->
     <li class="icon-link-item">
-        <a href="mailto:{{ site.social_links.email }}" class="icon-link" itemprop="email" aria-label="Email" title="Email">{% include vendors/lineicons-v4.0/envelope.svg %}<span class="sr-only">Email</span></a>
+        <a href="mailto:{{ site.social_links.email }}" class="icon-link" itemprop="email" aria-label="Email" title="Email">{% include vendors/lineicons-v5.1/envelope.svg %}<span class="sr-only">Email</span></a>
     </li>
 {% endif %}
 
@@ -37,7 +37,7 @@
 {% if site.social_links.github %}
     <!-- GitHub link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.github }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="GitHub" title="GitHub">{% include vendors/lineicons-v5.0/github.svg %}<span class="sr-only">GitHub</span></a>
+        <a href="{{ site.social_links.github }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="GitHub" title="GitHub">{% include vendors/lineicons-v5.1/github.svg %}<span class="sr-only">GitHub</span></a>
     </li>
 {% endif %}
 
@@ -45,7 +45,7 @@
 {% if site.social_links.linkedin %}
     <!-- LinkedIn link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.linkedin }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="LinkedIn" title="LinkedIn">{% include vendors/lineicons-v5.0/linkedin.svg %}<span class="sr-only">LinkedIn</span></a>
+        <a href="{{ site.social_links.linkedin }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="LinkedIn" title="LinkedIn">{% include vendors/lineicons-v5.1/linkedin.svg %}<span class="sr-only">LinkedIn</span></a>
     </li>
 {% endif %}
 
@@ -53,7 +53,7 @@
 {% if site.social_links.telegram %}
     <!-- Telegram link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.telegram }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Telegram" title="Telegram">{% include vendors/lineicons-v5.0/telegram.svg %}<span class="sr-only">Telegram</span></a>
+        <a href="{{ site.social_links.telegram }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Telegram" title="Telegram">{% include vendors/lineicons-v5.1/telegram.svg %}<span class="sr-only">Telegram</span></a>
     </li>
 {% endif %}
 
@@ -61,7 +61,7 @@
 {% if site.social_links.twitter %}
     <!-- Twitter link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.twitter }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="X (Twitter)" title="X (Twitter)">{% include vendors/lineicons-v5.0/x.svg %}<span class="sr-only">X (Twitter)</span></a>
+        <a href="{{ site.social_links.twitter }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="X (Twitter)" title="X (Twitter)">{% include vendors/lineicons-v5.1/x.svg %}<span class="sr-only">X (Twitter)</span></a>
     </li>
 {% endif %}
 
@@ -69,7 +69,7 @@
 {% if site.social_links.medium %}
     <!-- Medium link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.medium }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Medium" title="Medium">{% include vendors/lineicons-v5.0/medium-alt.svg %}<span class="sr-only">Medium</span></a>
+        <a href="{{ site.social_links.medium }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Medium" title="Medium">{% include vendors/lineicons-v5.1/medium.svg %}<span class="sr-only">Medium</span></a>
     </li>
 {% endif %}
 
@@ -77,7 +77,7 @@
 {% if site.social_links.dribbble %}
     <!-- Dribbble link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.dribbble }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="Dribbble" title="Dribbble">{% include vendors/lineicons-v5.0/dribbble-symbol.svg %}<span class="sr-only">Dribbble</span></a>
+        <a href="{{ site.social_links.dribbble }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="Dribbble" title="Dribbble">{% include vendors/lineicons-v5.1/dribbble-symbol.svg %}<span class="sr-only">Dribbble</span></a>
     </li>
 {% endif %}
 
@@ -85,7 +85,7 @@
 {% if site.social_links.facebook %}
     <!-- Facebook link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.facebook }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="Facebook" title="Facebook">{% include vendors/lineicons-v5.0/facebook.svg %}<span class="sr-only">Facebook</span></a>
+        <a href="{{ site.social_links.facebook }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="Facebook" title="Facebook">{% include vendors/lineicons-v5.1/facebook.svg %}<span class="sr-only">Facebook</span></a>
     </li>
 {% endif %}
 
@@ -93,7 +93,7 @@
 {% if site.social_links.instagram %}
     <!-- Instagram link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.instagram }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="Instagram" title="Instagram">{% include vendors/lineicons-v5.0/instagram.svg %}<span class="sr-only">Instagram</span></a>
+        <a href="{{ site.social_links.instagram }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="Instagram" title="Instagram">{% include vendors/lineicons-v5.1/instagram.svg %}<span class="sr-only">Instagram</span></a>
     </li>
 {% endif %}
 
@@ -101,7 +101,7 @@
 {% if site.social_links.website %}
     <!-- Website link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.website }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Website" title="Website">{% include vendors/lineicons-v5.0/globe-1.svg %}<span class="sr-only">Website</span></a>
+        <a href="{{ site.social_links.website }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Website" title="Website">{% include vendors/lineicons-v5.1/globe-1.svg %}<span class="sr-only">Website</span></a>
     </li>
 {% endif %}
 
@@ -109,7 +109,7 @@
 {% if site.social_links.whatsapp %}
     <!-- Whatsapp link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.whatsapp }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="WhatsApp" title="WhatsApp">{% include vendors/lineicons-v5.0/whatsapp.svg %}<span class="sr-only">WhatsApp</span></a>
+        <a href="{{ site.social_links.whatsapp }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="WhatsApp" title="WhatsApp">{% include vendors/lineicons-v5.1/whatsapp.svg %}<span class="sr-only">WhatsApp</span></a>
     </li>
 {% endif %}
 
@@ -117,7 +117,7 @@
 {% if site.social_links.devto %}
     <!-- Devto link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.devto }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Dev.to" title="Dev.to">{% include vendors/lineicons-v5.0/dev.svg %}<span class="sr-only">Dev.to</span></a>
+        <a href="{{ site.social_links.devto }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Dev.to" title="Dev.to">{% include vendors/lineicons-v5.1/dev.svg %}<span class="sr-only">Dev.to</span></a>
     </li>
 {% endif %}
 
@@ -125,7 +125,7 @@
 {% if site.social_links.flickr %}
     <!-- Flickr link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.flickr }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Flickr" title="Flickr">{% include vendors/lineicons-v5.0/flickr.svg %}<span class="sr-only">Flickr</span></a>
+        <a href="{{ site.social_links.flickr }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Flickr" title="Flickr">{% include vendors/lineicons-v5.1/flickr.svg %}<span class="sr-only">Flickr</span></a>
     </li>
 {% endif %}
 
@@ -133,7 +133,7 @@
 {% if site.social_links.pinterest %}
     <!-- Pinterest link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.pinterest }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Pinterest" title="Pinterest">{% include vendors/lineicons-v5.0/pinterest.svg %}<span class="sr-only">Pinterest</span></a>
+        <a href="{{ site.social_links.pinterest }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="Pinterest" title="Pinterest">{% include vendors/lineicons-v5.1/pinterest.svg %}<span class="sr-only">Pinterest</span></a>
     </li>
 {% endif %}
 
@@ -141,6 +141,6 @@
 {% if site.social_links.youtube %}
     <!-- Youtube link -->
     <li class="icon-link-item">
-        <a href="{{ site.social_links.youtube }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="YouTube" title="YouTube">{% include vendors/lineicons-v5.0/youtube.svg %}<span class="sr-only">YouTube</span></a>
+        <a href="{{ site.social_links.youtube }}" class="icon-link" itemprop="url" target="_blank" rel="noopener nofollow noreferrer" aria-label="YouTube" title="YouTube">{% include vendors/lineicons-v5.1/youtube.svg %}<span class="sr-only">YouTube</span></a>
     </li>
 {% endif %}

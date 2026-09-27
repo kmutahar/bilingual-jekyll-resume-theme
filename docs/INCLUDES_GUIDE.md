@@ -138,10 +138,9 @@ This include is the single date hook for every language; calendar extensions (fo
 - **Head:** Google Tag Manager (`site.analytics.gtm`) or Google Analytics 4 (`site.analytics.gtag`). Universal Analytics (`analytics.ga`) is retired; use `analytics.gtag` for GA4.
 - **Body:** the GTM `<noscript><iframe>` right after `<body>` in every layout.
 
-### 12. `vendors/` (SVG Icon Packs)
+### 12. `vendors/` (SVG Icons)
 
-- `vendors/lineicons-v4.0/`: contact row icons (envelope, phone, postcard).
-- `vendors/lineicons-v5.0/`: social platform icons.
+- `vendors/svg-icons/`: one flat folder of Lineicons SVGs (MIT-licensed; see `ATTRIBUTION.md` inside it, packaged with the gem but not built into a consuming site's output) — contact row icons (`envelope`, `phone`, `postcard`) plus every social platform icon listed in [`../_data/social_networks.yml`](../_data/social_networks.yml).
 
 ---
 
@@ -268,19 +267,15 @@ font_url: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&dis
 
 ### Add a New Social Network
 
-1. Place an optimized SVG in `_includes/vendors/lineicons-v5.0/newplatform.svg`.
-2. Add a block to [`../_includes/social-links.html`](../_includes/social-links.html):
-   ```liquid
-   {% if site.social_links.newplatform %}
-     <li class="icon-link-item">
-       <a href="{{ site.social_links.newplatform }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="{{ locale.ui.social_labels.newplatform }}" title="{{ locale.ui.social_labels.newplatform }}">
-         {% include vendors/lineicons-v5.0/newplatform.svg %}
-         <span class="sr-only">{{ locale.ui.social_labels.newplatform }}</span>
-       </a>
-     </li>
-   {% endif %}
+1. Place an optimized SVG in `_includes/vendors/svg-icons/newplatform.svg`, and add it to that folder's `ATTRIBUTION.md` if it comes from a licensed icon set.
+2. Add an entry to [`../_data/social_networks.yml`](../_data/social_networks.yml), the single list both `social-links.html` and `print-social-links.html` loop over:
+   ```yaml
+   - key: newplatform
+     icon: newplatform
+     itemprop: sameAs # or "url" for a non-profile link
+     label: New Platform
    ```
-3. Add the print line to [`../_includes/print-social-links.html`](../_includes/print-social-links.html) and a `ui.social_labels.newplatform` key to every locale file.
+3. Add a `ui.social_labels.newplatform` key to every locale file (used by the print-only list).
 
 ### Compact Language Header vs Dedicated Section
 

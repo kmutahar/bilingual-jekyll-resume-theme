@@ -1,0 +1,83 @@
+# Shared network list for _includes/social-links.html and
+# _includes/print-social-links.html: one entry per site.social_links.<key>
+# platform. Order here is the icon/print display order. To add a platform,
+# add its SVG to _includes/vendors/svg-icons/ and an entry here.
+#
+# icon: filename (without .svg) under _includes/vendors/svg-icons/
+# itemprop: schema.org microdata value social-links.html sets on the <a>
+# label: aria-label / title text on the icon link (English; print labels
+#        come from each locale's ui.social_labels instead)
+- key: devto
+  icon: dev
+  itemprop: url
+  label: Dev.to
+
+- key: dribbble
+  icon: dribbble-symbol
+  itemprop: sameAs
+  label: Dribbble
+
+- key: email
+  icon: envelope
+  itemprop: email
+  label: Email
+
+- key: facebook
+  icon: facebook
+  itemprop: sameAs
+  label: Facebook
+
+- key: flickr
+  icon: flickr
+  itemprop: url
+  label: Flickr
+
+- key: github
+  icon: github
+  itemprop: sameAs
+  label: GitHub
+
+- key: instagram
+  icon: instagram
+  itemprop: sameAs
+  label: Instagram
+
+- key: linkedin
+  icon: linkedin
+  itemprop: sameAs
+  label: LinkedIn
+
+- key: medium
+  icon: medium
+  itemprop: url
+  label: Medium
+
+- key: pinterest
+  icon: pinterest
+  itemprop: url
+  label: Pinterest
+
+- key: telegram
+  icon: telegram
+  itemprop: url
+  label: Telegram
+
+- key: twitter
+  icon: x
+  itemprop: sameAs
+  label: X (Twitter)
+
+- key: website
+  icon: globe-1
+  itemprop: url
+  label: Website
+
+- key: whatsapp
+  icon: whatsapp
+  itemprop: url
+  label: WhatsApp
+
+- key: youtube
+  icon: youtube
+  itemprop: url
+  label: YouTube

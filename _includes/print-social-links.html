@@ -12,80 +12,12 @@
 {%- assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] -%}
 <ul>
 
-    {% if site.social_links.email %}
-        <!-- Email link -->
-        <li><strong>{{ locale.ui.social_labels.email }}</strong>: <span dir="ltr">{{ site.social_links.email }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.github %}
-        <!-- GitHub link -->
-        <li><strong>{{ locale.ui.social_labels.github }}</strong>: <span dir="ltr">{{ site.social_links.github }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.twitter %}
-        <!-- Twitter link -->
-        <li><strong>{{ locale.ui.social_labels.twitter }}</strong>: <span dir="ltr">{{ site.social_links.twitter }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.medium %}
-        <!-- Medium link -->
-        <li><strong>{{ locale.ui.social_labels.medium }}</strong>: <span dir="ltr">{{ site.social_links.medium }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.dribbble %}
-        <!-- Dribbble link -->
-        <li><strong>{{ locale.ui.social_labels.dribbble }}</strong>: <span dir="ltr">{{ site.social_links.dribbble }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.facebook %}
-        <!-- Facebook link -->
-        <li><strong>{{ locale.ui.social_labels.facebook }}</strong>: <span dir="ltr">{{ site.social_links.facebook }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.linkedin %}
-        <!-- LinkedIn link -->
-        <li><strong>{{ locale.ui.social_labels.linkedin }}</strong>: <span dir="ltr">{{ site.social_links.linkedin }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.instagram %}
-        <!-- Instagram link -->
-        <li><strong>{{ locale.ui.social_labels.instagram }}</strong>: <span dir="ltr">{{ site.social_links.instagram }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.website %}
-        <!-- Website link -->
-        <li><strong>{{ locale.ui.social_labels.website }}</strong>: <span dir="ltr">{{ site.social_links.website }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.whatsapp %}
-        <!-- Whatsapp link -->
-        <li><strong>{{ locale.ui.social_labels.whatsapp }}</strong>: <span dir="ltr">{{ site.social_links.whatsapp }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.devto %}
-        <!-- Devto link -->
-        <li><strong>{{ locale.ui.social_labels.devto }}</strong>: <span dir="ltr">{{ site.social_links.devto }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.flickr %}
-        <!-- Flickr link -->
-        <li><strong>{{ locale.ui.social_labels.flickr }}</strong>: <span dir="ltr">{{ site.social_links.flickr }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.pinterest %}
-        <!-- Pinterest link -->
-        <li><strong>{{ locale.ui.social_labels.pinterest }}</strong>: <span dir="ltr">{{ site.social_links.pinterest }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.telegram %}
-        <!-- Telegram link -->
-        <li><strong>{{ locale.ui.social_labels.telegram }}</strong>: <span dir="ltr">{{ site.social_links.telegram }}</span></li>
-    {% endif %}
-
-    {% if site.social_links.youtube %}
-        <!-- Youtube link -->
-        <li><strong>{{ locale.ui.social_labels.youtube }}</strong>: <span dir="ltr">{{ site.social_links.youtube }}</span></li>
-    {% endif %}
+    {% for network in site.data.social_networks %}
+      {% assign value = site.social_links[network.key] %}
+      {% if value %}
+        <li><strong>{{ locale.ui.social_labels[network.key] }}</strong>: <span dir="ltr">{{ value }}</span></li>
+      {% endif %}
+    {% endfor %}
 
 </ul>
 {% endif %}

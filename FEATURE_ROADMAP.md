@@ -86,7 +86,7 @@ Add the planned default, modern-blue, emerald-green, corporate-navy, and warm-bu
 
 Add icon and print-list support for Mastodon, Discord, Bluesky, Threads, Substack, GitLab, Google Scholar, ORCID, and Behance. Mastodon already has rel="me" head metadata in default/profile layouts; icon and print support remains planned.
 
-**Files:** Update `_includes/social-links.html`, `_includes/print-social-links.html`, `_includes/vendors/lineicons-v5.0/`, all `_data/locales/*.yml`, `_config.sample.yml`, and `docs/CONFIG_GUIDE.md`.
+**Files:** Add entries to `_data/social_networks.yml` and SVGs to `_includes/vendors/svg-icons/` (`social-links.html` and `print-social-links.html` already loop over that data file and need no per-platform edits); update all `_data/locales/*.yml` (`ui.social_labels`), `_config.sample.yml`, and `docs/CONFIG_GUIDE.md`.
 
 **Implementation contract:** Extend `social_links` with `mastodon`, `discord`, `bluesky`, `threads`, `substack`, `gitlab`, `google_scholar`, `orcid`, and `behance`. Keep accessible names, hidden decorative SVGs, and safe external links. Use locale labels and bidi isolation for printed URLs.
 

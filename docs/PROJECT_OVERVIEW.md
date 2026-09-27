@@ -97,7 +97,7 @@ bilingual-jekyll-resume-theme/
 │   ├── hreflang.html             # Alternate-language SEO links
 │   ├── analytics-head.html       # GTM / GA4 head script
 │   ├── analytics-body.html       # GTM noscript body fallback
-│   └── vendors/                  # Bundled Lineicons SVGs (v4.0 & v5.0)
+│   └── vendors/svg-icons/        # Bundled Lineicons SVGs (MIT; see ATTRIBUTION.md inside)
 │
 ├── _sass/
 │   ├── _variables.scss           # Widths, gutters, font stacks
@@ -120,7 +120,8 @@ bilingual-jekyll-resume-theme/
 │   └── favicon/resume/           # Favicon suite
 │
 ├── _data/
-│   └── locales/                  # en, ar, es, fr, de, ur locale dictionaries
+│   ├── locales/                  # en, ar, es, fr, de, ur locale dictionaries
+│   └── social_networks.yml       # Shared platform list for social-links.html / print-social-links.html
 │
 ├── _plugins/
 │   ├── error_pages_generator.rb  # Synthesizes missing HTTP error pages

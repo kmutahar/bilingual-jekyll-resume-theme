@@ -27,14 +27,18 @@
 1. **`default.html`**: base shell for markdown pages, SEO, favicons, and footers.
 2. **`profile.html`**: standalone landing page.
 3. **`resume.html`**: the resume for every configured language.
-4. **`error.html`**: HTTP error suite (`404.html`, `403.html`, `500.html`) with one localized block per configured language, a search box, per-language return links (`languages.<lang>.url`), and a reload button.
-- `_plugins/error_pages_generator.rb` adds missing `404`, `403`, and `500` pages to consuming sites.
+4. **`error.html`**: HTTP error suite (`404.html`, `403.html`, `500.html`) with one default-language block, a Home button, and a reload button for server errors. A client script can select the error language from a leading URL language prefix; the current layout has no search form.
+- `_plugins/error_pages_generator.rb` adds missing `404`, `403`, and `500` pages to consuming sites. A manual error page can use `code: 503`.
+- `_plugins/resume_pages_generator.rb` creates missing CV pages at each `languages.<lang>.url` and profiles at `/` or `/<lang>/`. Manual pages take precedence; see [page configuration](CONFIG_GUIDE.md#3-languages).
+- Stylesheet links for default/profile pages are inline in their layouts; there are no separate head includes for those single links.
 
 ### 4. Dynamic Section Rendering (12 Sections)
 Sections render in the order of `site.resume_section_order` through one dispatcher, [`../_includes/resume-section.html`](../_includes/resume-section.html): `experience`, `education`, `certifications`, `courses`, `volunteering`, `projects`, `skills`, `recognitions`, `associations`, `languages`, `links`, `interests`, plus the `header.yml` intro.
 
 ### 5. Resume Data Validator
 - `validate-resume` CLI, `rake validate`, and a Jekyll generator (on by default) check YAML syntax, required fields, dates, URLs, file parity across every configured language, and locale key parity ([`VALIDATION_GUIDE.md`](VALIDATION_GUIDE.md)).
+
+- The repository-only `check-data-keys` tool inspects template fields against sample data; it is not packaged or run in consumer builds. See [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md#11-template-key-checker-check-data-keys).
 
 ### 6. Universal Dark Mode
 - [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss) holds every color token on `:root`.
@@ -44,8 +48,8 @@ Sections render in the order of `site.resume_section_order` through one dispatch
 ### 7. Configurable Avatar
 - [`../_includes/avatar.html`](../_includes/avatar.html): local or external image, per-language alt text, optional link wrapping.
 
-### 8. Accessibility (WCAG 2.2 AA)
-- 4.5:1 contrast in light and dark modes, `.sr-only` utilities, visible `:focus-visible` outlines, landmarks, and localized skip links ([`ACCESSIBILITY_GUIDE.md`](ACCESSIBILITY_GUIDE.md)).
+### 8. Accessibility Features
+- `.sr-only` utilities, visible `:focus-visible` outlines, landmarks, and localized skip links. Coverage and known contrast limitations are documented in the accessibility guide ([`ACCESSIBILITY_GUIDE.md`](ACCESSIBILITY_GUIDE.md)).
 
 ### 9. Architecture Jump Table ("Where do I find / configure X?")
 
@@ -61,6 +65,7 @@ Sections render in the order of `site.resume_section_order` through one dispatch
 Demo build (renders the six-language Sherlock Holmes resume from the `demo/` submodule):
 
 ```bash
+git submodule update --init --recursive
 bundle exec jekyll build --source demo --destination _site
 ```
 
@@ -80,6 +85,7 @@ bilingual-jekyll-resume-theme/
 │
 ├── _includes/
 │   ├── resume-section.html       # Section dispatcher (12 sections, every language)
+│   ├── grouped-item-list.html    # Shared Experience/Volunteering renderer
 │   ├── date-formatter.html       # Locale-driven date and "Present" formatting
 │   ├── data-loader.html          # Dot-path data resolution into resume_data
 │   ├── shared-head.html          # Meta, anti-FOUC script, favicons
@@ -118,22 +124,25 @@ bilingual-jekyll-resume-theme/
 │
 ├── _plugins/
 │   ├── error_pages_generator.rb  # Synthesizes missing HTTP error pages
+│   ├── resume_pages_generator.rb # Synthesizes missing CV/profile pages per language
 │   └── resume_validator.rb       # Build-time validation (on by default)
 │
 ├── lib/
 │   ├── bilingual-jekyll-resume-theme.rb          # Gem entrypoint
 │   └── bilingual-jekyll-resume-theme/
-│       └── resume_validator.rb   # Validator engine
+│       ├── resume_validator.rb   # Validator engine
+│       └── template_key_checker.rb # Template checker (repository-only)
 │
 ├── bin/
 │   ├── validate-resume           # Validator CLI (gem executable)
+│   ├── check-data-keys           # Template checker (repository-only)
 │   └── release                   # Release script (not packaged)
 │
-├── test/                         # Minitest suite (validator, language switcher)
-├── Rakefile                      # validate, test, rubocop, proof, default
+├── test/                         # Four Minitest suites (data, templates, switcher, page generation)
+├── Rakefile                      # validate, check_data_keys, test, rubocop, proof, default
 │
 └── docs/
-    ├── ACCESSIBILITY_GUIDE.md    # WCAG 2.2 AA architecture
+    ├── ACCESSIBILITY_GUIDE.md    # Accessibility features and verification limits
     ├── COMPLETED_AUDIT.md        # Record of completed remediations and features
     ├── CONFIG_GUIDE.md           # _config.yml reference
     ├── DATA_GUIDE.md             # Resume data schemas
@@ -158,7 +167,7 @@ bilingual-jekyll-resume-theme/
 | **Layouts Guide** | [`LAYOUTS_GUIDE.md`](LAYOUTS_GUIDE.md) | Layouts, language resolution, rendering pipeline, error pages |
 | **SASS Guide** | [`SASS_GUIDE.md`](SASS_GUIDE.md) | SCSS architecture, dark mode tokens, RTL |
 | **Validation Guide** | [`VALIDATION_GUIDE.md`](VALIDATION_GUIDE.md) | Validator rules, CLI, build-time checks, CI |
-| **Accessibility Guide** | [`ACCESSIBILITY_GUIDE.md`](ACCESSIBILITY_GUIDE.md) | WCAG 2.2 AA landmarks, focus, contrast |
+| **Accessibility Guide** | [`ACCESSIBILITY_GUIDE.md`](ACCESSIBILITY_GUIDE.md) | Landmarks, focus, contrast, and verification limits |
 | **Completed Audit** | [`COMPLETED_AUDIT.md`](COMPLETED_AUDIT.md) | Historical record of completed fixes and features |
 | **Master AI Manual** | [`../AGENTS.md`](../AGENTS.md) | Operating rules for AI agents |
 | **Feature Roadmap** | [`../FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md) | Active feature blueprints, issue mappings, Delete-Zone |

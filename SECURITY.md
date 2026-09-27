@@ -14,9 +14,7 @@ The following versions of `bilingual-jekyll-resume-theme` currently receive secu
 
 ## Our Dependency Monitoring
 
-To safeguard repositories consuming this theme, we utilize automated security scanning tools (such as Mend and GitHub CodeQL) set to a strict **LOW** minimum severity threshold. 
-
-This means we monitor and triage *every* alert including low-risk issues, deep sub-dependency concerns, or development tool warnings to ensure that the code line remain pristine and safe for deployment on environments like GitHub Pages.
+The checked-in [Dependabot configuration](.github/dependabot.yml) schedules daily Bundler dependency updates and weekly GitHub Actions updates. The repository also contains [Mend configuration](.whitesource) with a `LOW` minimum issue severity. These files describe configuration, not proof that a hosted service is enabled or that all alerts are resolved. No CodeQL workflow is checked in.
 
 ## Reporting a Vulnerability
 

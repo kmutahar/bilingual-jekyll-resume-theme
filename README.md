@@ -11,17 +11,18 @@ Inspired by and originally forked from [Joel Glovier’s resume template](https:
 - **Dark mode**: System preference detection (`prefers-color-scheme`) with optional interactive toggle, `localStorage` persistence, and zero-FOUC inline script
 - **Data-driven architecture**: All resume content stored in YAML files, supporting multiple data paths and versioning
 - **12 resume sections**: Experience, Education, Certifications, Courses, Volunteering, Projects, Skills, Recognition, Associations, Languages, Links, Interests
-- **WCAG 2.1 AA Accessible**: Full screen reader and keyboard accessibility with `.sr-only` labels and declarative aria attributes
+- **Accessibility features**: Semantic landmarks, keyboard navigation, localized skip links, and labelled social controls. See the [Accessibility Guide](docs/ACCESSIBILITY_GUIDE.md) for coverage and known limitations.
 - **Modern favicon suite**: High-resolution favicons (Apple touch icon, 32x32, 16x16, webmanifest) with subpath-safe URLs and `_config.yml` override support
 - **Print-friendly**: Optimized for PDF generation and printing with bidirectional text isolation (`dir="ltr"`) for URLs
 - **SEO ready**: Built-in support for multilingual SEO, standardized canonical tags via `jekyll-seo-tag`, sitemaps, and feeds
+- **Automatic pages**: Missing CV and profile pages are generated for each configured language; hand-authored pages take precedence.
 - **Data validation**: `validate-resume` CLI and build-time checks for schemas, dates, URLs, and parity across every configured language
 
 ## Quick Start
 
 ### Installation
 
-1. Add to your Jekyll site's `Gemfile`, inside `group :jekyll_plugins`. A plain `gem "bilingual-jekyll-resume-theme"` line never requires the theme's `lib/bilingual-jekyll-resume-theme.rb`, so its bundled plugins (the error page generator and build-time validation) silently never run:
+1. Add to your Jekyll site's `Gemfile`, inside `group :jekyll_plugins`. The `:jekyll_plugins` group loads the theme’s bundled generators and validator. Alternatively, explicitly list `bilingual-jekyll-resume-theme` under `plugins:` in `_config.yml` (as the sample does); a plain Gemfile entry plus `theme:` alone is insufficient:
 ```ruby
 group :jekyll_plugins do
   gem "bilingual-jekyll-resume-theme"
@@ -46,7 +47,7 @@ bundle install
 
 2. **Copy sample data files**: Copy each language folder you need from `demo/_data/` (`en`, `ar`, `es`, `fr`, `de`, `ur`) to your site's `_data/`. Each holds 13 files, including `header.yml` for the intro paragraph.
 
-3. **Create resume pages**: One page per language, all using the `resume` layout:
+3. **Resume pages**: Missing pages are generated automatically: CVs at `languages.<lang>.url`, profiles at `/` for `default_lang` and `/<lang>/` for other languages. When generation is disabled (`resume_auto_generate_pages: false`), create one page per language using the `resume` layout:
 ```yaml
 ---
 layout: resume
@@ -61,7 +62,7 @@ t_id: resume
 bundle exec jekyll serve
 ```
 
-Visit `http://localhost:4000` to see your resume!
+Visit `http://localhost:4000/en/cv/` (or your configured CV URL). Profile landing pages are also generated automatically; create a `layout: profile` page if you want to hand-author a homepage instead.
 
 ## Documentation
 
@@ -106,9 +107,9 @@ bilingual-jekyll-resume-theme/
 ├── lib/               # Gem entrypoint and validator engine
 ├── bin/               # validate-resume CLI
 ├── assets/            # CSS entrypoints (cv-ltr, cv-rtl), images, favicons
-└── docs/              # Documentation, demo pages, and sample files
-    ├── _data/         # Sample config and six-language demo data (copy to your site's _data/)
-    └── *.md           # Documentation guides
+├── _config.sample.yml # Annotated configuration for consuming sites
+├── demo/              # Separate demo-site submodule, including six-language data
+└── docs/              # Documentation guides
 ```
 
 ## Key Concepts
@@ -141,7 +142,8 @@ Month names, "Present" labels, section titles, fonts, and text direction come fr
 To develop this theme locally:
 
 ```bash
-# Install dependencies
+# Initialize the demo submodule, then install dependencies
+git submodule update --init --recursive
 bundle install
 
 # Serve the six-language demo from the demo submodule
@@ -158,8 +160,11 @@ bundle exec rake validate
 ./bin/check-data-keys demo/_data
 bundle exec rake check_data_keys
 
-# Validators, RuboCop, and tests together
+# Data validator, template key checker, RuboCop, and four test suites
 bundle exec rake
+
+# Verify built HTML (separate from the default Rake task)
+bundle exec rake "proof[_site,demo/_config.yml]"
 
 # Build the gem
 gem build bilingual-jekyll-resume-theme.gemspec
@@ -169,9 +174,9 @@ For more details on resume schema checks, see [VALIDATION_GUIDE.md](docs/VALIDAT
 
 ## Requirements
 
-- Ruby 3.3+ (standard support on Ruby 3.3, 3.4, 4.0+; Ruby <= 3.2 is EOL)
-- Jekyll 4.4+ (specified in `bilingual-jekyll-resume-theme.gemspec`)
-- Required plugins (automatically included):
+- Ruby 3.3+; this repository’s CI matrix tests 3.3, 3.4, and 4.0.
+- Jekyll `~> 4.4` (4.4 or later, below 5.0), as specified in the gemspec.
+- Runtime plugin dependencies (enable them through your site’s `plugins:` list, as in the sample config):
   - `jekyll-feed`
   - `jekyll-seo-tag`
   - `jekyll-sitemap`

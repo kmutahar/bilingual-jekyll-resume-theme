@@ -1,6 +1,6 @@
 # Resume Data Validation Guide
 
-The theme ships two verification engines. `lib/bilingual-jekyll-resume-theme/resume_validator.rb` checks resume YAML data — reached three ways: the `validate-resume` CLI, the `rake validate` task, and a Jekyll generator that runs during every consuming site's build. `lib/bilingual-jekyll-resume-theme/template_key_checker.rb` checks the theme's own `_layouts`/`_includes` Liquid templates for references to data keys that don't exist — reached via the `check-data-keys` CLI and the `rake check_data_keys` task ([section 11](#11-template-key-checker-check-data-keys)); unlike the resume validator, it runs only in this repository's own development workflow and CI, never on a consuming site's build. This guide describes what each checks and how their entry points behave.
+The repository has two verification engines; only the resume-data validator ships in the gem. `lib/bilingual-jekyll-resume-theme/resume_validator.rb` checks resume YAML data — reached three ways: the `validate-resume` CLI, the `rake validate` task, and a Jekyll generator that runs during every consuming site's build. `lib/bilingual-jekyll-resume-theme/template_key_checker.rb` checks the theme's own `_layouts`/`_includes` Liquid templates for references to data keys that don't exist — reached via the `check-data-keys` CLI and the `rake check_data_keys` task ([section 11](#11-template-key-checker-check-data-keys)); unlike the resume validator, it runs only in this repository's own development workflow and CI, never on a consuming site's build. This guide describes what each checks and how their entry points behave.
 
 ---
 
@@ -94,13 +94,13 @@ bundle exec rake validate               # _data if _data/en exists, else demo/_d
 bundle exec rake "validate[path/to/_data]"
 ```
 
-The task takes no config argument; it finds the config next to the data directory as described in [section 2](#2-how-languages-and-locales-are-resolved). `bundle exec rake` (the default task) runs `validate`, `rubocop`, and `test`.
+The task takes no config argument; it finds the config next to the data directory as described in [section 2](#2-how-languages-and-locales-are-resolved). `bundle exec rake` (the default task) runs `validate`, `check_data_keys`, `rubocop`, and `test`. The four test files cover the language switcher, resume validator, template key checker, and page generator. HTML proofing runs separately after a build.
 
 ---
 
 ## 5. Jekyll Build-Time Validation
 
-When the gem is loaded as a plugin (declared inside `group :jekyll_plugins` in the site's `Gemfile`), `_plugins/resume_validator.rb` validates the site's `data_dir` on every `jekyll build` and `jekyll serve`. It is **on by default**; findings are logged and the build continues.
+When the gem is loaded as a plugin (through `group :jekyll_plugins` in the site's `Gemfile` or the theme name in `_config.yml`’s `plugins:` list), `_plugins/resume_validator.rb` validates the site's `data_dir` on every `jekyll build` and `jekyll serve`. It is **on by default**; findings are logged and the build continues.
 
 ```yaml
 # _config.yml
@@ -121,13 +121,13 @@ If the configured `data_dir` does not exist, the plugin logs a warning and skips
 
 ## 6. Validation Rules Catalog by Section
 
-The rules are identical for every language. Field aliases in parentheses are accepted in place of the canonical name.
+The rules are identical for every language. Field aliases in parentheses are accepted by the validator, but are not normalized for Liquid rendering. Use the canonical field names from [DATA_GUIDE.md](DATA_GUIDE.md) so validated content also displays.
 
 | Section file | Required fields | Checked when present |
 |---|---|---|
 | `header.yml` | Must be a Hash | `intro` (or `about`): warning if missing or under 20 characters |
-| `experience.yml` | `company` (`organization`), `position` (`role`) | `startdate`, `enddate` (date or "present"), date order, each `durations[].duration` non-empty; warning if neither `startdate` nor `durations` |
-| `education.yml` | `uni` (`institution`, `school`), `degree` | `startdate`, `enddate` (date or "present"), date order |
+| `experience.yml` | `company` (`organization`), `position` (`role`) | `startdate`, `enddate` (date or "present"), date order, empty `durations[].duration` warns; warning if neither `startdate` nor `durations` |
+| `education.yml` | `uni` (`institution`, `school`), `degree`, and nonblank `year` unless `startdate` is supplied | `startdate`, `enddate` (date or "present"), date order |
 | `certifications.yml` | `name` (`title`) | `issue_date`, `expiration`, `expiration >= issue_date`, `credential_url` |
 | `courses.yml` | `name` (`title`, `course`) | `startdate`, `enddate`, date order, `credential_url` |
 | `volunteering.yml` | `company` (`organization`), `position` (`role`) | `startdate`, `enddate` (date or "present"), date order |
@@ -163,7 +163,7 @@ Read the other four in [`../_data/locales/`](../_data/locales/). To accept more 
 present_values: ["present", "actualidad", "actualmente", "presente", "hoy"]
 ```
 
-The template side ([`../_includes/date-formatter.html`](../_includes/date-formatter.html)) matches the same `present_values` list, so what validates also renders as the locale's "Present" label.
+The template side ([`../_includes/date-formatter.html`](../_includes/date-formatter.html)) matches `present_values`. If you change `ui.present`, include that label in `present_values` too: the validator accepts the label automatically, but the formatter checks only the list.
 
 ---
 
@@ -206,7 +206,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.4'
@@ -235,7 +235,7 @@ bundle exec rake rubocop
 
 - External URLs are not fetched, so results are offline and deterministic.
 - Absolute URLs built from `site.url` (hreflang, canonical) are mapped onto local files so they are checked too.
-- When `_site/index.html` does not exist, `/`, `/en/cv/`, and `/ar/cv/` are exempted as link targets (the task reads the retired `resume_en_url` / `resume_ar_url` keys for these two paths, so they fall back to the defaults). A real site with a homepage gets no exemption.
+- When `_site/index.html` does not exist, `/` and every configured `languages.<lang>.url` are exempted as link targets. A site with a homepage gets no exemption. Use the demo build to check the complete generated site.
 
 ---
 

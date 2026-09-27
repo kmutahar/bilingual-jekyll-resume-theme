@@ -1,6 +1,6 @@
 # Configuration Guide (`_config.yml`)
 
-Every setting the theme reads from a consuming site's `_config.yml`. The annotated master copy is [`_config.sample.yml`](../_config.sample.yml); when this guide and that file disagree, the sample file is the one the build uses.
+Every setting the theme reads from a consuming site's `_config.yml`. The annotated master copy is [`_config.sample.yml`](../_config.sample.yml); the build reads your site’s `_config.yml`, not the sample automatically. Templates, generators, and the gemspec define current behavior.
 
 Per-language settings (name, title, address, data path, URL) live under `languages.<lang>`. Direction, fonts, and UI strings are not config at all: they come from `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md)). Upgrading from v0.9.0? The key-by-key migration table is in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#breaking-changes--migration-v090-to-v100).
 
@@ -31,7 +31,7 @@ Per-language settings (name, title, address, data path, URL) live under `languag
 > [!TIP]
 > Copy [`_config.sample.yml`](../_config.sample.yml) to your site root as `_config.yml`. Starter resume data for six languages is available in the [`demo/_data/`](../demo/_data/) directory (`en`, `ar`, `es`, `fr`, `de`, `ur`).
 >
-> **System Requirements:** Ruby >= 3.3.0 (maintained on Ruby 3.3, 3.4, and 4.0) and Jekyll >= 4.4.0. Declare the gem inside `group :jekyll_plugins` in your `Gemfile`, or the error page generator and build-time validation never load.
+> **System Requirements:** Ruby >= 3.3.0 (CI tests 3.3, 3.4, and 4.0) and Jekyll `~> 4.4`. Load the theme through `group :jekyll_plugins` in your `Gemfile` or an explicit `bilingual-jekyll-resume-theme` entry under `plugins:` so its generators and validator run.
 
 Minimal working configuration for an English and Arabic resume:
 
@@ -74,7 +74,7 @@ resume_section_order:
   - skills
 ```
 
-Each language also needs a page with `layout: resume` and `lang: <code>` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#resume-pages)).
+The theme generates missing CV and profile pages automatically; set `resume_auto_generate_pages: false` to require hand-authored pages with `layout: resume` and `lang: <code>` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#resume-pages)).
 
 ---
 
@@ -117,7 +117,9 @@ One entry per language, keyed by language code. The same code names the page's `
 | Setting | Type | Description |
 |---|---|---|
 | `languages.<lang>.data_path` | String | **Required.** Data folder under `_data/`. Dot paths select nested folders (`"2025-06.v1"` reads `_data/2025-06/v1/`); `""` reads `_data/` itself. |
-| `languages.<lang>.url` | String | URL of this language's resume. Used by error page return links and the language switcher fallback. |
+| `languages.<lang>.url` | String | CV permalink used by page generation, profile CV buttons, the language switcher fallback, and error Home buttons when no profile page exists. |
+| `languages.<lang>.about` | String | Profile-page bio; accepts Markdown, HTML, or plain text. |
+| `languages.<lang>.name_html` | String | Optional profile-page name markup. Without it the final space-separated word in `name` is bolded. Keep `name` plain text for other uses. |
 | `languages.<lang>.header_intro` | Boolean | `true` renders `intro` from this language's `header.yml` below the header. |
 | `languages.<lang>.name` | String | Full name shown in the resume header. |
 | `languages.<lang>.resume_title` | String | Job title shown under the name. |
@@ -125,7 +127,7 @@ One entry per language, keyed by language code. The same code names the page's `
 | `languages.<lang>.avatar_alt` | String | Avatar alt text. Falls back to `name`, then the locale's `ui.photo_alt`. |
 | `languages.<lang>.auto_generate_pages` | Boolean | Per-language override of `resume_auto_generate_pages` below. Set `false` to require a hand-authored page for just this language even when auto-generation is on globally, or `true` to auto-generate just this language even when it's off globally. |
 | `default_lang` | String | Language used when a page has no `lang`, for the hreflang `x-default` link, and for error page button labels. Default `en`. |
-| `resume_auto_generate_pages` | Boolean | Default `true`. When a `languages.<lang>` entry has no hand-authored CV (`layout: resume`) or profile (`layout: profile`) page, the theme synthesizes one automatically at `languages.<lang>.url` (CV) and `/` for `default_lang` or `/<lang>/` for any other language (profile), each carrying `t_id: resume` / `t_id: profile` so hreflang and the language switcher match them like any hand-authored page. A hand-authored page for a given `layout`+`lang` always wins over auto-generation. Set `false` to require every language to have its own hand-authored page (pre-v1.1.0 behavior); a language left without a page (auto-generation off and no hand-authored file) logs a build warning instead of failing silently. |
+| `resume_auto_generate_pages` | Boolean | Default `true`. When a `languages.<lang>` entry has no hand-authored CV (`layout: resume`) or profile (`layout: profile`) page, the theme synthesizes one automatically at `languages.<lang>.url` (CV) and `/` for `default_lang` or `/<lang>/` for any other language (profile), each carrying `t_id: resume` / `t_id: profile` so hreflang and the language switcher match them like any hand-authored page. A hand-authored page for a given `layout`+`lang` always wins over auto-generation. Set `false` to require every language to have its own hand-authored page; a language left without a page (auto-generation off and no hand-authored file) logs a build warning instead of failing silently. |
 
 ```yaml
 languages:
@@ -148,6 +150,8 @@ languages:
 
 default_lang: en
 ```
+
+**Note:** a page occupying the intended permalink also prevents generation, even if its layout differs. Profile generation does not require a CV URL; CV generation does. Disabled generation or a missing CV URL produces a warning when the corresponding page is absent.
 
 Adding a language beyond the six shipped ones is covered in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#adding-a-language).
 
@@ -198,7 +202,7 @@ contact_info:
 
 ### 6. Social Media Links
 
-[`../_includes/social-links.html`](../_includes/social-links.html) renders an icon for each configured platform; [`../_includes/print-social-links.html`](../_includes/print-social-links.html) prints the same list as text, labelled from the locale's `ui.social_labels`. Only configured platforms render.
+[`../_includes/social-links.html`](../_includes/social-links.html) renders an icon for each configured platform; [`../_includes/print-social-links.html`](../_includes/print-social-links.html) prints the supported platform list as text, labelled from the locale's `ui.social_labels`. Only supported, configured platforms render. `mastodon` currently adds `rel="me"` metadata in the default and profile layouts; it has no social icon or print-list entry yet.
 
 `email` renders a `mailto:` link with an accessible label. Every other key takes a full URL.
 
@@ -219,7 +223,7 @@ social_links:
   dribbble: https://dribbble.com/yourhandle
   flickr: https://flickr.com/people/yourhandle
   pinterest: https://pinterest.com/yourhandle
-  # mastodon emits <link rel="me"> in default.html for Fediverse verification:
+  # mastodon emits <link rel="me"> in default.html and profile.html for Fediverse verification:
   mastodon: https://mastodon.social/@yourhandle
 ```
 
@@ -251,7 +255,7 @@ resume_print_social_links: true
 
 ### 8. Resume Sections Toggle & Order
 
-[`../_includes/resume-section.html`](../_includes/resume-section.html) renders one section per entry in `resume_section_order`, for every language. A section renders only when its `resume_section.<name>` flag is `true` and the language's data has that file. Section headings come from the locale's `ui.section_titles`.
+[`../_includes/resume-section.html`](../_includes/resume-section.html) renders one section per entry in `resume_section_order`, for every language. A section branch renders when its `resume_section.<name>` flag is truthy; use YAML booleans. Missing or empty data can leave a section heading without items. Section headings come from the locale's `ui.section_titles`.
 
 ```yaml
 resume_section:
@@ -294,7 +298,7 @@ resume_section_order:
 | `resume_theme` | String | `"default"` | Added as a `theme-<value>` body class. `no-custom-fonts` also stops web font loading. |
 | `disable_google_fonts` | Boolean | `false` | `true` stops the resume layout from loading any locale `font_url` or the default Lora and Open Sans stylesheet. |
 
-Page front matter `dark_mode: false` / `true` overrides `dark_mode` for one page.
+Page front matter `dark_mode: false` / `true` controls the toggle on one page. These settings do not disable the system-preference CSS or the stored-preference script; `false` hides the button rather than forcing a light palette.
 
 Fonts are per language. To change a language's font, override `font_url` and `font_family` in your site's `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#overriding-theme-locales)):
 
@@ -344,6 +348,7 @@ validate_resume_strict: false
 
 ```yaml
 plugins:
+  - bilingual-jekyll-resume-theme
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap

@@ -1,137 +1,52 @@
-# Accessibility Guide (WCAG 2.1 & 2.2 AA Compliance)
+# Accessibility Guide
 
-`bilingual-jekyll-resume-theme` is engineered from the ground up to achieve high-fidelity visual parity and strict **WCAG 2.1 / 2.2 Level AA compliance** across both Left-to-Right (English) and Right-to-Left (Arabic) layouts.
+This guide describes the theme's accessibility features and the checks needed for a consuming site. It is not a certification of complete WCAG conformance. Content, custom colors, third-party integrations, and browser behavior affect the result.
 
----
+## Semantic Structure and Keyboard Navigation
 
-## Table of Contents
+- Resume, default, and profile layouts have a skip link to `<main id="main-content" role="main" tabindex="-1">`. Error pages inherit the default layout.
+- Headers and footers use semantic HTML; the resume also supplies explicit banner/contentinfo roles. The profile header sits outside its main content, so its skip link bypasses the name and bio.
+- `_sass/_base.scss` owns `.sr-only`, skip-link styles, and `:focus-visible` outlines. The skip link becomes visible on focus.
+- `_includes/language-switcher.html` uses native `<details>`/`<summary>` and a labelled `<nav>`. Enter/Space toggles the disclosure. Escape and outside clicks do not automatically close it.
+- The language switcher is fixed top-left, and the optional theme toggle top-right, in every language. Both are hidden for print. Small-screen overlap and focus visibility still need browser testing.
 
-- [1. Overview & Accessibility Standards](#1-overview--accessibility-standards)
-- [2. Semantic Landmarks & Page Structure](#2-semantic-landmarks--page-structure)
-- [3. Keyboard Navigation & Skip-to-Content Links](#3-keyboard-navigation--skip-to-content-links)
-- [4. Visible Focus Rings (:focus-visible)](#4-visible-focus-rings-focus-visible)
-- [5. Screen Reader Optimization & .sr-only Utility](#5-screen-reader-optimization--sr-only-utility)
-- [6. Color Contrast Ratios & Dark Mode Verification](#6-color-contrast-ratios--dark-mode-verification)
-- [7. Arabic (RTL) Internationalization & Bidi Safety](#7-arabic-rtl-internationalization--bidi-safety)
-- [8. Testing & Verification Procedures](#8-testing--verification-procedures)
+## Labels and Locale Support
 
----
+- The shared social-links include supplies accessible link names and hidden text. The avatar uses locale-specific alt text from configuration.
+- The profile layout also renders an additional email icon outside that shared include; it currently lacks an explicit accessible name. This is a known code limitation, not fixed by this documentation update.
+- Direction and UI strings come from six shipped locales. Arabic uses Cairo; Urdu uses Noto Nastaliq Urdu. The resume templates isolate Latin contact details and URLs with `dir="ltr"`.
+- Error pages initially render the default language. Their script can change the error block and Home button based on a leading URL language prefix. The outer page and switcher remain in the server-rendered language; see [LAYOUTS_GUIDE.md](LAYOUTS_GUIDE.md#4-errorhtml-multilingual-http-error-suite).
 
-## 1. Overview & Accessibility Standards
+## Color Contrast
 
-The theme satisfies the four core WCAG principles:
+The following ratios are calculated from the current colors in `_sass/_dark-mode.scss`, rounded to two decimals. They describe these specific pairs, not all rendered states.
 
-1. **Perceivable**: All information and user interface components are presentable in ways users can perceive (text alternatives, sufficient color contrast, robust dark/light tokens, responsive fluid typography).
-2. **Operable**: All interface components and navigation are fully operable via keyboard (tab navigation, skip links, visible focus indicators, no keyboard traps).
-3. **Understandable**: Clear language attributes (`lang="en"`, `lang="ar"`), logical reading order, bidirectional text isolation (`<span dir="ltr">`), and predictable navigation controls.
-4. **Robust**: Semantic HTML5 landmark roles (`banner`, `main`, `contentinfo`), Schema.org Person microdata, and broad compatibility with modern assistive technologies (NVDA, JAWS, VoiceOver, TalkBack).
+| Foreground / background | Approximate ratio | Implication |
+|---|---:|---|
+| `#333333` / `#ffffff` | 12.63:1 | Main light-mode text has strong contrast. |
+| `#e0e0e0` / `#121212` | 14.19:1 | Main dark-mode text has strong contrast. |
+| `#999999` / `#ffffff` | 2.85:1 | Current light-mode muted/footer text is below the normal-text AA threshold. |
+| `#888888` / `#121212` | 5.28:1 | Current dark-mode muted text clears the normal-text AA threshold. |
 
----
+Check hover, focus, disabled, print, and customized colors separately. Focus outlines do not establish that pointer targets meet target-size requirements. Hiding the theme toggle does not force a light palette; system and stored preferences still apply.
 
-## 2. Semantic Landmarks & Page Structure
+## Verification
 
-All theme layouts define explicit ARIA landmark roles alongside semantic HTML5 elements:
-
-| HTML Element | ARIA Role | Identification | Purpose |
-| :--- | :--- | :--- | :--- |
-| `<header class="page-header">` | `role="banner"` | Page Header | Houses candidate name, title, avatar, and contact bar |
-| `<main class="main-content">` | `role="main"` | `id="main-content"` `tabindex="-1"` | Primary content container target of skip-to-content links |
-| `<footer class="page-footer">` | `role="contentinfo"` | Page Footer | Generation timestamp, copyright, and permalink |
-| `<details class="language-switcher">` → `<nav class="language-switcher-panel">` | native disclosure + `role="navigation"` (implicit on `<nav>`) | Language Switcher | Floating dropdown language selector, zero JavaScript |
-| `<form class="error-search">` | `role="search"` | Search Form | Search interface on error pages |
-
----
-
-## 3. Keyboard Navigation & Skip-to-Content Links
-
-To satisfy **WCAG 2.4.1 (Bypass Blocks)**, all layouts include an accessible skip link positioned as the first focusable element inside `<body>`.
-
-`_layouts/resume.html`, `_layouts/default.html`, and `_layouts/profile.html` render the link text from the active locale's `ui.skip_to_content` key in `_data/locales/<lang>.yml`:
-```html
-<a href="#main-content" class="skip-link no-print">{{ locale.ui.skip_to_content }}</a>
-```
-English renders "Skip to main content"; Arabic renders "الانتقال إلى المحتوى الرئيسي".
-
-### Behavior:
-- **Default State**: Visually hidden off-screen (`top: -100px`).
-- **Focus State**: When a user presses `Tab` upon page entry, the skip link smoothly transitions into view at `top: 1rem` with a prominent high-contrast background (`--accent-color`) and 2px focus ring. Pressing `Enter` shifts focus directly to `<main id="main-content">`.
-
----
-
-## 4. Visible Focus Rings (`:focus-visible`)
-
-To satisfy **WCAG 2.4.7 (Focus Visible)** and **WCAG 2.5.8 (Target Size)**:
-- Universal `:focus-visible` styling is defined in `_sass/_base.scss`:
-  ```scss
-  :focus-visible {
-    outline: 2px solid var(--accent-color, #3064a9);
-    outline-offset: 2px;
-  }
-  ```
-- Focus rings automatically match the active color theme and dark mode contrast tokens.
-- Mouse clicks do not trigger intrusive focus rings, preserving clean visual ergonomics.
-
----
-
-## 5. Screen Reader Optimization & `.sr-only` Utility
-
-- Vector SVG icons (social links, contact badges, search buttons) include visually hidden text labels via the `.sr-only` utility class:
-  ```html
-  <a href="..." class="icon-link" aria-label="GitHub" title="GitHub">
-    <svg aria-hidden="true" focusable="false">...</svg>
-    <span class="sr-only">GitHub</span>
-  </a>
-  ```
-- **`.sr-only` CSS Definition**:
-  ```scss
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-    text-decoration: none !important;
-  }
-  ```
-
----
-
-## 6. Color Contrast Ratios & Dark Mode Verification
-
-All color pairings meet or exceed the **WCAG AA minimum contrast ratio of 4.5:1** for standard body text and **3.0:1** for large headings and UI components:
-
-| Element | Light Mode Pair | Contrast Ratio | Dark Mode Pair | Contrast Ratio | Level |
-| :--- | :--- | :---: | :--- | :---: | :---: |
-| Body Text | `#333333` on `#ffffff` | **12.6:1** | `#e0e0e0` on `#121212` | **13.8:1** | **AAA** |
-| Muted Text | `#646464` on `#ffffff` | **5.9:1** | `#aaaaaa` on `#121212` | **8.0:1** | **AA** |
-| Accent Links | `#3064a9` on `#ffffff` | **5.4:1** | `#6ba4e8` on `#121212` | **6.6:1** | **AA** |
-| Buttons | `#333333` on `#efefef` | **11.2:1** | `#e0e0e0` on `#2a2a2a` | **9.2:1** | **AAA** |
-
----
-
-## 7. Arabic (RTL) Internationalization & Bidi Safety
-
-1. **Root Direction**: Set via `<html dir="rtl" lang="ar">`.
-2. **Typography**: Arabic font stack uses `Cairo` with `line-height: 1.6` (minimum) to prevent vertical clipping of vowel diacritics (Tashkeel like Fatḥah, Ḍammah, Kasrah) and consonant dots.
-3. **Bi-directional (Bidi) Text Isolation**: URLs, phone numbers, and code identifiers within Arabic sentences are enclosed in `<span dir="ltr">` to prevent punctuation, slashes, and numbers from reversing.
-
----
-
-## 8. Testing & Verification Procedures
-
-Run the automated build and verify accessibility attributes:
+From the theme repository:
 
 ```bash
-# Build static site
+git submodule update --init --recursive
 bundle exec jekyll build --source demo --destination _site
-
-# Verify skip link presence
-grep -q 'class="skip-link' _site/index.html && echo "Skip link verified."
-
-# Verify main landmark
-grep -q 'role="main"' _site/index.html && echo "Main landmark verified."
+bundle exec rake
+bundle exec rake "proof[_site,demo/_config.yml]"
 ```
+
+The automated checks cover data, selected template/control behavior, Ruby quality, and internal HTML links/assets. They do not perform a full accessibility audit.
+
+Before claiming conformance for a deployed site:
+
+1. Check keyboard access, skip-link focus, focus visibility, and disclosure/toggle operation on profile, CV, and error pages.
+2. Inspect accessible names and reading order with a screen reader, including the extra profile email link.
+3. Test every configured locale, including Arabic and Urdu, in both light and dark modes at narrow widths and increased zoom.
+4. Measure contrast in actual rendered states and test print output for clipping and reading order.
+5. Run an accessibility scanner and manually review its results; record browser, assistive technology, date, and remaining failures.

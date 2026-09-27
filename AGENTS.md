@@ -56,13 +56,24 @@ Verify a template or locale change by building the demo (Rule 5) and checking bo
 ### Rule 2: Single Source of Truth for Agent Guidance
 `AGENTS.md` is the only file holding project context and operational instructions for AI tools. Any companion pointer files ([`CLAUDE.md`](CLAUDE.md), [`WARP.md`](WARP.md)) must merely point here. Never duplicate documentation across multiple agent files.
 
+### Documentation Maintenance
+Keep each detail in one authoritative place and link to it elsewhere:
+
+- Keep agent rules here; feature status in [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md), historical rationale in [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md), and release notes in [`CHANGELOG.md`](CHANGELOG.md).
+- Describe user-facing behavior in the relevant reference guide. Update that guide when its documented behavior changes; other documents need edits only if their own instructions or links become inaccurate.
+- Read versions, dependencies, packaging rules, and test/task inventories from the gemspec, source files, and `Rakefile`. Avoid copying their current values or counts into agent guidance.
+- Prefer links to detailed schemas, file maps, and feature lists over repeating them. When touching existing duplicated documentation, consolidate it into its owning guide.
+- A feature or refactor does not require edits to every guide, the README, or this file. Update only affected documentation; record historical rationale when it adds information beyond the release note.
+- Describe behavior as it exists in the current codebase, not as tied to a specific commit SHA, git tag, or "unreleased"/"after the vX.Y tag" caveat. A reference guide, `AGENTS.md`, `README.md`, and `FEATURE_ROADMAP.md` should read as correct the moment they're written and stay correct through the next release, with no edit required just because a tag was cut. The only files that intentionally pin prose to a commit or release boundary are [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) (the permanent historical log) and [`CHANGELOG.md`](CHANGELOG.md) (the release-by-release log); that is their job, not an exception to imitate elsewhere.
+
+
 ### Rule 3: Roadmap-Driven Implementation
 All upcoming feature work is planned and blueprinted in [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md). Before starting a feature:
-1. Consult its turnkey blueprint in `FEATURE_ROADMAP.md` for target files, YAML schemas, Liquid architecture, and test criteria.
+1. Consult its implementation brief in `FEATURE_ROADMAP.md` for target files, YAML schemas, Liquid architecture, and test criteria.
 2. Follow the issue-closing git workflow specified in the roadmap.
 
 ### Rule 4: Historical Audit Awareness
-Before addressing bugs, security findings, or refactors, consult [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md). It records the 18 foundation remediations (P0.1 to P0.16, P1.4, P2.4), later completed features, the four features delivered in v1.0.0 (1.7, 2.8, 4.1, 4.6), and the two features delivered in v1.0.1 (2.11, 2.12). Never re-implement or revert an established remediation, and check the roadmap's Status Delete-Zone before recreating any file or key.
+Before addressing bugs, security findings, or refactors, consult [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) for prior fixes and their rationale. Preserve established remediations, and check the roadmap’s [Status Delete-Zone](FEATURE_ROADMAP.md#status-delete-zone) before recreating a removed file or key.
 
 ### Rule 5: Build & Packaging Verification
 Never declare a task finished without running:
@@ -70,7 +81,7 @@ Never declare a task finished without running:
 # Demo build: demo consuming site source
 bundle exec jekyll build --source demo --destination _site
 
-# Validator, RuboCop, and tests
+# Data validator, template key checker, RuboCop, and four test suites
 bundle exec rake
 
 # Package verification (remove the .gem afterwards)
@@ -88,7 +99,7 @@ AI agents must **NEVER** execute `git commit` or finalize a commit autonomously 
 
 ### Active Roadmap Reference (Canonical Status Document)
 The authoritative master roadmap is maintained exclusively in [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md). In accordance with Living Docs Governance, `FEATURE_ROADMAP.md` is the single canonical owner of all active features, engineering blueprints, issue mappings, and the intentional-removal Delete-Zone:
-- **Canonical Master Matrix**: Consult [`FEATURE_ROADMAP.md#1-active-features-master-matrix`](FEATURE_ROADMAP.md#1-active-features-master-matrix) for the active features, exact issue IDs, auto-closing references, and target files before beginning any feature branch.
+- **Canonical Master Matrix**: Consult [`FEATURE_ROADMAP.md#1-active-features-master-matrix`](FEATURE_ROADMAP.md#1-active-features-master-matrix) for active features and issue IDs, then the corresponding brief for target files and acceptance criteria before beginning a feature branch.
 - **Status Delete-Zone**: Consult [`FEATURE_ROADMAP.md#status-delete-zone`](FEATURE_ROADMAP.md#status-delete-zone) to verify intentionally removed or deprecated components before adding files.
 
 ### Living Docs Navigation Hierarchy
@@ -99,7 +110,7 @@ When operating in this codebase, agents must follow this reading sequence:
 4. **History** ([`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) & [`CHANGELOG.md`](CHANGELOG.md)): Completed remediations and features, and the release log.
 
 ### Automatic Issue Closing Protocol
-Every feature in `FEATURE_ROADMAP.md` is mapped to an open GitHub issue. To automatically close the GitHub issue upon PR merge:
+Every active feature in `FEATURE_ROADMAP.md` retains its canonical GitHub issue mapping. Check hosted issue status when starting implementation. To automatically close the GitHub issue upon PR merge:
 - **Branch Naming**: `feature/<feature-name>` (e.g. `feature/color-themes`)
 - **Conventional Commit Format**:
   ```text
@@ -119,7 +130,8 @@ The theme repository contains the theme engine, while the full demo site lives i
 
 ### Environment Setup & Local Server
 ```bash
-# Install dependencies (Bundler 2+)
+# Initialize the demo submodule, then install dependencies (Bundler 2+)
+git submodule update --init --recursive
 bundle install
 
 # Serve the demo at http://localhost:4000 (resume pages at /en/cv/, /ar/cv/, /es/cv/, /fr/cv/, /de/cv/, /ur/cv/)
@@ -140,7 +152,7 @@ bundle exec jekyll clean
 # Build the Ruby gem locally
 gem build bilingual-jekyll-resume-theme.gemspec
 
-# List packaged files (must include _data/locales/*.yml and bin/validate-resume; must exclude test/, Rakefile, bin/release)
+# List packaged files (must include _data/locales/*.yml and bin/validate-resume; must exclude test/, Rakefile, bin/release, bin/check-data-keys, lib/bilingual-jekyll-resume-theme/template_key_checker.rb, docs/COMPLETED_AUDIT.md)
 gem spec bilingual-jekyll-resume-theme-*.gem files
 
 # Remove local gem file after testing
@@ -149,8 +161,8 @@ rm -f bilingual-jekyll-resume-theme-*.gem
 
 ### Verification Tooling (details: [`docs/VALIDATION_GUIDE.md`](docs/VALIDATION_GUIDE.md))
 ```bash
-bundle exec rake                                           # validate + rubocop + test
-bundle exec rake test                                      # Unit tests (validator + language switcher)
+bundle exec rake                                           # validate + check_data_keys + rubocop + test
+bundle exec rake test                                      # Four suites: data, templates, switcher, page generator
 bundle exec rake rubocop                                   # Static analysis; must report 0 offenses
 bundle exec rake proof                                     # Proof _site/ (build first); or proof[../site/_site]
 ./bin/validate-resume demo/_data --all-locales --fail-on-warnings   # Multi-language data schema + parity
@@ -186,10 +198,10 @@ bundle update
 | `_layouts/resume.html` | Resume for every language | `page.lang`; `dir` from `locale.direction` |
 | `_layouts/default.html` | Base shell for markdown and error pages | Same resolution |
 | `_layouts/profile.html` | Standalone landing page | Same resolution |
-| `_layouts/error.html` | HTTP error suite (404, 403, 500, 503) | One block per `site.languages` entry |
+| `_layouts/error.html` | HTTP error suite (404, 403, 500; manual 503 supported) | One default-language block; client script selects language from the requested URL |
 
 ### Language Resolution
-Every layout and include resolves the language the same way:
+The shared language-resolution pattern is below. Some includes accept `include.lang`; default/profile layouts also fall back to the English locale:
 ```liquid
 {% assign lang = page.lang | default: site.default_lang | default: 'en' %}
 {% assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] %}
@@ -232,15 +244,16 @@ Inside `_includes/resume-section.html`, an `{% if / elsif %}` dispatcher renders
 ### 4. HTTP Error Suite Layout & Generator
 - Layout: `_layouts/error.html`, used by `404.html`, `403.html`, `500.html`.
 - Generator Plugin: `_plugins/error_pages_generator.rb` synthesizes those pages when a consuming site omits them.
-- Renders one localized block per `site.languages` entry from `locale.error_pages`, a search box, and per-language return links to `languages.<lang>.url` (falling back to the page with `layout: resume` and that `lang`).
+- Renders a single default-language block and Home button. The client script selects a configured language from a leading `/<lang>/` URL prefix and updates the block and Home link. The Home target is the language’s profile page, then its configured CV URL, then `/`. There is no search form in the current layout. See `docs/LAYOUTS_GUIDE.md` for fallback limits.
+- `_plugins/resume_pages_generator.rb` creates missing CV/profile pages for each configured language. Generation is on by default, overridden by `languages.<lang>.auto_generate_pages`; existing layout/language pairs or occupied permalinks win.
 
 ### 5. Resume Data Validator
 - Engine: `lib/bilingual-jekyll-resume-theme/resume_validator.rb`. Entry points: `bin/validate-resume` (gem executable), `rake validate`, and `_plugins/resume_validator.rb` (runs on every build unless `validate_resume: false`; `validate_resume_strict: true` fails the build on errors).
 - Reads languages from `languages:` in the config, builds each effective locale (theme file plus site override), and checks schemas, dates, URLs, file parity, and locale key parity. See [`docs/VALIDATION_GUIDE.md`](docs/VALIDATION_GUIDE.md).
 
-### 6. WCAG 2.2 Accessibility
+### 6. Accessibility Features
 - `.sr-only` screen-reader helper classes in `_sass/_base.scss`.
-- Minimum 4.5:1 color contrast across light and dark modes.
+- Contrast and assistive-technology coverage require verification; see `docs/ACCESSIBILITY_GUIDE.md` for known limitations, including muted text in light mode.
 - `aria-label` attributes on icon-only links; localized skip links and toggle labels from `locale.ui`.
 
 ---
@@ -253,8 +266,7 @@ bilingual-jekyll-resume-theme/
 ├── _config.sample.yml        # Master annotated sample configuration for consuming sites
 ├── demo/                     # Git submodule: full live Sherlock Holmes demo consuming site
 │   ├── _config.yml
-│   ├── index.html            # Profile landing page
-│   ├── _pages/               # Resume pages for 6 languages
+│   ├── _pages/               # Manual profile index and EN/AR CVs; other pages generated
 │   └── _data/                # 6 languages YAML data
 │
 ├── _layouts/
@@ -265,12 +277,13 @@ bilingual-jekyll-resume-theme/
 │
 ├── _includes/
 │   ├── resume-section.html       # Section dispatcher (12 sections, every language)
+│   ├── grouped-item-list.html    # Shared Experience/Volunteering renderer
 │   ├── date-formatter.html       # Locale-driven dates and "Present"
 │   ├── data-loader.html          # Dot-path data resolution into resume_data
 │   ├── shared-head.html          # Meta, anti-FOUC script, favicons
 │   ├── avatar.html               # Configurable, accessible profile picture
 │   ├── dark-mode-toggle.html     # Floating dark mode toggle
-│   ├── language-switcher.html    # Floating links to every other configured language
+│   ├── language-switcher.html    # Dropdown links to other configured languages
 │   ├── social-links.html         # Social icons (email + 14 platforms)
 │   ├── print-social-links.html   # Print-only social links text list
 │   ├── hreflang.html             # Alternate-language SEO links
@@ -303,18 +316,21 @@ bilingual-jekyll-resume-theme/
 │
 ├── _plugins/
 │   ├── error_pages_generator.rb  # Synthesizes missing HTTP error pages
+│   ├── resume_pages_generator.rb # Synthesizes missing CV/profile pages per language
 │   └── resume_validator.rb       # Build-time resume validation (on by default)
 │
 ├── lib/
 │   ├── bilingual-jekyll-resume-theme.rb             # Gem entrypoint
-│   └── bilingual-jekyll-resume-theme/resume_validator.rb  # Validator engine
+│   ├── bilingual-jekyll-resume-theme/resume_validator.rb  # Validator engine
+│   └── bilingual-jekyll-resume-theme/template_key_checker.rb # Repository-only checker
 │
 ├── bin/
 │   ├── validate-resume           # Validator CLI (gem executable)
+│   ├── check-data-keys           # Template checker (repository-only)
 │   └── release                   # Automated release script (not packaged)
 │
-├── test/                         # Minitest suite: validator + language switcher
-├── Rakefile                      # validate, test, rubocop, proof, default
+├── test/                         # Four Minitest suites: data, templates, switcher, page generation
+├── Rakefile                      # validate, check_data_keys, test, rubocop, proof, default
 ├── .rubocop.yml                  # RuboCop configuration
 │
 ├── docs/
@@ -438,6 +454,8 @@ To verify changes in an actual Jekyll site without publishing a gem:
 <a id="13-documentation-master-index"></a>
 ## 13. Documentation Master Index & Living Docs Governance
 
+Use tracked source and commit history to verify current behavior. `graphify-out/`, `PROJECT.md`, and other ignored agent workspaces are local derived/historical material, not current product documentation. If an existing graph helps navigation, query it first, then verify affected claims against source; do not present stale graph nodes as current features. Keep released changelog entries and historical audit paths in their original context; record later work separately.
+
 Under Living Docs Governance, the repository documentation surface assigns four primary roles:
 - **Constitution**: Core rules and operational contracts (`AGENTS.md`, `CLAUDE.md`, `WARP.md`)
 - **Map**: Architecture guides and navigation maps (`docs/PROJECT_OVERVIEW.md`, `README.md`)
@@ -453,7 +471,7 @@ Under Living Docs Governance, the repository documentation surface assigns four 
 | **Completed Audit** | [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) | **History** | Record of completed remediations, features, and closed issues |
 | **Changelog** | [`CHANGELOG.md`](CHANGELOG.md) | **History** | Version history following Keep a Changelog |
 | **Multilingual Guide** | [`docs/MULTILINGUAL_GUIDE.md`](docs/MULTILINGUAL_GUIDE.md) | Reference | Locale files, adding languages, overrides, RTL typography, v1.0.0 migration table |
-| **Accessibility Guide** | [`docs/ACCESSIBILITY_GUIDE.md`](docs/ACCESSIBILITY_GUIDE.md) | Reference | WCAG 2.1/2.2 AA compliance, keyboard navigation, landmarks, and contrast |
+| **Accessibility Guide** | [`docs/ACCESSIBILITY_GUIDE.md`](docs/ACCESSIBILITY_GUIDE.md) | Reference | Accessibility features, known limitations, keyboard navigation, and contrast |
 | **Config Guide** | [`docs/CONFIG_GUIDE.md`](docs/CONFIG_GUIDE.md) | Reference | Every `_config.yml` option |
 | **Data Guide** | [`docs/DATA_GUIDE.md`](docs/DATA_GUIDE.md) | Reference | YAML data schemas for all 12 resume sections |
 | **Layouts Guide** | [`docs/LAYOUTS_GUIDE.md`](docs/LAYOUTS_GUIDE.md) | Reference | Locale-agnostic layout architecture and data flow |

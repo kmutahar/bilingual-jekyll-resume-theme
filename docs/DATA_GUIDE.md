@@ -35,7 +35,7 @@ UI strings, month names, and error page copy are not resume data: they live in t
 ## Overview & Folder Architecture
 
 > [!TIP]
-> Keep one folder per language (`_data/en/`, `_data/ar/`, `_data/es/`, ...), each holding the same file names. Complete starter data for six languages (a Sherlock Holmes demo persona) is in [`_data/`](_data/): `en`, `ar`, `es`, `fr`, `de`, `ur`.
+> Keep one folder per language (`_data/en/`, `_data/ar/`, `_data/es/`, ...), each holding the same file names. Complete starter data for six languages (a Sherlock Holmes demo persona) is in [`demo/_data/`](../demo/_data/): `en`, `ar`, `es`, `fr`, `de`, `ur`.
 
 ```text
 _data/
@@ -80,7 +80,7 @@ languages:
     data_path: ar   # _data/ar/
 ```
 
-The file lists below name the English and Arabic starter files; every other language folder mirrors them.
+The file links below name the English and Arabic demo files; every other language folder mirrors them. Examples use the canonical keys read by the templates. The validator accepts some aliases, but does not convert those aliases for rendering.
 
 ---
 
@@ -88,7 +88,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 1. Experience (`experience.yml`)
 
-- **Files:** [`_data/en/experience.yml`](_data/en/experience.yml) / [`_data/ar/experience.yml`](_data/ar/experience.yml)
+- **Files:** [`_data/en/experience.yml`](../demo/_data/en/experience.yml) / [`_data/ar/experience.yml`](../demo/_data/ar/experience.yml)
 - **Config Toggle:** `resume_section.experience: true`
 - **Behavior:** Roles are grouped by `company` name. Multiple positions at the same employer appear together, sorted by `startdate` (most recent first).
 
@@ -124,9 +124,9 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 2. Education (`education.yml`)
 
-- **Files:** [`_data/en/education.yml`](_data/en/education.yml) / [`_data/ar/education.yml`](_data/ar/education.yml)
+- **Files:** [`_data/en/education.yml`](../demo/_data/en/education.yml) / [`_data/ar/education.yml`](../demo/_data/ar/education.yml)
 - **Config Toggle:** `resume_section.education: true`
-- **Required fields:** `uni` (or `institution`/`school`), `degree`, and `year` (a freeform display string — the validator requires it be present, but does not parse or format-check it, since it's shown as-is rather than run through the date formatter). An entry may use `startdate`/`enddate` instead of `year`; when present those are validated as ISO dates like every other section.
+- **Display fields:** `uni`, `degree`, and `year` (a freeform date string). The validator accepts `institution`/`school` aliases for `uni`, and accepts `startdate` instead of a nonblank `year`; the current template still reads only `uni` and `year`. Use those canonical fields for visible institution and date text. Optional `startdate`/`enddate` are validated as ISO dates.
 
 ```yaml
 - degree: "M.S. in Computer Science"
@@ -157,7 +157,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 3. Certifications (`certifications.yml`)
 
-- **Files:** [`_data/en/certifications.yml`](_data/en/certifications.yml) / [`_data/ar/certifications.yml`](_data/ar/certifications.yml)
+- **Files:** [`_data/en/certifications.yml`](../demo/_data/en/certifications.yml) / [`_data/ar/certifications.yml`](../demo/_data/ar/certifications.yml)
 - **Config Toggle:** `resume_section.certifications: true`
 
 ```yaml
@@ -200,7 +200,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 4. Courses (`courses.yml`)
 
-- **Files:** [`_data/en/courses.yml`](_data/en/courses.yml) / [`_data/ar/courses.yml`](_data/ar/courses.yml)
+- **Files:** [`_data/en/courses.yml`](../demo/_data/en/courses.yml) / [`_data/ar/courses.yml`](../demo/_data/ar/courses.yml)
 - **Config Toggle:** `resume_section.courses: true`
 
 ```yaml
@@ -224,7 +224,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 5. Volunteering (`volunteering.yml`)
 
-- **Files:** [`_data/en/volunteering.yml`](_data/en/volunteering.yml) / [`_data/ar/volunteering.yml`](_data/ar/volunteering.yml)
+- **Files:** [`_data/en/volunteering.yml`](../demo/_data/en/volunteering.yml) / [`_data/ar/volunteering.yml`](../demo/_data/ar/volunteering.yml)
 - **Config Toggle:** `resume_section.volunteering: true`
 
 ```yaml
@@ -239,13 +239,13 @@ The file lists below name the English and Arabic starter files; every other lang
 
 **Display Format:**
 - Same layout structure as the [Experience](#1-experience-experienceyml) section: grouped by organization name and sorted chronologically.
-- Displays: **Position • Date Range • Location** followed by the summary paragraph.
+- Displays: **Position • Date Range • Location** followed by the summary paragraph when `enable_summary: true`.
 
 ---
 
 ### 6. Projects (`projects.yml`)
 
-- **Files:** [`_data/en/projects.yml`](_data/en/projects.yml) / [`_data/ar/projects.yml`](_data/ar/projects.yml)
+- **Files:** [`_data/en/projects.yml`](../demo/_data/en/projects.yml) / [`_data/ar/projects.yml`](../demo/_data/ar/projects.yml)
 - **Config Toggle:** `resume_section.projects: true`
 
 ```yaml
@@ -267,7 +267,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 7. Skills (`skills.yml`)
 
-- **Files:** [`_data/en/skills.yml`](_data/en/skills.yml) / [`_data/ar/skills.yml`](_data/ar/skills.yml)
+- **Files:** [`_data/en/skills.yml`](../demo/_data/en/skills.yml) / [`_data/ar/skills.yml`](../demo/_data/ar/skills.yml)
 - **Config Toggle:** `resume_section.skills: true`
 
 ```yaml
@@ -288,7 +288,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 8. Recognition (`recognitions.yml`)
 
-- **Files:** [`_data/en/recognitions.yml`](_data/en/recognitions.yml) / [`_data/ar/recognitions.yml`](_data/ar/recognitions.yml)
+- **Files:** [`_data/en/recognitions.yml`](../demo/_data/en/recognitions.yml) / [`_data/ar/recognitions.yml`](../demo/_data/ar/recognitions.yml)
 - **Config Toggle:** `resume_section.recognitions: true`
 
 > [!NOTE]
@@ -317,7 +317,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 9. Associations (`associations.yml`)
 
-- **Files:** [`_data/en/associations.yml`](_data/en/associations.yml) / [`_data/ar/associations.yml`](_data/ar/associations.yml)
+- **Files:** [`_data/en/associations.yml`](../demo/_data/en/associations.yml) / [`_data/ar/associations.yml`](../demo/_data/ar/associations.yml)
 - **Config Toggle:** `resume_section.associations: true`
 
 ```yaml
@@ -339,7 +339,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 10. Languages (`languages.yml`)
 
-- **Files:** [`_data/en/languages.yml`](_data/en/languages.yml) / [`_data/ar/languages.yml`](_data/ar/languages.yml)
+- **Files:** [`_data/en/languages.yml`](../demo/_data/en/languages.yml) / [`_data/ar/languages.yml`](../demo/_data/ar/languages.yml)
 - **Config Toggles:**
   - `resume_section.lang_header: true`: Renders compact language chips directly in the header.
   - `resume_section.languages: true`: Renders a standalone two-column table section.
@@ -362,14 +362,14 @@ The file lists below name the English and Arabic starter files; every other lang
 ```
 
 **Display Format:**
-- **Table Mode (`resume_section.languages: true`):** Renders a responsive two-column table in the main body. Each entry displays: **Language: Description**.
-- **Header Chips Mode (`resume_section.lang_header: true`):** Renders inline compact badges below the job title in the resume header using the `descrp_short` attribute.
+- **Table Mode (`resume_section.languages: true`, `lang_header: false`):** Renders a responsive two-column table in the main body. Each entry displays: **Language: Description**.
+- **Header Chips Mode (`resume_section.lang_header: true`):** Renders inline compact badges in the contact row above the job title using the `descrp_short` attribute.
 
 ---
 
 ### 11. Links (`links.yml`)
 
-- **Files:** [`_data/en/links.yml`](_data/en/links.yml) / [`_data/ar/links.yml`](_data/ar/links.yml)
+- **Files:** [`_data/en/links.yml`](../demo/_data/en/links.yml) / [`_data/ar/links.yml`](../demo/_data/ar/links.yml)
 - **Config Toggle:** `resume_section.links: true`
 
 ```yaml
@@ -390,7 +390,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ### 12. Interests (`interests.yml`)
 
-- **Files:** [`_data/en/interests.yml`](_data/en/interests.yml) / [`_data/ar/interests.yml`](_data/ar/interests.yml)
+- **Files:** [`_data/en/interests.yml`](../demo/_data/en/interests.yml) / [`_data/ar/interests.yml`](../demo/_data/ar/interests.yml)
 - **Config Toggle:** `resume_section.interests: true`
 
 ```yaml
@@ -407,7 +407,7 @@ The file lists below name the English and Arabic starter files; every other lang
 
 ## Header & Executive Summary (`header.yml`)
 
-- **Files:** [`_data/en/header.yml`](_data/en/header.yml) / [`_data/ar/header.yml`](_data/ar/header.yml)
+- **Files:** [`_data/en/header.yml`](../demo/_data/en/header.yml) / [`_data/ar/header.yml`](../demo/_data/ar/header.yml)
 - **Config Toggle:** `languages.<lang>.header_intro: true` (per language)
 
 Contains the executive bio summary rendered directly beneath the candidate name, job title, and social links bar:
@@ -433,7 +433,7 @@ intro: >-
 
 ## Error Page Copy
 
-Error page text is not in your data folders. Each locale file carries an `error_pages` map, and [`../_layouts/error.html`](../_layouts/error.html) renders one block per language in `site.languages`, in config order:
+Error page text is not in your data folders. Each locale file carries an `error_pages` map, and [`../_layouts/error.html`](../_layouts/error.html) server-renders one block in `default_lang`. JavaScript can replace that block using a configured language prefix at the start of the requested URL:
 
 ```yaml
 # _data/locales/en.yml (excerpt)
@@ -447,7 +447,7 @@ error_pages:
   return_link: "Return to resume"
 ```
 
-To change the copy, override `error_pages` in your site's `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#overriding-theme-locales)). Pages using `layout: error` accept `code` (default `"404"`) and `show_reload: true` in front matter; the reload button also appears automatically for `500` and `503`. Return links point at each `languages.<lang>.url`.
+To change the copy, override `error_pages` in your site's `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#overriding-theme-locales)). Pages using `layout: error` accept `code` (default `"404"`) and `show_reload: true` in front matter; the reload button also appears automatically for `500` and `503`. The single Home button points at the selected language’s profile page, falling back to `languages.<lang>.url`, then `/`. `error_pages.return_link` is retained in locale data but is not used by this button. See [error-page behavior](LAYOUTS_GUIDE.md#4-errorhtml-multilingual-http-error-suite).
 
 ---
 
@@ -467,7 +467,7 @@ To change the copy, override `error_pages` in your site's `_data/locales/<lang>.
 
 ### Active / Inactive Visibility Flags
 
-All resume items support the boolean `active:` flag:
+Every list section except interests uses the boolean `active:` flag:
 - `active: true`: Item renders on the resume.
 - `active: false`: Item is preserved in your YAML record but omitted from generated HTML.
 - No `active` key: the item does not render either, and the validator warns. `interests.yml` is the exception: its items have no flag and always render.

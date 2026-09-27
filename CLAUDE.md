@@ -1,56 +1,5 @@
 # CLAUDE.md
 
-> **Notice**: The authoritative master guidance and architecture manual for this repository is maintained in **[`AGENTS.md`](AGENTS.md)**.
-> To eliminate duplicate maintenance and documentation drift, all instructions, architecture specifications, data schemas, and agent operating rules reside exclusively in `AGENTS.md`.
+Read [AGENTS.md](AGENTS.md) before working in this repository. It owns the operating rules, documentation navigation, verification commands, and commit-approval policy.
 
 @AGENTS.md
-
----
-
-## Quick Reference for Claude Code
-
-### Living Docs Governance Signposts
-- **Constitution**: [`AGENTS.md`](AGENTS.md): Authoritative agent operating rules & all-locale parity constraints.
-- **Map**: [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md): Architecture, file maps, and component guide.
-- **Status**: [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md): Active features, blueprints, and the Delete-Zone.
-- **History**: [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) & [`CHANGELOG.md`](CHANGELOG.md): Completed work & release history.
-
-### Primary Instructions
-When working in this repository with Claude Code, adhere strictly to **[`AGENTS.md`](AGENTS.md)**:
-
-1. **All-Locale Parity**: Every language renders through `_layouts/resume.html` and `_includes/resume-section.html`. Visible text lives in `_data/locales/<lang>.yml`; keep the six locale files' key sets identical.
-2. **Feature Roadmap**: Consult [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) before implementing features. Every active feature has a technical blueprint, a mapped GitHub issue, and a Status Delete-Zone entry for anything removed.
-3. **Issue Auto-Closing**: All commits and pull requests must use Conventional Commits and explicit issue closure syntax:
-   `feat(<scope>): <description> (Closes #<issue_id>)`
-4. **Historical Remediation Awareness**: Review [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) before touching security or structural areas to avoid duplicating or reverting completed work.
-5. **RTL Mechanics**: Direction, fonts, and month names come from the locale file; RTL overrides in `_sass/_resume-rtl.scss` stay language-neutral. See [`docs/MULTILINGUAL_GUIDE.md`](docs/MULTILINGUAL_GUIDE.md).
-
-### Essential Commands
-```bash
-# Install dependencies
-bundle install
-
-# Serve the six-language demo from the demo submodule
-bundle exec jekyll serve --source demo --destination _site
-
-# Static demo build in the theme repository
-bundle exec jekyll build --source demo --destination _site
-
-# Validator, RuboCop, and tests
-bundle exec rake
-
-# Build Ruby gem locally
-gem build bilingual-jekyll-resume-theme.gemspec
-```
-
-> **Maintenance Rule**: Do not add standalone architecture or rule updates to this file. Always update **[`AGENTS.md`](AGENTS.md)** directly.
-
-## graphify
-
-This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
-
-Rules:
-- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
-- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
-- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
-- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).

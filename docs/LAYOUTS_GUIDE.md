@@ -22,7 +22,7 @@ The theme's layouts in [`../_layouts/`](../_layouts/): what each one renders, ho
 
 ## Overview & Layout Hierarchy
 
-Pages select a layout in front matter. A resume page is `layout: resume` plus `lang: <code>`; there is no per-language layout.
+Hand-authored pages select a layout in front matter. The current checkout also generates missing CV/profile pages; see [page configuration](CONFIG_GUIDE.md#3-languages). A resume page is `layout: resume` plus `lang: <code>`; there is no per-language layout.
 
 ```text
 _layouts/default.html   (base shell: <head>, anti-FOUC, dark mode, footer)
@@ -36,7 +36,7 @@ _layouts/resume.html    (standalone resume, one layout for every language and di
 
 ## Language Resolution
 
-Every layout and include resolves the active language the same way:
+The common language-resolution pattern is shown below. Some includes accept `include.lang`; the default/profile layouts also fall back to the English locale if neither the page nor default locale exists:
 
 ```liquid
 {% assign lang = page.lang | default: site.default_lang | default: 'en' %}
@@ -60,13 +60,14 @@ Schemas for both are in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) and [`C
 - `<html lang="{{ lang }}" dir="{{ locale.direction }}">`, skip link text from `locale.ui.skip_to_content`.
 - Includes [`shared-head.html`](../_includes/shared-head.html), a stylesheet link to `assets/css/main.css`, `{% seo %}`, and the analytics includes.
 - Emits `<link rel="me">` when `site.social_links.mastodon` is set.
-- Includes [`dark-mode-toggle.html`](../_includes/dark-mode-toggle.html) and [`language-switcher.html`](../_includes/language-switcher.html) (suppressed on `layout: error` pages), and wraps content in `<main class="main-content" id="main-content">`.
+- Includes [`dark-mode-toggle.html`](../_includes/dark-mode-toggle.html) and [`language-switcher.html`](../_includes/language-switcher.html) (also present on error pages unless disabled by site/page settings), and wraps content in `<main class="main-content" id="main-content">`.
 
 ### 2. `profile.html` (Portfolio Landing)
 
 - **File:** [`../_layouts/profile.html`](../_layouts/profile.html)
 - **Role:** Standalone landing page, independent of `default.html` so its centering styles do not leak.
 - Same `lang` / `dir` resolution, skip link, dark mode toggle, and language switcher as `default.html`.
+- Uses `languages.<lang>.name`, optional `name_html`, and `about` for its header; the CV button points to `languages.<lang>.url`. Calls `hreflang.html` for translated profile pages sharing `t_id: profile`.
 - Stylesheet [`../assets/css/profile.scss`](../assets/css/profile.scss) (compiled to `assets/css/profile.css`, linked directly in the layout's `<head>`), styled by [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss).
 
 ### 3. `resume.html` (Resume, Every Language)
@@ -87,10 +88,12 @@ Schemas for both are in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) and [`C
 ### 4. `error.html` (Multilingual HTTP Error Suite)
 
 - **File:** [`../_layouts/error.html`](../_layouts/error.html), extends `default.html`. Used by `404.html`, `403.html`, and `500.html`.
-- Reads `page.code` (default `"404"`) and renders one `lang` / `dir`-tagged block per entry in `site.languages`, in config order, with `title` and `message` from that language's `locale.error_pages[code]`.
-- Search form (`role="search"`) submitting `q` to the site root, labelled from `default_lang`'s `locale.error_pages.search_*` keys. A static page can't negotiate language server-side, so a small inline script reads `navigator.language` and swaps in a configured language's `search_*` text when it matches; with JavaScript disabled, the `default_lang` text stands as-is.
-- Buttons: Reload (for `500`, `503`, or `page.show_reload: true`) and Home, labelled from the `default_lang` locale; then one return link per language, labelled `locale.error_pages.return_link (locale.ui.language_name)`, pointing at `languages.<lang>.url`, falling back to the first page with `layout: resume` and that `lang`.
-- [`../_plugins/error_pages_generator.rb`](../_plugins/error_pages_generator.rb) adds `404.html`, `403.html`, and `500.html` to consuming sites that do not define their own. It only runs when the gem is declared in the `Gemfile`'s `:jekyll_plugins` group.
+- Reads `page.code` (default `"404"`) and server-renders a single heading/message block in `default_lang`.
+- On `DOMContentLoaded`, the inline script checks whether `window.location.pathname` begins with a configured `/<lang>/` prefix. It updates the block’s text, `lang`, and `dir`, plus the Home button’s label and destination. It does not use browser language or a stored preference.
+- With JavaScript disabled, or without a matching prefix, the default-language content remains. Detection currently checks the start of the pathname without removing `baseurl`; a path such as `/portfolio/ar/missing` therefore falls back to the default language. The script changes the error block, not the outer page’s language or switcher label.
+- The single Home link prefers the selected language’s `layout: profile` page, then `languages.<lang>.url`, then `/`. Reload is shown for `500`, `503`, or `page.show_reload: true`; its label remains in the default locale.
+- There is no search form or per-language return-link list in the current error layout. Search is future Feature 4.8 in the roadmap.
+- [`../_plugins/error_pages_generator.rb`](../_plugins/error_pages_generator.rb) creates missing `404.html`, `403.html`, and `500.html`. A manual `layout: error`, `code: 503` page is supported but is not generated automatically. Load the theme through the Gemfile’s `:jekyll_plugins` group or the config’s `plugins:` list.
 
 ---
 
@@ -146,8 +149,8 @@ Layouts include the toggle directly:
 {% include dark-mode-toggle.html %}
 ```
 
-1. **Site level:** `dark_mode: auto` (default) is CSS-only system matching with no toggle. `dark_mode: enabled` or `true` renders the toggle.
-2. **Page level:** front matter `dark_mode: false` or `true` overrides the site setting for that page.
+1. **Site level:** `dark_mode: auto` (default) uses system-preference CSS with no toggle. The shared stored-preference script is still present. `dark_mode: enabled` or `true` renders the toggle.
+2. **Page level:** front matter `dark_mode: false` or `true` controls the toggle for that page; it does not force the page’s palette.
 3. **Anti-FOUC:** the inline script in [`../_includes/shared-head.html`](../_includes/shared-head.html) applies a stored preference before stylesheets load.
 
 ---

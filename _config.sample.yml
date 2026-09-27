@@ -17,9 +17,8 @@ url: "https://your-domain.com" # Full site URL (protocol + host), e.g. https://e
 baseurl: ""                    # Subpath if hosted in a subdirectory (e.g., /resume); keep "" if at root
 timezone: UTC                  # Timezone for date rendering (e.g., UTC, America/New_York, Asia/Riyadh)
 
-# Default site language and text direction (used in default and error layouts)
-# lang: "en"                   # Default: "en"
-# dir: "ltr"                   # Default: "ltr" (use "rtl" for right-to-left base layout)
+# Language comes from page.lang or default_lang (Section 6.5).
+# Direction comes from _data/locales/<lang>.yml; no site-wide lang/dir keys are used.
 
 # ==============================================================================
 # 2. FAVICONS & WEB APP MANIFEST (Optional - defaults to theme bundled assets)
@@ -186,7 +185,7 @@ resume_auto_generate_pages: true
 # ==============================================================================
 # 7. RESUME DISPLAY & BEHAVIOR CONTROLS
 # ==============================================================================
-# Interactive language switcher (floating button, lists every entry in `languages`)
+# Language dropdown (fixed top-left, lists every other configured language)
 resume_language_switcher: true       # Toggle floating language switcher (default: true)
 
 # Header display toggles
@@ -248,8 +247,9 @@ resume_section_order:
 # 9. STYLING, FONTS & DARK MODE
 # ==============================================================================
 # Dark Mode Configuration:
-# - "auto" (default): CSS-only system detection (prefers-color-scheme); zero JS, no toggle button
+# - "auto" (default): system-preference CSS, no toggle button; shared preference script still runs
 # - "enabled" or true: Renders interactive floating toggle button with localStorage persistence
+# - false or "disabled": hides the toggle; does not force the page into light mode
 dark_mode: auto
 
 # Visual theme variant (default: "default")
@@ -259,7 +259,7 @@ resume_theme: default
 # font_url in your site's own _data/locales/<lang>.yml (see "Overriding Theme
 # Locales" in docs/MULTILINGUAL_GUIDE.md) instead of a site-wide config key.
 
-# Disable remote Google Fonts fetching (useful for offline/intranet builds or strict GDPR compliance)
+# Disable font stylesheet loading in the resume layout (including a custom locale font_url)
 # disable_google_fonts: true
 
 # Optional authors metadata
@@ -283,7 +283,7 @@ plugins:
   # Belt-and-suspenders: Jekyll auto-requires gems listed here (site.gems) regardless
   # of Bundler group, guarding against a Gemfile that forgets to put the theme gem in
   # the `:jekyll_plugins` group — without that, the build-time resume validator and
-  # HTTP error page generator silently never run.
+  # page generators silently never run.
   - bilingual-jekyll-resume-theme
   - jekyll-feed
   - jekyll-seo-tag

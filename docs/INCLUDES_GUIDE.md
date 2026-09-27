@@ -2,7 +2,7 @@
 
 The theme's reusable partials in [`../_includes/`](../_includes/): what each one renders, its parameters, and how to add a resume section or social network.
 
-Every include that shows text resolves the active language the same way the layouts do (`page.lang`, then `site.default_lang`, then `en`) and reads its strings from `site.data.locales[lang]`. No include branches on a specific language code, so every include works for every configured language. See [`LAYOUTS_GUIDE.md`](LAYOUTS_GUIDE.md#language-resolution).
+Locale-aware includes resolve language from an optional `include.lang`, then `page.lang`, `site.default_lang`, or `en`. Shared resume rendering avoids language-specific branches. Keep new UI text in locale files; see the accessibility guide for current labeling limitations. See [`LAYOUTS_GUIDE.md`](LAYOUTS_GUIDE.md#language-resolution).
 
 ---
 
@@ -40,11 +40,13 @@ _layouts/resume.html
  ├── analytics-head.html     (GTM / GA4 head script)
  ├── analytics-body.html     (GTM noscript iframe)
  ├── dark-mode-toggle.html   (floating theme toggle)
- ├── language-switcher.html  (floating links to the other languages)
+ ├── language-switcher.html  (dropdown links to the other languages)
  ├── avatar.html             (profile image)
  ├── date-formatter.html     (date of birth)
  ├── social-links.html       (header social icons)
  ├── resume-section.html     (one call per entry in resume_section_order)
+ │    ├── grouped-item-list.html (Experience and Volunteering)
+ │    │    └── date-formatter.html
  │    └── date-formatter.html
  └── print-social-links.html (print-only text list)
 ```
@@ -70,7 +72,7 @@ _layouts/resume.html
 
 ### 3. `avatar.html`
 
-- **Consumed by:** `resume.html` when `site.resume_avatar == true`.
+- **Consumed by:** `resume.html` and `profile.html` when `site.resume_avatar == true`.
 - **Parameters:** `lang` (default: active language), `link` (`false` renders a bare `<img>`), `class` (extra CSS classes).
 - **Source:** `site.avatar_url`, default `/assets/images/Profile-min.jpg`. Values containing `://` are used as-is; others pass through `relative_url`.
 - **Alt text:** `languages.<lang>.avatar_alt`, then `languages.<lang>.name`, then `locale.ui.photo_alt`.
@@ -90,7 +92,7 @@ _layouts/resume.html
 
 ### 5. `language-switcher.html`
 
-- **Consumed by:** `resume.html`, `default.html`, `profile.html`. Hidden on `layout: error` pages, when `site.resume_language_switcher: false`, or when front matter sets `language_switcher: false`.
+- **Consumed by:** `resume.html`, `default.html`, `profile.html`. Present on error pages too. Hidden when `site.resume_language_switcher: false` or front matter sets `language_switcher: false`.
 - Renders as a `<details class="language-switcher">`/`<summary class="language-switcher-trigger">` disclosure — zero JavaScript. The trigger's visible label is the current locale's `ui.language_switcher`; opening it reveals a `<nav class="language-switcher-panel">` with one link for every entry in `site.languages` except the current one, each labelled with the target locale's `ui.language_name`.
 - **Link resolution per target language:** the page in `site.pages` with the same `t_id` and the target `lang`; otherwise `languages.<lang>.url`.
 - Fixed top-left in every locale, LTR and RTL alike (the dark mode toggle is fixed top-right); positions no longer mirror by direction. Hidden in print.
@@ -100,7 +102,7 @@ _layouts/resume.html
 
 - **Consumed by:** `resume-section.html` (every date) and `resume.html` (date of birth).
 - **Parameters:** `date` (required), `style` (`"MY"` default: `<month> <year>`; `"MDY"`: `<month> <day>, <year>`), `lang` (default: active language).
-- A `date` matching any of the locale's `present_values` (case-insensitive) renders `locale.ui.present`. Otherwise the month name comes from `locale.months`. An unparseable value is printed unchanged.
+- A `date` matching any of the locale's `present_values` (case-insensitive) renders `locale.ui.present`. Otherwise the month name comes from `locale.months`. The fallback prints the input if no month name resolves. The formatter delegates date parsing to Liquid, so validate dates before rendering rather than relying on malformed-input behavior.
 
 ```liquid
 {% include date-formatter.html date=role.startdate %}
@@ -111,7 +113,7 @@ This include is the single date hook for every language; calendar extensions (fo
 
 ### 7. `social-links.html`
 
-- **Consumed by:** `resume.html` header, inside `<ul class="social-links">`, when `site.social_links` is set.
+- **Consumed by:** `resume.html` and `profile.html`, inside `<ul class="social-links">`, when `site.social_links` is set.
 - `email` renders a `mailto:` link with `itemprop="email"`. The other 14 platforms (`github`, `linkedin`, `telegram`, `twitter`, `medium`, `dribbble`, `facebook`, `instagram`, `website`, `whatsapp`, `devto`, `flickr`, `pinterest`, `youtube`) open in a new tab with `rel="noopener nofollow noreferrer"`.
 - Every icon link carries `aria-label`, `title`, and a `.sr-only` text span.
 
@@ -122,7 +124,7 @@ This include is the single date hook for every language; calendar extensions (fo
 
 ### 9. `hreflang.html`
 
-- **Consumed by:** `resume.html` head.
+- **Consumed by:** `resume.html` and `profile.html` heads.
 - Runs only when the page has a `t_id`. Emits `<link rel="alternate" hreflang="<lang>">` for every page sharing that `t_id`, and `hreflang="x-default"` for the one whose `lang` is `site.default_lang`. URLs are absolute (`absolute_url`), so `site.url` must be set.
 
 ### 10. `data-loader.html`
@@ -133,7 +135,7 @@ This include is the single date hook for every language; calendar extensions (fo
 
 ### 11. `analytics-head.html` & `analytics-body.html`
 
-- **Head:** Google Tag Manager (`site.analytics.gtm`) or Google Analytics 4 (`site.analytics.gtag`). Universal Analytics (`analytics.ga`) was removed in v1.0.0.
+- **Head:** Google Tag Manager (`site.analytics.gtm`) or Google Analytics 4 (`site.analytics.gtag`). Universal Analytics (`analytics.ga`) is retired; use `analytics.gtag` for GA4.
 - **Body:** the GTM `<noscript><iframe>` right after `<body>` in every layout.
 
 ### 12. `vendors/` (SVG Icon Packs)
@@ -221,6 +223,10 @@ Inside every branch:
 | `languages` | `languages` (and `lang_header` not `true`) | `languages.yml` | `resume_data.languages` |
 | `links` | `links` | `links.yml` | `resume_data.links` |
 
+### Shared Grouped Items (`grouped-item-list.html`)
+
+Experience and Volunteering both call this include with `items` and `lang`. It filters `active: true`, groups by `company`, and sorts roles within each group by `startdate` descending. Explicit `durations[].duration` strings take precedence over formatted start/end dates. Summaries require `enable_summary: true`.
+
 ### Adding a New Custom Section
 
 Adding `publications`:
@@ -267,9 +273,9 @@ font_url: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&dis
    ```liquid
    {% if site.social_links.newplatform %}
      <li class="icon-link-item">
-       <a href="{{ site.social_links.newplatform }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="New Platform" title="New Platform">
+       <a href="{{ site.social_links.newplatform }}" class="icon-link" itemprop="sameAs" target="_blank" rel="noopener nofollow noreferrer" aria-label="{{ locale.ui.social_labels.newplatform }}" title="{{ locale.ui.social_labels.newplatform }}">
          {% include vendors/lineicons-v5.0/newplatform.svg %}
-         <span class="sr-only">New Platform</span>
+         <span class="sr-only">{{ locale.ui.social_labels.newplatform }}</span>
        </a>
      </li>
    {% endif %}

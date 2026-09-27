@@ -1,6 +1,6 @@
 # SCSS / SASS Architecture Guide (`_sass/`)
 
-A technical tour of the theme's styling system in [`../_sass/`](../_sass/) and entrypoint stylesheets in [`../assets/css/`](../assets/css/). This guide covers modern Dart Sass module architecture, the dark mode token system, RTL mirroring, WCAG 2.2 accessibility standards, and print optimization.
+A technical tour of the theme's styling system in [`../_sass/`](../_sass/) and entrypoint stylesheets in [`../assets/css/`](../assets/css/). This guide covers modern Dart Sass module architecture, the dark mode token system, RTL mirroring, accessibility styles, and print optimization.
 
 ---
 
@@ -53,7 +53,8 @@ The theme exclusively utilizes modern Dart Sass `@use` instead of deprecated `@i
 
 Because Jekyll prioritizes files in the consuming site's directory over gem theme assets, you can override any partial without forking the gem:
 1. Create a matching file in your local site (e.g., `_sass/_variables.scss`).
-2. Define your customized variables. Any variable marked `!default` in the theme will yield to your local values.
+2. Copy the complete partial and edit the variables you need; a same-path file replaces the whole theme partial, so omitted definitions can break dependent modules.
+3. Alternatively, copy a stylesheet entrypoint and configure `@use "variables" with (...)` before the other modules load it. Only variables declared with `!default` can be configured this way.
 
 ---
 
@@ -147,7 +148,7 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 - **File:** [`../_sass/_all-pages.scss`](../_sass/_all-pages.scss)
 - **Role:** Universal styles shared across all layouts.
 - **Key Features:**
-  - Contact SVG icon sizing and hover animations.
+  - Shared icon-link sizing, hover animations, and `.page-footer` spacing. The deduplication in `a354b62` keeps shared rules here and `.sr-only` in `_base.scss`.
   - Complete dark-mode-aware typography rules for markdown content in `.main-content` (headings, paragraphs, blockquotes, tables, lists, and code blocks).
 
 ---
@@ -163,7 +164,7 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ### Design Tokens Table
 
-All layout and resume styles reference CSS custom properties defined on `:root` in [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss):
+Shared color styles use CSS custom properties defined on `:root` in [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss):
 
 | CSS Custom Property | Light Mode Value | Dark Mode Value | Semantic Role |
 |---|---|---|---|
@@ -180,6 +181,7 @@ All layout and resume styles reference CSS custom properties defined on `:root` 
 | `--link-hover-color` | `var(--link-hover)` | `var(--link-hover)` | Hyperlink hover alias |
 | **Accent & Brand** | | | |
 | `--accent-color` | `#3064a9` | `#6ba4e8` | Primary accents and focus outlines |
+| `--accent-contrast-text` | `#ffffff` | `#121212` | Text and focus outline against the accent background |
 | `--accent-hover` | `#307EA9` | `#8cbcf3` | Accent hover state |
 | `--accent-hover-color` | `var(--accent-hover)` | `var(--accent-hover)` | Accent hover alias |
 | `--social-hover-color` | `var(--accent-hover)` | `var(--accent-hover)` | Social icons hover color |
@@ -213,7 +215,7 @@ All layout and resume styles reference CSS custom properties defined on `:root` 
 1. **Automatic Detection:**
    ```scss
    @media (prefers-color-scheme: dark) {
-     :root:not([data-color-scheme="light"]) {
+     :root:not([data-color-scheme="light"]):not([data-theme="light"]) {
        --bg-color: #121212;
        --text-color: #e0e0e0;
        // ...
@@ -252,7 +254,7 @@ When printing to physical paper or PDF, [`../_sass/_dark-mode.scss`](../_sass/_d
 
 ## WCAG 2.2 Accessibility & High-Contrast Standards
 
-- **Contrast Ratios:** All color tokens satisfy WCAG 2.2 Level AA requirements (minimum 4.5:1 contrast for normal text and 3:1 for large text).
+- **Contrast:** Evaluate foreground/background pairs, not tokens in isolation. In particular, `--text-muted: #999` on white is about 2.85:1 and is unsuitable for normal-size AA text. See [ACCESSIBILITY_GUIDE.md](ACCESSIBILITY_GUIDE.md) for current limitations and verification steps.
 - **Focus Rings:** Interactive elements feature high-contrast visible focus outlines:
   ```scss
   :focus-visible {

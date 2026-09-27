@@ -1,7 +1,7 @@
 # Completed Historical Remediation & Engineering Audit Log
 
 **Project:** `bilingual-jekyll-resume-theme`  
-**Current Release:** `v1.0.1` (Audited Baseline: `v0.7.0`)  
+**Original audit baseline:** `v0.7.0`
 **Milestone:** M1 Completed Audit Archival  
 **Audit Date:** September 2026  
 **Master Active Roadmap:** [`/FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md)  
@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary & Audit Overview
 
-This document provides the definitive, permanent engineering record of all **bug fixes, security hardenings, data resilience enhancements, accessibility upgrades, and architectural feature deliverables** completed across the `bilingual-jekyll-resume-theme` repository. It serves as the immutable historical record of foundation remediations and completed features across releases.
+This document provides the definitive, permanent engineering record of all **bug fixes, security hardenings, data resilience enhancements, accessibility upgrades, and architectural feature deliverables** completed across the `bilingual-jekyll-resume-theme` repository. Earlier entries retain their historical filenames and verification claims; they are not instructions to recreate removed files or current conformance attestations. Use the current reference guides for present behavior. Later work is appended with its actual commit/release boundary.
 
 To maintain strict hygiene in the active roadmap and eliminate document drift across planning cycles, completed items have been permanently retired from the active roadmap phases and archived in this audit document. For the active, forward-looking engineering roadmap detailing upcoming uncompleted features across Priorities 1 through 4, refer to the authoritative master roadmap at [`/FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md).
 
@@ -747,3 +747,27 @@ Each duplicate issue received a courteous explanatory comment before closure on 
 | [#1](https://github.com/kmutahar/bilingual-jekyll-resume-theme/pull/1) | `CLOSED` | Mend Bolt onboarding | Automated onboarding PR for Mend Bolt vulnerability scanning bot | Closed as bot onboarding was superseded by native GitHub security tools. |
 | [#24](https://github.com/kmutahar/bilingual-jekyll-resume-theme/pull/24) | `MERGED` | feat: Add dark mode toggle with system preference detection | Implemented dark mode engine, toggle component, and color scheme tokens | Merged into `master` on 2026-08-21; formally resolved issue #8 (P2.4). |
 
+
+
+## 10. v1.0.2 and Post-Release Repository Changes
+
+This section records the commits made since the `v1.0.2` tag.
+
+| Boundary | Commit | Completed work | Current references |
+|---|---|---|---|
+| v1.0.2 | `bfd9e83`, `f1779be` | Move the six-language Sherlock Holmes site to the `demo/` submodule and place the sample config at the repository root. | `demo/`, `_config.sample.yml`, `README.md` |
+| v1.0.2 | `392c192` | Ensure the theme is loaded as a plugin so bundled generators/validation register. | `Gemfile`, `demo/_config.yml`, `README.md` |
+| v1.0.2 | `8e942f9` | Render the language dropdown on error pages. | `_layouts/default.html`, `_includes/language-switcher.html` |
+| After v1.0.2 | `4c5f7d8` | Exclude development-only template checker and internal audit log from gem packaging. | `bilingual-jekyll-resume-theme.gemspec` |
+| After v1.0.2 | `a354b62` | Complete Feature 2.10 (#224): consolidate repeated SCSS rules and remove dead styles. | `_sass/`, `docs/SASS_GUIDE.md` |
+| After v1.0.2 | `abaf487` | Complete Feature 4.9 (#226): generate missing CV/profile pages per configured language. | `_plugins/resume_pages_generator.rb`, `test/test_resume_pages_generator.rb` |
+| After v1.0.2 | `4513f29` | Inline stylesheet links and remove the single-caller main/profile head includes. | `_layouts/default.html`, `_layouts/profile.html` |
+
+### Feature 4.9: Actual Generator Contract
+
+- CV destination: `languages.<lang>.url`; profile destination: `/` for `default_lang`, otherwise `/<lang>/`.
+- Default on via `resume_auto_generate_pages`; `languages.<lang>.auto_generate_pages` overrides it.
+- Existing `layout` + `lang` pages, or pages occupying the destination URL, prevent generation.
+- Generated pages receive `lang` and `t_id: resume` / `t_id: profile`.
+- Missing pages with generation disabled (or a missing CV URL) produce generator warnings. The data validator has no page-awareness and was not changed to suppress a missing-page warning.
+- The demo keeps manual English/Arabic CVs and its default profile; remaining CV/profile pages exercise generation.

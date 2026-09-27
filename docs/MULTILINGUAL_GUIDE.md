@@ -24,7 +24,9 @@ The theme ships six locales: English (`en`, LTR), Arabic (`ar`, RTL), Spanish (`
 
 ## Resume Pages
 
-Each language needs one page that uses `layout: resume` and sets `lang`:
+The theme auto-generates a missing CV page at `languages.<lang>.url` and a profile at `/` for `default_lang` or `/<lang>/` otherwise. Generated pages have `t_id: resume` or `t_id: profile`.
+
+To override a generated page, or disable generation with `resume_auto_generate_pages: false`, create a page with matching `layout` and `lang`:
 
 ```markdown
 ---
@@ -35,7 +37,7 @@ t_id: resume        # optional: links translations for hreflang and the language
 ---
 ```
 
-The layout resolves the active language from `page.lang`, falling back to `site.default_lang`, then `en`. It reads `site.data.locales[lang]` for direction and UI copy and `site.languages[lang]` for the per-language config. The repository's own demo pages are in [`demo/`](demo/).
+The layout resolves the active language from `page.lang`, falling back to `site.default_lang`, then `en`. It reads `site.data.locales[lang]` for direction and UI copy and `site.languages[lang]` for the per-language config. The repository's own demo pages are in [`demo/`](../demo/). English and Arabic CVs are hand-authored there; Spanish, French, German, and Urdu CVs are generated.
 
 ---
 
@@ -83,7 +85,7 @@ Every locale file has the same key set. The validator warns when a language's ef
 | `ui.section_titles.*` | One heading per resume section (`experience`, `education`, ... `links`). |
 | `ui.social_labels.*` | Labels for the print-only contact list. |
 | `error_pages."404"` / `"403"` / `"500"` / `"503"` | `title` and `message` for each HTTP error page. |
-| `error_pages.return_link` | Text of the "return to resume" link on error pages. |
+| `error_pages.return_link` | Retained locale key; the current error layout uses `ui.home` for its single Home button. |
 | `present_values` | Case-insensitive words that mean "ongoing" in `enddate` fields. A match renders `ui.present` instead of a date. |
 | `months` | The 12 month names, January first. Dates render as `<month> <year>`. |
 
@@ -156,7 +158,7 @@ v1.0.0 is a hard break: no aliases, shims, or fallback keys remain for the names
 | `analytics.ga` | `analytics.gtag` or `analytics.gtm` |
 | `resume_section.recognition` (singular) | `resume_section.recognitions` |
 | `required_ruby_version >= 3.0.0` | `>= 3.3.0` |
-| `gem "bilingual-jekyll-resume-theme"` (plain Gemfile line) | Same line inside `group :jekyll_plugins do ... end`; required for the error page generator and build-time validation to load |
+| `gem "bilingual-jekyll-resume-theme"` (plain Gemfile line) | Put the line inside `group :jekyll_plugins do ... end`, or list the theme under `plugins:` in `_config.yml`, to load its generators and validator |
 
 Also note:
 

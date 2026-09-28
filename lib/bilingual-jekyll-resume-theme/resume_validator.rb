@@ -32,6 +32,10 @@ module BilingualJekyllResumeTheme
 
     LOCALE_DIR_REGEX = /\A[a-z]{2,3}(?:[-_][a-zA-Z0-9]{2,4})?\z/i
 
+    # Only these three ISO shapes are accepted by validate_date; parse_date_safely's
+    # Date.parse fallback for other shapes is deliberately not reachable from there.
+    STRICT_ISO_DATE_REGEX = /\A\d{4}(-\d{2}(-\d{2})?)?\z/
+
     attr_reader :data_dir, :errors, :warnings, :info, :primary_locale
 
     # config: an already-parsed Jekyll site config Hash (the Jekyll plugin passes
@@ -429,6 +433,8 @@ module BilingualJekyllResumeTheme
       # Inactive entries (drafts or archived records) are not rendered by the theme
       return if entry["active"] == false
 
+      validate_export_fields(section_name, entry, item_context, lang: lang)
+
       # 2. Section-specific schema validations
       case section_name
       when "experience"
@@ -456,6 +462,30 @@ module BilingualJekyllResumeTheme
       when "interests"
         validate_interest_entry(entry, item_context)
       end
+    end
+
+    # Optional JSON Resume enrichment never replaces the HTML-facing keys.
+    def validate_export_fields(section, entry, context, lang:)
+      list_fields = {
+        "experience" => %w[highlights], "volunteering" => %w[highlights], "education" => %w[courses],
+        "skills" => %w[keywords], "interests" => %w[keywords], "projects" => %w[roles highlights keywords]
+      }
+      Array(list_fields[section]).each do |field|
+        next unless entry.key?(field)
+        next if entry[field].is_a?(Array) && entry[field].all?(String)
+
+        add_warning(context, "Optional '#{field}' must be an array of strings; invalid export values will be omitted.")
+      end
+      if section == "skills" && entry.key?("level_label") && !entry["level_label"].is_a?(String)
+        add_warning(context, "Optional 'level_label' must be a string.")
+      end
+      validate_url(entry["url"], context, "url") if %w[experience volunteering education].include?(section) && entry["url"]
+      if section == "projects"
+        validate_date(entry["startdate"], context, "startdate")
+        validate_date_or_present(entry["enddate"], context, "enddate", lang: lang)
+        validate_date_range(entry["startdate"], entry["enddate"], context, lang: lang) if entry["startdate"] && entry["enddate"]
+      end
+      validate_date(entry["date"], context, "date") if section == "recognitions"
     end
 
     def validate_active_flag(entry, context)
@@ -616,25 +646,17 @@ module BilingualJekyllResumeTheme
       add_warning(context, "Missing 'description' or 'interest' string") if desc.to_s.strip.empty?
     end
 
-    # Helper: Validates date syntax against ISO 8601 (YYYY-MM-DD, YYYY-MM, or YYYY)
+    # Helper: Validates date syntax against ISO 8601 (YYYY-MM-DD, YYYY-MM, or YYYY).
+    # Delegates the actual calendar-validity check to parse_date_safely so the
+    # Date.iso8601/strptime/new logic exists in one place.
     def validate_date(date_val, context, field_name)
       return if date_val.nil?
       return if date_val.is_a?(Date) || date_val.is_a?(Time)
 
       str = date_val.to_s.strip
       return if str.empty?
+      return if STRICT_ISO_DATE_REGEX.match?(str) && parse_date_safely(str)
 
-      case str
-      when /^\d{4}-\d{2}-\d{2}$/
-        Date.iso8601(str)
-      when /^\d{4}-\d{2}$/
-        Date.strptime(str, "%Y-%m")
-      when /^\d{4}$/
-        Date.new(str.to_i, 1, 1)
-      else
-        add_error(context, "Invalid date format for '#{field_name}': '#{date_val}' (expected ISO YYYY-MM-DD, YYYY-MM, or YYYY)")
-      end
-    rescue ArgumentError
       add_error(context, "Invalid date format for '#{field_name}': '#{date_val}' (expected ISO YYYY-MM-DD, YYYY-MM, or YYYY)")
     end
 

@@ -16,7 +16,7 @@
 | P2 | 2.5 | Skills Taxonomy & Categorized Tagging System | [#18](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/18) |
 | P2 | 2.6 | Social Media Cards (Open Graph & Twitter) | [#22](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/22) |
 | P2 | 2.9 | Dual Gregorian / Hijri (Islamic) Calendar Localization | [#218](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218) |
-| P3 | 3.1 | Standard JSON Resume Exporter | [#6](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/6) |
+| P3 | 3.2 | Publications & References Sections (JSON Resume Parity) | [#232](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/232) |
 | P4 | 4.2 | Interactive Career Timeline Visualization | [#16](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/16) |
 | P4 | 4.3 | Contact Form Integration (Formspree / Netlify) | [#20](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/20) |
 | P4 | 4.4 | Privacy-First Resume Engagement Analytics | [#17](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/17) |
@@ -25,6 +25,8 @@
 | P4 | 4.8 | Client-Side Site Search Index | [#225](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225) |
 
 ## 2. Completed Work and Current Architecture
+
+- **3.1, localized JSON Resume export (#6):** implemented and verified; see [JSON Resume export](docs/JSON_RESUME_EXPORT.md).
 
 - **2.10, SCSS deduplication (#224):** completed.
 - **4.9, automatic CV/profile pages (#226):** completed.
@@ -224,22 +226,47 @@ Offer Gregorian, Hijri, or dual display and optional numeral styling without cha
 - [ ] Present markers retain their locale labels in every calendar mode.
 - [ ] Dual dates and numeral choices work in Arabic and Urdu without language-specific templates.
 
-### Feature 3.1: Standard JSON Resume Exporter
+### Feature 3.2: Publications & References Sections (JSON Resume Parity)
 
-**Issue:** [#6](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/6) · **Branch:** `feature/json-resume-export` · **Closure:** `Closes #6`
+**Issue:** [#232](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/232) · **Branch:** `feature/publications-references` · **Closure:** `Closes #232`
 
-Export localized YAML resume data in the JSON Resume format.
+Add the two content sections JSON Resume defines that this theme currently has no data for at all: `publications[]` and `references[]`. See [JSON_RESUME_KEY_MAPPING.md](JSON_RESUME_KEY_MAPPING.md#sections-with-zero-mapping-whole-file-not-just-a-field).
 
-**Files:** Create a generator under `_plugins/` and register it in `lib/bilingual-jekyll-resume-theme.rb`; document mappings in a new `docs/JSON_RESUME_EXPORT.md` and add export tests.
+**Files:** Create `_data/<lang>/publications.yml` and `_data/<lang>/references.yml` in every language folder (theme demo data under `demo/_data/` too); add `publications`/`references` branches to `_includes/resume-section.html`; add `ui.section_titles.publications`/`references` to all six `_data/locales/*.yml`; extend `lib/bilingual-jekyll-resume-theme/resume_validator.rb` with schema rules for both files; extend `lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb` and its field-mapping table in `docs/JSON_RESUME_EXPORT.md`; document both schemas in `docs/DATA_GUIDE.md`.
 
-**Implementation contract:** The previous `json_resume_export_language: en/ar/dual` proposal only covered two languages. Define configurable export languages and collision-safe per-language routes using `site.languages` before implementation. Map header/contact to basics, experience to work, volunteering to volunteer, education to education, certifications to certificates, recognitions to awards, and supported skills/languages/interests/projects/links to their schema equivalents. Document unsupported fields instead of silently claiming lossless export. Pin and validate against the chosen JSON Resume schema; parsing JSON alone is not schema validation.
+**Implementation contract:**
+
+`publications.yml` — one entry per publication, mapping straight onto JSON Resume's `publications[]` object:
+
+```yaml
+- name: "On the Distinction of Tobacco Ashes"
+  publisher: "The Strand Magazine"
+  release_date: 1889-03-01   # YYYY, YYYY-MM, or YYYY-MM-DD, same rule as other section dates
+  url: "https://example.com/monographs/tobacco-ashes"
+  summary: "Monograph cataloguing 140 varieties of tobacco, cigar, and cigarette ash for forensic identification at a crime scene."
+  active: true
+```
+
+`name`→`name`, `publisher`→`publisher`, `release_date`→`releaseDate`, `url`→`url`, `summary`→`summary`.
+
+`references.yml` — one entry per reference, mapping straight onto JSON Resume's `references[]` object:
+
+```yaml
+- name: "Dr. John H. Watson, M.D."
+  reference: "Holmes possesses an extraordinary faculty for observation and deduction; in years of casework alongside him at Baker Street, I never once knew him wrong on a point of physical evidence."
+  active: true
+```
+
+`name`→`name`, `reference`→`reference`. JSON Resume defines no other fields for this section; do not add extras (e.g. `url`, `title`) the standard has no slot for.
+
+Both sections follow the existing twelve-section pattern: `resume_section_order` entry, `resume_section.<name>` toggle, `active: true` filter, heading sourced from `locale.ui.section_titles`, and the same all-locale-parity requirement (Rule 1) as every other section.
 
 **Acceptance criteria:**
 
-- [ ] Every configured export is valid against the chosen schema, not just parseable JSON.
-- [ ] Exports use the same resolved data path and contact policy as the CV.
-- [ ] Inactive entries are excluded and optional/missing fields do not corrupt output.
-- [ ] Non-Latin data and multiple export languages work without EN/AR-specific code.
+- [ ] Both sections render only when enabled, and only `active: true` items appear, in every configured locale.
+- [ ] All six locale files carry matching `ui.section_titles.publications`/`references` keys.
+- [ ] The JSON Resume exporter emits `publications[]` and `references[]` per the mapping above, with no change to any other section's export mapping.
+- [ ] `bundle exec rake` and `./bin/validate-resume demo/_data --all-locales --fail-on-warnings` pass with the new schemas.
 
 ### Feature 4.2: Interactive Career Timeline Visualization
 

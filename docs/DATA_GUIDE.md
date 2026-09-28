@@ -502,3 +502,7 @@ Every list section except interests uses the boolean `active:` flag:
 | Links | `links` | `links` | `links.yml` |
 | Interests | `interests` | `interests` | `interests.yml` |
 | Header Intro | `languages.<lang>.header_intro` | *(rendered in header)* | `header.yml` |
+
+## JSON Resume enrichment
+
+Existing data keys remain unchanged. Optional machine-readable dates, highlights, keywords, skill `level_label`, and other export fields are documented in [JSON Resume optional enrichment](JSON_RESUME_EXPORT.md#optional-enrichment). Numeric skill `level` keeps its existing meaning; no date-key renaming is required.

@@ -311,3 +311,15 @@ exclude:
 
 # Front matter defaults (optional)
 defaults: []
+
+# JSON Resume exports: /<lang>/resume.json and a default-language /resume.json.
+# Details and field mappings: docs/JSON_RESUME_EXPORT.md in the theme repository.
+json_resume:
+  enabled: true
+  root_export: true
+  languages: [] # Empty/missing: all configured languages
+  privacy:
+    export_contact_info: true # False removes email, phone, location, WhatsApp from JSON
+# Optional; social_links values remain URL strings.
+# social_usernames:
+#   github: octocat

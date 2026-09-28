@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "bilingual-jekyll-resume-theme"
-  spec.version       = "1.0.2"
+  spec.version       = "1.1.0"
   spec.authors       = ["Khaldoon Mutahar"]
   spec.email         = ["contact@mutahar.me"]
 
@@ -52,6 +52,11 @@ Gem::Specification.new do |spec|
   # --- UPDATED: Runtime Dependencies ---
   # Allows any version from 4.4.0 up to (but not including) 5.0
   spec.add_runtime_dependency "jekyll", "~> 4.4"
+  spec.add_runtime_dependency "json_schemer", "~> 2.3"
+  # Required directly by json_resume_exporter.rb; do not rely on jekyll-seo-tag's
+  # or Jekyll's own transitive versions for these.
+  spec.add_runtime_dependency "addressable", "~> 2.8"
+  spec.add_runtime_dependency "kramdown", "~> 2.3"
 
   # --- PLUGIN DEPENDENCIES ---
   spec.add_runtime_dependency "jekyll-feed", "~> 0.17"

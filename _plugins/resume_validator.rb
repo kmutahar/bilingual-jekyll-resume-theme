@@ -28,9 +28,9 @@ module BilingualJekyllResumeTheme
       validator = ResumeValidator.new(full_data_path, config: site.config)
       strict = site.config["validate_resume_strict"] == true
       fail_warnings = site.config["validate_resume_fail_on_warnings"] == true
-      exit_code = validator.validate(fail_on_warnings: fail_warnings)
+      validator.validate(fail_on_warnings: fail_warnings)
 
-      return unless strict && (validator.errors.any? || (fail_warnings && exit_code != 0))
+      return unless strict && (validator.errors.any? || (fail_warnings && validator.warnings.any?))
 
       msg = "Resume validation failed with #{validator.errors.size} error(s)"
       msg += " and #{validator.warnings.size} warning(s)" if fail_warnings

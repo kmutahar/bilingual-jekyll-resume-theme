@@ -109,6 +109,12 @@ class JsonResumeExporterTest < Minitest::Test
     @site.data["en"]["header"]["intro"] = "before<scr<script>ipt>evil()</scr</script>ipt>after"
     refute_includes export.dig("basics", "summary"), "script"
     assert_equal "beforeafter", export.dig("basics", "summary")
+
+    # A closing tag can carry bogus trailing content up to the next '>' and a
+    # browser still treats it as </script>; the regex must match that too.
+    @site.data["en"]["header"]["intro"] = "before<script>evil()</script\t\n bar>after"
+    refute_includes export.dig("basics", "summary"), "script"
+    assert_equal "beforeafter", export.dig("basics", "summary")
   end
 
   def test_decodes_entities_before_stripping_so_encoded_tags_cannot_survive

@@ -116,7 +116,7 @@ module BilingualJekyllResumeTheme
     # single pass never rechecks. Loop to a fixed point so nothing survives.
     def strip_html(str)
       loop do
-        stripped = str.gsub(%r{<script\b[^>]*>.*?</\s*script\s*>}mi, "")
+        stripped = str.gsub(%r{<script\b[^>]*>.*?</\s*script(?:[\s/][^>]*)?>}mi, "")
                       .gsub(%r{<br\s*/?\s*>|</\s*(?:p|div|li|ul|ol|h[1-6])\s*>}i, "\n")
                       .gsub(%r{</?[a-zA-Z][\w:-]*(?:\s[^<>]*?)?\s*/?>}, "")
         break str if stripped == str

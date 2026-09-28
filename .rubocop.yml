@@ -18,7 +18,7 @@ AllCops:
     - "test/**/*.rb"
     - "Rakefile"
   Exclude:
-    - "vendor/**/*"
+    - "**/vendor/**/*"
     - "_site/**/*"
     - ".agents/**/*"
     - ".jekyll-cache/**/*"

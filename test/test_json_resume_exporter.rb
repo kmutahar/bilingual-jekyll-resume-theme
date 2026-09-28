@@ -111,6 +111,12 @@ class JsonResumeExporterTest < Minitest::Test
     assert_equal "beforeafter", export.dig("basics", "summary")
   end
 
+  def test_decodes_entities_before_stripping_so_encoded_tags_cannot_survive
+    @site.data["en"]["header"]["intro"] = "before&lt;script&gt;evil()&lt;/script&gt;after"
+    refute_includes export.dig("basics", "summary"), "script"
+    assert_equal "beforeafter", export.dig("basics", "summary")
+  end
+
   def test_filters_missing_and_false_active_flags_and_section_order
     @site.data["en"]["experience"] += [{ "company" => "Hidden" }, { "company" => "Draft", "active" => false }]
     @site.config["resume_section"]["projects"] = false

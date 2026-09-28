@@ -105,9 +105,10 @@ module BilingualJekyllResumeTheme
     def text(value)
       return unless value.is_a?(String) || value.is_a?(Numeric)
 
-      strip_html(value.to_s)
-        .gsub(/&(#x[0-9a-f]+|#\d+|[a-z][a-z0-9]+);/i) { |entity| decode_entity(entity) }
-        .gsub("\r\n", "\n").tr("\u00a0", " ").gsub(/\n{3,}/, "\n\n").strip
+      # Decode entities first: an encoded tag like &lt;script&gt; must become
+      # a literal tag *before* strip_html runs, or it survives untouched.
+      decoded = value.to_s.gsub(/&(#x[0-9a-f]+|#\d+|[a-z][a-z0-9]+);/i) { |entity| decode_entity(entity) }
+      strip_html(decoded).gsub("\r\n", "\n").tr("\u00a0", " ").gsub(/\n{3,}/, "\n\n").strip
     end
 
     # Single-pass regex tag removal can leave a match behind: deleting one

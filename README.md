@@ -201,3 +201,7 @@ The theme is available as open source under the terms of the [MIT License](LICEN
 
 **Created by Khaldoon Mutahar** | MIT License
 
+
+### JSON Resume export
+
+Multilingual builds generate standards-validated JSON Resume files at `/<lang>/resume.json`, with an optional default-language `/resume.json`. Existing YAML keys keep working. See the [JSON Resume export guide](docs/JSON_RESUME_EXPORT.md) for configuration, privacy, optional fields, and mappings.

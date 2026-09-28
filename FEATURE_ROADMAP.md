@@ -16,7 +16,6 @@
 | P2 | 2.5 | Skills Taxonomy & Categorized Tagging System | [#18](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/18) |
 | P2 | 2.6 | Social Media Cards (Open Graph & Twitter) | [#22](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/22) |
 | P2 | 2.9 | Dual Gregorian / Hijri (Islamic) Calendar Localization | [#218](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218) |
-| P3 | 3.1 | Standard JSON Resume Exporter | [#6](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/6) |
 | P4 | 4.2 | Interactive Career Timeline Visualization | [#16](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/16) |
 | P4 | 4.3 | Contact Form Integration (Formspree / Netlify) | [#20](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/20) |
 | P4 | 4.4 | Privacy-First Resume Engagement Analytics | [#17](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/17) |
@@ -25,6 +24,8 @@
 | P4 | 4.8 | Client-Side Site Search Index | [#225](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225) |
 
 ## 2. Completed Work and Current Architecture
+
+- **3.1, localized JSON Resume export (#6):** implemented and verified; see [JSON Resume export](docs/JSON_RESUME_EXPORT.md).
 
 - **2.10, SCSS deduplication (#224):** completed.
 - **4.9, automatic CV/profile pages (#226):** completed.
@@ -223,23 +224,6 @@ Offer Gregorian, Hijri, or dual display and optional numeral styling without cha
 - [ ] Gregorian remains the default and fallback when Hijri text is absent.
 - [ ] Present markers retain their locale labels in every calendar mode.
 - [ ] Dual dates and numeral choices work in Arabic and Urdu without language-specific templates.
-
-### Feature 3.1: Standard JSON Resume Exporter
-
-**Issue:** [#6](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/6) · **Branch:** `feature/json-resume-export` · **Closure:** `Closes #6`
-
-Export localized YAML resume data in the JSON Resume format.
-
-**Files:** Create a generator under `_plugins/` and register it in `lib/bilingual-jekyll-resume-theme.rb`; document mappings in a new `docs/JSON_RESUME_EXPORT.md` and add export tests.
-
-**Implementation contract:** The previous `json_resume_export_language: en/ar/dual` proposal only covered two languages. Define configurable export languages and collision-safe per-language routes using `site.languages` before implementation. Map header/contact to basics, experience to work, volunteering to volunteer, education to education, certifications to certificates, recognitions to awards, and supported skills/languages/interests/projects/links to their schema equivalents. Document unsupported fields instead of silently claiming lossless export. Pin and validate against the chosen JSON Resume schema; parsing JSON alone is not schema validation.
-
-**Acceptance criteria:**
-
-- [ ] Every configured export is valid against the chosen schema, not just parseable JSON.
-- [ ] Exports use the same resolved data path and contact policy as the CV.
-- [ ] Inactive entries are excluded and optional/missing fields do not corrupt output.
-- [ ] Non-Latin data and multiple export languages work without EN/AR-specific code.
 
 ### Feature 4.2: Interactive Career Timeline Visualization
 

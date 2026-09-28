@@ -262,3 +262,7 @@ bundle exec rake "check_data_keys[path/to/_data]"
 | `-h` | `--help` | Show usage | |
 
 Scans only `_layouts/*.html` and `_includes/**/*.html` — this repository's own shipped templates, never a consuming site's `_pages/` or `_layouts/`/`_includes` overrides. Runs in `bundle exec rake` (the default task) and in both CI workflows ([section 9](#9-continuous-integration)), always without `--fail-on-warnings`.
+
+## JSON Resume schema validation
+
+The exporter validates generated documents offline against the vendored JSON Resume schema and omits invalid optional export values with contextual warnings. This is distinct from source YAML validation; partial certificate dates, for example, remain valid website data but are omitted from JSON. See [JSON Resume export](JSON_RESUME_EXPORT.md).

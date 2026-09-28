@@ -771,3 +771,15 @@ This section records the commits made since the `v1.0.2` tag.
 - Generated pages receive `lang` and `t_id: resume` / `t_id: profile`.
 - Missing pages with generation disabled (or a missing CV URL) produce generator warnings. The data validator has no page-awareness and was not changed to suppress a missing-page warning.
 - The demo keeps manual English/Arabic CVs and its default profile; remaining CV/profile pages exercise generation.
+
+## Feature 3.1 — Localized JSON Resume export (2026-09-27, working tree)
+
+Implemented for issue [#6](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/6). No release or commit is recorded for this entry yet.
+
+The exporter translates existing YAML keys instead of migrating the CV schema. Review identified strict active filtering, section-order gating, contact visibility, and language placement as necessary to avoid exposing hidden source data. Optional `level_label` preserves the numeric skill-level contract; separate `social_usernames` preserves existing social templates.
+
+The upstream v1.0.0 schema is Draft 4 and requires full certificate dates. It is vendored with its license for offline validation. Jekyll 4.4 renders through `Renderer` directly, so generated pages disable Liquid and layouts using renderer predicates rather than relying on an ineffective `Page#render` override. Successful-route tracking prevents broken discovery links after collisions or validation failures.
+
+Verification: demo build without Liquid errors or source-validation warnings; six localized exports and root copy validated against the pinned schema; English/Arabic/Urdu discovery checked; full rake suite passed (67 tests, 449 assertions, zero failures, zero lint offenses); gem built with schema, license, exporter, generator, and guide included. Existing template-key warnings concern optional education awards and certificate expiration fields absent from demo data. Ruby 4.0 emits upstream Liquid future-frozen-string warnings. Gem build reports existing readability warnings for two bundled SVGs.
+
+Current behavior and limitations: [JSON Resume export guide](JSON_RESUME_EXPORT.md).

@@ -397,3 +397,7 @@ Set `resume_section.lang_header: true` and give items in `languages.yml` a `desc
 
 ### How do I switch between resume versions?
 Point `data_path` at a dotted path. `languages.en.data_path: "2025-06.PM"` loads `_data/2025-06/PM/*.yml`. See [`LAYOUTS_GUIDE.md`](LAYOUTS_GUIDE.md#dynamic-data-resolution) for how the path is resolved.
+
+## JSON Resume export
+
+`json_resume` controls the default-on localized JSON exports; `social_usernames` optionally supplies profile usernames while `social_links` remains a map of URL strings. See [JSON Resume export configuration and privacy](JSON_RESUME_EXPORT.md#configuration).

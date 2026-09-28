@@ -101,6 +101,16 @@ class JsonResumeExporterTest < Minitest::Test
     assert_equal "- Parent\n  - Child  \nNext", export.dig("basics", "summary")
   end
 
+  def test_strips_script_tags_that_evade_a_single_regex_pass
+    @site.data["en"]["header"]["intro"] = "before<script>evil()</script >after"
+    refute_includes export.dig("basics", "summary"), "script"
+    assert_equal "beforeafter", export.dig("basics", "summary")
+
+    @site.data["en"]["header"]["intro"] = "before<scr<script>ipt>evil()</scr</script>ipt>after"
+    refute_includes export.dig("basics", "summary"), "script"
+    assert_equal "beforeafter", export.dig("basics", "summary")
+  end
+
   def test_filters_missing_and_false_active_flags_and_section_order
     @site.data["en"]["experience"] += [{ "company" => "Hidden" }, { "company" => "Draft", "active" => false }]
     @site.config["resume_section"]["projects"] = false

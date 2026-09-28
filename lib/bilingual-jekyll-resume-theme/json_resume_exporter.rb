@@ -105,11 +105,23 @@ module BilingualJekyllResumeTheme
     def text(value)
       return unless value.is_a?(String) || value.is_a?(Numeric)
 
-      value.to_s.gsub(%r{<script\b[^>]*>.*?</script>}mi, "")
-           .gsub(%r{<br\s*/?\s*>|</(?:p|div|li|ul|ol|h[1-6])\s*>}i, "\n")
-           .gsub(%r{</?[a-zA-Z][\w:-]*(?:\s[^<>]*?)?\s*/?>}, "")
-           .gsub(/&(#x[0-9a-f]+|#\d+|[a-z][a-z0-9]+);/i) { |entity| decode_entity(entity) }
-           .gsub("\r\n", "\n").tr("\u00a0", " ").gsub(/\n{3,}/, "\n\n").strip
+      strip_html(value.to_s)
+        .gsub(/&(#x[0-9a-f]+|#\d+|[a-z][a-z0-9]+);/i) { |entity| decode_entity(entity) }
+        .gsub("\r\n", "\n").tr("\u00a0", " ").gsub(/\n{3,}/, "\n\n").strip
+    end
+
+    # Single-pass regex tag removal can leave a match behind: deleting one
+    # fragment can make two separated pieces adjacent and form a new tag a
+    # single pass never rechecks. Loop to a fixed point so nothing survives.
+    def strip_html(str)
+      loop do
+        stripped = str.gsub(%r{<script\b[^>]*>.*?</\s*script\s*>}mi, "")
+                      .gsub(%r{<br\s*/?\s*>|</\s*(?:p|div|li|ul|ol|h[1-6])\s*>}i, "\n")
+                      .gsub(%r{</?[a-zA-Z][\w:-]*(?:\s[^<>]*?)?\s*/?>}, "")
+        break str if stripped == str
+
+        str = stripped
+      end
     end
 
     def decode_entity(entity)

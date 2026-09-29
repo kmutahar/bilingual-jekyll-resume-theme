@@ -39,14 +39,15 @@ class PackagingTest < Minitest::Test
        lib/bilingual-jekyll-resume-theme/resume_validator.rb lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb
        lib/bilingual-jekyll-resume-theme/schemas/json_resume_v1.0.0.json _plugins/error_pages_generator.rb
        _plugins/resume_pages_generator.rb _plugins/resume_validator.rb _plugins/json_resume_generator.rb
-       _config.sample.yml 404.html LICENSE.txt README.md].each { |file| assert_includes files, file }
+       _config.sample.yml 404.html LICENSE.txt README.md docs/README.md
+       docs/tutorials/getting-started.md].each { |file| assert_includes files, file }
   end
 
   def test_gem_excludes_repository_only_tooling
     files = spec.files
     %w[Rakefile bin/release bin/check-data-keys lib/bilingual-jekyll-resume-theme/template_key_checker.rb
        docs/COMPLETED_AUDIT.md AGENTS.md FEATURE_ROADMAP.md].each { |file| refute_includes files, file }
-    assert(files.none? { |file| file.start_with?("test/", "demo/", ".github/") })
+    assert(files.none? { |file| file.start_with?("test/", "demo/", ".github/", "docs/adr/") })
   end
 
   def test_only_the_validator_is_an_executable

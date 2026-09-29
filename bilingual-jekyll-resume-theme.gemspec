@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
       f != "bin/check-data-keys" &&
       f != "lib/bilingual-jekyll-resume-theme/template_key_checker.rb" &&
       f != "docs/COMPLETED_AUDIT.md" &&
+      !f.start_with?("docs/adr/") &&
       !f.start_with?("demo/")
   end
 

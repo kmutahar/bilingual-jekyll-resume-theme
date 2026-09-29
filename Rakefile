@@ -21,13 +21,9 @@ task :check_data_keys, [:data_dir] do |_t, args|
   checker.check
 end
 
-desc "Run integration test suite"
+desc "Run every test/test_*.rb suite"
 task :test do
-  ruby "test/test_language_switcher.rb"
-  ruby "test/test_resume_validator.rb"
-  ruby "test/test_template_key_checker.rb"
-  ruby "test/test_resume_pages_generator.rb"
-  ruby "test/test_json_resume_exporter.rb"
+  Dir["test/test_*.rb"].each { |file| ruby file }
 end
 
 require "rubocop/rake_task"

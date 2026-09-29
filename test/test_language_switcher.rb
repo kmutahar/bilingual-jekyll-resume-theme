@@ -107,20 +107,7 @@ class LanguageSwitcherTest < Minitest::Test
     File.read(path)
   end
 
-  # --- 1. Static wiring: the include exists and every consuming layout references it ---
-
-  def test_language_switcher_include_exists
-    include_path = File.join(ROOT_DIR, "_includes", "language-switcher.html")
-    assert File.exist?(include_path), "_includes/language-switcher.html must exist"
-  end
-
-  def test_resume_and_default_layouts_include_switcher
-    resume_layout = File.read(File.join(ROOT_DIR, "_layouts", "resume.html"))
-    default_layout = File.read(File.join(ROOT_DIR, "_layouts", "default.html"))
-
-    assert_includes resume_layout, "language-switcher.html", "_layouts/resume.html must include language-switcher.html"
-    assert_includes default_layout, "language-switcher.html", "_layouts/default.html must include language-switcher.html"
-  end
+  # Wiring (resume, default and error layouts) is proven by the rendering tests below.
 
   # --- 2. SCSS positioning (fixed top-left in every locale, LTR and RTL alike) ---
 

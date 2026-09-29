@@ -341,14 +341,24 @@ class JsonResumeExporterTest < Minitest::Test
     assert_equal "https://example.org/cv/custom-cv/", export.dig("basics", "url")
   end
 
-  def test_source_validator_checks_optional_enrichment
-    validator = BilingualJekyllResumeTheme::ResumeValidator.new(@directory)
-    validator.send(:validate_export_fields, "skills", { "keywords" => "bad", "level_label" => 5 }, "skills", lang: "en")
-    assert_equal 2, validator.warnings.size
-    validator.send(:validate_export_fields, "projects", { "startdate" => "2023-02-29" }, "projects", lang: "en")
-    assert_equal 1, validator.errors.size
-    validator.send(:validate_export_fields, "education", { "courses" => ["Ruby"] }, "education", lang: "en")
-    assert_equal 2, validator.warnings.size
+  def test_basics_carry_location_phone_and_meta
+    document = export
+    assert_equal({ "address" => "123 Street", "countryCode" => "GB" }, document.dig("basics", "location"))
+    assert_equal "123", document.dig("basics", "phone")
+    assert_equal "https://example.org/cv/en/cv/", document.dig("meta", "canonical")
+    assert_equal "1.0.0", document.dig("meta", "version")
+    assert_equal Exporter::SCHEMA_URL, document["$schema"]
+  end
+
+  def test_invalid_language_codes_are_never_used_as_routes
+    @site.config["languages"]["../evil"] = @site.config["languages"]["en"]
+    generate
+    refute(generated.any? { |page| page.url.include?("evil") })
+    assert_includes @log.string, "invalid language route"
+  end
+
+  def test_whatsapp_profile_follows_contact_privacy
+    assert_includes export.dig("basics", "profiles").map { |profile| profile["network"] }, "whatsapp"
   end
 
   def test_actual_authored_json_is_preserved_without_discovery

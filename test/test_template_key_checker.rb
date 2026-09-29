@@ -5,6 +5,7 @@ require "minitest/autorun"
 require "fileutils"
 require "tmpdir"
 require "yaml"
+require "open3"
 require_relative "../lib/bilingual-jekyll-resume-theme/template_key_checker"
 
 # Covers TemplateKeyChecker: the Liquid variable-to-section binding resolution (direct
@@ -174,5 +175,20 @@ class TemplateKeyCheckerTest < Minitest::Test
     # documented to exclude (LIQUID_BUILTIN_FIELDS) — never `.name`/`.items`/`.size`/etc.
     refute(checker.warnings.any? { |w| w[:message] =~ /`[\w.]+\.(name|items|size|first|last|length)`/ },
            "a Liquid/Array builtin field must never be flagged: #{checker.warnings}")
+  end
+
+  # --- 8. bin/check-data-keys ------------------------------------------------------------------
+
+  def test_cli_is_advisory_on_real_templates_and_prints_help
+    out, status = Open3.capture2e(RbConfig.ruby, File.join(REPO_ROOT, "bin", "check-data-keys"), SAMPLE_DATA_DIR, "--quiet")
+    assert status.success?, out
+    help, = Open3.capture2e(RbConfig.ruby, File.join(REPO_ROOT, "bin", "check-data-keys"), "--help")
+    assert_includes help, "Usage: check-data-keys"
+  end
+
+  def test_missing_data_directory_warns_and_fails_only_with_fail_on_warnings
+    checker = BilingualJekyllResumeTheme::TemplateKeyChecker.new("/nonexistent/dir")
+    capture_io { assert_equal 0, checker.check(quiet: true) }
+    capture_io { assert_equal 1, checker.check(quiet: true, fail_on_warnings: true) }
   end
 end

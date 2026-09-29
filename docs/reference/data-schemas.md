@@ -1,41 +1,16 @@
-# Data Structure Guide (`_data/`)
+# Data schemas (`_data/`)
+
+*Audience: site owners*
 
 YAML schemas for every resume data file. Each resume section is one YAML file in a per-language data folder under `_data/`. The schemas are identical in every language; only the text values are translated.
 
-UI strings, month names, and error page copy are not resume data: they live in the theme's locale files, `_data/locales/<lang>.yml`, documented in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md).
-
----
-
-## Table of Contents
-
-- [Overview & Folder Architecture](#overview--folder-architecture)
-- [Resume Content Sections](#resume-content-sections)
-  - [1. Experience (`experience.yml`)](#1-experience-experienceyml)
-  - [2. Education (`education.yml`)](#2-education-educationyml)
-  - [3. Certifications (`certifications.yml`)](#3-certifications-certificationsyml)
-  - [4. Courses (`courses.yml`)](#4-courses-coursesyml)
-  - [5. Volunteering (`volunteering.yml`)](#5-volunteering-volunteeringyml)
-  - [6. Projects (`projects.yml`)](#6-projects-projectsyml)
-  - [7. Skills (`skills.yml`)](#7-skills-skillsyml)
-  - [8. Recognition (`recognitions.yml`)](#8-recognition-recognitionsyml)
-  - [9. Associations (`associations.yml`)](#9-associations-associationsyml)
-  - [10. Languages (`languages.yml`)](#10-languages-languagesyml)
-  - [11. Links (`links.yml`)](#11-links-linksyml)
-  - [12. Interests (`interests.yml`)](#12-interests-interestsyml)
-- [Header & Executive Summary (`header.yml`)](#header--executive-summary-headeryml)
-- [Error Page Copy](#error-page-copy)
-- [General Guidelines](#general-guidelines)
-  - [Date Formats & ISO Standards](#date-formats--iso-standards)
-  - [Active / Inactive Visibility Flags](#active--inactive-visibility-flags)
-  - [YAML Formatting & Special Characters](#yaml-formatting--special-characters)
-  - [Section Mapping Summary](#section-mapping-summary)
+UI strings, month names, and error page copy are not resume data: they live in the theme's locale files, `_data/locales/<lang>.yml`, documented in [`locale-keys.md`](locale-keys.md).
 
 ---
 
 ## Overview & Folder Architecture
 
-> [!TIP]
-> Keep one folder per language (`_data/en/`, `_data/ar/`, `_data/es/`, ...), each holding the same file names. Complete starter data for six languages (a Sherlock Holmes demo persona) is in [`demo/_data/`](../demo/_data/): `en`, `ar`, `es`, `fr`, `de`, `ur`.
+Each language has one folder of the same 13 files. Why the model works this way: [data-driven model](../explanation/data-driven-model.md). Complete starter data for `en`, `ar`, `es`, `fr`, `de`, `ur` is in [`demo/_data/`](../../demo/_data).
 
 ```text
 _data/
@@ -70,17 +45,9 @@ _data/
 └── ...                       # one folder per language in `languages:`
 ```
 
-In your site's `_config.yml` (see [`CONFIG_GUIDE.md`](CONFIG_GUIDE.md#3-languages)), each language's `data_path` points at its folder:
+Each language's `data_path` in `_config.yml` points at its folder: see [`config.md`](config.md#3-languages).
 
-```yaml
-languages:
-  en:
-    data_path: en   # _data/en/
-  ar:
-    data_path: ar   # _data/ar/
-```
-
-The file links below name the English and Arabic demo files; every other language folder mirrors them. Examples use the canonical keys the templates render. If an entry uses only an alias the templates never read (for example `organization` instead of `company`), the validator reports it as a missing required field and names the alias it found; see [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md#6-validation-rules-catalog-by-section). Optional fields that are absent or empty leave no stray `•` separators.
+The file links below name the English and Arabic demo files; every other language folder mirrors them. Examples use the canonical keys the templates render. If an entry uses only an alias the templates never read (for example `organization` instead of `company`), the validator reports it as a missing required field and names the alias it found; see [validator-cli.md](validator-cli.md#6-validation-rules-catalog-by-section). Optional fields that are absent or empty leave no stray `•` separators.
 
 ---
 
@@ -88,7 +55,7 @@ The file links below name the English and Arabic demo files; every other languag
 
 ### 1. Experience (`experience.yml`)
 
-- **Files:** [`_data/en/experience.yml`](../demo/_data/en/experience.yml) / [`_data/ar/experience.yml`](../demo/_data/ar/experience.yml)
+- **Files:** [`_data/en/experience.yml`](../../demo/_data/en/experience.yml) / [`_data/ar/experience.yml`](../../demo/_data/ar/experience.yml)
 - **Config Toggle:** `resume_section.experience: true`
 - **Behavior:** Roles are grouped by `company` name. Multiple positions at the same employer appear together, sorted by `startdate` (most recent first).
 
@@ -117,16 +84,16 @@ The file links below name the English and Arabic demo files; every other languag
 - Company name appears as a prominent section item heading.
 - Multiple roles at the same company are automatically grouped together.
 - Each role displays: **Position • Date Range • Location**.
-- Dates render through [`../_includes/date-formatter.html`](../_includes/date-formatter.html) with month names from the active locale: `2022-03-01` and `2022-03` become `March 2022` (`مارس 2022` in Arabic), and `2022` stays `2022`. See [Date Formats](#date-formats--iso-standards).
+- Dates render through [`_includes/date-formatter.html`](../../_includes/date-formatter.html) with month names from the active locale: `2022-03-01` and `2022-03` become `March 2022` (`مارس 2022` in Arabic), and `2022` stays `2022`. See [Date Formats](#date-formats--iso-standards).
 - Summary paragraph displays below the role details when provided and `enable_summary: true` is configured in `_config.yml`.
 
 ---
 
 ### 2. Education (`education.yml`)
 
-- **Files:** [`_data/en/education.yml`](../demo/_data/en/education.yml) / [`_data/ar/education.yml`](../demo/_data/ar/education.yml)
+- **Files:** [`_data/en/education.yml`](../../demo/_data/en/education.yml) / [`_data/ar/education.yml`](../../demo/_data/ar/education.yml)
 - **Config Toggle:** `resume_section.education: true`
-- **Display fields:** `uni`, `degree`, and `year` (a freeform date string). Only `uni` and `year` are displayed; an entry that sets `institution`/`school` without `uni` fails validation. The validator accepts `startdate` instead of a nonblank `year` (used by the JSON Resume export), but the page shows no date then. Optional `startdate`/`enddate` are validated as ISO dates.
+- **Display fields:** `uni`, `degree`, and `year` (a freeform date string). `uni` is the heading; `degree`, `year` and `location` appear on the details line. `uni`, `degree` and either `year` or `startdate` are required; an entry that sets `institution`/`school` without `uni` fails validation. The validator accepts `startdate` instead of a nonblank `year` (used by the JSON Resume export), but the page shows no date then. Optional `startdate`/`enddate` are validated as ISO dates.
 
 ```yaml
 - degree: "M.S. in Computer Science"
@@ -157,7 +124,7 @@ The file links below name the English and Arabic demo files; every other languag
 
 ### 3. Certifications (`certifications.yml`)
 
-- **Files:** [`_data/en/certifications.yml`](../demo/_data/en/certifications.yml) / [`_data/ar/certifications.yml`](../demo/_data/ar/certifications.yml)
+- **Files:** [`_data/en/certifications.yml`](../../demo/_data/en/certifications.yml) / [`_data/ar/certifications.yml`](../../demo/_data/ar/certifications.yml)
 - **Config Toggle:** `resume_section.certifications: true`
 
 ```yaml
@@ -193,14 +160,14 @@ The file links below name the English and Arabic demo files; every other languag
 
 **Display Format:**
 - Certification name appears as a bold heading.
-- Second line displays: **Issuing Organization • Issue Date – Expiration Date**.
+- Second line displays: **Issuing Organization • Issue Date – Expiration Date • Credential ID** (the dates render only when `issue_date` is set; `expiration` is shown only alongside it).
 - Credential ID is rendered as a clickable link if `credential_url` is provided, and the full destination URL is printed in parentheses in physical and PDF outputs.
 
 ---
 
 ### 4. Courses (`courses.yml`)
 
-- **Files:** [`_data/en/courses.yml`](../demo/_data/en/courses.yml) / [`_data/ar/courses.yml`](../demo/_data/ar/courses.yml)
+- **Files:** [`_data/en/courses.yml`](../../demo/_data/en/courses.yml) / [`_data/ar/courses.yml`](../../demo/_data/ar/courses.yml)
 - **Config Toggle:** `resume_section.courses: true`
 
 ```yaml
@@ -216,7 +183,7 @@ The file links below name the English and Arabic demo files; every other languag
 
 **Display Format:**
 - Course name appears as a heading.
-- Second line displays: **Issuing Organization • Start Date – End Date**.
+- Second line displays: **Issuing Organization • Start Date – End Date**. The dates render only when `startdate` is set; `enddate` is shown only alongside it.
 - Summary paragraph displays if provided and `enable_summary: true` is configured in `_config.yml`.
 - Credential ID displays with an interactive link when `credential_url` is provided.
 
@@ -224,7 +191,7 @@ The file links below name the English and Arabic demo files; every other languag
 
 ### 5. Volunteering (`volunteering.yml`)
 
-- **Files:** [`_data/en/volunteering.yml`](../demo/_data/en/volunteering.yml) / [`_data/ar/volunteering.yml`](../demo/_data/ar/volunteering.yml)
+- **Files:** [`_data/en/volunteering.yml`](../../demo/_data/en/volunteering.yml) / [`_data/ar/volunteering.yml`](../../demo/_data/ar/volunteering.yml)
 - **Config Toggle:** `resume_section.volunteering: true`
 
 ```yaml
@@ -238,14 +205,14 @@ The file links below name the English and Arabic demo files; every other languag
 ```
 
 **Display Format:**
-- Same layout structure as the [Experience](#1-experience-experienceyml) section: grouped by organization name and sorted chronologically.
+- Same layout structure as the [Experience](#1-experience-experienceyml) section: grouped by the `company` key (the organization name) and sorted chronologically.
 - Displays: **Position • Date Range • Location** followed by the summary paragraph when `enable_summary: true`.
 
 ---
 
 ### 6. Projects (`projects.yml`)
 
-- **Files:** [`_data/en/projects.yml`](../demo/_data/en/projects.yml) / [`_data/ar/projects.yml`](../demo/_data/ar/projects.yml)
+- **Files:** [`_data/en/projects.yml`](../../demo/_data/en/projects.yml) / [`_data/ar/projects.yml`](../../demo/_data/ar/projects.yml)
 - **Config Toggle:** `resume_section.projects: true`
 
 ```yaml
@@ -267,12 +234,13 @@ The file links below name the English and Arabic demo files; every other languag
 
 ### 7. Skills (`skills.yml`)
 
-- **Files:** [`_data/en/skills.yml`](../demo/_data/en/skills.yml) / [`_data/ar/skills.yml`](../demo/_data/ar/skills.yml)
+- **Files:** [`_data/en/skills.yml`](../../demo/_data/en/skills.yml) / [`_data/ar/skills.yml`](../../demo/_data/ar/skills.yml)
 - **Config Toggle:** `resume_section.skills: true`
 
 ```yaml
 - skill: "Cloud Architecture & Infrastructure"
   active: true
+  level: 4          # optional integer from 1 to 5; other values produce a validator warning
   description: "Expert in AWS, GCP, Terraform, Docker, and Kubernetes. Designed and deployed multi-region high-availability infrastructure."
 
 - skill: "Product Strategy & Technical Leadership"
@@ -281,14 +249,14 @@ The file links below name the English and Arabic demo files; every other languag
 ```
 
 **Display Format:**
-- Skill name appears as a bold subheading (`<h3>`).
+- Skill name appears as a subheading (`<h4>`).
 - Description appears as a detailed narrative paragraph immediately below the subheading.
 
 ---
 
 ### 8. Recognition (`recognitions.yml`)
 
-- **Files:** [`_data/en/recognitions.yml`](../demo/_data/en/recognitions.yml) / [`_data/ar/recognitions.yml`](../demo/_data/ar/recognitions.yml)
+- **Files:** [`_data/en/recognitions.yml`](../../demo/_data/en/recognitions.yml) / [`_data/ar/recognitions.yml`](../../demo/_data/ar/recognitions.yml)
 - **Config Toggle:** `resume_section.recognitions: true`
 
 > [!NOTE]
@@ -317,7 +285,7 @@ The file links below name the English and Arabic demo files; every other languag
 
 ### 9. Associations (`associations.yml`)
 
-- **Files:** [`_data/en/associations.yml`](../demo/_data/en/associations.yml) / [`_data/ar/associations.yml`](../demo/_data/ar/associations.yml)
+- **Files:** [`_data/en/associations.yml`](../../demo/_data/en/associations.yml) / [`_data/ar/associations.yml`](../../demo/_data/ar/associations.yml)
 - **Config Toggle:** `resume_section.associations: true`
 
 ```yaml
@@ -339,15 +307,15 @@ The file links below name the English and Arabic demo files; every other languag
 
 ### 10. Languages (`languages.yml`)
 
-- **Files:** [`_data/en/languages.yml`](../demo/_data/en/languages.yml) / [`_data/ar/languages.yml`](../demo/_data/ar/languages.yml)
+- **Files:** [`_data/en/languages.yml`](../../demo/_data/en/languages.yml) / [`_data/ar/languages.yml`](../../demo/_data/ar/languages.yml)
 - **Config Toggles:**
-  - `resume_section.lang_header: true`: Renders compact language chips directly in the header.
+  - `resume_section.lang_header: true`: Renders a one-line language summary in the header contact block (requires `display_header_contact_info: true`); this replaces the standalone section.
   - `resume_section.languages: true`: Renders a standalone two-column table section.
 
 ```yaml
 - language: "English"
   description: "Native / Bilingual proficiency"
-  descrp_short: "Native" # Used for compact header chips
+  descrp_short: "Native" # Used for the header language line
   active: true
 
 - language: "Arabic"
@@ -362,14 +330,14 @@ The file links below name the English and Arabic demo files; every other languag
 ```
 
 **Display Format:**
-- **Table Mode (`resume_section.languages: true`, `lang_header: false`):** Renders a responsive two-column table in the main body. Each entry displays: **Language: Description**.
-- **Header Chips Mode (`resume_section.lang_header: true`):** Renders inline compact badges in the contact row above the job title using the `descrp_short` attribute.
+- **Table Mode (`resume_section.languages: true`, `lang_header: false`):** Renders a responsive two-column table in the main body. Each entry displays: **Language – Description**.
+- **Header Line Mode (`resume_section.lang_header: true`):** Renders one line in the header contact block, `Language (descrp_short)` entries joined by the locale's list separator, using the `descrp_short` attribute. Requires `display_header_contact_info: true`.
 
 ---
 
 ### 11. Links (`links.yml`)
 
-- **Files:** [`_data/en/links.yml`](../demo/_data/en/links.yml) / [`_data/ar/links.yml`](../demo/_data/ar/links.yml)
+- **Files:** [`_data/en/links.yml`](../../demo/_data/en/links.yml) / [`_data/ar/links.yml`](../../demo/_data/ar/links.yml)
 - **Config Toggle:** `resume_section.links: true`
 
 ```yaml
@@ -390,7 +358,7 @@ The file links below name the English and Arabic demo files; every other languag
 
 ### 12. Interests (`interests.yml`)
 
-- **Files:** [`_data/en/interests.yml`](../demo/_data/en/interests.yml) / [`_data/ar/interests.yml`](../demo/_data/ar/interests.yml)
+- **Files:** [`_data/en/interests.yml`](../../demo/_data/en/interests.yml) / [`_data/ar/interests.yml`](../../demo/_data/ar/interests.yml)
 - **Config Toggle:** `resume_section.interests: true`
 
 ```yaml
@@ -407,7 +375,7 @@ The file links below name the English and Arabic demo files; every other languag
 
 ## Header & Executive Summary (`header.yml`)
 
-- **Files:** [`_data/en/header.yml`](../demo/_data/en/header.yml) / [`_data/ar/header.yml`](../demo/_data/ar/header.yml)
+- **Files:** [`_data/en/header.yml`](../../demo/_data/en/header.yml) / [`_data/ar/header.yml`](../../demo/_data/ar/header.yml)
 - **Config Toggle:** `languages.<lang>.header_intro: true` (per language)
 
 Contains the executive bio summary rendered directly beneath the candidate name, job title, and social links bar:
@@ -433,20 +401,7 @@ intro: >-
 
 ## Error Page Copy
 
-Error page text is not in your data folders. Each locale file carries an `error_pages` map, and [`../_layouts/error.html`](../_layouts/error.html) server-renders one block in `default_lang`. JavaScript can replace that block using a configured language prefix at the start of the requested URL:
-
-```yaml
-# _data/locales/en.yml (excerpt)
-error_pages:
-  "404":
-    title: "Page Not Found"
-    message: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
-  "403": { title: "...", message: "..." }
-  "500": { title: "...", message: "..." }
-  "503": { title: "...", message: "..." }
-```
-
-To change the copy, override `error_pages` in your site's `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#overriding-theme-locales)). Pages using `layout: error` accept `code` (default `"404"`) and `show_reload: true` in front matter; the reload button also appears automatically for `500` and `503`. The single Home button points at the selected language’s profile page, falling back to `languages.<lang>.url`, then `/`. See [error-page behavior](LAYOUTS_GUIDE.md#4-errorhtml-multilingual-http-error-suite).
+Error page text is not resume data. The `error_pages` schema is in [`locale-keys.md`](locale-keys.md#error_pages); the `layout: error` front matter and Home/Reload behavior are in [`layouts.md`](layouts.md#4-errorhtml-multilingual-http-error-suite).
 
 ---
 
@@ -454,9 +409,9 @@ To change the copy, override `error_pages` in your site's `_data/locales/<lang>.
 
 ### Date Formats & ISO Standards
 
-1. **Structured Dates (`startdate`, `enddate`, `issue_date`):**
+1. **Structured Dates (`startdate`, `enddate`, `issue_date`, `expiration`, recognition `date`):**
    - Use ISO format: `YYYY-MM-DD`, `YYYY-MM`, or `YYYY`. Quoted and unquoted values both work.
-   - Every language formats dates through [`../_includes/date-formatter.html`](../_includes/date-formatter.html), using the `months` list in `_data/locales/<lang>.yml`:
+   - Every language formats dates through [`_includes/date-formatter.html`](../../_includes/date-formatter.html), using the `months` list in `_data/locales/<lang>.yml`:
 
      | Value | Default style (`<month> <year>`) | `MDY` style (certifications, courses, date of birth) |
      |---|---|---|
@@ -464,10 +419,10 @@ To change the copy, override `error_pages` in your site's `_data/locales/<lang>.
      | `2024-03` | March 2024 | March 2024 |
      | `2024` | 2024 | 2024 |
      | any other text | printed as written | printed as written |
-   - For ongoing positions leave `enddate` blank or use a word from the locale's `present_values` (for example `Present`); it renders as the locale's `ui.present`.
+   - For ongoing positions leave `enddate` blank or use a word from the locale's `present_values` (for example `Present`); it renders as the locale's `ui.present`. Accepted words per language: [`locale-keys.md`](locale-keys.md#present-values).
 
 2. **Freeform Display Strings (`year`, `duration`):**
-   - Used in education, projects, and associations.
+   - Used in education, projects, recognitions, and associations.
    - Use HTML entities like `&ndash;` for en-dash (–) and `&amp;` for ampersand (&).
 
 ### Active / Inactive Visibility Flags
@@ -510,4 +465,16 @@ Every list section except interests uses the boolean `active:` flag:
 
 ## JSON Resume enrichment
 
-Existing data keys remain unchanged. Optional machine-readable dates, highlights, keywords, skill `level_label`, and other export fields are documented in [JSON Resume optional enrichment](JSON_RESUME_EXPORT.md#optional-enrichment). Numeric skill `level` keeps its existing meaning; no date-key renaming is required.
+Existing data does not need to change. Export mapping and rules: [`json-resume-fields.md`](json-resume-fields.md). For richer exports, add these optional fields:
+
+- Experience and volunteering: `url` and `highlights` (array of strings).
+- Education: `area`, `study_type`, `score`, `url`, `courses` (array of strings). Existing `startdate` and `enddate` are supported; display-oriented `year` remains.
+- Projects: `startdate`, `enddate`, `roles`, `highlights`, `keywords`. The last three are arrays of strings; existing scalar `role` works without `roles`.
+- Recognitions: an ISO `date`, independently of the display-oriented `year`.
+- Skills: textual `level_label` and an array of `keywords`. Numeric `level` retains its existing 1–5 meaning and is not converted to an invented proficiency label.
+- Interests: `keywords` as an array of strings.
+- Per-language config: `postal_code`, `city`, `country_code`, `region`.
+
+Use `startdate`/`enddate` consistently. No `start_date`/`end_date` aliases are added. The source validator checks added list fields, skill labels, project dates, recognition dates, and relevant URLs; the exporter also validates output formats.
+
+A `skills.yml` example is in [Publish the JSON Resume export](../how-to/publish-json-resume.md#3-optionally-enrich-skills).

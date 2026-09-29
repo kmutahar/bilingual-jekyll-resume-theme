@@ -25,7 +25,7 @@ File names in older rows are historical (for example `resume-en.html`, replaced 
 | P1.2 | Language switcher (#11) | No way to move between translations | See F2.12 | v0.8.0 · `c56e50f` |
 | P1.4 | `avatar.html`: `avatar_url`, alt cascade, link options | Hardcoded path, alt text and `target="_blank"` | `resume_avatar` is a Boolean (Delete-Zone #3); alt: `avatar_alt` → `name` → `ui.photo_alt` | v0.7.0 · `a17cc60` |
 | P2.4 | Site-wide dark mode, profile/default split, error page suite (#8) | Dark mode only on resumes; styles leaked; bare error pages | Anti-FOUC script in `shared-head.html`; error pages via `error.html` | v0.7.0 · `853a9ac` |
-| P2.7 | Landmarks, skip links, focus styles (#21) | WCAG gaps | See [ACCESSIBILITY_GUIDE.md](ACCESSIBILITY_GUIDE.md) | v0.8.0 · `a29c480` |
+| P2.7 | Landmarks, skip links, focus styles (#21) | WCAG gaps | See [ACCESSIBILITY_GUIDE.md](reference/accessibility-coverage.md) | v0.8.0 · `a29c480` |
 | #216 | Error page Home link resolved from config | Hardcoded `/resume/en/` paths (Delete-Zone #1) | Home: language profile → `languages.<lang>.url` → `/` | v0.8.0 · `853a9ac` |
 
 ## Features (v1.0.0 onward)
@@ -37,7 +37,7 @@ File names in older rows are historical (for example `resume-en.html`, replaced 
 | F1.7 (#215) | `social_links.email` renders a `mailto:` icon and print line | — | v1.0.0 · `d53e53c` |
 | F2.8 (#217) | Header contact items icon-first in every direction | — | v1.0.0 · `3153569` |
 | F3.2 (#206) | CI: Ruby matrix, strict build, proof, RuboCop, tests, gem build | CI must stay green on every supported Ruby | v1.0.0 · `3be935f` |
-| F3.3 (#13) | `validate-resume` CLI, engine, build plugin | See [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md) | v1.0.0 · `3be935f` |
+| F3.3 (#13) | `validate-resume` CLI, engine, build plugin | See [VALIDATION_GUIDE.md](reference/validator-cli.md) | v1.0.0 · `3be935f` |
 | F2.11 (#227) | Switcher top-left, dark toggle top-right in every direction | No RTL mirroring of the two widgets (tested in `test_language_switcher.rb`) | v1.0.1 · `305408c` |
 | F2.12 (#228) | Switcher is a `<details>` dropdown, no JavaScript | Loop variables prefixed `switch_` (shared include scope) | v1.0.1 · `f37c6f6` |
 | — | Demo moved to the `demo/` submodule; sample config at repo root | — | v1.0.2 · `bfd9e83`, `f1779be` |
@@ -45,15 +45,15 @@ File names in older rows are historical (for example `resume-en.html`, replaced 
 | — | Switcher on error pages | — | v1.0.2 · `8e942f9` |
 | — | Template checker and this log excluded from the gem | Repository-only tools stay out of `spec.files` (tested in `test_packaging.rb`) | `4c5f7d8` |
 | F2.10 (#224) | SCSS rules deduplicated | — | `a354b62` |
-| F4.9 (#226) | CV/profile pages generated per language | Hand-authored `layout`+`lang` pages or occupied URLs always win; see [CONFIG_GUIDE.md](CONFIG_GUIDE.md#3-languages) | `abaf487` |
+| F4.9 (#226) | CV/profile pages generated per language | Hand-authored `layout`+`lang` pages or occupied URLs always win; see [CONFIG_GUIDE.md](reference/config.md#3-languages) | `abaf487` |
 | — | Single-caller head includes inlined | Delete-Zone #13 | `4513f29` |
 | F3.1 (#6) | Localized JSON Resume export | Export only what the HTML shows (active flag, section order, contact visibility); never publish a document that fails the pinned schema; never log resume values | `898dce1` |
 
-F3.1 design notes: YAML keys are translated, not migrated; `level_label` keeps the numeric skill `level` contract; `social_usernames` keeps social templates unchanged; the v1.0.0 schema (Draft 4, full certificate dates) is vendored with its license; generated pages bypass Liquid through renderer predicates. Details in [JSON_RESUME_EXPORT.md](JSON_RESUME_EXPORT.md).
+F3.1 design notes: YAML keys are translated, not migrated; `level_label` keeps the numeric skill `level` contract; `social_usernames` keeps social templates unchanged; the v1.0.0 schema (Draft 4, full certificate dates) is vendored with its license; generated pages bypass Liquid through renderer predicates. Details in [JSON_RESUME_EXPORT.md](reference/json-resume-fields.md).
 
 ## Full code and test review (not yet released)
 
-A line-by-line review added rendered-HTML, validator-rule, generator and packaging tests ([TESTING_GUIDE.md](TESTING_GUIDE.md)) and fixed what they exposed:
+A line-by-line review added rendered-HTML, validator-rule, generator and packaging tests ([TESTING_GUIDE.md](reference/testing-suites.md)) and fixed what they exposed:
 
 | Change | Why | Keep |
 |---|---|---|

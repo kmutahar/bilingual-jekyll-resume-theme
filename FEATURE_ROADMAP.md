@@ -73,7 +73,7 @@ Add the planned default, modern-blue, emerald-green, corporate-navy, and warm-bu
 
 Add icon and print-list support for Mastodon, Discord, Bluesky, Threads, Substack, GitLab, Google Scholar, ORCID, and Behance. Mastodon already has rel="me" head metadata in default/profile layouts; icon and print support remains planned.
 
-**Files:** Add entries to `_data/social_networks.yml` and SVGs to `_includes/vendors/svg-icons/` (`social-links.html` and `print-social-links.html` already loop over that data file and need no per-platform edits); update all `_data/locales/*.yml` (`ui.social_labels`), `_config.sample.yml`, and `docs/CONFIG_GUIDE.md`.
+**Files:** Add entries to `_data/social_networks.yml` and SVGs to `_includes/vendors/svg-icons/` (`social-links.html` and `print-social-links.html` already loop over that data file and need no per-platform edits); update all `_data/locales/*.yml` (`ui.social_labels`), `_config.sample.yml`, and `docs/reference/config.md`.
 
 **Implementation contract:** Extend `social_links` with `mastodon`, `discord`, `bluesky`, `threads`, `substack`, `gitlab`, `google_scholar`, `orcid`, and `behance`. Keep accessible names, hidden decorative SVGs, and safe external links. Use locale labels and bidi isolation for printed URLs.
 
@@ -105,7 +105,7 @@ Add an optional QR code linking a printed or digital resume to its canonical onl
 
 Add optional badge images to certifications and recognitions while retaining the current text-only presentation when absent.
 
-**Files:** Create `_includes/badge-display.html`; update `_includes/resume-section.html`, resume SCSS, validator rules, and `docs/DATA_GUIDE.md`.
+**Files:** Create `_includes/badge-display.html`; update `_includes/resume-section.html`, resume SCSS, validator rules, and `docs/reference/data-schemas.md`.
 
 **Implementation contract:** Proposed per-item field: `badge_url`. Reuse existing `credential_url` for optional verification links. Resolve local images with relative_url, define appropriate alt text, and keep dimensions predictable.
 
@@ -169,7 +169,7 @@ Improve the existing print styles with explicit page-break and typography contro
 
 Group skills by optional categories and display optional tags while keeping the current flat list available.
 
-**Files:** Update `_includes/resume-section.html`, shared resume SCSS, validator rules, `_config.sample.yml`, `docs/DATA_GUIDE.md`, and `docs/CONFIG_GUIDE.md`.
+**Files:** Update `_includes/resume-section.html`, shared resume SCSS, validator rules, `_config.sample.yml`, `docs/reference/data-schemas.md`, and `docs/reference/config.md`.
 
 **Implementation contract:** Proposed toggle: `resume_skills_categorized` (false). Add `category` and `tags` to entries that retain the canonical `skill` field. Filter active entries before grouping; define handling for uncategorized skills. Category names and tags are localized resume content.
 
@@ -185,7 +185,7 @@ Group skills by optional categories and display optional tags while keeping the 
 
 Improve per-language sharing images and summaries. Basic Open Graph metadata already exists through jekyll-seo-tag; this feature adds richer configuration and fallbacks.
 
-**Files:** Update shared layout/head integration and `_config.sample.yml`; document in `docs/CONFIG_GUIDE.md` and a new `docs/SEO_GUIDE.md`. Add image assets only as required.
+**Files:** Update shared layout/head integration and `_config.sample.yml`; document in `docs/reference/config.md` and a new `docs/SEO_GUIDE.md`. Add image assets only as required.
 
 **Implementation contract:** The previous draft proposed `og_image` and per-language image/title overrides. Finalize their mapping onto jekyll-seo-tag’s supported inputs before implementation; do not duplicate tags already emitted by {% seo %}. Use languages.<lang> or page data for localized values, not language-suffixed global keys.
 
@@ -215,9 +215,9 @@ Offer Gregorian, Hijri, or dual display and optional numeral styling without cha
 
 **Issue:** [#232](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/232) · **Branch:** `feature/publications-references` · **Closure:** `Closes #232`
 
-Add the two content sections JSON Resume defines that this theme currently has no data for at all: `publications[]` and `references[]`. See the section mapping in [docs/JSON_RESUME_EXPORT.md](docs/JSON_RESUME_EXPORT.md).
+Add the two content sections JSON Resume defines that this theme currently has no data for at all: `publications[]` and `references[]`. See the section mapping in [docs/reference/json-resume-fields.md](docs/reference/json-resume-fields.md).
 
-**Files:** Create `_data/<lang>/publications.yml` and `_data/<lang>/references.yml` in every language folder (theme demo data under `demo/_data/` too); add `publications`/`references` branches to `_includes/resume-section.html`; add `ui.section_titles.publications`/`references` to all six `_data/locales/*.yml`; extend `lib/bilingual-jekyll-resume-theme/resume_validator.rb` with schema rules for both files; extend `lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb` and its field-mapping table in `docs/JSON_RESUME_EXPORT.md`; document both schemas in `docs/DATA_GUIDE.md`.
+**Files:** Create `_data/<lang>/publications.yml` and `_data/<lang>/references.yml` in every language folder (theme demo data under `demo/_data/` too); add `publications`/`references` branches to `_includes/resume-section.html`; add `ui.section_titles.publications`/`references` to all six `_data/locales/*.yml`; extend `lib/bilingual-jekyll-resume-theme/resume_validator.rb` with schema rules for both files; extend `lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb` and its field-mapping table in `docs/reference/json-resume-fields.md`; document both schemas in `docs/reference/data-schemas.md`.
 
 **Implementation contract:**
 
@@ -362,9 +362,9 @@ The following hardening measures originate from the sandboxed security audit (`R
 | SEC-03 | Contextual Liquid escaping in HTML attributes and JS | `_includes/analytics-head.html`, `_layouts/resume.html`, `_includes/hreflang.html` | High |
 | SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
 | SEC-05 | Ruby plugin path joins and YAML parsing safety | `lib/.../resume_validator.rb`, `_plugins/resume_pages_generator.rb` | Medium |
-| SEC-06 | JSON Resume export contact privacy documentation | `docs/DATA_GUIDE.md`, `JSON_RESUME_EXPORT.md` | Medium |
+| SEC-06 | JSON Resume export contact privacy documentation | `docs/reference/data-schemas.md`, `JSON_RESUME_EXPORT.md` | Medium |
 | SEC-07 | Gemspec packaging hygiene and untracked file exclusion | `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb` | Low |
-| SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/CONFIG_GUIDE.md`, `_layouts/*.html` | Low |
+| SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/reference/config.md`, `_layouts/*.html` | Low |
 
 ### Security Brief SEC-01: JSON Script Block Breakout & Attribute Escaping
 
@@ -446,12 +446,12 @@ The validator retains an obsolete fallback to `YAML.load_file` that is unreachab
 
 ### Security Brief SEC-06: JSON Resume Privacy Documentation
 
-**Target files:** `docs/DATA_GUIDE.md`, `JSON_RESUME_EXPORT.md`
+**Target files:** `docs/reference/data-schemas.md`, `JSON_RESUME_EXPORT.md`
 
 Address details (city, region, postal code) are exported in the JSON Resume format when `display_header_contact_info: true`, and certain social platforms export even when `export_contact_info: false`. This behavior needs explicit documentation so site owners understand data visibility boundaries.
 
 **Implementation contract:**
-- Document field-by-field privacy and export rules in `docs/DATA_GUIDE.md`.
+- Document field-by-field privacy and export rules in `docs/reference/data-schemas.md`.
 - Clarify contact export flags in `JSON_RESUME_EXPORT.md`.
 
 **Acceptance criteria:**
@@ -473,12 +473,12 @@ The gemspec uses `Dir["_plugins/**/*", "lib/**/*"]` which risks packaging untrac
 
 ### Security Brief SEC-08: Content Security Policy (CSP) Guidance
 
-**Target files:** `docs/CONFIG_GUIDE.md`
+**Target files:** `docs/reference/config.md`
 
 Inline scripts (such as the anti-FOUC theme detector and language switcher helpers) currently prevent deploying strict CSP headers without `unsafe-inline` or cryptographic hashes.
 
 **Implementation contract:**
-- Provide documented CSP guidance in `docs/CONFIG_GUIDE.md` showing recommended header directives and hash generation commands for consuming sites.
+- Provide documented CSP guidance in `docs/reference/config.md` showing recommended header directives and hash generation commands for consuming sites.
 
 **Acceptance criteria:**
 - [ ] Consuming sites have clear instructions on configuring CSP headers for the theme.
@@ -499,4 +499,4 @@ gem build bilingual-jekyll-resume-theme.gemspec
 rm -f bilingual-jekyll-resume-theme-*.gem
 ```
 
-For UI changes, inspect all configured locales, both direction stylesheets, light/dark states, keyboard operation, and print output. Add feature-specific verification that tests the behavior rather than only looking for a string in generated HTML. The default Rake task includes data validation, template-key warnings, RuboCop, and every test suite; HTML proofing is separate. See [docs/TESTING_GUIDE.md](docs/TESTING_GUIDE.md) and [docs/VALIDATION_GUIDE.md](docs/VALIDATION_GUIDE.md).
+For UI changes, inspect all configured locales, both direction stylesheets, light/dark states, keyboard operation, and print output. Add feature-specific verification that tests the behavior rather than only looking for a string in generated HTML. The default Rake task includes data validation, template-key warnings, RuboCop, and every test suite; HTML proofing is separate. See [docs/reference/testing-suites.md](docs/reference/testing-suites.md) and [docs/reference/validator-cli.md](docs/reference/validator-cli.md).

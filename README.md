@@ -3,6 +3,8 @@
 [![CI Test Suite](https://github.com/kmutahar/bilingual-jekyll-resume-theme/actions/workflows/ci.yml/badge.svg)](https://github.com/kmutahar/bilingual-jekyll-resume-theme/actions/workflows/ci.yml) [![Latest release](https://img.shields.io/github/v/release/kmutahar/bilingual-jekyll-resume-theme?display_name=tag)](https://github.com/kmutahar/bilingual-jekyll-resume-theme/releases) [![Gem Version](https://badge.fury.io/rb/bilingual-jekyll-resume-theme.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/bilingual-jekyll-resume-theme)
 
 A flexible Jekyll theme for clean, data-driven, multilingual resume/CV websites. Ships English, Arabic, Spanish, French, German, and Urdu; any other language is added from your site alone. Created and maintained by Khaldoon Mutahar. See the latest version on the [Releases page](https://github.com/kmutahar/bilingual-jekyll-resume-theme/releases).
+
+**Links:** [RubyGems](https://rubygems.org/gems/bilingual-jekyll-resume-theme) · [Live demo](https://www.mutahr.me/bilingual-jekyll-resume-theme) · [Source](https://github.com/kmutahar/bilingual-jekyll-resume-theme)
 Inspired by and originally forked from [Joel Glovier’s resume template](https://github.com/jglovier/resume-template/). Joel’s version was a basic English-only theme with limited customization (e.g., no section reordering); this project has since evolved into a fully separate theme authored by Khaldoon.
 
 ## Features
@@ -11,11 +13,11 @@ Inspired by and originally forked from [Joel Glovier’s resume template](https:
 - **Dark mode**: System preference detection (`prefers-color-scheme`) with optional interactive toggle, `localStorage` persistence, and zero-FOUC inline script
 - **Data-driven architecture**: All resume content stored in YAML files, supporting multiple data paths and versioning
 - **12 resume sections**: Experience, Education, Certifications, Courses, Volunteering, Projects, Skills, Recognition, Associations, Languages, Links, Interests
-- **Accessibility features**: Semantic landmarks, keyboard navigation, localized skip links, and labelled social controls. See the [Accessibility Guide](docs/ACCESSIBILITY_GUIDE.md) for coverage and known limitations.
+- **Accessibility features**: Semantic landmarks, keyboard navigation, localized skip links, and labelled social controls. See the [Accessibility coverage](docs/reference/accessibility-coverage.md) for coverage and known limitations.
 - **Modern favicon suite**: High-resolution favicons (Apple touch icon, 32x32, 16x16, webmanifest) with subpath-safe URLs and `_config.yml` override support
 - **Print-friendly**: Optimized for PDF generation and printing with bidirectional text isolation (`dir="ltr"`) for URLs
 - **SEO ready**: Built-in support for multilingual SEO, standardized canonical tags via `jekyll-seo-tag`, sitemaps, and feeds
-- **JSON Resume Export**: Multilingual builds optionally generate standards-validated JSON Resume files at `/<lang>/resume.json`.
+- **JSON Resume Export**: Multilingual builds generate standards-validated JSON Resume files at `/<lang>/resume.json` (on by default; opt out with `json_resume.enabled: false`).
 - **Automatic pages**: Missing CV and profile pages are generated for each configured language; hand-authored pages take precedence.
 - **Data validation**: `validate-resume` CLI and build-time checks for schemas, dates, URLs, and parity across every configured language
 
@@ -40,54 +42,25 @@ theme: bilingual-jekyll-resume-theme
 bundle install
 ```
 
-> **Upgrading from v0.9.0?** v1.0.0 removes the `resume-en` / `resume-ar` layouts and every `*_en` / `*_ar` config key with no compatibility aliases. Follow the migration table in the [Multilingual Guide](docs/MULTILINGUAL_GUIDE.md#breaking-changes--migration-v090-to-v100).
+> **Upgrading from v0.9.0?** v1.0.0 removes the `resume-en` / `resume-ar` layouts and every `*_en` / `*_ar` config key with no compatibility aliases. Follow the migration table in the [migration guide](docs/how-to/migrate-v0.9-to-v1.0.md).
 
-### Basic Setup
+### Next steps
 
-1. **Copy sample configuration**: Use `_config.sample.yml` at the repository root as a starting point for your `_config.yml`. Keep a `languages.<lang>` entry for each language you publish and delete the rest.
-
-2. **Copy sample data files**: Copy each language folder you need from `demo/_data/` (`en`, `ar`, `es`, `fr`, `de`, `ur`) to your site's `_data/`. Each holds 13 files, including `header.yml` for the intro paragraph.
-
-3. **Resume pages**: Missing pages are generated automatically: CVs at `languages.<lang>.url`, profiles at `/` for `default_lang` and `/<lang>/` for other languages. When generation is disabled (`resume_auto_generate_pages: false`), create one page per language using the `resume` layout:
-```yaml
----
-layout: resume
-lang: en
-permalink: /en/cv/
-t_id: resume
----
-```
-
-4. **Run the development server**:
-```bash
-bundle exec jekyll serve
-```
-
-Visit `http://localhost:4000/en/cv/` (or your configured CV URL). Profile landing pages are also generated automatically; create a `layout: profile` page if you want to hand-author a homepage instead.
+Follow [Getting Started](docs/tutorials/getting-started.md) for a complete walkthrough from an empty folder to a running two-language resume. The theme generates the CV and profile page for every language you configure (see [the languages table](docs/reference/config.md#3-languages)), and the sample data for six languages lives in `demo/_data/`.
 
 ## Documentation
 
-### For site owners (using the theme)
+The documentation is organized by what you need. Start at the [documentation index](docs/README.md).
 
-| Guide | Read it to |
+| I want to... | Go to |
 |---|---|
-| [Configuration Guide](docs/CONFIG_GUIDE.md) | Set up `_config.yml`: languages, sections, contact info, social links, avatar, analytics, dark mode. **Start here.** |
-| [Data Structure Guide](docs/DATA_GUIDE.md) | Write the 13 YAML data files per language: fields, examples, date formats, `active` flags. |
-| [Multilingual Guide](docs/MULTILINGUAL_GUIDE.md) | Override locale strings or fonts, add a language, RTL typography, and the v0.9.0 → v1.0.0 migration table. |
-| [Validation Guide](docs/VALIDATION_GUIDE.md) | Run `validate-resume`, read its errors, turn on strict builds and CI. |
-| [JSON Resume Export](docs/JSON_RESUME_EXPORT.md) | Publish `/<lang>/resume.json`, control privacy and which fields are exported. |
-| [Accessibility Guide](docs/ACCESSIBILITY_GUIDE.md) | See what the theme covers for WCAG 2.2 AA and its known limitations. |
+| Build my first resume site | [Getting Started](docs/tutorials/getting-started.md) (tutorial) |
+| Do one task: add a language, override strings, publish JSON, validate in CI | [How-to guides](docs/README.md#how-to-guides) |
+| Look up a setting, schema, or flag | [Reference](docs/README.md#reference) |
+| Understand why the theme works this way | [Explanation](docs/README.md#explanation) |
+| Contribute or follow the project rules | [AGENTS.md](AGENTS.md) · [Changelog](CHANGELOG.md) |
 
-### For theme developers (changing the theme)
-
-| Guide | Read it to |
-|---|---|
-| [Project Overview](docs/PROJECT_OVERVIEW.md) | Find your way around: architecture, file map, where each feature lives. |
-| [Layouts Guide](docs/LAYOUTS_GUIDE.md) | Understand the four layouts and how data reaches them. |
-| [Includes Guide](docs/INCLUDES_GUIDE.md) | Understand each include, add a section or a social platform. |
-| [SASS/SCSS Guide](docs/SASS_GUIDE.md) | Change styles, dark mode tokens, and RTL overrides. |
-| [Testing Guide](docs/TESTING_GUIDE.md) | Run the test suites, see what each covers, add a test. |
-| [AGENTS.md](AGENTS.md) · [Feature Roadmap](FEATURE_ROADMAP.md) · [Completed Audit](docs/COMPLETED_AUDIT.md) · [Changelog](CHANGELOG.md) | Contribution rules, planned work, past decisions, release notes. |
+Most-used reference pages: [Configuration reference](docs/reference/config.md) (**start here** for `_config.yml`), [Data schemas](docs/reference/data-schemas.md), [Locale keys](docs/reference/locale-keys.md), [Validator and build checks](docs/reference/validator-cli.md), [JSON Resume export reference](docs/reference/json-resume-fields.md), and [Accessibility coverage](docs/reference/accessibility-coverage.md).
 
 ## Project Structure
 
@@ -103,7 +76,7 @@ bilingual-jekyll-resume-theme/
 ├── assets/            # CSS entrypoints (cv-ltr, cv-rtl), images, favicons
 ├── _config.sample.yml # Annotated configuration for consuming sites
 ├── demo/              # Separate demo-site submodule, including six-language data
-└── docs/              # Documentation guides
+└── docs/              # Documentation: tutorial, how-to guides, reference, explanation
 ```
 
 ## Key Concepts
@@ -121,7 +94,7 @@ languages:
 
 Use one folder per language even for a single-language site; adding a language later is then one more folder. Dot paths (`"2025-06.v1"`) select nested, versioned datasets, and `""` reads `_data/` itself.
 
-See the [Configuration Guide](docs/CONFIG_GUIDE.md#3-languages) for every per-language key.
+See the [Configuration reference](docs/reference/config.md#3-languages) for every per-language key.
 
 ### Sample Files
 
@@ -129,7 +102,7 @@ See the [Configuration Guide](docs/CONFIG_GUIDE.md#3-languages) for every per-la
 
 ### Locales
 
-Month names, "Present" labels, section titles, fonts, and text direction come from `_data/locales/<lang>.yml`, shipped inside the gem for all six languages. Override single strings or add a new language from your site's own `_data/locales/`; see the [Multilingual Guide](docs/MULTILINGUAL_GUIDE.md).
+Month names, "Present" labels, section titles, fonts, and text direction come from `_data/locales/<lang>.yml`, shipped inside the gem for all six languages. Override single strings or add a new language from your site's own `_data/locales/`; see [Override locale strings](docs/how-to/override-locale-strings.md) and [Add a language](docs/how-to/add-a-language.md).
 
 ## Development
 
@@ -181,13 +154,13 @@ bundle update
 ./bin/release --bump
 ```
 
-For more details on resume schema checks, see [VALIDATION_GUIDE.md](docs/VALIDATION_GUIDE.md). Contributor and agent rules are in [AGENTS.md](AGENTS.md).
+For more details on resume schema checks, see [Validator and build checks](docs/reference/validator-cli.md). Contributor and agent rules are in [AGENTS.md](AGENTS.md).
 
 ## Requirements
 
 - Ruby 3.3+; this repository’s CI matrix tests 3.3, 3.4, and 4.0.
 - Jekyll `~> 4.4` (4.4 or later, below 5.0), as specified in the gemspec.
-- Runtime plugin dependencies (enable them through your site’s `plugins:` list, as in the sample config):
+- Runtime plugin dependencies (Jekyll loads them automatically when `theme:` is set; the sample config also lists them under `plugins:` to make them explicit):
   - `jekyll-feed`
   - `jekyll-seo-tag`
   - `jekyll-sitemap`
@@ -203,7 +176,7 @@ The theme is available as open source under the terms of the [MIT License](LICEN
 
 ## Support
 
-- 📖 Check the [Documentation Guides](#documentation) for detailed information
+- 📖 Check the [Documentation](#documentation) for detailed information
 - 🐛 Report issues on [GitHub Issues](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues)
 
 ---

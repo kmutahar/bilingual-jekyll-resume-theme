@@ -1,32 +1,8 @@
-# SCSS / SASS Architecture Guide (`_sass/`)
+# Sass reference (`_sass/`)
 
-A technical tour of the theme's styling system in [`../_sass/`](../_sass/) and entrypoint stylesheets in [`../assets/css/`](../assets/css/). This guide covers modern Dart Sass module architecture, the dark mode token system, RTL mirroring, accessibility styles, and print optimization.
+*Audience: theme developers*
 
----
-
-## Table of Contents
-
-- [Entrypoints & Compilation Architecture](#entrypoints--compilation-architecture)
-  - [Stylesheet Entrypoints](#stylesheet-entrypoints)
-  - [Modern Dart Sass `@use` Architecture](#modern-dart-sass-use-architecture)
-  - [Overriding Partials in a Consuming Site](#overriding-partials-in-a-consuming-site)
-- [SCSS Partial Inventory](#scss-partial-inventory)
-  - [1. `_variables.scss`](#1-_variablesscss)
-  - [2. `_mixins.scss`](#2-_mixinsscss)
-  - [3. `_normalize.scss`](#3-_normalizescss)
-  - [4. `_base.scss`](#4-_basescss)
-  - [5. `_layout.scss`](#5-_layoutscss)
-  - [6. `_resume-ltr.scss`](#6-_resume-ltrscss)
-  - [7. `_resume-rtl.scss`](#7-_resume-rtlscss)
-  - [8. `_profile-page.scss`](#8-_profile-pagescss)
-  - [9. `_all-pages.scss`](#9-_all-pagesscss)
-  - [10. `_dark-mode.scss`](#10-_dark-modescss)
-- [The Dark Mode Token System](#the-dark-mode-token-system)
-  - [Design Tokens Table](#design-tokens-table)
-  - [Two-Tier Activation Mechanism](#two-tier-activation-mechanism)
-  - [Print Media Resets](#print-media-resets)
-- [WCAG 2.2 Accessibility & High-Contrast Standards](#wcag-22-accessibility--high-contrast-standards)
-- [Locale Typography & RTL Mechanics](#locale-typography--rtl-mechanics)
+Reference for the theme's styling system in [`_sass/`](../../_sass) and the entrypoint stylesheets in [`assets/css/`](../../assets/css): Dart Sass module architecture, partial inventory, and the dark mode tokens.
 
 ---
 
@@ -34,27 +10,22 @@ A technical tour of the theme's styling system in [`../_sass/`](../_sass/) and e
 
 ### Stylesheet Entrypoints
 
-Jekyll compiles files in [`../assets/css/`](../assets/css/) that start with YAML front matter into final static CSS assets:
+Jekyll compiles files in [`assets/css/`](../../assets/css) that start with YAML front matter into final static CSS assets:
 
 | Source SCSS | Compiled Output CSS | Consuming Layouts |
 |---|---|---|
-| [`../assets/css/cv-ltr.scss`](../assets/css/cv-ltr.scss) | `assets/css/cv-ltr.css` | [`../_layouts/resume.html`](../_layouts/resume.html) for every locale with `direction: ltr` |
-| [`../assets/css/cv-rtl.scss`](../assets/css/cv-rtl.scss) | `assets/css/cv-rtl.css` | [`../_layouts/resume.html`](../_layouts/resume.html) for every locale with `direction: rtl` |
-| [`../assets/css/profile.scss`](../assets/css/profile.scss) | `assets/css/profile.css` | [`../_layouts/profile.html`](../_layouts/profile.html) |
-| [`../assets/css/main.scss`](../assets/css/main.scss) | `assets/css/main.css` | [`../_layouts/default.html`](../_layouts/default.html), [`../_layouts/error.html`](../_layouts/error.html) |
+| [`assets/css/cv-ltr.scss`](../../assets/css/cv-ltr.scss) | `assets/css/cv-ltr.css` | [`_layouts/resume.html`](../../_layouts/resume.html) for every locale with `direction: ltr` |
+| [`assets/css/cv-rtl.scss`](../../assets/css/cv-rtl.scss) | `assets/css/cv-rtl.css` | [`_layouts/resume.html`](../../_layouts/resume.html) for every locale with `direction: rtl` |
+| [`assets/css/profile.scss`](../../assets/css/profile.scss) | `assets/css/profile.css` | [`_layouts/profile.html`](../../_layouts/profile.html) |
+| [`assets/css/main.scss`](../../assets/css/main.scss) | `assets/css/main.css` | [`_layouts/default.html`](../../_layouts/default.html), [`_layouts/error.html`](../../_layouts/error.html) |
 
 ### Modern Dart Sass `@use` Architecture
 
-The theme exclusively utilizes modern Dart Sass `@use` instead of deprecated `@import`:
-- **Namespacing:** Variables and mixins are encapsulated (e.g., `variables.$white`, `@include mixins.clearfix`), preventing global pollution.
-- **Dependency Isolation:** Modules only load what they explicitly require.
+The theme uses `@use` exclusively. The reasons are in [Why `@use` instead of `@import`](../explanation/architecture.md#why-use-instead-of-import).
 
 ### Overriding Partials in a Consuming Site
 
-Because Jekyll prioritizes files in the consuming site's directory over gem theme assets, you can override any partial without forking the gem:
-1. Create a matching file in your local site (e.g., `_sass/_variables.scss`).
-2. Copy the complete partial and edit the variables you need; a same-path file replaces the whole theme partial, so omitted definitions can break dependent modules.
-3. Alternatively, copy a stylesheet entrypoint and configure `@use "variables" with (...)` before the other modules load it. Only variables declared with `!default` can be configured this way.
+Steps: [Override Sass partials](../how-to/override-sass-partials.md).
 
 ---
 
@@ -62,18 +33,17 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ### 1. `_variables.scss`
 
-- **File:** [`../_sass/_variables.scss`](../_sass/_variables.scss)
-- **Role:** Base layout widths, grid gutters, and font stacks.
-- **Key Variables:**
-  - `$container-width: 980px !default;`: Maximum resume container width.
-  - `$grid-gutter: 10px !default;`: Grid column padding and gutters.
-  - `$body-font`, `$mono-font`: Base fallback typography stacks.
+- **File:** [`_sass/_variables.scss`](../../_sass/_variables.scss)
+- **Role:** Font stacks and default sizes. Only `$white` and `$text_color` are read (by `_base.scss`, as fallbacks for `--bg-color` and `--text-color`); the other variables are currently unused.
+- **Variables:**
+  - `$white`, `$text_color`: color fallbacks. They are not declared with `!default`, so they cannot be configured with `@use ... with`.
+  - `$container-width: 980px !default;`, `$grid-gutter: 10px !default;`, `$body-font`, `$mono-font`, `$body-font-size: 13px !default;`: declared but not used by any partial or entrypoint.
 
 ---
 
 ### 2. `_mixins.scss`
 
-- **File:** [`../_sass/_mixins.scss`](../_sass/_mixins.scss)
+- **File:** [`_sass/_mixins.scss`](../../_sass/_mixins.scss)
 - **Role:** Breakpoint helpers, typography mixins, and border accents.
 - **Key Mixins:**
   - `@mixin media_mobile` (`max-width: 600px`)
@@ -84,14 +54,14 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ### 3. `_normalize.scss`
 
-- **File:** [`../_sass/_normalize.scss`](../_sass/_normalize.scss)
+- **File:** [`_sass/_normalize.scss`](../../_sass/_normalize.scss)
 - **Role:** Normalize.css v8.0.1 browser baseline reset.
 
 ---
 
 ### 4. `_base.scss`
 
-- **File:** [`../_sass/_base.scss`](../_sass/_base.scss)
+- **File:** [`_sass/_base.scss`](../../_sass/_base.scss)
 - **Role:** HTML and body defaults, box-sizing, and screen-reader accessibility classes.
 - **Key Features:**
   - Universal `box-sizing: border-box`.
@@ -102,14 +72,14 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ### 5. `_layout.scss`
 
-- **File:** [`../_sass/_layout.scss`](../_sass/_layout.scss)
-- **Role:** Centered `.container` wrapper and responsive grid columns (`.one-third`, `.two-thirds`, `.one-half`, etc.).
+- **File:** [`_sass/_layout.scss`](../../_sass/_layout.scss)
+- **Role:** Floating language switcher component (`.language-switcher`, fixed top-left, hidden in print). The former grid classes (`.container`, `.columns`, `.one-third`, and so on) were removed.
 
 ---
 
 ### 6. `_resume-ltr.scss`
 
-- **File:** [`../_sass/_resume-ltr.scss`](../_sass/_resume-ltr.scss)
+- **File:** [`_sass/_resume-ltr.scss`](../../_sass/_resume-ltr.scss)
 - **Role:** The main resume stylesheet: every shared rule plus LTR positioning. Both entrypoints load it; `cv-rtl.scss` then layers `_resume-rtl.scss` on top.
 - **Typography:** resume text reads `var(--font-locale, <default stack>)` and `var(--line-height-locale, <default>)`, so each locale's font and line height apply without per-language rules.
 - **Components Styled:**
@@ -123,12 +93,12 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ### 7. `_resume-rtl.scss`
 
-- **File:** [`../_sass/_resume-rtl.scss`](../_sass/_resume-rtl.scss)
+- **File:** [`_sass/_resume-rtl.scss`](../../_sass/_resume-rtl.scss)
 - **Role:** Language-neutral RTL overrides scoped under `html[dir="rtl"]`, loaded last by `cv-rtl.scss`. Serves Arabic, Urdu, and any future RTL locale.
 - **Key Overrides:**
   - Flips horizontal floats, text alignments, borders, and margins.
   - Repositions timeline bullets and contact icons for RTL reading order.
-  - Resets `letter-spacing` to `normal` on headings so cursive scripts keep their ligatures.
+  - Resets `letter-spacing` to `normal` on headings.
   - Sets no `font-family` or `line-height`; those come from the locale CSS variables.
 
 ---
@@ -137,25 +107,25 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 <a id="8-_profile-page-scss"></a>
 ### 8. `_profile-page.scss`
 
-- **File:** [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss)
-- **Role:** Styles for the dedicated portfolio landing page layout ([`../_layouts/profile.html`](../_layouts/profile.html)) and entrypoint [`../assets/css/profile.scss`](../assets/css/profile.scss).
-- **Architecture:** Provides clean, unconstrained vertical centering, avatar, bio typography, and CV action button without duplicating universal footer or SVG icon styles (which are loaded from [`_all-pages.scss`](../_sass/_all-pages.scss)).
+- **File:** [`_sass/_profile-page.scss`](../../_sass/_profile-page.scss)
+- **Role:** Styles for the dedicated portfolio landing page layout ([`_layouts/profile.html`](../../_layouts/profile.html)) and entrypoint [`assets/css/profile.scss`](../../assets/css/profile.scss).
+- **Architecture:** Provides clean, unconstrained vertical centering, avatar, bio typography, and CV action button without duplicating universal footer or SVG icon styles (which are loaded from [`_all-pages.scss`](../../_sass/_all-pages.scss)).
 
 ---
 
 ### 9. `_all-pages.scss`
 
-- **File:** [`../_sass/_all-pages.scss`](../_sass/_all-pages.scss)
+- **File:** [`_sass/_all-pages.scss`](../../_sass/_all-pages.scss)
 - **Role:** Universal styles shared across all layouts.
 - **Key Features:**
-  - Shared icon-link sizing, hover animations, and `.page-footer` spacing. The deduplication in `a354b62` keeps shared rules here and `.sr-only` in `_base.scss`.
+  - Shared icon-link sizing, hover animations, and `.page-footer` spacing. Shared rules live here and `.sr-only` lives in `_base.scss`.
   - Complete dark-mode-aware typography rules for markdown content in `.main-content` (headings, paragraphs, blockquotes, tables, lists, and code blocks).
 
 ---
 
 ### 10. `_dark-mode.scss`
 
-- **File:** [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss)
+- **File:** [`_sass/_dark-mode.scss`](../../_sass/_dark-mode.scss)
 - **Role:** Single source of truth for all color tokens, theme overrides, and the floating toggle button.
 
 ---
@@ -164,7 +134,7 @@ Because Jekyll prioritizes files in the consuming site's directory over gem them
 
 ### Design Tokens Table
 
-Shared color styles use CSS custom properties defined on `:root` in [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss):
+Shared color styles use CSS custom properties defined on `:root` in [`_sass/_dark-mode.scss`](../../_sass/_dark-mode.scss):
 
 | CSS Custom Property | Light Mode Value | Dark Mode Value | Semantic Role |
 |---|---|---|---|
@@ -212,6 +182,8 @@ Shared color styles use CSS custom properties defined on `:root` in [`../_sass/_
 
 ### Two-Tier Activation Mechanism
 
+Why activation has two tiers: [Dark mode approach](../explanation/dark-mode-approach.md#two-tiers-of-activation).
+
 1. **Automatic Detection:**
    ```scss
    @media (prefers-color-scheme: dark) {
@@ -234,46 +206,67 @@ Shared color styles use CSS custom properties defined on `:root` in [`../_sass/_
 
 ### Print Media Resets
 
-When printing to physical paper or PDF, [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss) enforces a strict print reset:
+When printing to physical paper or PDF, [`_sass/_dark-mode.scss`](../../_sass/_dark-mode.scss) enforces a strict print reset:
 
 ```scss
 @media print {
-  :root {
+  :root,
+  :root[data-color-scheme="dark"],
+  :root[data-color-scheme="light"],
+  :root[data-theme="dark"],
+  :root[data-theme="light"],
+  [data-color-scheme="dark"],
+  [data-theme="dark"],
+  html.dark,
+  html.light {
+    color-scheme: light !important;
     --bg-color: #ffffff !important;
     --text-color: #000000 !important;
-    --border-color: #cccccc !important;
-    --card-bg: transparent !important;
+    --border-color: #c7c7c7 !important;
+    --card-bg: #fff !important;
+    /* ...every other color token (text, link, accent, icon, button, selection) is reset the same way */
   }
-  .dark-mode-toggle {
+  html,
+  body {
+    background-color: #fff !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .dark-mode-toggle,
+  #dark-mode-toggle {
     display: none !important;
   }
 }
 ```
 
+The block resets every color token to black, white, or grey values, whichever scheme the page is pinned to, forces `html` and `body` to `#fff` and `#000`, and hides the toggle.
+
 ---
 
 ## WCAG 2.2 Accessibility & High-Contrast Standards
 
-- **Contrast:** Evaluate foreground/background pairs, not tokens in isolation. In particular, `--text-muted: #999` on white is about 2.85:1 and is unsuitable for normal-size AA text. See [ACCESSIBILITY_GUIDE.md](ACCESSIBILITY_GUIDE.md) for current limitations and verification steps.
+- **Contrast:** see [Accessibility decisions](../explanation/accessibility-decisions.md) for the pair-based contrast rule; [accessibility-coverage.md](accessibility-coverage.md) lists current limitations and verification steps.
 - **Focus Rings:** Interactive elements feature high-contrast visible focus outlines:
   ```scss
   :focus-visible {
-    outline: 2px solid var(--accent-color);
+    outline: 2px solid var(--accent-color, #3064a9);
     outline-offset: 2px;
   }
   ```
 - **Screen-Reader Utility:**
   ```scss
   .sr-only {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+    text-decoration: none !important;
   }
   ```
 
@@ -281,8 +274,6 @@ When printing to physical paper or PDF, [`../_sass/_dark-mode.scss`](../_sass/_d
 
 ## Locale Typography & RTL Mechanics
 
-1. **Per-locale typography:** `_layouts/resume.html` emits `--font-locale` (from the locale's `font_family`, when non-empty) and `--line-height-locale` (from `line_height`) in an inline `:root` style. `_sass/_resume-ltr.scss` reads both with the theme defaults as fallbacks. To change a language's font, override its locale file (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#typography--rtl)); no SCSS edit is needed.
-2. **Direction selects the entrypoint:** the layout links `cv-<direction>.css`, where `direction` comes from the locale file.
-3. **Root direction:** RTL overrides activate via `html[dir="rtl"]`.
-4. **Horizontal mirroring:** floated elements (avatar, social bar, job title) flip alignment.
-5. **Punctuation isolation:** in RTL locales the templates wrap phone numbers, emails, URLs, and credential IDs in `dir="ltr"`.
+- **Per-locale typography:** `_layouts/resume.html` emits `--font-locale` (from the locale's `font_family`, when non-empty) and `--line-height-locale` (from `line_height`) in an inline `:root` style, and `_sass/_resume-ltr.scss` reads both with the theme defaults as fallbacks. Shipped font and line-height values: [locale-keys.md](locale-keys.md#shipped-locales). To change a language's font, see [Override locale strings](../how-to/override-locale-strings.md#change-a-languages-font).
+- **Direction selects the entrypoint:** the layout links `cv-<direction>.css` (see the entrypoints table).
+- **RTL scope:** overrides activate via `html[dir="rtl"]`; rationale in [Multilingual and RTL design](../explanation/multilingual-and-rtl-design.md#typography--rtl).

@@ -544,7 +544,7 @@ module BilingualJekyllResumeTheme
       require_field(entry, context, "uni", %w[institution school], "institution/university")
       require_field(entry, context, "degree")
 
-      # DATA_GUIDE.md documents education.yml with a freeform `year` string (not
+      # data-schemas.md documents education.yml with a freeform `year` string (not
       # startdate/enddate) as the displayed date range; require it be present since
       # nothing else here validates that education entries have a date at all.
       add_error(context, "Missing required field 'year'") if entry["year"].to_s.strip.empty? && !entry["startdate"]

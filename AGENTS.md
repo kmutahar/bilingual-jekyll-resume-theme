@@ -55,17 +55,19 @@ Use the following index to find specific architecture details, schemas, and conf
 
 | Need / Task | Go To | Role |
 |---|---|---|
-| **Architecture Map & File Tree** | [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md) | Map |
-| **Site Config & `_config.yml`** | [`docs/CONFIG_GUIDE.md`](docs/CONFIG_GUIDE.md) | Reference |
-| **Data Schemas & 12 Resume Sections**: Dynamic YAML rendering | [`docs/DATA_GUIDE.md`](docs/DATA_GUIDE.md) | Reference |
-| **Locale Files & RTL Setup** | [`docs/MULTILINGUAL_GUIDE.md`](docs/MULTILINGUAL_GUIDE.md) | Reference |
-| **HTML Layouts & Data Flow**: Dynamic data path resolution | [`docs/LAYOUTS_GUIDE.md`](docs/LAYOUTS_GUIDE.md) | Reference |
-| **Components & Include Files** | [`docs/INCLUDES_GUIDE.md`](docs/INCLUDES_GUIDE.md) | Reference |
-| **SCSS Architecture & Dark Mode** | [`docs/SASS_GUIDE.md`](docs/SASS_GUIDE.md) | Reference |
-| **Tests, Suites & Coverage** | [`docs/TESTING_GUIDE.md`](docs/TESTING_GUIDE.md) | Reference |
-| **Validator CLI & Build Checks** | [`docs/VALIDATION_GUIDE.md`](docs/VALIDATION_GUIDE.md) | Reference |
-| **Accessibility Verification** | [`docs/ACCESSIBILITY_GUIDE.md`](docs/ACCESSIBILITY_GUIDE.md) | Reference |
-| **JSON Resume Export** | [`docs/JSON_RESUME_EXPORT.md`](docs/JSON_RESUME_EXPORT.md) | Reference |
+| **All documentation, grouped by need** | [`docs/README.md`](docs/README.md) | Index |
+| **First site walkthrough** | [`docs/tutorials/getting-started.md`](docs/tutorials/getting-started.md) | Tutorial |
+| **Architecture Map & File Tree** | [`docs/explanation/architecture.md`](docs/explanation/architecture.md), [`docs/reference/repository-map.md`](docs/reference/repository-map.md) | Explanation, Reference |
+| **Site Config & `_config.yml`** | [`docs/reference/config.md`](docs/reference/config.md) | Reference |
+| **Data Schemas & 12 Resume Sections**: Dynamic YAML rendering | [`docs/reference/data-schemas.md`](docs/reference/data-schemas.md) | Reference |
+| **Locale Files & RTL Setup** | [`docs/reference/locale-keys.md`](docs/reference/locale-keys.md), [`docs/explanation/multilingual-and-rtl-design.md`](docs/explanation/multilingual-and-rtl-design.md) | Reference, Explanation |
+| **HTML Layouts & Data Flow**: Dynamic data path resolution | [`docs/reference/layouts.md`](docs/reference/layouts.md) | Reference |
+| **Components & Include Files** | [`docs/reference/includes.md`](docs/reference/includes.md) | Reference |
+| **SCSS Architecture & Dark Mode** | [`docs/reference/sass-tokens.md`](docs/reference/sass-tokens.md), [`docs/explanation/dark-mode-approach.md`](docs/explanation/dark-mode-approach.md) | Reference, Explanation |
+| **Tests, Suites & Coverage** | [`docs/reference/testing-suites.md`](docs/reference/testing-suites.md), [`docs/how-to/add-a-test.md`](docs/how-to/add-a-test.md) | Reference, How-to |
+| **Validator CLI & Build Checks** | [`docs/reference/validator-cli.md`](docs/reference/validator-cli.md) | Reference |
+| **Accessibility Verification** | [`docs/reference/accessibility-coverage.md`](docs/reference/accessibility-coverage.md), [`docs/how-to/verify-accessibility.md`](docs/how-to/verify-accessibility.md) | Reference, How-to |
+| **JSON Resume Export** | [`docs/reference/json-resume-fields.md`](docs/reference/json-resume-fields.md), [`docs/how-to/publish-json-resume.md`](docs/how-to/publish-json-resume.md) | Reference, How-to |
 | **Active Feature Blueprints** | [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) | Status |
 | **Historical Fixes & Remediations** | [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) | History |
 

@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   # bin/check-data-keys and lib/.../template_key_checker.rb are dev/CI-only tools
   # (they check the theme's own templates against its own demo data — see
-  # docs/VALIDATION_GUIDE.md) and are intentionally excluded from the packaged gem.
+  # docs/reference/validator-cli.md) and are intentionally excluded from the packaged gem.
   tracked_files = `git ls-files -z`.split("\x0")
   spec.files         = (tracked_files + Dir["_plugins/**/*", "lib/**/*", "bin/validate-resume"]).uniq.select do |f|
     f.match(%r!^(assets|_data|_layouts|_includes|_sass|_plugins|lib|bin|LICENSE|README|CHANGELOG|CODE_OF_CONDUCT|SECURITY|docs|_config\.sample\.yml|404|403|500)!i) &&

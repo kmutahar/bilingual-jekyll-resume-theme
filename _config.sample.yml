@@ -257,7 +257,7 @@ resume_theme: default
 
 # To use a self-hosted or alternate CDN font for a locale, override that locale's
 # font_url in your site's own _data/locales/<lang>.yml (see "Overriding Theme
-# Locales" in docs/MULTILINGUAL_GUIDE.md) instead of a site-wide config key.
+# Locales" in docs/explanation/multilingual-and-rtl-design.md) instead of a site-wide config key.
 
 # Disable font stylesheet loading in the resume layout (including a custom locale font_url)
 # disable_google_fonts: true
@@ -313,7 +313,7 @@ exclude:
 defaults: []
 
 # JSON Resume exports: /<lang>/resume.json and a default-language /resume.json.
-# Details and field mappings: docs/JSON_RESUME_EXPORT.md in the theme repository.
+# Details and field mappings: docs/reference/json-resume-fields.md in the theme repository.
 json_resume:
   enabled: true
   root_export: true

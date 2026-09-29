@@ -1,82 +1,10 @@
-# Configuration Guide (`_config.yml`)
+# Configuration reference (`_config.yml`)
 
-Every setting the theme reads from a consuming site's `_config.yml`. The annotated master copy is [`_config.sample.yml`](../_config.sample.yml); the build reads your site’s `_config.yml`, not the sample automatically. Templates, generators, and the gemspec define current behavior.
+*Audience: site owners*
 
-Per-language settings (name, title, address, data path, URL) live under `languages.<lang>`. Direction, fonts, and UI strings are not config at all: they come from `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md)). Upgrading from v0.9.0? The key-by-key migration table is in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#breaking-changes--migration-v090-to-v100).
+Every setting the theme reads from a consuming site's `_config.yml`. The annotated master copy is [`_config.sample.yml`](../../_config.sample.yml); the build reads your site’s `_config.yml`, not the sample automatically. Templates, generators, and the gemspec define current behavior.
 
----
-
-## Table of Contents
-
-- [Quick Start](#quick-start)
-- [Configuration Reference](#configuration-reference)
-  - [1. Site Identity](#1-site-identity)
-  - [2. Favicons & Web App Manifest](#2-favicons--web-app-manifest)
-  - [3. Languages](#3-languages)
-  - [4. Profile Picture / Avatar Settings](#4-profile-picture--avatar-settings)
-  - [5. Contact Information](#5-contact-information)
-  - [6. Social Media Links](#6-social-media-links)
-  - [7. Resume Display & Behavior Controls](#7-resume-display--behavior-controls)
-  - [8. Resume Sections Toggle & Order](#8-resume-sections-toggle--order)
-  - [9. Styling, Fonts & Dark Mode](#9-styling-fonts--dark-mode)
-  - [10. Analytics Configuration](#10-analytics-configuration)
-  - [11. Build-Time Validation](#11-build-time-validation)
-  - [12. Jekyll Build Settings & Plugins](#12-jekyll-build-settings--plugins)
-- [Frequently Asked Questions (FAQs)](#frequently-asked-questions-faqs)
-
----
-
-## Quick Start
-
-> [!TIP]
-> Copy [`_config.sample.yml`](../_config.sample.yml) to your site root as `_config.yml`. Starter resume data for six languages is available in the [`demo/_data/`](../demo/_data/) directory (`en`, `ar`, `es`, `fr`, `de`, `ur`).
->
-> **System Requirements:** Ruby >= 3.3.0 (CI tests 3.3, 3.4, and 4.0) and Jekyll `~> 4.4`. Load the theme through `group :jekyll_plugins` in your `Gemfile` or an explicit `bilingual-jekyll-resume-theme` entry under `plugins:` so its generators and validator run.
-
-Minimal working configuration for an English and Arabic resume:
-
-```yaml
-theme: bilingual-jekyll-resume-theme
-title: "Jane Doe"
-url: "https://your-domain.com"
-baseurl: ""                   # Keep empty unless hosting on a subpath (e.g., /resume)
-timezone: UTC
-
-languages:
-  en:
-    data_path: en             # _data/en/*
-    url: /en/cv/
-    header_intro: true
-    name: "Jane Doe"
-    resume_title: "Senior Product Manager"
-  ar:
-    data_path: ar             # _data/ar/*
-    url: /ar/cv/
-    header_intro: true
-    name: "جين دو"
-    resume_title: "مديرة منتج أولى"
-
-default_lang: en
-
-contact_info:
-  email: "jane.doe@example.com"
-
-resume_section:
-  experience: true
-  education: true
-  projects: true
-  skills: true
-
-resume_section_order:
-  - experience
-  - education
-  - projects
-  - skills
-```
-
-The theme generates missing CV and profile pages automatically; set `resume_auto_generate_pages: false` to require hand-authored pages with `layout: resume` and `lang: <code>` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#resume-pages)).
-
----
+Per-language settings (name, title, address, data path, URL) live under `languages.<lang>`. Direction, fonts, and UI strings are not config at all: they come from `_data/locales/<lang>.yml` (see [Locale keys](locale-keys.md)). Upgrading from v0.9.0? See [Migrate from v0.9 to v1.0](../how-to/migrate-v0.9-to-v1.0.md). The requirements (Ruby, Jekyll, loading the theme through `group :jekyll_plugins`) are listed in [Getting started](../tutorials/getting-started.md).
 
 ## Configuration Reference
 
@@ -89,7 +17,7 @@ The theme generates missing CV and profile pages automatically; set `resume_auto
 | `description` | String | `""` | Site summary emitted by `{% seo %}`. |
 | `url` | String | `""` | **Required.** Protocol and domain (e.g., `https://example.com`). Used for absolute hreflang URLs. |
 | `baseurl` | String | `""` | Subdirectory path if the site is not served from the domain root. |
-| `timezone` | String | `"UTC"` | Timezone for date rendering (e.g., `America/New_York`, `Asia/Riyadh`). |
+| `timezone` | String | unset (system time zone; the sample sets `UTC`) | Timezone for date rendering (e.g., `America/New_York`, `Asia/Riyadh`). Jekyll core key. |
 
 The page language and text direction are not site settings. Every layout resolves the language from `page.lang`, then `default_lang`, then `en`, and reads `direction` from that language's locale file.
 
@@ -106,7 +34,7 @@ The theme ships a favicon suite under `assets/favicon/resume/`. Override any ass
 | `favicon_32` | String | `"assets/favicon/resume/favicon-32x32.png"` | 32x32 browser favicon. |
 | `favicon_16` | String | `"assets/favicon/resume/favicon-16x16.png"` | 16x16 browser favicon. |
 
-All favicon paths pass through `relative_url` in [`../_includes/shared-head.html`](../_includes/shared-head.html), so they work under a `baseurl`.
+All favicon paths pass through `relative_url` in [`_includes/shared-head.html`](../../_includes/shared-head.html), so they work under a `baseurl`.
 
 ---
 
@@ -125,6 +53,7 @@ One entry per language, keyed by language code. The same code names the page's `
 | `languages.<lang>.resume_title` | String | Job title shown under the name. |
 | `languages.<lang>.address` | String | Location shown in the contact row and in Schema.org microdata. |
 | `languages.<lang>.avatar_alt` | String | Avatar alt text. Falls back to `name`, then the locale's `ui.photo_alt`. |
+| `languages.<lang>.postal_code`, `city`, `country_code`, `region` | String | Optional. Exported as `basics.location.postalCode`, `city`, `countryCode`, and `region` in the JSON Resume file; not shown on the page. An invalid `country_code` is omitted with a warning. |
 | `languages.<lang>.auto_generate_pages` | Boolean | Per-language override of `resume_auto_generate_pages` below. Set `false` to require a hand-authored page for just this language even when auto-generation is on globally, or `true` to auto-generate just this language even when it's off globally. |
 | `default_lang` | String | Language used when a page has no `lang`, for the hreflang `x-default` link, and for error page button labels. Default `en`. |
 | `resume_auto_generate_pages` | Boolean | Default `true`. When a `languages.<lang>` entry has no hand-authored CV (`layout: resume`) or profile (`layout: profile`) page, the theme synthesizes one automatically at `languages.<lang>.url` (CV) and `/` for `default_lang` or `/<lang>/` for any other language (profile), each carrying `t_id: resume` / `t_id: profile` so hreflang and the language switcher match them like any hand-authored page. A hand-authored page for a given `layout`+`lang` always wins over auto-generation. Set `false` to require every language to have its own hand-authored page; a language left without a page (auto-generation off and no hand-authored file) logs a build warning instead of failing silently. |
@@ -153,18 +82,18 @@ default_lang: en
 
 **Note:** a page occupying the intended permalink also prevents generation, even if its layout differs. Profile generation does not require a CV URL; CV generation does. Disabled generation or a missing CV URL produces a warning when the corresponding page is absent.
 
-Adding a language beyond the six shipped ones is covered in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#adding-a-language).
+Adding a language beyond the six shipped ones: [Add a language](../how-to/add-a-language.md).
 
 ---
 
 ### 4. Profile Picture / Avatar Settings
 
-[`../_includes/avatar.html`](../_includes/avatar.html) renders the avatar. Alt text is per language (`languages.<lang>.avatar_alt`, section 3).
+[`_includes/avatar.html`](../../_includes/avatar.html) renders the avatar. Alt text is per language (`languages.<lang>.avatar_alt`, section 3).
 
 | Setting | Type | Default | Description |
 |---|---|---|---|
 | `resume_avatar` | Boolean | unset (hidden) | `true` shows the avatar in the resume header. Must be a Boolean. |
-| `avatar_url` | String | `"/assets/images/Profile-min.jpg"` | Local path (passed through `relative_url`) or external URL (anything containing `://`, used as-is). |
+| `avatar_url` | String | `"/assets/images/Profile-min.jpg"` | Local path (passed through `relative_url`) or external URL (anything containing `://`, used as-is). The theme does not ship the default file: supply it or set `avatar_url`. |
 | `avatar_link` | String / Boolean | `"/"` | Link destination. `false` renders a plain `<img>`. |
 | `avatar_link_target` | String | `"_self"` | Link `target` attribute. |
 
@@ -202,7 +131,7 @@ contact_info:
 
 ### 6. Social Media Links
 
-[`../_includes/social-links.html`](../_includes/social-links.html) renders an icon for each configured platform; [`../_includes/print-social-links.html`](../_includes/print-social-links.html) prints the supported platform list as text, labelled from the locale's `ui.social_labels`. Only supported, configured platforms render. `mastodon` currently adds `rel="me"` metadata in the default and profile layouts; it has no social icon or print-list entry yet.
+[`_includes/social-links.html`](../../_includes/social-links.html) renders an icon for each configured platform; [`_includes/print-social-links.html`](../../_includes/print-social-links.html) prints the supported platform list as text, labelled from the locale's `ui.social_labels`. Only supported, configured platforms render. `mastodon` currently adds `rel="me"` metadata in the default and profile layouts; it has no social icon or print-list entry yet.
 
 `email` renders a `mailto:` link with an accessible label. Every other key takes a full URL.
 
@@ -237,7 +166,7 @@ social_links:
 | `display_header_contact_info` | Boolean | unset (hidden) | `true` shows the phone, email, address, and date-of-birth row in the header. |
 | `resume_looking_for_work` | Boolean / omitted | omitted | `true`: contact button; `false`: "not looking" pill; omitted: nothing. |
 | `enable_summary` | Boolean | `false` | Show `summary` fields under roles and courses. |
-| `enable_live` | Boolean | `false` | Use `phone_live` and `email_live` instead of `phone` and `email`. |
+| `enable_live` | Boolean | unset | `true` uses `phone_live` and `email_live` instead of `phone` and `email`. An explicit `false` also adds the print-only footer with the page's canonical URL (omitting the key does not). |
 | `resume_print_social_links` | Boolean | unset (hidden) | `true` prints the text list of social links on paper and PDF. |
 
 The header intro toggle is per language: `languages.<lang>.header_intro` (section 3).
@@ -255,7 +184,7 @@ resume_print_social_links: true
 
 ### 8. Resume Sections Toggle & Order
 
-[`../_includes/resume-section.html`](../_includes/resume-section.html) renders one section per entry in `resume_section_order`, for every language. A section branch renders when its `resume_section.<name>` flag is truthy; use YAML booleans. Missing or empty data can leave a section heading without items. Section headings come from the locale's `ui.section_titles`.
+[`_includes/resume-section.html`](../../_includes/resume-section.html) renders one section per entry in `resume_section_order`, for every language. A section branch renders when its `resume_section.<name>` flag is truthy; use YAML booleans. Missing or empty data can leave a section heading without items. Section headings come from the locale's `ui.section_titles`.
 
 ```yaml
 resume_section:
@@ -269,7 +198,7 @@ resume_section:
   skills: true
   recognitions: false    # plural only; the singular `recognition` key was removed in v1.0.0
   languages: false
-  lang_header: true      # compact language list in the header; suppresses the full languages section
+  lang_header: true      # compact language list in the header (needs display_header_contact_info: true); suppresses the full languages section
   interests: false
   links: false
 
@@ -294,19 +223,13 @@ resume_section_order:
 
 | Setting | Type | Default | Description |
 |---|---|---|---|
-| `dark_mode` | String / Boolean | `"auto"` | `"auto"`: CSS-only `prefers-color-scheme`, no toggle. `"enabled"` or `true`: floating toggle with `localStorage` persistence. `false`: no toggle. |
-| `resume_theme` | String | `"default"` | Added as a `theme-<value>` body class. `no-custom-fonts` also stops web font loading. |
-| `disable_google_fonts` | Boolean | `false` | `true` stops the resume layout from loading any locale `font_url` or the default Lora and Open Sans stylesheet. |
+| `dark_mode` | String / Boolean | `"auto"` | `"auto"`: CSS-only `prefers-color-scheme`, no toggle. `"enabled"` or `true`: floating toggle with `localStorage` persistence. `false`, or any other value such as `"disabled"`: no toggle. |
+| `resume_theme` | String | `"default"` | Added as a `theme-<value>` body class. `no-custom-fonts` also stops web font loading (same effect as `disable_google_fonts: true`). |
+| `disable_google_fonts` | Boolean | `false` | `true` stops the resume layout from loading any locale `font_url` or the default Lora and Open Sans stylesheet. Supply the font yourself, or set `font_family` to a system font in a site locale override. |
 
 Page front matter `dark_mode: false` / `true` controls the toggle on one page. These settings do not disable the system-preference CSS or the stored-preference script; `false` hides the button rather than forcing a light palette.
 
-Fonts are per language. To change a language's font, override `font_url` and `font_family` in your site's `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#overriding-theme-locales)):
-
-```yaml
-# consuming site: _data/locales/ar.yml
-font_family: "'Tajawal', sans-serif"
-font_url: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
-```
+Per-language fonts (`font_url`, `font_family`) are locale settings, not `_config.yml` settings: see [Override locale strings](../how-to/override-locale-strings.md). Why dark mode is off in print: [Dark mode approach](../explanation/dark-mode-approach.md).
 
 ---
 
@@ -329,7 +252,7 @@ analytics:
 
 ### 11. Build-Time Validation
 
-The validator runs on every build by default, logs findings, and never fails the build unless strict mode is on. Full reference: [`VALIDATION_GUIDE.md`](VALIDATION_GUIDE.md).
+The validator runs on every build by default, logs findings, and never fails the build unless strict mode is on. Full reference: [`validator-cli.md`](validator-cli.md).
 
 | Setting | Type | Default | Description |
 |---|---|---|---|
@@ -377,27 +300,29 @@ defaults: []
 
 ---
 
-## Frequently Asked Questions (FAQs)
+### 13. JSON Resume export
 
-### A section is not rendering on my resume. What should I check?
-1. `resume_section.<name>: true` is set.
-2. The name is listed in `resume_section_order`.
-3. The language's data folder (`_data/<data_path>/`) contains `<name>.yml` and its items have `active: true`.
-4. For recognitions, use the plural key `recognitions`.
-5. For the languages section, `lang_header` must not be `true`.
+Exports are on by default. Every key is optional.
 
-### A page renders with no name or content.
-The page's `lang` has no entry under `languages:`, or that entry's `data_path` points at a folder that does not exist. Run `bundle exec validate-resume _data`.
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `json_resume.enabled` | Boolean | `true` | `false` disables all exports. |
+| `json_resume.root_export` | Boolean | `true` | `false` disables only the root `/resume.json` copy. |
+| `json_resume.languages` | Array | `[]` | Missing or empty means every key in `site.languages`. A nonempty list is an allowlist; unknown languages are warned about and ignored. A malformed non-array value skips generation. Language codes may contain letters, digits, and internal hyphens or underscores; route separators and traversal characters are rejected. |
+| `json_resume.privacy.export_contact_info` | Boolean | `true` | `false` omits email, phone, location and the WhatsApp profile from the export. With `true`, phone and location are exported only if `display_header_contact_info: true`, and email only if that or `resume_looking_for_work` is `true`. |
+| `social_usernames.<network>` | String | unset | Optional profile username. `social_links` values remain URL strings. |
 
-### How do I display language proficiency in the header?
-Set `resume_section.lang_header: true` and give items in `languages.yml` a `descrp_short` value. For a full Languages section instead, set `lang_header: false` and `languages: true`.
+```yaml
+json_resume:
+  enabled: true
+  root_export: true
+  languages: [] # Missing or empty means every key in site.languages
+  privacy:
+    export_contact_info: true
 
-### Why doesn't dark mode apply to print or PDF?
-`@media print` in [`../_sass/_dark-mode.scss`](../_sass/_dark-mode.scss) forces black text on white, and the toggle carries `.no-print`.
+# Optional usernames; existing social_links values remain URL strings.
+social_usernames:
+  github: octocat
+```
 
-### How do I switch between resume versions?
-Point `data_path` at a dotted path. `languages.en.data_path: "2025-06.PM"` loads `_data/2025-06/PM/*.yml`. See [`LAYOUTS_GUIDE.md`](LAYOUTS_GUIDE.md#dynamic-data-resolution) for how the path is resolved.
-
-## JSON Resume export
-
-`json_resume` controls the default-on localized JSON exports; `social_usernames` optionally supplies profile usernames while `social_links` remains a map of URL strings. See [JSON Resume export configuration and privacy](JSON_RESUME_EXPORT.md#configuration).
+Routes, collision rules, visibility, and field mappings: [JSON Resume export configuration and privacy](json-resume-fields.md#configuration).

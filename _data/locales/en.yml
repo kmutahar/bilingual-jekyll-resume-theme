@@ -64,10 +64,6 @@ error_pages:
   "503":
     title: "Service Unavailable"
     message: "The server is currently unable to handle the request due to maintenance or capacity overload."
-  return_link: "Return to resume"
-  search_label: "Search website"
-  search_placeholder: "Search website..."
-  search_button: "Search"
 present_values:
   - "present"
   - "current"

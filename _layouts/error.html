@@ -45,6 +45,7 @@ provides an integer or string.
     <script type="application/json" id="error-lang-i18n">
     {
         "default_lang": {{ default_lang | jsonify }},
+        "base_path": {{ site.baseurl | default: "" | jsonify }},
         {%- for lang_entry in site.languages -%}
             {%- assign lang = lang_entry[0] -%}
             {%- assign lang_cfg = lang_entry[1] -%}
@@ -73,9 +74,12 @@ provides an integer or string.
         try {
             var i18n = JSON.parse(document.getElementById('error-lang-i18n').textContent);
             var path = window.location.pathname;
+            {%- comment -%} Sites hosted under a baseurl (e.g. /cv/ar/x) carry the prefix before the language. {%- endcomment -%}
+            var base = (i18n.base_path || '').replace(/\/+$/, '');
+            if (base && path.indexOf(base + '/') === 0) { path = path.slice(base.length); }
             var matched = null;
             for (var key in i18n) {
-                if (key === 'default_lang' || !i18n.hasOwnProperty(key)) { continue; }
+                if (key === 'default_lang' || key === 'base_path' || !i18n.hasOwnProperty(key)) { continue; }
                 if (path.indexOf('/' + key + '/') === 0) { matched = key; break; }
             }
             if (!matched) { matched = i18n.default_lang; }

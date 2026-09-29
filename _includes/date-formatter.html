@@ -33,18 +33,31 @@
   {%- if is_present -%}
     {{ locale.ui.present }}
   {%- else -%}
-    {%- assign month_index = include.date | date: "%m" | plus: 0 | minus: 1 -%}
-    {%- assign month_name = locale.months[month_index] -%}
-    {%- assign day = include.date | date: "%-d" -%}
-    {%- assign year = include.date | date: "%Y" -%}
-    {%- if month_name -%}
-      {%- if style == "MDY" -%}
-        {{ month_name }} {{ day }}, {{ year }}
-      {%- else -%}
-        {{ month_name }} {{ year }}
-      {%- endif -%}
-    {%- else -%}
+    {%- comment -%}
+      Split the ISO string ourselves: Liquid's `date` filter reads a bare year (2018) as a
+      Unix timestamp and cannot parse YYYY-MM. YAML Date objects stringify to YYYY-MM-DD.
+      Anything that is not YYYY, YYYY-MM or YYYY-MM-DD is printed verbatim.
+    {%- endcomment -%}
+    {%- assign date_parts = include.date | append: "" | slice: 0, 10 | split: "-" -%}
+    {%- assign year = date_parts[0] -%}
+    {%- assign year_check = year | plus: 0 | append: "" -%}
+    {%- assign month_num = date_parts[1] | plus: 0 -%}
+    {%- assign day = date_parts[2] | plus: 0 -%}
+    {%- assign month_name = nil -%}
+    {%- if date_parts[1].size == 2 and month_num >= 1 and month_num <= 12 -%}
+      {%- assign month_index = month_num | minus: 1 -%}
+      {%- assign month_name = locale.months[month_index] -%}
+    {%- endif -%}
+    {%- if year.size != 4 or year_check != year or date_parts.size > 3 -%}
       {{ include.date }}
+    {%- elsif date_parts.size == 1 -%}
+      {{ year }}
+    {%- elsif month_name == nil -%}
+      {{ include.date }}
+    {%- elsif style == "MDY" and date_parts.size == 3 and day > 0 -%}
+      {{ month_name }} {{ day }}, {{ year }}
+    {%- else -%}
+      {{ month_name }} {{ year }}
     {%- endif -%}
   {%- endif -%}
 {%- endif -%}

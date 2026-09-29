@@ -34,7 +34,7 @@ OUTPUT:
 {%- assign data_path = include.path | default: default_lang_cfg.data_path -%}
 {%- assign resume_data = site.data -%}
 
-{%- if data_path != blank -%}
+{%- if data_path.size > 0 -%}
   {%- assign path_parts = data_path | split: '.' -%}
   {%- for part in path_parts -%}
     {%- assign resume_data = resume_data[part] -%}

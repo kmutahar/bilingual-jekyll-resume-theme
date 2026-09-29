@@ -70,17 +70,17 @@
             {% if education.active == true %}
                 <div class="resume-item" itemscope itemprop="alumniOf" itemtype="http://schema.org/CollegeOrUniversity">
                     <h3 class="resume-item-title" itemprop="name">{{ education.uni }}</h3>
-                    {%- if education.degree != blank or education.year != blank or education.location != blank -%}
+                    {%- if education.degree.size > 0 or education.year.size > 0 or education.location.size > 0 -%}
                         <h4 class="resume-item-details group" itemprop="description">
-                            {%- if education.degree != blank -%}
+                            {%- if education.degree.size > 0 -%}
                                 {{ education.degree }}
                             {%- endif -%}
-                            {%- if education.year != blank -%}
-                                {% if education.degree != blank %} &bull; {% endif %}
+                            {%- if education.year.size > 0 -%}
+                                {% if education.degree.size > 0 %} &bull; {% endif %}
                                 {{ education.year }}
                             {%- endif -%}
-                            {%- if education.location != blank -%}
-                                {% if education.degree != blank or education.year != blank %} &bull; {% endif %}
+                            {%- if education.location.size > 0 -%}
+                                {% if education.degree.size > 0 or education.year.size > 0 %} &bull; {% endif %}
                                 {{ education.location }}
                             {%- endif -%}
                         </h4>
@@ -127,18 +127,18 @@
             {% if certification.active == true %}
                 <div class="resume-item">
                     <h3 class="resume-item-title" itemprop="award">{{ certification.name }}</h3>
-                    {%- if certification.issuing_organization != blank or certification.issue_date != blank or certification.credential_id != blank -%}
+                    {%- if certification.issuing_organization.size > 0 or certification.issue_date or certification.credential_id.size > 0 -%}
                         <h4 class="resume-item-details">
-                            {%- if certification.issuing_organization != blank -%}
+                            {%- if certification.issuing_organization.size > 0 -%}
                                 {{ certification.issuing_organization }}
                             {%- endif -%}
-                            {%- if certification.issue_date != blank -%}
-                                {% if certification.issuing_organization != blank %} &bull; {% endif %}
+                            {%- if certification.issue_date -%}
+                                {% if certification.issuing_organization.size > 0 %} &bull; {% endif %}
                                 {% include date-formatter.html date=certification.issue_date lang=lang style="MDY" %}
                                 {% if certification.expiration %} &ndash; {% include date-formatter.html date=certification.expiration lang=lang style="MDY" %} {% endif %}
                             {%- endif -%}
-                            {%- if certification.credential_id != blank -%}
-                                {% if certification.issuing_organization != blank or certification.issue_date != blank %} &bull; {% endif %}
+                            {%- if certification.credential_id.size > 0 -%}
+                                {% if certification.issuing_organization.size > 0 or certification.issue_date %} &bull; {% endif %}
                                 <span class="resume-item-copy-license-cert-id">{{ locale.ui.credential_id }}
                                 {% if certification.credential_url and certification.credential_url != "" %}
                                     <a href="{{ certification.credential_url }}" target="_blank" rel="noopener nofollow noreferrer"{% if rtl %} dir="ltr"{% endif %}>{{ certification.credential_id }}</a>
@@ -173,13 +173,13 @@
             {% if course.active == true %}
                 <div class="resume-item">
                     <h3 class="resume-item-title" itemprop="award">{{ course.name }}</h3>
-                    {%- if course.issuing_organization != blank or course.startdate != blank -%}
+                    {%- if course.issuing_organization.size > 0 or course.startdate -%}
                         <h4 class="resume-item-details">
-                            {%- if course.issuing_organization != blank -%}
+                            {%- if course.issuing_organization.size > 0 -%}
                                 {{ course.issuing_organization }}
                             {%- endif -%}
-                            {%- if course.startdate != blank -%}
-                                {% if course.issuing_organization != blank %} &bull; {% endif %}
+                            {%- if course.startdate -%}
+                                {% if course.issuing_organization.size > 0 %} &bull; {% endif %}
                                 {% include date-formatter.html date=course.startdate lang=lang style="MDY" %}
                                 {% if course.enddate %} &ndash; {% include date-formatter.html date=course.enddate lang=lang style="MDY" %} {% endif %}
                             {%- endif -%}
@@ -254,13 +254,13 @@
                         <span class="print-only-inline"{% if rtl %} dir="ltr"{% endif %} style="display: inline;">&nbsp;{{ project.url }}</span>
                     {% endif %}
 
-                    {%- if project.role != blank or project.duration != blank -%}
+                    {%- if project.role.size > 0 or project.duration.size > 0 -%}
                         <h4 class="resume-item-details" itemprop="description">
-                            {%- if project.role != blank -%}
+                            {%- if project.role.size > 0 -%}
                                 {{ project.role }}
                             {%- endif -%}
-                            {%- if project.duration != blank -%}
-                                {% if project.role != blank %} &bull; {% endif %}
+                            {%- if project.duration.size > 0 -%}
+                                {% if project.role.size > 0 %} &bull; {% endif %}
                                 {{ project.duration }}
                             {%- endif -%}
                         </h4>
@@ -314,13 +314,13 @@
             {% if recognition.active == true %}
                 <div class="resume-item">
                     <h3 class="resume-item-title" itemprop="award">{{ recognition.award }}</h3>
-                    {%- if recognition.organization != blank or recognition.year != blank -%}
+                    {%- if recognition.organization.size > 0 or recognition.year.size > 0 -%}
                         <h4 class="resume-item-details">
-                            {%- if recognition.organization != blank -%}
+                            {%- if recognition.organization.size > 0 -%}
                                 {{ recognition.organization }}
                             {%- endif -%}
-                            {%- if recognition.year != blank -%}
-                                {% if recognition.organization != blank %} &bull; {% endif %}
+                            {%- if recognition.year.size > 0 -%}
+                                {% if recognition.organization.size > 0 %} &bull; {% endif %}
                                 {{ recognition.year }}
                             {%- endif -%}
                         </h4>
@@ -362,13 +362,13 @@
                         <span class="print-only-inline"{% if rtl %} dir="ltr"{% endif %} style="display: inline;">&nbsp;{{ association.url }}</span>
                     {% endif %}
 
-                    {%- if association.role != blank or association.year != blank -%}
+                    {%- if association.role.size > 0 or association.year.size > 0 -%}
                         <h4 class="resume-item-details" itemprop="description">
-                            {%- if association.role != blank -%}
+                            {%- if association.role.size > 0 -%}
                                 {{ association.role }}
                             {%- endif -%}
-                            {%- if association.year != blank -%}
-                                {% if association.role != blank %} &bull; {% endif %}
+                            {%- if association.year.size > 0 -%}
+                                {% if association.role.size > 0 %} &bull; {% endif %}
                                 {{ association.year }}
                             {%- endif -%}
                         </h4>

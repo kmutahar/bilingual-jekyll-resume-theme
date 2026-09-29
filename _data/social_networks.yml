@@ -5,8 +5,8 @@
 #
 # icon: filename (without .svg) under _includes/vendors/svg-icons/
 # itemprop: schema.org microdata value social-links.html sets on the <a>
-# label: aria-label / title text on the icon link (English; print labels
-#        come from each locale's ui.social_labels instead)
+# label: English fallback for the icon's aria-label/title; each locale's
+#        ui.social_labels.<key> wins when present (print labels use it too)
 - key: devto
   icon: dev
   itemprop: url

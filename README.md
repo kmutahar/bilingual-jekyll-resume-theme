@@ -15,6 +15,7 @@ Inspired by and originally forked from [Joel Glovier’s resume template](https:
 - **Modern favicon suite**: High-resolution favicons (Apple touch icon, 32x32, 16x16, webmanifest) with subpath-safe URLs and `_config.yml` override support
 - **Print-friendly**: Optimized for PDF generation and printing with bidirectional text isolation (`dir="ltr"`) for URLs
 - **SEO ready**: Built-in support for multilingual SEO, standardized canonical tags via `jekyll-seo-tag`, sitemaps, and feeds
+- **JSON Resume Export**: Multilingual builds optionally generate standards-validated JSON Resume files at `/<lang>/resume.json`.
 - **Automatic pages**: Missing CV and profile pages are generated for each configured language; hand-authored pages take precedence.
 - **Data validation**: `validate-resume` CLI and build-time checks for schemas, dates, URLs, and parity across every configured language
 
@@ -141,9 +142,14 @@ bundle install
 
 # Serve the six-language demo from the demo submodule
 bundle exec jekyll serve --source demo --destination _site
+# (Or with live reload and incremental builds)
+bundle exec jekyll serve --source demo --destination _site --livereload --incremental
 
 # Build static output
 bundle exec jekyll build --source demo --destination _site
+
+# Clean cached Jekyll build artifacts
+bundle exec jekyll clean
 
 # Validate resume data schemas and parity (CLI or Rake)
 ./bin/validate-resume demo/_data
@@ -161,6 +167,18 @@ bundle exec rake "proof[_site,demo/_config.yml]"
 
 # Build the gem
 gem build bilingual-jekyll-resume-theme.gemspec
+
+# List packaged files (must include locales and bin, exclude tests)
+gem spec bilingual-jekyll-resume-theme-*.gem files
+rm -f bilingual-jekyll-resume-theme-*.gem
+
+# Dependency Audit
+bundle outdated
+bundle update
+
+# Automated Version Release (updates gemspec, changelog, commits, and tags)
+./bin/release <version>
+./bin/release --bump
 ```
 
 For more details on resume schema checks, see [VALIDATION_GUIDE.md](docs/VALIDATION_GUIDE.md). Contributor and agent rules are in [AGENTS.md](AGENTS.md).
@@ -185,16 +203,9 @@ The theme is available as open source under the terms of the [MIT License](LICEN
 
 ## Support
 
-- 📖 Check the [documentation guides](docs/) for detailed information
+- 📖 Check the [Documentation Guides](#documentation) for detailed information
 - 🐛 Report issues on [GitHub Issues](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues)
-- 💡 See [PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) for a high-level architecture overview
-- 📜 See [COMPLETED_AUDIT.md](docs/COMPLETED_AUDIT.md) for past fixes and the rules they established
 
 ---
 
 **Created by Khaldoon Mutahar** | MIT License
-
-
-### JSON Resume export
-
-Multilingual builds generate standards-validated JSON Resume files at `/<lang>/resume.json`, with an optional default-language `/resume.json`. Existing YAML keys keep working. See the [JSON Resume export guide](docs/JSON_RESUME_EXPORT.md) for configuration, privacy, optional fields, and mappings.

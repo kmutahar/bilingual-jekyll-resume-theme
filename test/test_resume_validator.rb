@@ -5,6 +5,7 @@ require "minitest/autorun"
 require "fileutils"
 require "tmpdir"
 require "yaml"
+require "open3"
 require "jekyll"
 require_relative "../lib/bilingual-jekyll-resume-theme/resume_validator"
 require_relative "../_plugins/resume_validator"
@@ -295,5 +296,275 @@ class ResumeValidatorTest < Minitest::Test
       assert(validator.warnings.any? { |w| w[:context] == "Parity" && w[:message].include?("education.yml") },
              "expected a data-file parity warning for the language missing education.yml")
     end
+  end
+
+  # --- 11. Per-section schema rules: one entry, one language, no config -------------------------
+
+  # Validates `entries` as <section>.yml for a lone "en" language and returns [errors, warnings] messages.
+  def findings(section, entries)
+    Dir.mktmpdir("test_rule_") do |tmp|
+      write_yaml(File.join(tmp, "en", "#{section}.yml"), entries)
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      capture_io { validator.validate(languages: %w[en], quiet: true) }
+      [validator.errors.map { |e| e[:message] }, validator.warnings.map { |w| w[:message] }]
+    end
+  end
+
+  def errors_for(section, entry)
+    findings(section, [{ "active" => true }.merge(entry)]).first
+  end
+
+  def test_alias_keys_the_templates_never_render_are_reported
+    {
+      "experience" => [{ "organization" => "Acme", "position" => "Dev", "startdate" => "2020" }, "company"],
+      "volunteering" => [{ "company" => "Aid", "role" => "Helper" }, "position"],
+      "education" => [{ "school" => "MIT", "degree" => "BSc", "year" => "2010" }, "uni"],
+      "certifications" => [{ "title" => "Cert" }, "name"],
+      "courses" => [{ "course" => "Ruby" }, "name"],
+      "projects" => [{ "title" => "Tool" }, "project"],
+      "skills" => [{ "name" => "Ruby" }, "skill"],
+      "recognitions" => [{ "title" => "Prize" }, "award"],
+      "associations" => [{ "name" => "Club" }, "organization"],
+      "languages" => [{ "name" => "English" }, "language"],
+      "links" => [{ "title" => "Blog", "url" => "https://example.org" }, "description"]
+    }.each do |section, (entry, canonical)|
+      alias_key = (entry.keys - %w[position startdate degree year url company]).first
+      assert(errors_for(section, entry).any? { |m| m.include?("'#{canonical}'") && m.include?("'#{alias_key}'") },
+             "#{section}: '#{alias_key}' is never rendered; expected an error naming '#{canonical}'")
+    end
+  end
+
+  def warnings_for(section, entry)
+    findings(section, [{ "active" => true }.merge(entry)]).last
+  end
+
+  def assert_error(section, entry, text)
+    assert(errors_for(section, entry).any? { |m| m.include?(text) }, "#{section} #{entry}: expected error '#{text}'")
+  end
+
+  def assert_clean(section, entry)
+    errors, warnings = findings(section, [{ "active" => true }.merge(entry)])
+    assert_empty errors, "#{section} #{entry}"
+    assert_empty warnings, "#{section} #{entry}"
+  end
+
+  VALID = {
+    "experience" => { "company" => "Acme", "position" => "Dev", "startdate" => "2020-01-01", "enddate" => "Present" },
+    "volunteering" => { "company" => "Aid", "position" => "Helper" },
+    "education" => { "uni" => "MIT", "degree" => "BSc", "year" => "2010" },
+    "certifications" => { "name" => "Cert" },
+    "courses" => { "name" => "Ruby" },
+    "projects" => { "project" => "Tool" },
+    "skills" => { "skill" => "Ruby" },
+    "recognitions" => { "award" => "Prize" },
+    "associations" => { "organization" => "Club" },
+    "languages" => { "language" => "English" },
+    "links" => { "description" => "Blog", "url" => "https://example.org" }
+  }.freeze
+
+  def test_minimal_valid_entry_of_every_section_is_clean
+    VALID.each { |section, entry| assert_clean(section, entry) }
+    errors, warnings = findings("interests", [{ "description" => "Chess" }])
+    assert_empty errors + warnings, "interests carry no active flag and need only a description"
+  end
+
+  def test_every_required_field_is_enforced
+    VALID.each do |section, entry|
+      required = entry.keys - %w[startdate enddate]
+      required.each do |field|
+        assert_error(section, entry.except(field), "'#{field}'")
+      end
+    end
+  end
+
+  def test_active_flag_must_be_a_boolean
+    assert(findings("skills", [{ "skill" => "Ruby" }]).last.any? { |m| m.include?("Missing 'active'") })
+    assert(findings("skills", [{ "skill" => "Ruby", "active" => "yes" }]).last.any? { |m| m.include?("should be a boolean") })
+  end
+
+  def test_inactive_entries_skip_schema_checks
+    errors, = findings("experience", [{ "active" => false }])
+    assert_empty errors
+  end
+
+  def test_file_and_item_shapes
+    assert(findings("skills", { "skill" => "Ruby" }).first.any? { |m| m.include?("Expected a list/array") })
+    assert(findings("skills", ["just a string"]).first.any? { |m| m.include?("Item must be a Hash") })
+    Dir.mktmpdir("test_empty_") do |tmp|
+      FileUtils.mkdir_p(File.join(tmp, "en"))
+      File.write(File.join(tmp, "en", "skills.yml"), "# only a comment\n")
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator.validate(languages: %w[en], quiet: true)
+      assert(validator.warnings.any? { |w| w[:message].include?("File is empty") })
+    end
+  end
+
+  def test_header_intro_rules
+    assert(findings("header", { "intro" => "" }).last.any? { |m| m.include?("intro' bio summary is missing") })
+    assert(findings("header", { "intro" => "Too short" }).last.any? { |m| m.include?("very brief") })
+    assert(findings("header", ["not a hash"]).first.any? { |m| m.include?("header.yml must be a Hash") })
+    assert_empty findings("header", { "intro" => "A sufficiently long introduction." }).flatten
+  end
+
+  def test_iso_date_shapes_are_accepted_and_others_rejected
+    %w[2020 2020-02 2020-02-29].each do |value|
+      assert_clean("experience", VALID["experience"].merge("startdate" => value, "enddate" => "2021"))
+    end
+    { "2020/01/01" => "Invalid date format", "2023-02-30" => "Invalid date format", "Jan 2020" => "Invalid date format" }
+      .each { |value, error| assert_error("experience", VALID["experience"].merge("startdate" => value), error) }
+  end
+
+  def test_yaml_date_objects_are_accepted
+    assert_clean("experience", VALID["experience"].merge("startdate" => Date.new(2020, 1, 1), "enddate" => Date.new(2021, 1, 1)))
+  end
+
+  def test_date_ranges_compare_partial_dates_at_period_end
+    assert_clean("experience", VALID["experience"].merge("startdate" => "2020-05-10", "enddate" => "2020-05"))
+    assert_error("experience", VALID["experience"].merge("startdate" => "2020-05-10", "enddate" => "2020-04"), "Date range error")
+    assert_error("certifications", { "name" => "C", "issue_date" => "2021-01-01", "expiration" => "2020-01-01" }, "Date range error")
+    assert_error("courses", { "name" => "C", "startdate" => "2021", "enddate" => "2020" }, "Date range error")
+    assert_error("volunteering", VALID["volunteering"].merge("startdate" => "2021", "enddate" => "2020"), "Date range error")
+    assert_error("education", VALID["education"].merge("startdate" => "2021", "enddate" => "2020"), "Date range error")
+    assert_error("projects", { "project" => "P", "startdate" => "2021", "enddate" => "2020" }, "Date range error")
+  end
+
+  def test_present_markers_are_case_insensitive_and_localized
+    %w[Present present CURRENT].each do |value|
+      assert_clean("experience", VALID["experience"].merge("enddate" => value))
+    end
+    assert_error("experience", VALID["experience"].merge("enddate" => "heute"), "Invalid date format")
+  end
+
+  def test_localized_present_marker_is_accepted_for_its_own_language
+    Dir.mktmpdir("test_present_ar_") do |tmp|
+      write_yaml(File.join(tmp, "ar", "experience.yml"),
+                 [VALID["experience"].merge("active" => true, "enddate" => "حتى الآن")])
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      assert_equal 0, validator.validate(languages: %w[ar], quiet: true)
+    end
+  end
+
+  def test_experience_without_any_dates_warns
+    assert(warnings_for("experience", { "company" => "A", "position" => "B" }).any? { |m| m.include?("no 'startdate' or 'durations'") })
+    assert(warnings_for("experience", { "company" => "A", "position" => "B", "durations" => [{ "duration" => "" }] })
+      .any? { |m| m.include?("empty 'duration'") })
+    assert_clean("experience", { "company" => "A", "position" => "B", "durations" => [{ "duration" => "2019" }] })
+  end
+
+  def test_education_needs_a_year_or_a_startdate
+    assert_error("education", { "uni" => "MIT", "degree" => "BSc" }, "'year'")
+    assert_clean("education", { "uni" => "MIT", "degree" => "BSc", "startdate" => "2010" })
+  end
+
+  def test_urls_must_be_http_or_https
+    { "links" => "url", "projects" => "url", "associations" => "url", "certifications" => "credential_url",
+      "courses" => "credential_url", "experience" => "url", "education" => "url", "volunteering" => "url" }.each do |section, field|
+      assert_error(section, VALID[section].merge(field => "javascript:alert(1)"), "must begin with http:// or https://")
+      assert_error(section, VALID[section].merge(field => "ftp://example.org"), "must begin with http:// or https://")
+      assert_clean(section, VALID[section].merge(field => "https://example.org/x"))
+    end
+  end
+
+  def test_skill_level_must_be_between_one_and_five
+    assert(warnings_for("skills", { "skill" => "Ruby", "level" => 7 }).any? { |m| m.include?("between 1 and 5") })
+    assert_clean("skills", { "skill" => "Ruby", "level" => 3 })
+  end
+
+  def test_optional_export_lists_must_hold_strings
+    assert(warnings_for("experience", VALID["experience"].merge("highlights" => "one")).any? { |m| m.include?("'highlights'") })
+    assert(warnings_for("skills", { "skill" => "R", "level_label" => 5 }).any? { |m| m.include?("'level_label'") })
+    assert_clean("projects", { "project" => "P", "roles" => ["Author"], "keywords" => ["Ruby"] })
+    assert_error("recognitions", { "award" => "A", "date" => "yesterday" }, "Invalid date format")
+  end
+
+  def test_interest_alias_is_reported_as_a_warning
+    _, warnings = findings("interests", [{ "name" => "Chess" }])
+    assert(warnings.any? { |m| m.include?("found 'name'") })
+  end
+
+  # --- 12. Config resolution ---------------------------------------------------------------------
+
+  def test_dotted_data_path_resolves_nested_folders
+    Dir.mktmpdir("test_dotted_") do |tmp|
+      write_minimal_language_dir(File.join(tmp, "2025-06"), "v1")
+      write_yaml(File.join(tmp, "_config.yml"), "languages" => { "en" => { "data_path" => "2025-06.v1" } })
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      assert_equal 0, validator.validate(quiet: true)
+      assert_empty validator.errors
+    end
+  end
+
+  def test_language_without_data_path_is_a_config_error
+    Dir.mktmpdir("test_no_data_path_") do |tmp|
+      write_minimal_language_dir(tmp, "en")
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config: { "languages" => { "en" => { "url" => "/" } } })
+      assert_equal 1, validator.validate(quiet: true)
+      assert(validator.errors.any? { |e| e[:message].include?("has no 'data_path'") })
+    end
+  end
+
+  def test_missing_explicit_config_path_is_an_error
+    Dir.mktmpdir("test_missing_cfg_") do |tmp|
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config_path: File.join(tmp, "nope.yml"))
+      assert_equal 1, validator.validate(quiet: true)
+      assert(validator.errors.any? { |e| e[:message].include?("does not exist") })
+    end
+  end
+
+  def test_missing_data_directory_is_an_error
+    validator = BilingualJekyllResumeTheme::ResumeValidator.new("/nonexistent/data/dir")
+    assert_equal 1, validator.validate(quiet: true)
+  end
+
+  def test_discovery_skips_non_locale_and_empty_folders
+    Dir.mktmpdir("test_discovery_") do |tmp|
+      %w[en fr assets].each { |dir| write_minimal_language_dir(tmp, dir) }
+      FileUtils.mkdir_p(File.join(tmp, "de"))
+      write_minimal_language_dir(tmp, "not-a-language-folder")
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "fr")
+      assert_equal %w[fr en], validator.discover_languages, "primary locale first, then sorted"
+    end
+  end
+
+  def test_present_date_api
+    validator = BilingualJekyllResumeTheme::ResumeValidator.new(SAMPLE_DATA_DIR)
+    assert validator.present_date?("")
+    assert validator.present_date?("Present", lang: "en")
+    assert validator.present_date?("حتى الآن", lang: "ar")
+    refute validator.present_date?(Date.today)
+    refute validator.present_date?("2020-01-01", lang: "en")
+  end
+
+  # --- 13. bin/validate-resume --------------------------------------------------------------------
+
+  def run_cli(*)
+    Open3.capture2e(RbConfig.ruby, File.join(REPO_ROOT, "bin", "validate-resume"), *)
+  end
+
+  def test_cli_passes_on_demo_data_and_fails_on_bad_data
+    _out, status = run_cli(SAMPLE_DATA_DIR, "--all-locales", "--fail-on-warnings", "--quiet")
+    assert status.success?
+    Dir.mktmpdir("test_cli_bad_") do |tmp|
+      write_yaml(File.join(tmp, "en", "skills.yml"), [{ "active" => true }])
+      out, status = run_cli(tmp, "--languages", "en")
+      refute status.success?
+      assert_includes out, "Missing required field 'skill'"
+    end
+  end
+
+  def test_cli_fail_on_warnings_and_quiet
+    Dir.mktmpdir("test_cli_warn_") do |tmp|
+      write_yaml(File.join(tmp, "en", "skills.yml"), [{ "skill" => "Ruby" }]) # missing active flag: a warning
+      assert run_cli(tmp, "-l", "en").last.success?, "warnings alone exit 0"
+      refute run_cli(tmp, "-l", "en", "-w").last.success?, "--fail-on-warnings exits 1"
+    end
+    out, = run_cli(SAMPLE_DATA_DIR, "-q")
+    assert_empty out, "--quiet prints nothing on a clean run"
+  end
+
+  def test_cli_help
+    out, status = run_cli("--help")
+    assert status.success?
+    assert_includes out, "Usage: validate-resume"
   end
 end

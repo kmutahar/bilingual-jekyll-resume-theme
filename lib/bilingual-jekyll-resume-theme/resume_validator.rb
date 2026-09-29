@@ -513,11 +513,8 @@ module BilingualJekyllResumeTheme
     end
 
     def validate_experience_entry(entry, context, lang: nil)
-      company = entry["company"] || entry["organization"]
-      add_error(context, "Missing required field 'company'") if company.to_s.strip.empty?
-
-      position = entry["position"] || entry["role"]
-      add_error(context, "Missing required field 'position'") if position.to_s.strip.empty?
+      require_field(entry, context, "company", %w[organization])
+      require_field(entry, context, "position", %w[role])
 
       has_dates = false
       if entry["durations"].is_a?(Array) && entry["durations"].any?
@@ -544,11 +541,8 @@ module BilingualJekyllResumeTheme
     end
 
     def validate_education_entry(entry, context, lang: nil)
-      institution = entry["uni"] || entry["institution"] || entry["school"]
-      add_error(context, "Missing required field 'uni' (institution/university)") if institution.to_s.strip.empty?
-
-      degree = entry["degree"]
-      add_error(context, "Missing required field 'degree'") if degree.to_s.strip.empty?
+      require_field(entry, context, "uni", %w[institution school], "institution/university")
+      require_field(entry, context, "degree")
 
       # DATA_GUIDE.md documents education.yml with a freeform `year` string (not
       # startdate/enddate) as the displayed date range; require it be present since
@@ -561,8 +555,7 @@ module BilingualJekyllResumeTheme
     end
 
     def validate_certification_entry(entry, context, lang: nil)
-      name = entry["name"] || entry["title"]
-      add_error(context, "Missing required field 'name'") if name.to_s.strip.empty?
+      require_field(entry, context, "name", %w[title])
 
       validate_date(entry["issue_date"], context, "issue_date") if entry["issue_date"]
       validate_date(entry["expiration"], context, "expiration") if entry["expiration"]
@@ -572,8 +565,7 @@ module BilingualJekyllResumeTheme
     end
 
     def validate_course_entry(entry, context, lang: nil)
-      name = entry["name"] || entry["title"] || entry["course"]
-      add_error(context, "Missing required field 'name'") if name.to_s.strip.empty?
+      require_field(entry, context, "name", %w[title course])
 
       validate_date(entry["startdate"], context, "startdate") if entry["startdate"]
       validate_date(entry["enddate"], context, "enddate") if entry["enddate"]
@@ -583,11 +575,8 @@ module BilingualJekyllResumeTheme
     end
 
     def validate_volunteering_entry(entry, context, lang: nil)
-      company = entry["company"] || entry["organization"]
-      add_error(context, "Missing required field 'company' (organization name)") if company.to_s.strip.empty?
-
-      position = entry["position"] || entry["role"]
-      add_error(context, "Missing required field 'position'") if position.to_s.strip.empty?
+      require_field(entry, context, "company", %w[organization], "organization name")
+      require_field(entry, context, "position", %w[role])
 
       validate_date(entry["startdate"], context, "startdate") if entry["startdate"]
       validate_date_or_present(entry["enddate"], context, "enddate", lang: lang) if entry["enddate"]
@@ -595,15 +584,13 @@ module BilingualJekyllResumeTheme
     end
 
     def validate_project_entry(entry, context)
-      project_name = entry["project"] || entry["title"] || entry["name"]
-      add_error(context, "Missing required field 'project'") if project_name.to_s.strip.empty?
+      require_field(entry, context, "project", %w[title name])
 
       validate_url(entry["url"], context, "url") if entry["url"]
     end
 
     def validate_skill_entry(entry, context)
-      skill_name = entry["skill"] || entry["category"] || entry["name"]
-      add_error(context, "Missing required field 'skill'") if skill_name.to_s.strip.empty?
+      require_field(entry, context, "skill", %w[category name])
 
       return unless entry["level"]
 
@@ -614,25 +601,21 @@ module BilingualJekyllResumeTheme
     end
 
     def validate_recognition_entry(entry, context)
-      award = entry["award"] || entry["title"] || entry["recognition"]
-      add_error(context, "Missing required field 'award'") if award.to_s.strip.empty?
+      require_field(entry, context, "award", %w[title recognition])
     end
 
     def validate_association_entry(entry, context)
-      organization = entry["organization"] || entry["company"] || entry["name"]
-      add_error(context, "Missing required field 'organization'") if organization.to_s.strip.empty?
+      require_field(entry, context, "organization", %w[company name])
 
       validate_url(entry["url"], context, "url") if entry["url"]
     end
 
     def validate_language_entry(entry, context)
-      lang_name = entry["language"] || entry["name"]
-      add_error(context, "Missing required field 'language'") if lang_name.to_s.strip.empty?
+      require_field(entry, context, "language", %w[name])
     end
 
     def validate_link_entry(entry, context)
-      description = entry["description"] || entry["name"] || entry["title"]
-      add_error(context, "Missing required field 'description'") if description.to_s.strip.empty?
+      require_field(entry, context, "description", %w[name title])
 
       if entry["url"].to_s.strip.empty?
         add_error(context, "Missing required field 'url'")
@@ -642,8 +625,23 @@ module BilingualJekyllResumeTheme
     end
 
     def validate_interest_entry(entry, context)
-      desc = entry["description"] || entry["interest"] || entry["name"]
-      add_warning(context, "Missing 'description' or 'interest' string") if desc.to_s.strip.empty?
+      return unless entry["description"].to_s.strip.empty?
+
+      found = %w[interest name].find { |key| !entry[key].to_s.strip.empty? }
+      add_warning(context, "Missing 'description' string#{alias_hint(found, 'description')}")
+    end
+
+    # The templates render only the canonical key, so an entry that sets just an alias
+    # (e.g. `organization` instead of `company`) would validate yet render blank.
+    def require_field(entry, context, field, aliases = [], label = nil)
+      return unless entry[field].to_s.strip.empty?
+
+      found = aliases.find { |key| !entry[key].to_s.strip.empty? }
+      add_error(context, "Missing required field '#{field}'#{" (#{label})" if label}#{alias_hint(found, field)}")
+    end
+
+    def alias_hint(found, field)
+      found ? ": found '#{found}', but the theme only renders '#{field}'" : ""
     end
 
     # Helper: Validates date syntax against ISO 8601 (YYYY-MM-DD, YYYY-MM, or YYYY).

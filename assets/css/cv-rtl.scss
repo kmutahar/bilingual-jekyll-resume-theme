@@ -6,7 +6,7 @@
 // bilingual-jekyll-resume-theme
 //
 // Primary SCSS compilation entrypoint for every right-to-left resume locale
-// (_layouts/resume-ar.html, and any other RTL locale such as Urdu). Compiles into
+// (_layouts/resume.html for Arabic, Urdu, and any other RTL locale). Compiles into
 // assets/css/cv-rtl.css via Jekyll SASS processing.
 // Strict Bilingual Parity (Rule 1):
 // Compiles identical base foundations as cv-ltr.scss, followed by @use "resume-rtl"

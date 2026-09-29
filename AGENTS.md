@@ -81,7 +81,7 @@ Never declare a task finished without running:
 # Demo build: demo consuming site source
 bundle exec jekyll build --source demo --destination _site
 
-# Data validator, template key checker, RuboCop, and four test suites
+# Data validator, template key checker, RuboCop, and every test/test_*.rb suite
 bundle exec rake
 
 # Package verification (remove the .gem afterwards)
@@ -162,7 +162,7 @@ rm -f bilingual-jekyll-resume-theme-*.gem
 ### Verification Tooling (details: [`docs/VALIDATION_GUIDE.md`](docs/VALIDATION_GUIDE.md))
 ```bash
 bundle exec rake                                           # validate + check_data_keys + rubocop + test
-bundle exec rake test                                      # Four suites: data, templates, switcher, page generator
+bundle exec rake test                                      # Every test/test_*.rb suite (see docs/TESTING_GUIDE.md)
 bundle exec rake rubocop                                   # Static analysis; must report 0 offenses
 bundle exec rake proof                                     # Proof _site/ (build first); or proof[../site/_site]
 ./bin/validate-resume demo/_data --all-locales --fail-on-warnings   # Multi-language data schema + parity
@@ -330,7 +330,7 @@ bilingual-jekyll-resume-theme/
 │   ├── check-data-keys           # Template checker (repository-only)
 │   └── release                   # Automated release script (not packaged)
 │
-├── test/                         # Four Minitest suites: data, templates, switcher, page generation
+├── test/                         # Minitest suites; coverage map in docs/TESTING_GUIDE.md
 ├── Rakefile                      # validate, check_data_keys, test, rubocop, proof, default
 ├── .rubocop.yml                  # RuboCop configuration
 │
@@ -343,6 +343,7 @@ bilingual-jekyll-resume-theme/
 │   ├── LAYOUTS_GUIDE.md          # Layout rendering and data flow
 │   ├── MULTILINGUAL_GUIDE.md     # Locales, adding languages, v1.0.0 migration table
 │   ├── SASS_GUIDE.md             # Styling system, RTL overrides, dark mode tokens
+│   ├── TESTING_GUIDE.md          # Test suites, fixture harness, adding tests
 │   ├── VALIDATION_GUIDE.md       # Validator, CLI, CI, proofing
 │   └── PROJECT_OVERVIEW.md       # High-level architecture summary
 │
@@ -479,6 +480,8 @@ Under Living Docs Governance, the repository documentation surface assigns four 
 | **Includes Guide** | [`docs/INCLUDES_GUIDE.md`](docs/INCLUDES_GUIDE.md) | Reference | Component architecture and guide to creating new sections |
 | **SASS Guide** | [`docs/SASS_GUIDE.md`](docs/SASS_GUIDE.md) | Reference | Styling system, RTL overrides, and dark mode tokens |
 | **Validation Guide** | [`docs/VALIDATION_GUIDE.md`](docs/VALIDATION_GUIDE.md) | Reference | Validator rules, CLI, build-time checks, and CI workflow |
+| **Testing Guide** | [`docs/TESTING_GUIDE.md`](docs/TESTING_GUIDE.md) | Reference | Test suites, what each covers, fixture harness, adding tests |
+| **JSON Resume Export** | [`docs/JSON_RESUME_EXPORT.md`](docs/JSON_RESUME_EXPORT.md) | Reference | `/<lang>/resume.json` export, privacy, field mapping |
 | **Claude Pointer** | [`CLAUDE.md`](CLAUDE.md) | Constitution Pointer | Lightweight delegation pointer for Anthropic Claude Code |
 | **Warp Pointer** | [`WARP.md`](WARP.md) | Constitution Pointer | Lightweight delegation pointer for Warp terminal |
 | **Security Policy** | [`SECURITY.md`](SECURITY.md) | Policy | Vulnerability reporting channels and supported release branches |

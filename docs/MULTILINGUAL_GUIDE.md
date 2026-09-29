@@ -83,11 +83,10 @@ Every locale file has the same key set. The validator warns when a language's ef
 | `line_height` | Emitted as `--line-height-locale` for resume body text. |
 | `ui.*` | Every UI string the templates render: skip link, "Present", contact button, dark mode toggle label, language switcher label, `language_name` (the language's own name, shown in the switcher and on error page return links), `list_separator`, and more. |
 | `ui.section_titles.*` | One heading per resume section (`experience`, `education`, ... `links`). |
-| `ui.social_labels.*` | Labels for the print-only contact list. |
+| `ui.social_labels.*` | Platform names: the accessible name (`aria-label`, `title`, screen-reader text) of each social icon and the labels of the print-only contact list. |
 | `error_pages."404"` / `"403"` / `"500"` / `"503"` | `title` and `message` for each HTTP error page. |
-| `error_pages.return_link` | Retained locale key; the current error layout uses `ui.home` for its single Home button. |
 | `present_values` | Case-insensitive words that mean "ongoing" in `enddate` fields. A match renders `ui.present` instead of a date. |
-| `months` | The 12 month names, January first. Dates render as `<month> <year>`. |
+| `months` | The 12 month names, January first. Dates render as `<month> <year>`; a year-only date renders as the year. |
 
 Read the shipped files in [`../_data/locales/`](../_data/locales/) for the full key list and current values.
 

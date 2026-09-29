@@ -94,7 +94,7 @@ bundle exec rake validate               # _data if _data/en exists, else demo/_d
 bundle exec rake "validate[path/to/_data]"
 ```
 
-The task takes no config argument; it finds the config next to the data directory as described in [section 2](#2-how-languages-and-locales-are-resolved). `bundle exec rake` (the default task) runs `validate`, `check_data_keys`, `rubocop`, and `test`. The four test files cover the language switcher, resume validator, template key checker, and page generator. HTML proofing runs separately after a build.
+The task takes no config argument; it finds the config next to the data directory as described in [section 2](#2-how-languages-and-locales-are-resolved). `bundle exec rake` (the default task) runs `validate`, `check_data_keys`, `rubocop`, and `test` (every `test/test_*.rb` file; see [TESTING_GUIDE.md](TESTING_GUIDE.md)). HTML proofing runs separately after a build.
 
 ---
 
@@ -121,7 +121,7 @@ If the configured `data_dir` does not exist, the plugin logs a warning and skips
 
 ## 6. Validation Rules Catalog by Section
 
-The rules are identical for every language. Field aliases in parentheses are accepted by the validator, but are not normalized for Liquid rendering. Use the canonical field names from [DATA_GUIDE.md](DATA_GUIDE.md) so validated content also displays.
+The rules are identical for every language. Required fields must use the canonical key the templates render. Names in parentheses are aliases the templates never read: an entry that sets only an alias still fails, and the error names the alias it found (for example `Missing required field 'company': found 'organization', but the theme only renders 'company'`). Field names are listed in [DATA_GUIDE.md](DATA_GUIDE.md).
 
 | Section file | Required fields | Checked when present |
 |---|---|---|
@@ -137,7 +137,7 @@ The rules are identical for every language. Field aliases in parentheses are acc
 | `associations.yml` | `organization` (`company`, `name`) | `url` |
 | `languages.yml` | `language` (`name`) | |
 | `links.yml` | `description` (`name`, `title`), `url` | `url` |
-| `interests.yml` | none; missing `description` (`interest`, `name`) is a warning | No `active` flag check |
+| `interests.yml` | none; missing `description` is a warning (naming `interest`/`name` when one is set) | No `active` flag check |
 
 Every file except `header.yml` must be a list of Hashes. Every list entry except in `interests.yml` should carry `active: true` or `active: false`.
 

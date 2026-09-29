@@ -66,34 +66,27 @@ Visit `http://localhost:4000/en/cv/` (or your configured CV URL). Profile landin
 
 ## Documentation
 
-This theme is fully documented. Choose the guide that fits your needs:
+### For site owners (using the theme)
 
-### 📘 [Configuration Guide](docs/CONFIG_GUIDE.md)
-Complete guide to `_config.yml` settings. Learn how to configure sections, contact info, social links, analytics, and more. **Start here for beginners.**
+| Guide | Read it to |
+|---|---|
+| [Configuration Guide](docs/CONFIG_GUIDE.md) | Set up `_config.yml`: languages, sections, contact info, social links, avatar, analytics, dark mode. **Start here.** |
+| [Data Structure Guide](docs/DATA_GUIDE.md) | Write the 13 YAML data files per language: fields, examples, date formats, `active` flags. |
+| [Multilingual Guide](docs/MULTILINGUAL_GUIDE.md) | Override locale strings or fonts, add a language, RTL typography, and the v0.9.0 → v1.0.0 migration table. |
+| [Validation Guide](docs/VALIDATION_GUIDE.md) | Run `validate-resume`, read its errors, turn on strict builds and CI. |
+| [JSON Resume Export](docs/JSON_RESUME_EXPORT.md) | Publish `/<lang>/resume.json`, control privacy and which fields are exported. |
+| [Accessibility Guide](docs/ACCESSIBILITY_GUIDE.md) | See what the theme covers for WCAG 2.2 AA and its known limitations. |
 
-### 🌐 [Multilingual Guide](docs/MULTILINGUAL_GUIDE.md)
-Locale files, adding a language, overriding theme strings and fonts, RTL typography, and the **v0.9.0 to v1.0.0 migration table**.
+### For theme developers (changing the theme)
 
-### ✅ [Validation Guide](docs/VALIDATION_GUIDE.md)
-The `validate-resume` CLI, build-time validation, rules per section, and CI setup.
-
-### 📊 [Data Structure Guide](docs/DATA_GUIDE.md)
-Detailed documentation of all 12 data file types (experience, education, skills, etc.) with examples. Learn how to structure your YAML files and what fields are required vs optional.
-
-### 🎨 [Layouts Guide](docs/LAYOUTS_GUIDE.md)
-Deep dive into how layouts work, how data flows through them, and how to create custom layouts. Useful for advanced customization.
-
-### 🧩 [Includes Guide](docs/INCLUDES_GUIDE.md)
-Understanding the theme's include system, how sections render, and how to add new sections or customize existing ones.
-
-### 🎨 [SASS/SCSS Guide](docs/SASS_GUIDE.md)
-Complete guide to the theme's styling system, how to customize colors/fonts, and how to override styles without forking the theme.
-
-### 🗺️ [Project Overview](docs/PROJECT_OVERVIEW.md)
-High-level architecture summary, repository conventions, layout hierarchy, and design philosophy.
-
-### 📜 [Completed Historical Audit](docs/COMPLETED_AUDIT.md)
-Permanent engineering record of historical bug fixes, security hardening, and architectural upgrades.
+| Guide | Read it to |
+|---|---|
+| [Project Overview](docs/PROJECT_OVERVIEW.md) | Find your way around: architecture, file map, where each feature lives. |
+| [Layouts Guide](docs/LAYOUTS_GUIDE.md) | Understand the four layouts and how data reaches them. |
+| [Includes Guide](docs/INCLUDES_GUIDE.md) | Understand each include, add a section or a social platform. |
+| [SASS/SCSS Guide](docs/SASS_GUIDE.md) | Change styles, dark mode tokens, and RTL overrides. |
+| [Testing Guide](docs/TESTING_GUIDE.md) | Run the test suites, see what each covers, add a test. |
+| [AGENTS.md](AGENTS.md) · [Feature Roadmap](FEATURE_ROADMAP.md) · [Completed Audit](docs/COMPLETED_AUDIT.md) · [Changelog](CHANGELOG.md) | Contribution rules, planned work, past decisions, release notes. |
 
 ## Project Structure
 
@@ -160,7 +153,7 @@ bundle exec rake validate
 ./bin/check-data-keys demo/_data
 bundle exec rake check_data_keys
 
-# Data validator, template key checker, RuboCop, and four test suites
+# Data validator, template key checker, RuboCop, and every test suite
 bundle exec rake
 
 # Verify built HTML (separate from the default Rake task)
@@ -195,7 +188,7 @@ The theme is available as open source under the terms of the [MIT License](LICEN
 - 📖 Check the [documentation guides](docs/) for detailed information
 - 🐛 Report issues on [GitHub Issues](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues)
 - 💡 See [PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) for a high-level architecture overview
-- 📜 See [COMPLETED_AUDIT.md](docs/COMPLETED_AUDIT.md) for historical remediations and architectural decisions
+- 📜 See [COMPLETED_AUDIT.md](docs/COMPLETED_AUDIT.md) for past fixes and the rules they established
 
 ---
 

@@ -12,8 +12,7 @@ This guide describes the theme's accessibility features and the checks needed fo
 
 ## Labels and Locale Support
 
-- The shared social-links include supplies accessible link names and hidden text. The avatar uses locale-specific alt text from configuration.
-- The profile layout also renders an additional email icon outside that shared include; it currently lacks an explicit accessible name. This is a known code limitation, not fixed by this documentation update.
+- Every social icon link has an accessible name (`aria-label`, `title`, hidden text) in the page's language, from `ui.social_labels`. The profile page's extra email icon is labelled the same way. The avatar uses locale-specific alt text from configuration. These are checked in [`../test/test_rendered_site.rb`](../test/test_rendered_site.rb).
 - Direction and UI strings come from six shipped locales. Arabic uses Cairo; Urdu uses Noto Nastaliq Urdu. The resume templates isolate Latin contact details and URLs with `dir="ltr"`.
 - Error pages initially render the default language. Their script can change the error block and Home button based on a leading URL language prefix. The outer page and switcher remain in the server-rendered language; see [LAYOUTS_GUIDE.md](LAYOUTS_GUIDE.md#4-errorhtml-multilingual-http-error-suite).
 

@@ -80,7 +80,7 @@ languages:
     data_path: ar   # _data/ar/
 ```
 
-The file links below name the English and Arabic demo files; every other language folder mirrors them. Examples use the canonical keys read by the templates. The validator accepts some aliases, but does not convert those aliases for rendering.
+The file links below name the English and Arabic demo files; every other language folder mirrors them. Examples use the canonical keys the templates render. If an entry uses only an alias the templates never read (for example `organization` instead of `company`), the validator reports it as a missing required field and names the alias it found; see [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md#6-validation-rules-catalog-by-section). Optional fields that are absent or empty leave no stray `•` separators.
 
 ---
 
@@ -117,7 +117,7 @@ The file links below name the English and Arabic demo files; every other languag
 - Company name appears as a prominent section item heading.
 - Multiple roles at the same company are automatically grouped together.
 - Each role displays: **Position • Date Range • Location**.
-- ISO dates render as `<month> <year>` through [`../_includes/date-formatter.html`](../_includes/date-formatter.html), with month names from the active locale (`March 2022` in English, `مارس 2022` in Arabic).
+- Dates render through [`../_includes/date-formatter.html`](../_includes/date-formatter.html) with month names from the active locale: `2022-03-01` and `2022-03` become `March 2022` (`مارس 2022` in Arabic), and `2022` stays `2022`. See [Date Formats](#date-formats--iso-standards).
 - Summary paragraph displays below the role details when provided and `enable_summary: true` is configured in `_config.yml`.
 
 ---
@@ -126,7 +126,7 @@ The file links below name the English and Arabic demo files; every other languag
 
 - **Files:** [`_data/en/education.yml`](../demo/_data/en/education.yml) / [`_data/ar/education.yml`](../demo/_data/ar/education.yml)
 - **Config Toggle:** `resume_section.education: true`
-- **Display fields:** `uni`, `degree`, and `year` (a freeform date string). The validator accepts `institution`/`school` aliases for `uni`, and accepts `startdate` instead of a nonblank `year`; the current template still reads only `uni` and `year`. Use those canonical fields for visible institution and date text. Optional `startdate`/`enddate` are validated as ISO dates.
+- **Display fields:** `uni`, `degree`, and `year` (a freeform date string). Only `uni` and `year` are displayed; an entry that sets `institution`/`school` without `uni` fails validation. The validator accepts `startdate` instead of a nonblank `year` (used by the JSON Resume export), but the page shows no date then. Optional `startdate`/`enddate` are validated as ISO dates.
 
 ```yaml
 - degree: "M.S. in Computer Science"
@@ -444,10 +444,9 @@ error_pages:
   "403": { title: "...", message: "..." }
   "500": { title: "...", message: "..." }
   "503": { title: "...", message: "..." }
-  return_link: "Return to resume"
 ```
 
-To change the copy, override `error_pages` in your site's `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#overriding-theme-locales)). Pages using `layout: error` accept `code` (default `"404"`) and `show_reload: true` in front matter; the reload button also appears automatically for `500` and `503`. The single Home button points at the selected language’s profile page, falling back to `languages.<lang>.url`, then `/`. `error_pages.return_link` is retained in locale data but is not used by this button. See [error-page behavior](LAYOUTS_GUIDE.md#4-errorhtml-multilingual-http-error-suite).
+To change the copy, override `error_pages` in your site's `_data/locales/<lang>.yml` (see [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md#overriding-theme-locales)). Pages using `layout: error` accept `code` (default `"404"`) and `show_reload: true` in front matter; the reload button also appears automatically for `500` and `503`. The single Home button points at the selected language’s profile page, falling back to `languages.<lang>.url`, then `/`. See [error-page behavior](LAYOUTS_GUIDE.md#4-errorhtml-multilingual-http-error-suite).
 
 ---
 
@@ -456,9 +455,15 @@ To change the copy, override `error_pages` in your site's `_data/locales/<lang>.
 ### Date Formats & ISO Standards
 
 1. **Structured Dates (`startdate`, `enddate`, `issue_date`):**
-   - Always specify dates in ISO format: `YYYY-MM-DD` (e.g., `2024-03-15`).
-   - `YYYY-MM` and `YYYY` are also accepted by the validator.
-   - Every language formats dates through [`../_includes/date-formatter.html`](../_includes/date-formatter.html), using the `months` list in `_data/locales/<lang>.yml`.
+   - Use ISO format: `YYYY-MM-DD`, `YYYY-MM`, or `YYYY`. Quoted and unquoted values both work.
+   - Every language formats dates through [`../_includes/date-formatter.html`](../_includes/date-formatter.html), using the `months` list in `_data/locales/<lang>.yml`:
+
+     | Value | Default style (`<month> <year>`) | `MDY` style (certifications, courses, date of birth) |
+     |---|---|---|
+     | `2024-03-15` | March 2024 | March 15, 2024 |
+     | `2024-03` | March 2024 | March 2024 |
+     | `2024` | 2024 | 2024 |
+     | any other text | printed as written | printed as written |
    - For ongoing positions leave `enddate` blank or use a word from the locale's `present_values` (for example `Present`); it renders as the locale's `ui.present`.
 
 2. **Freeform Display Strings (`year`, `duration`):**

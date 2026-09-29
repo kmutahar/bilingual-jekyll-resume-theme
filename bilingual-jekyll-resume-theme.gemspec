@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Khaldoon Mutahar"]
   spec.email         = ["contact@mutahar.me"]
 
-  spec.summary       = "A flexible Jekyll theme for creating a clean, data-driven, bilingual (English & Arabic) resume."
+  spec.summary       = "A data-driven, multilingual (LTR and RTL) Jekyll resume theme with six built-in locales."
   spec.homepage      = "https://www.mutahr.me/bilingual-jekyll-resume-theme"
   spec.license       = "MIT"
 

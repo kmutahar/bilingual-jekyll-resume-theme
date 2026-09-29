@@ -102,7 +102,9 @@ _layouts/resume.html
 
 - **Consumed by:** `resume-section.html` (every date) and `resume.html` (date of birth).
 - **Parameters:** `date` (required), `style` (`"MY"` default: `<month> <year>`; `"MDY"`: `<month> <day>, <year>`), `lang` (default: active language).
-- A `date` matching any of the locale's `present_values` (case-insensitive) renders `locale.ui.present`. Otherwise the month name comes from `locale.months`. The fallback prints the input if no month name resolves. The formatter delegates date parsing to Liquid, so validate dates before rendering rather than relying on malformed-input behavior.
+- A `date` matching any of the locale's `present_values` (case-insensitive) renders `locale.ui.present`.
+- Otherwise the formatter splits the ISO value itself (it does not use Liquid's `date` filter, which reads a bare `2018` as a Unix timestamp): `YYYY-MM-DD` renders `<month> <year>` (or `<month> <day>, <year>` with `MDY`), `YYYY-MM` renders `<month> <year>`, `YYYY` renders the year, and anything else is printed as written. YAML date objects behave like `YYYY-MM-DD`.
+- Tested in [`../test/test_rendered_site.rb`](../test/test_rendered_site.rb).
 
 ```liquid
 {% include date-formatter.html date=role.startdate %}
@@ -115,7 +117,8 @@ This include is the single date hook for every language; calendar extensions (fo
 
 - **Consumed by:** `resume.html` and `profile.html`, inside `<ul class="social-links">`, when `site.social_links` is set.
 - `email` renders a `mailto:` link with `itemprop="email"`. The other 14 platforms (`github`, `linkedin`, `telegram`, `twitter`, `medium`, `dribbble`, `facebook`, `instagram`, `website`, `whatsapp`, `devto`, `flickr`, `pinterest`, `youtube`) open in a new tab with `rel="noopener nofollow noreferrer"`.
-- Every icon link carries `aria-label`, `title`, and a `.sr-only` text span.
+- Every icon link carries `aria-label`, `title`, and a `.sr-only` text span, all taken from the page locale's `ui.social_labels.<key>` (falling back to the English `label` in `_data/social_networks.yml`).
+- `profile.html` adds one extra email icon for `contact_info.email` only when `social_links.email` is not set, so the profile never shows two email icons.
 
 ### 8. `print-social-links.html`
 
@@ -275,7 +278,7 @@ font_url: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&dis
      itemprop: sameAs # or "url" for a non-profile link
      label: New Platform
    ```
-3. Add a `ui.social_labels.newplatform` key to every locale file (used by the print-only list).
+3. Add a `ui.social_labels.newplatform` key to every locale file (the icon's accessible name and the print-only label). `test/test_packaging.rb` fails until the SVG and all six labels exist.
 
 ### Compact Language Header vs Dedicated Section
 

@@ -22,7 +22,7 @@ The theme's layouts in [`../_layouts/`](../_layouts/): what each one renders, ho
 
 ## Overview & Layout Hierarchy
 
-Hand-authored pages select a layout in front matter. The current checkout also generates missing CV/profile pages; see [page configuration](CONFIG_GUIDE.md#3-languages). A resume page is `layout: resume` plus `lang: <code>`; there is no per-language layout.
+Hand-authored pages select a layout in front matter. The theme also generates missing CV/profile pages; see [page configuration](CONFIG_GUIDE.md#3-languages). A resume page is `layout: resume` plus `lang: <code>`; there is no per-language layout.
 
 ```text
 _layouts/default.html   (base shell: <head>, anti-FOUC, dark mode, footer)
@@ -68,6 +68,7 @@ Schemas for both are in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) and [`C
 - **Role:** Standalone landing page, independent of `default.html` so its centering styles do not leak.
 - Same `lang` / `dir` resolution, skip link, dark mode toggle, and language switcher as `default.html`.
 - Uses `languages.<lang>.name`, optional `name_html`, and `about` for its header; the CV button points to `languages.<lang>.url`. Calls `hreflang.html` for translated profile pages sharing `t_id: profile`.
+- Social icons come from [`social-links.html`](../_includes/social-links.html). When `contact_info.email` is set but `social_links.email` is not, one extra labelled email icon is added.
 - Stylesheet [`../assets/css/profile.scss`](../assets/css/profile.scss) (compiled to `assets/css/profile.css`, linked directly in the layout's `<head>`), styled by [`../_sass/_profile-page.scss`](../_sass/_profile-page.scss).
 
 ### 3. `resume.html` (Resume, Every Language)
@@ -89,8 +90,8 @@ Schemas for both are in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) and [`C
 
 - **File:** [`../_layouts/error.html`](../_layouts/error.html), extends `default.html`. Used by `404.html`, `403.html`, and `500.html`.
 - Reads `page.code` (default `"404"`) and server-renders a single heading/message block in `default_lang`.
-- On `DOMContentLoaded`, the inline script checks whether `window.location.pathname` begins with a configured `/<lang>/` prefix. It updates the block’s text, `lang`, and `dir`, plus the Home button’s label and destination. It does not use browser language or a stored preference.
-- With JavaScript disabled, or without a matching prefix, the default-language content remains. Detection currently checks the start of the pathname without removing `baseurl`; a path such as `/portfolio/ar/missing` therefore falls back to the default language. The script changes the error block, not the outer page’s language or switcher label.
+- On `DOMContentLoaded`, the inline script removes `site.baseurl` from the start of `window.location.pathname`, then checks whether the rest begins with a configured `/<lang>/` prefix (so `/portfolio/ar/missing` on a `baseurl: /portfolio` site shows Arabic). It updates the block’s text, `lang`, and `dir`, plus the Home button’s label and destination. It does not use browser language or a stored preference.
+- With JavaScript disabled, or without a matching prefix, the default-language content remains. The script changes the error block, not the outer page’s language or switcher label.
 - The single Home link prefers the selected language’s `layout: profile` page, then `languages.<lang>.url`, then `/`. Reload is shown for `500`, `503`, or `page.show_reload: true`; its label remains in the default locale.
 - There is no search form or per-language return-link list in the current error layout. Search is future Feature 4.8 in the roadmap.
 - [`../_plugins/error_pages_generator.rb`](../_plugins/error_pages_generator.rb) creates missing `404.html`, `403.html`, and `500.html`. A manual `layout: error`, `code: 503` page is supported but is not generated automatically. Load the theme through the Gemfile’s `:jekyll_plugins` group or the config’s `plugins:` list.
@@ -103,13 +104,15 @@ Schemas for both are in [`MULTILINGUAL_GUIDE.md`](MULTILINGUAL_GUIDE.md) and [`C
 
 ```liquid
 {%- assign resume_data = site.data -%}
-{%- if data_path != blank -%}
+{%- if data_path.size > 0 -%}
   {%- assign path_parts = data_path | split: '.' -%}
   {%- for part in path_parts -%}
     {%- assign resume_data = resume_data[part] -%}
   {%- endfor -%}
 {%- endif -%}
 ```
+
+Presence checks in the theme's templates use `field.size > 0` (text) or a plain truthiness test (dates), never `!= blank`: Liquid's `blank` literal calls Ruby's `blank?`, which plain Jekyll strings and `nil` do not define, so `x != blank` is always true.
 
 Bracket access (`resume_data[part]`) is what makes folder names like `2025-06` or `20250621-PM` work; Liquid dot notation (`site.data.2025-06`) fails on leading digits and hyphens.
 

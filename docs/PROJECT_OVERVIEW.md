@@ -139,7 +139,7 @@ bilingual-jekyll-resume-theme/
 │   ├── check-data-keys           # Template checker (repository-only)
 │   └── release                   # Release script (not packaged)
 │
-├── test/                         # Four Minitest suites (data, templates, switcher, page generation)
+├── test/                         # Minitest suites; see TESTING_GUIDE.md
 ├── Rakefile                      # validate, check_data_keys, test, rubocop, proof, default
 │
 └── docs/
@@ -150,7 +150,9 @@ bilingual-jekyll-resume-theme/
     ├── INCLUDES_GUIDE.md         # Includes and section dispatch
     ├── LAYOUTS_GUIDE.md          # Layouts and data flow
     ├── MULTILINGUAL_GUIDE.md     # Locales, adding languages, v1.0.0 migration table
+    ├── JSON_RESUME_EXPORT.md     # /<lang>/resume.json export
     ├── SASS_GUIDE.md             # Styling system, tokens, RTL
+    ├── TESTING_GUIDE.md          # Test suites and how to add tests
     ├── VALIDATION_GUIDE.md       # Validator, CLI, CI, proofing
     └── PROJECT_OVERVIEW.md       # This file
 ```
@@ -169,6 +171,8 @@ bilingual-jekyll-resume-theme/
 | **SASS Guide** | [`SASS_GUIDE.md`](SASS_GUIDE.md) | SCSS architecture, dark mode tokens, RTL |
 | **Validation Guide** | [`VALIDATION_GUIDE.md`](VALIDATION_GUIDE.md) | Validator rules, CLI, build-time checks, CI |
 | **Accessibility Guide** | [`ACCESSIBILITY_GUIDE.md`](ACCESSIBILITY_GUIDE.md) | Landmarks, focus, contrast, and verification limits |
+| **JSON Resume Export** | [`JSON_RESUME_EXPORT.md`](JSON_RESUME_EXPORT.md) | `/<lang>/resume.json`, privacy, field mapping |
+| **Testing Guide** | [`TESTING_GUIDE.md`](TESTING_GUIDE.md) | Test suites, coverage map, adding a test |
 | **Completed Audit** | [`COMPLETED_AUDIT.md`](COMPLETED_AUDIT.md) | Historical record of completed fixes and features |
 | **Master AI Manual** | [`../AGENTS.md`](../AGENTS.md) | Operating rules for AI agents |
 | **Feature Roadmap** | [`../FEATURE_ROADMAP.md`](../FEATURE_ROADMAP.md) | Active feature blueprints, issue mappings, Delete-Zone |

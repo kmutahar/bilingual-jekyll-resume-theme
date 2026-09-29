@@ -1,6 +1,6 @@
 # Feature Roadmap
 
-**Status:** This is the canonical list of planned work. Feature IDs and issue mappings are retained from the previous roadmap; hosted issue status was not rechecked in this local documentation audit. Proposed settings below are not supported until implemented. Implementation briefs replace pre-v1.0 copy-and-paste snippets that referenced removed files.
+**Status:** The canonical list of planned work. Every feature below maps to an open GitHub issue; check its hosted status before starting. Settings proposed in a brief do not exist until the feature ships. Shipped work leaves this file: its history is in [docs/COMPLETED_AUDIT.md](docs/COMPLETED_AUDIT.md) and [CHANGELOG.md](CHANGELOG.md).
 
 ## 1. Active Features Master Matrix
 
@@ -24,23 +24,6 @@
 | P4 | 4.7 | Dynamic Custom Resume Sections Engine | [#219](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219) |
 | P4 | 4.8 | Client-Side Site Search Index | [#225](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225) |
 
-## 2. Completed Work and Current Architecture
-
-- **3.1, localized JSON Resume export (#6):** implemented and verified; see [JSON Resume export](docs/JSON_RESUME_EXPORT.md).
-
-- **2.10, SCSS deduplication (#224):** completed.
-- **4.9, automatic CV/profile pages (#226):** completed.
-- **Stylesheet includes:** inlined single-caller stylesheet includes.
-- Completed work is recorded in [docs/COMPLETED_AUDIT.md](docs/COMPLETED_AUDIT.md); release boundaries are in [CHANGELOG.md](CHANGELOG.md).
-
-Current implementation anchors:
-
-- Every language uses `_layouts/resume.html`, `_includes/resume-section.html`, and `_includes/date-formatter.html`. Experience and Volunteering share `_includes/grouped-item-list.html`.
-- Resume data resolves from `languages.<lang>.data_path`; UI copy and direction come from `_data/locales/<lang>.yml`. Keep key parity across the six shipped locales.
-- Resume styles enter through `assets/css/cv-ltr.scss` or `assets/css/cv-rtl.scss`; default/profile layouts directly link their own compiled stylesheets.
-- Starter data lives in the `demo/` submodule; annotated configuration is `_config.sample.yml` at the repository root.
-- New Ruby generators must be required by `lib/bilingual-jekyll-resume-theme.rb`; copying a plugin into a gem is not sufficient registration.
-
 <a id="status-delete-zone"></a>
 ## Status Delete-Zone (Intentional Removals & Deprecations)
 
@@ -48,7 +31,7 @@ In accordance with Living Docs Governance, this Delete-Zone catalogs files, patt
 
 | # | Path / Pattern / Concept | Lifecycle Status | Why Removed / Forbidden | Canonical Replacement | Revisit Condition |
 |---|---|---|---|---|---|
-| 1 | Static return URLs (`/resume/en/`, `/resume/ar/` in `_layouts/error.html`) | **Removed in v0.8.0 (Issue #216)** | Hardcoded paths broke return navigation for sites using custom resume paths (e.g. `/en/cv/`, `/ar/cv/`). | Current Home link: language profile page, then `languages.<lang>.url`, then `/`. | Never revert to hardcoded static URLs. The v1.0.0 locale extension (Feature 4.1, delivered — see `docs/COMPLETED_AUDIT.md`) already follows dynamic resolution; any future locale work must too. |
+| 1 | Static return URLs (`/resume/en/`, `/resume/ar/` in `_layouts/error.html`) | **Removed in v0.8.0 (Issue #216)** | Hardcoded paths broke return navigation for sites using custom resume paths (e.g. `/en/cv/`, `/ar/cv/`). | Current Home link: language profile page, then `languages.<lang>.url`, then `/`. | Never revert to hardcoded static URLs. Any locale work must keep dynamic resolution. |
 | 2 | Gravatar MD5 email hashing & fallback initials claims | **Purged in v0.8.0** | Fictional feature documented in old drafts; neither Gravatar hashing nor initials fallback was ever implemented in `_includes/avatar.html`. Documenting `resume_avatar` as a Hash broke Liquid's strict boolean check `{% if site.resume_avatar == true %}`. | Direct image path via `site.avatar_url` (the `site.avatar` fallback is removed in v1.0.0), defaulting to `/assets/images/Profile-min.jpg`, with `resume_avatar: true` (Boolean). | Revisit only if a verified Jekyll Liquid MD5 plugin or client-side JS hashing filter is formally designed, approved in an ADR, and tested. |
 | 3 | `resume_avatar: Hash` in `_config.yml` | **Forbidden in v0.8.0** | Liquid `{% if site.resume_avatar == true %}` checks boolean equality; a hash evaluates to `false`. | `resume_avatar: true` (strictly Boolean) and `avatar_url: "..."`. | Never use a hash for `resume_avatar`. |
 | 4 | Singular section keys: `resume_section.recognition` | **Removed in v1.0.0 (#214)** | Inconsistent singular syntax across sections. Standardized to plural `recognitions`. | `resume_section.recognitions` and `resume_section_order: - recognitions`. | Standardize all section names to plural. |
@@ -60,11 +43,13 @@ In accordance with Living Docs Governance, this Delete-Zone catalogs files, patt
 | 10 | Bare relative favicon paths (`favicon.ico`) | **Retired in v0.7.0 (P0.6)** | Caused 404s on subpaths (`/resume/en/`, baseurl). | Modern favicon suite in `_includes/shared-head.html` using `relative_url`. | Always filter static assets with `relative_url`. |
 | 11 | Per-language layouts and includes (`resume-en.html`, `resume-ar.html`, `resume-section-{en,ar}.html`, `resume-head-{en,ar}.html`, `ar-date.html`) | **Removed in v1.0.0 (#15)** | Duplicated about 1,100 lines of Liquid and blocked languages beyond EN/AR. | `_layouts/resume.html`, `_includes/resume-section.html`, `_includes/date-formatter.html`, driven by `_data/locales/<lang>.yml`. | Never add a per-language layout or include. |
 | 12 | Per-language config keys (`active_resume_path_*`, `resume_*_url`, `resume_header_intro_*`, `name_ar`, `resume_title_ar`, `address_ar`, `avatar_alt_*`) and `dir` in config | **Removed in v1.0.0 (#15)** | Suffix keys cannot scale past two languages; direction in config duplicated the locale file. | `languages.<lang>.*` in `_config.yml`; direction only in `_data/locales/<lang>.yml`. | Never add `_<lang>` suffixed config keys. |
+| 13 | `_includes/main-head.html`, `_includes/profile-head.html` | **Removed** | Each wrapped one stylesheet link for a single caller. | Inline stylesheet links in `_layouts/default.html` and `_layouts/profile.html`. | Add a shared abstraction only when multiple callers actually need it. |
+| 14 | `!= blank` presence checks in Liquid (and `!= empty` on possibly-nil values) | **Forbidden** | Liquid's `blank` literal calls `blank?`, which plain Ruby strings and `nil` do not define, so `x != blank` is always true and printed stray `•` separators for missing fields; `nil != empty` is true for the same reason. | `x.size > 0` for text, plain `x` for dates. Guarded by `test/test_rendered_site.rb`. | Never. |
+| 15 | `localStorage['preferred-lang']` write in `_layouts/resume.html` | **Removed** | Nothing read it; its comment wrongly claimed `error.html` did. Error pages pick the language from the URL. | URL-prefix detection in `_layouts/error.html` (baseurl-aware). | Only with a reader that is designed and tested. |
+| 16 | Unused locale keys `error_pages.return_link`, `error_pages.search_*` | **Removed** | No template read them. | Feature 4.8 adds its own search strings when implemented. `test/test_packaging.rb` fails on any unread locale key. | When a template reads them. |
 
-| 13 | `_includes/main-head.html`, `_includes/profile-head.html` | **Removed in `4513f29`** | Each wrapped one stylesheet link for a single caller. | Inline stylesheet links in `_layouts/default.html` and `_layouts/profile.html`. | Add a shared abstraction only when multiple callers actually need it. |
 
-
-## 3. Planned Implementation Briefs
+## 2. Planned Implementation Briefs
 
 ### Feature 1.1: Predefined Color Themes Palette Engine (5 Palettes)
 
@@ -230,7 +215,7 @@ Offer Gregorian, Hijri, or dual display and optional numeral styling without cha
 
 **Issue:** [#232](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/232) · **Branch:** `feature/publications-references` · **Closure:** `Closes #232`
 
-Add the two content sections JSON Resume defines that this theme currently has no data for at all: `publications[]` and `references[]`. See [JSON_RESUME_KEY_MAPPING.md](JSON_RESUME_KEY_MAPPING.md#sections-with-zero-mapping-whole-file-not-just-a-field).
+Add the two content sections JSON Resume defines that this theme currently has no data for at all: `publications[]` and `references[]`. See the section mapping in [docs/JSON_RESUME_EXPORT.md](docs/JSON_RESUME_EXPORT.md).
 
 **Files:** Create `_data/<lang>/publications.yml` and `_data/<lang>/references.yml` in every language folder (theme demo data under `demo/_data/` too); add `publications`/`references` branches to `_includes/resume-section.html`; add `ui.section_titles.publications`/`references` to all six `_data/locales/*.yml`; extend `lib/bilingual-jekyll-resume-theme/resume_validator.rb` with schema rules for both files; extend `lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb` and its field-mapping table in `docs/JSON_RESUME_EXPORT.md`; document both schemas in `docs/DATA_GUIDE.md`.
 
@@ -365,9 +350,142 @@ Add localized resume search and an error-page search interface. The current erro
 - [ ] All twelve standard sections are represented with the correct visibility rules.
 - [ ] Keyboard navigation, RTL, and baseurl hosting work.
 
+<a id="security"></a>
+## 3. Security
+
+The following hardening measures originate from the sandboxed security audit (`REPORT.md`). The theme operates as a static site generator with no runtime server or database boundaries, so the findings below are proactive hardening tasks rather than critical vulnerabilities.
+
+| ID | Hardening Area | Target Files | Priority |
+|---|---|---|---|
+| SEC-01 | JSON script block breakout and attribute escaping | `_layouts/error.html`, `_layouts/default.html` | High |
+| SEC-02 | Safe URL scheme allowlisting | `_includes/avatar.html`, `_includes/social-links.html`, `lib/.../resume_validator.rb` | High |
+| SEC-03 | Contextual Liquid escaping in HTML attributes and JS | `_includes/analytics-head.html`, `_layouts/resume.html`, `_includes/hreflang.html` | High |
+| SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
+| SEC-05 | Ruby plugin path joins and YAML parsing safety | `lib/.../resume_validator.rb`, `_plugins/resume_pages_generator.rb` | Medium |
+| SEC-06 | JSON Resume export contact privacy documentation | `docs/DATA_GUIDE.md`, `JSON_RESUME_EXPORT.md` | Medium |
+| SEC-07 | Gemspec packaging hygiene and untracked file exclusion | `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb` | Low |
+| SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/CONFIG_GUIDE.md`, `_layouts/*.html` | Low |
+
+### Security Brief SEC-01: JSON Script Block Breakout & Attribute Escaping
+
+**Target files:** `_layouts/error.html`, `_layouts/default.html`, `test/test_rendered_site.rb`
+
+Liquid's `jsonify` filter does not escape `</script>`, `<!--`, or Unicode line separators (`U+2028`, `U+2029`). If site locale strings contain closing script tags, they can prematurely terminate `<script id="error-locales" type="application/json">`. Furthermore, some localized UI strings in error and default layouts render without explicit HTML escaping.
+
+**Implementation contract:**
+- In `_layouts/error.html`, sanitize jsonified locale dictionaries with `| replace: '<', '\u003c'`.
+- Ensure localized error titles and messages in `_layouts/error.html` and `_layouts/default.html` pass through `| escape`.
+- Add test assertions in `test/test_rendered_site.rb` verifying script breakout resistance.
+
+**Acceptance criteria:**
+- [ ] Locale dictionaries inside `<script type="application/json">` do not emit raw `<` characters.
+- [ ] Localized error strings in HTML attributes and elements are escaped.
+- [ ] Existing client-side error page localization behavior remains fully functional.
+
+### Security Brief SEC-02: Safe URL Scheme Filtering & Allowlisting
+
+**Target files:** `_includes/avatar.html`, `_includes/social-links.html`, `_includes/language-switcher.html`, `lib/bilingual-jekyll-resume-theme/resume_validator.rb`, `test/test_resume_validator.rb`
+
+Site configuration parameters such as `avatar_url`, `avatar_link`, and `social_links.*` could accept arbitrary schemes (such as `javascript:`) if configuration is multi-authored or ingested from external sources. The resume validator checks URLs in data files but skips config properties.
+
+**Implementation contract:**
+- Enforce allowed schemes (`http://`, `https://`, `mailto:`, `tel:`, or leading `/` for local paths) before rendering link tags in templates.
+- Extend `lib/bilingual-jekyll-resume-theme/resume_validator.rb` to validate URL fields found in `site.social_links`, `site.avatar_url`, and `site.avatar_link`.
+
+**Acceptance criteria:**
+- [ ] Config URLs with disallowed schemes are suppressed in templates or flagged by the validator.
+- [ ] Safe local paths (`/assets/...`) and external `https://` URLs render normally.
+- [ ] `rake validate` reports invalid URL protocols in site configuration.
+
+### Security Brief SEC-03: Contextual Escaping in HTML Attributes & JS
+
+**Target files:** `_includes/analytics-head.html`, `_layouts/resume.html`, `_includes/hreflang.html`
+
+Template values injected into HTML attributes (`lang="{{ lang }}"`) or inline analytics scripts are output without explicit filtering.
+
+**Implementation contract:**
+- Apply `| escape` on `lang` attributes across all layout headers.
+- Validate language keys against `/^[a-zA-Z0-9_-]+$/` to prevent attribute injection.
+- Sanitize or validate tracking IDs (`gtag`, `gtm`) in `_includes/analytics-head.html` to ensure only alphanumeric and hyphenated identifiers are injected into script blocks.
+
+**Acceptance criteria:**
+- [ ] All `lang` and `hreflang` attributes in rendered HTML are properly escaped.
+- [ ] Malformed analytics IDs containing quotes or script tags do not break into inline script contexts.
+
+### Security Brief SEC-04: CI/CD & Supply Chain Hardening
+
+**Target files:** `.github/workflows/publish.yml`, `.github/workflows/ci.yml`
+
+The gem publication workflow allows manual dispatch from any ref without tag or branch validation. The workflow writes static API credentials to `~/.gem/credentials` while mutable third-party actions run with write permissions.
+
+**Implementation contract:**
+- Add ref enforcement (`if: startsWith(github.ref, 'refs/tags/v')`) on release triggers.
+- Pin third-party GitHub Actions to full immutable commit SHAs.
+- Migrate from static `RUBYGEMS_API_KEY` credentials to RubyGems Trusted Publishing (OIDC).
+
+**Acceptance criteria:**
+- [ ] Publication workflow cannot be triggered against arbitrary un-tagged branches.
+- [ ] All third-party actions use immutable commit SHAs.
+- [ ] Long-lived publishing secrets are replaced with OpenID Connect tokens.
+
+### Security Brief SEC-05: Ruby Engine & Plugin Safety
+
+**Target files:** `lib/bilingual-jekyll-resume-theme/resume_validator.rb`, `_plugins/resume_pages_generator.rb`
+
+The validator retains an obsolete fallback to `YAML.load_file` that is unreachable on Ruby 3.3+. In addition, `load_site_config` rescues only `Psych::SyntaxError`, leaving alias errors uncaught, and `lang` strings are joined into filesystem paths without validation.
+
+**Implementation contract:**
+- Remove the legacy `YAML.load_file` fallback branch.
+- Expand YAML exception handling in `load_site_config` to rescue `Psych::Exception`.
+- Validate that `lang` keys match `/^[a-zA-Z0-9_-]+$/` before joining them into file paths or glob expressions in generators and validators.
+
+**Acceptance criteria:**
+- [ ] Bad YAML aliases in configuration produce friendly error messages rather than unhandled crashes.
+- [ ] Path traversal patterns in language identifiers are rejected before filesystem operations.
+- [ ] Dead code paths in `resume_validator.rb` are removed.
+
+### Security Brief SEC-06: JSON Resume Privacy Documentation
+
+**Target files:** `docs/DATA_GUIDE.md`, `JSON_RESUME_EXPORT.md`
+
+Address details (city, region, postal code) are exported in the JSON Resume format when `display_header_contact_info: true`, and certain social platforms export even when `export_contact_info: false`. This behavior needs explicit documentation so site owners understand data visibility boundaries.
+
+**Implementation contract:**
+- Document field-by-field privacy and export rules in `docs/DATA_GUIDE.md`.
+- Clarify contact export flags in `JSON_RESUME_EXPORT.md`.
+
+**Acceptance criteria:**
+- [ ] Documentation outlines exactly which fields are included under each privacy toggle.
+
+### Security Brief SEC-07: Gemspec Packaging Hygiene
+
+**Target files:** `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb`
+
+The gemspec uses `Dir["_plugins/**/*", "lib/**/*"]` which risks packaging untracked local scratch files or temporary build artifacts into release gems.
+
+**Implementation contract:**
+- Tighten `spec.files` in the gemspec by anchoring file patterns or using git-tracked file manifests.
+- Update `test/test_packaging.rb` to assert that untracked or unwanted scratch files are excluded.
+
+**Acceptance criteria:**
+- [ ] `gem build` packages only intentionally distributed source files.
+- [ ] Packaging test passes with zero untracked artifacts.
+
+### Security Brief SEC-08: Content Security Policy (CSP) Guidance
+
+**Target files:** `docs/CONFIG_GUIDE.md`
+
+Inline scripts (such as the anti-FOUC theme detector and language switcher helpers) currently prevent deploying strict CSP headers without `unsafe-inline` or cryptographic hashes.
+
+**Implementation contract:**
+- Provide documented CSP guidance in `docs/CONFIG_GUIDE.md` showing recommended header directives and hash generation commands for consuming sites.
+
+**Acceptance criteria:**
+- [ ] Consuming sites have clear instructions on configuring CSP headers for the theme.
+
 ## 4. Verification and Delivery
 
-Follow [AGENTS.md](AGENTS.md) for the commit-approval and delivery rules. A documentation blueprint is not proof that a feature exists. Update current guides and `_config.sample.yml` only when implementation lands; move completed features to the audit history and the appropriate changelog boundary.
+Follow [AGENTS.md](AGENTS.md) for the commit-approval and delivery rules. A documentation blueprint is not proof that a feature exists. Update current guides and `_config.sample.yml` only when implementation lands. When a feature ships, delete its brief and matrix row here, and add one row to [docs/COMPLETED_AUDIT.md](docs/COMPLETED_AUDIT.md) plus the changelog entry.
 
 From the theme repository, with the demo submodule initialized:
 
@@ -381,4 +499,4 @@ gem build bilingual-jekyll-resume-theme.gemspec
 rm -f bilingual-jekyll-resume-theme-*.gem
 ```
 
-For UI changes, inspect all configured locales, both direction stylesheets, light/dark states, keyboard operation, and print output. Add feature-specific verification that tests the behavior rather than only looking for a string in generated HTML. The default Rake task includes data validation, template-key warnings, RuboCop, and four test suites; HTML proofing is separate. See [docs/VALIDATION_GUIDE.md](docs/VALIDATION_GUIDE.md).
+For UI changes, inspect all configured locales, both direction stylesheets, light/dark states, keyboard operation, and print output. Add feature-specific verification that tests the behavior rather than only looking for a string in generated HTML. The default Rake task includes data validation, template-key warnings, RuboCop, and every test suite; HTML proofing is separate. See [docs/TESTING_GUIDE.md](docs/TESTING_GUIDE.md) and [docs/VALIDATION_GUIDE.md](docs/VALIDATION_GUIDE.md).

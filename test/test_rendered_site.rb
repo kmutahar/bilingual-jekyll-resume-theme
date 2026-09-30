@@ -579,7 +579,7 @@ class RenderedSiteTest < Minitest::Test
 
   def test_print_social_links_use_locale_labels_and_ltr_urls
     items = cv("ar").css("section.print-only li")
-    github = items.find { |li| li.text.include?("github.com") }
+    github = items.find { |li| URI(li.at_css("span").text.strip).host == "github.com" }
     assert_includes github.at_css("strong").text, locale("ar")["ui"]["social_labels"]["github"]
     assert_equal "ltr", github.at_css("span")["dir"]
   end

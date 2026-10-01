@@ -28,7 +28,7 @@ All feature work is planned in [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md). Befor
 Before addressing bugs, security findings, or refactoring, consult [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) for prior fixes. Check the roadmap’s [Status Delete-Zone](FEATURE_ROADMAP.md#status-delete-zone) before recreating removed files or keys.
 
 ### Rule 5: Build & Packaging Verification
-Never declare a task complete without running the verification suite:
+Never declare a task complete without running the verification suite. Run `bin/verify`: it executes the three steps below, writes the full output to `/tmp/resume-theme-verify.log`, prints one PASS/FAIL line per step (plus the log tail on failure), and cleans up build artifacts. Don't run the steps individually unless debugging a failure.
 ```bash
 # 1. Demo build
 bundle exec jekyll build --source demo --destination _site

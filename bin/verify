@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Runs the AGENTS.md Rule 5 verification suite. Full output goes to a log;
+# stdout gets one line per step plus the log tail of the first failure.
+set -u
+cd "$(dirname "$0")/.."
+log="${TMPDIR:-/tmp}/resume-theme-verify.log"
+: > "$log"
+
+cleanup() { rm -rf .jekyll-cache bilingual-jekyll-resume-theme-*.gem; }
+
+step() {
+  local name=$1; shift
+  echo "=== $name: $*" >> "$log"
+  if "$@" >> "$log" 2>&1; then
+    echo "PASS $name"
+  else
+    echo "FAIL $name (full log: $log)"
+    tail -n 40 "$log"
+    cleanup; exit 1
+  fi
+}
+
+step build bundle exec jekyll build --source demo --destination _site
+step rake  bundle exec rake
+step gem   gem build bilingual-jekyll-resume-theme.gemspec
+cleanup
+echo "ALL PASS (full log: $log)"

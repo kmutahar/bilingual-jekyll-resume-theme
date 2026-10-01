@@ -23,7 +23,7 @@ end
 
 desc "Run every test/test_*.rb suite"
 task :test do
-  Dir["test/test_*.rb"].each { |file| ruby file }
+  Dir["test/test_*.rb"].each { |file| ruby "-r./test/warning_filter", file }
 end
 
 require "rubocop/rake_task"

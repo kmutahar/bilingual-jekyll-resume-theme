@@ -15,7 +15,7 @@ require "json"
 class RenderedSiteTest < Minitest::Test
   ROOT = File.expand_path("..", __dir__)
   SECTIONS = %w[experience education certifications courses volunteering projects skills recognitions
-                associations interests languages links].freeze
+                associations interests languages links publications references].freeze
 
   # Formats fed straight into _includes/date-formatter.html, keyed by probe id.
   DATE_PROBES = {
@@ -95,6 +95,16 @@ class RenderedSiteTest < Minitest::Test
       "links" => [
         { "description" => "#{tag} Blog", "url" => "https://example.org/blog", "active" => true },
         { "description" => "hidden-link", "url" => "https://example.org/hidden", "active" => false }
+      ],
+      "publications" => [
+        { "name" => "#{tag} Paper", "publisher" => "Journal", "release_date" => "1889-03", "url" => "https://example.org/paper",
+          "summary" => "#{tag} paper summary", "active" => true },
+        { "name" => "#{tag} Bare Paper", "release_date" => 1912, "active" => true },
+        { "name" => "hidden-publication", "active" => false }
+      ],
+      "references" => [
+        { "name" => "#{tag} Referee", "reference" => "#{tag} glowing words", "active" => true },
+        { "name" => "hidden-reference", "reference" => "secret", "active" => false }
       ]
     }
   end
@@ -552,6 +562,41 @@ class RenderedSiteTest < Minitest::Test
     assert_equal 1, items.size
     assert_equal "https://example.org/blog", items[0].at_css("a")["href"]
     assert_includes items[0].at_css(".print-only-inline").text, "https://example.org/blog"
+  end
+
+  def test_publications_render_linked_name_publisher_localized_partial_date_and_summary
+    %w[en ar].each do |lang|
+      pubs = section(locale(lang)["ui"]["section_titles"]["publications"], lang).css(".resume-item")
+      assert_equal 2, pubs.size
+      link = pubs[0].at_css("h3 a")
+      assert_equal "https://example.org/paper", link["href"]
+      assert_includes link["rel"], "noopener"
+      print_url = pubs[0].at_css(".print-only-inline")
+      lang == "ar" ? assert_equal("ltr", print_url["dir"]) : assert_nil(print_url["dir"])
+      details = squish(pubs[0].at_css("h4"))
+      assert_match(/\AJournal • \S+/, details)
+      assert_match(/1889/, details)
+      assert_includes pubs[0].at_css("p").text, "paper summary"
+      assert_nil pubs[1].at_css("a"), "no url, no link"
+      assert_equal "1912", squish(pubs[1].at_css("h4")), "integer year, no publisher: no stray bullet"
+    end
+  end
+
+  def test_references_render_blockquote_with_cite_for_active_entries_only
+    %w[en ar].each do |lang|
+      quotes = section(locale(lang)["ui"]["section_titles"]["references"], lang).css("blockquote")
+      assert_equal 1, quotes.size
+      assert_includes quotes[0].at_css("p").text, "glowing words"
+      assert_includes quotes[0].at_css("cite").text, "Referee"
+    end
+  end
+
+  def test_publications_and_references_are_omitted_when_disabled
+    extras = %w[publications references]
+    html = cv("en", "resume_section" => SECTIONS.to_h { |name| [name, !extras.include?(name)] })
+    titles = extras.map { |name| locale("en")["ui"]["section_titles"][name] }
+    headings = html.css("main section.content-section h2").map { |h2| h2.text.strip }
+    assert_empty(headings & titles)
   end
 
   def test_external_links_open_safely_in_a_new_tab

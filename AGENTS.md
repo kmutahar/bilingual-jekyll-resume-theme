@@ -59,7 +59,7 @@ Use the following index to find specific architecture details, schemas, and conf
 | **First site walkthrough** | [`docs/tutorials/getting-started.md`](docs/tutorials/getting-started.md) | Tutorial |
 | **Architecture Map & File Tree** | [`docs/explanation/architecture.md`](docs/explanation/architecture.md), [`docs/reference/repository-map.md`](docs/reference/repository-map.md) | Explanation, Reference |
 | **Site Config & `_config.yml`** | [`docs/reference/config.md`](docs/reference/config.md) | Reference |
-| **Data Schemas & 12 Resume Sections**: Dynamic YAML rendering | [`docs/reference/data-schemas.md`](docs/reference/data-schemas.md) | Reference |
+| **Data Schemas & Resume Sections**: Dynamic YAML rendering | [`docs/reference/data-schemas.md`](docs/reference/data-schemas.md) | Reference |
 | **Locale Files & RTL Setup** | [`docs/reference/locale-keys.md`](docs/reference/locale-keys.md), [`docs/explanation/multilingual-and-rtl-design.md`](docs/explanation/multilingual-and-rtl-design.md) | Reference, Explanation |
 | **HTML Layouts & Data Flow**: Dynamic data path resolution | [`docs/reference/layouts.md`](docs/reference/layouts.md) | Reference |
 | **Components & Include Files** | [`docs/reference/includes.md`](docs/reference/includes.md) | Reference |

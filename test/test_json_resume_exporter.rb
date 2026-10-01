@@ -57,7 +57,12 @@ class JsonResumeExporterTest < Minitest::Test
       "projects" => [{ "active" => true, "project" => "Tool", "role" => "Author", "url" => "/tool", "keywords" => ["Ruby"] }],
       "skills" => [{ "active" => true, "skill" => "Ruby", "level" => 5, "level_label" => "Expert", "keywords" => ["Jekyll"] }],
       "languages" => [{ "active" => true, "language" => "English", "description" => "Native speaker", "descrp_short" => "Native" }],
-      "interests" => [{ "description" => "Reading" }]
+      "interests" => [{ "description" => "Reading" }],
+      "publications" => [{ "active" => true, "name" => "Ashes", "publisher" => "Strand", "release_date" => "1889-03",
+                           "url" => "https://example.org/ashes", "summary" => "On tobacco." },
+                         { "active" => false, "name" => "Draft" }],
+      "references" => [{ "active" => true, "name" => "Dr. Watson", "reference" => "Excellent.", "email" => "x@example.org" },
+                       { "active" => false, "name" => "Hidden", "reference" => "No." }]
     }
   end
 
@@ -90,6 +95,19 @@ class JsonResumeExporterTest < Minitest::Test
     assert_equal "jane", document.dig("basics", "profiles", 0, "username")
     assert_equal "base@example.org", document.dig("basics", "email")
     assert_equal "Native speaker", document.dig("languages", 0, "fluency")
+  end
+
+  def test_publications_and_references_map_exactly_and_skip_inactive_entries
+    result = export
+    assert_equal [{ "name" => "Ashes", "publisher" => "Strand", "releaseDate" => "1889-03",
+                    "url" => "https://example.org/ashes", "summary" => "On tobacco." }], result["publications"]
+    assert_equal [{ "name" => "Dr. Watson", "reference" => "Excellent." }], result["references"]
+    @site.config["resume_section"]["publications"] = false
+    @site.config["resume_section"]["references"] = false
+    result = export
+    refute result.key?("publications")
+    refute result.key?("references")
+    assert result.key?("work")
   end
 
   def test_normalizes_html_entities_without_destroying_markdown

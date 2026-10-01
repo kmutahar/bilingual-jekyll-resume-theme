@@ -222,6 +222,8 @@ resume_section:
   lang_header: true                  # Show compact language chips in header instead of full section
   languages: false
   links: false
+  publications: false
+  references: false
   projects: true
   recognitions: false
   skills: false
@@ -242,6 +244,8 @@ resume_section_order:
   - languages
   - interests
   - links
+  - publications
+  - references
 
 # ==============================================================================
 # 9. STYLING, FONTS & DARK MODE

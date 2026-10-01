@@ -15,7 +15,7 @@ bilingual-jekyll-resume-theme/
 │   └── error.html                # HTTP error suite (404/403/500/503)
 │
 ├── _includes/
-│   ├── resume-section.html       # Section dispatcher (12 sections, every language)
+│   ├── resume-section.html       # Section dispatcher (14 sections, every language)
 │   ├── grouped-item-list.html    # Shared Experience/Volunteering renderer
 │   ├── date-formatter.html       # Locale-driven date and "Present" formatting
 │   ├── data-loader.html          # Dot-path data resolution into resume_data

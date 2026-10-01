@@ -201,6 +201,8 @@ resume_section:
   lang_header: true      # compact language list in the header (needs display_header_contact_info: true); suppresses the full languages section
   interests: false
   links: false
+  publications: false
+  references: false
 
 resume_section_order:
   - experience
@@ -215,6 +217,8 @@ resume_section_order:
   - languages
   - interests
   - links
+  - publications
+  - references
 ```
 
 ---

@@ -35,6 +35,8 @@ ui:
     interests: "الاهتمامات الخارجية"
     languages: "اللغات"
     links: "روابط إضافية"
+    publications: "المنشورات"
+    references: "التوصيات"
   social_labels:
     email: "البريد الإلكتروني"
     github: "جيت هاب"

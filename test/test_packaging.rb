@@ -11,7 +11,7 @@ class PackagingTest < Minitest::Test
   ROOT = File.expand_path("..", __dir__)
   LOCALES = %w[en ar es fr de ur].freeze
   SECTIONS = %w[experience education certifications courses volunteering projects skills recognitions
-                associations interests languages links].freeze
+                associations interests languages links publications references].freeze
   ERROR_CODES = %w[404 403 500 503].freeze
 
   def spec

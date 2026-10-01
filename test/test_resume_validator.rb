@@ -326,7 +326,9 @@ class ResumeValidatorTest < Minitest::Test
       "recognitions" => [{ "title" => "Prize" }, "award"],
       "associations" => [{ "name" => "Club" }, "organization"],
       "languages" => [{ "name" => "English" }, "language"],
-      "links" => [{ "title" => "Blog", "url" => "https://example.org" }, "description"]
+      "links" => [{ "title" => "Blog", "url" => "https://example.org" }, "description"],
+      "publications" => [{ "title" => "Paper" }, "name"],
+      "references" => [{ "quote" => "Excellent.", "name" => "Dr. Watson" }, "reference"]
     }.each do |section, (entry, canonical)|
       alias_key = (entry.keys - %w[position startdate degree year url company]).first
       assert(errors_for(section, entry).any? { |m| m.include?("'#{canonical}'") && m.include?("'#{alias_key}'") },
@@ -359,7 +361,9 @@ class ResumeValidatorTest < Minitest::Test
     "recognitions" => { "award" => "Prize" },
     "associations" => { "organization" => "Club" },
     "languages" => { "language" => "English" },
-    "links" => { "description" => "Blog", "url" => "https://example.org" }
+    "links" => { "description" => "Blog", "url" => "https://example.org" },
+    "publications" => { "name" => "Paper", "publisher" => "Journal", "release_date" => "1889-03", "url" => "https://example.org/p" },
+    "references" => { "name" => "Dr. Watson", "reference" => "Excellent." }
   }.freeze
 
   def test_minimal_valid_entry_of_every_section_is_clean
@@ -370,7 +374,7 @@ class ResumeValidatorTest < Minitest::Test
 
   def test_every_required_field_is_enforced
     VALID.each do |section, entry|
-      required = entry.keys - %w[startdate enddate]
+      required = entry.keys - %w[startdate enddate publisher release_date url]
       required.each do |field|
         assert_error(section, entry.except(field), "'#{field}'")
       end
@@ -458,10 +462,21 @@ class ResumeValidatorTest < Minitest::Test
 
   def test_urls_must_be_http_or_https
     { "links" => "url", "projects" => "url", "associations" => "url", "certifications" => "credential_url",
-      "courses" => "credential_url", "experience" => "url", "education" => "url", "volunteering" => "url" }.each do |section, field|
+      "courses" => "credential_url", "publications" => "url", "experience" => "url", "education" => "url",
+      "volunteering" => "url" }.each do |section, field|
       assert_error(section, VALID[section].merge(field => "javascript:alert(1)"), "must begin with http:// or https://")
       assert_error(section, VALID[section].merge(field => "ftp://example.org"), "must begin with http:// or https://")
       assert_clean(section, VALID[section].merge(field => "https://example.org/x"))
+    end
+  end
+
+  def test_publication_and_reference_required_fields_dates_and_inactive_entries
+    assert_error("publications", { "publisher" => "Journal" }, "Missing required field 'name'")
+    assert_error("publications", VALID["publications"].merge("release_date" => "1889-13"), "Invalid date format")
+    assert_error("references", { "name" => "Dr. Watson" }, "Missing required field 'reference'")
+    assert_error("references", { "reference" => "Excellent." }, "Missing required field 'name'")
+    %w[publications references].each do |section|
+      assert_empty findings(section, [{ "active" => false }]).first, "#{section}: inactive entries are skipped"
     end
   end
 

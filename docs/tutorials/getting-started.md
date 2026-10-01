@@ -162,7 +162,7 @@ You now have a working two-language resume site.
 - If the build fails or a section is missing, see [Troubleshoot builds](../how-to/troubleshoot-builds.md).
 - To learn how one layout renders both LTR and RTL languages, read [Multilingual and RTL design](../explanation/multilingual-and-rtl-design.md) and [The data-driven model](../explanation/data-driven-model.md).
 
-To see all 12 section types in all six languages, build the full Sherlock Holmes demo from a clone of the theme repository. Run these commands from a folder outside `my-resume`; the first two clone the repository and move into it:
+To see all sections types in all six languages, build the full Sherlock Holmes demo from a clone of the theme repository. Run these commands from a folder outside `my-resume`; the first two clone the repository and move into it:
 
 ```bash
 git clone https://github.com/kmutahar/bilingual-jekyll-resume-theme.git

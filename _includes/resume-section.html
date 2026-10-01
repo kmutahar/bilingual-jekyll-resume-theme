@@ -475,4 +475,73 @@
     </section>
     <!-- end Links -->
 
+{%- comment -%}
+  Section: Publications
+  - Data: `resume_data.publications` filtered by `active == true`.
+  - Content: Name (linked to `url` when present, with a print-only URL fallback in dir="ltr" for
+    RTL locales), publisher and release date (style="MDY"), then the summary (always shown).
+{%- endcomment -%}
+{% elsif include.section_name == "publications" and site.resume_section.publications %}
+    <!-- begin Publications -->
+    <section class="content-section">
+        <header class="section-header">
+            <h2>{{ locale.ui.section_titles.publications }}</h2>
+        </header>
+
+        {% for publication in resume_data.publications %}
+            {% if publication.active == true %}
+                <div class="resume-item" itemscope itemtype="https://schema.org/CreativeWork">
+                    <h3 class="resume-item-title" itemprop="name">
+                        {%- if publication.url and publication.url != "" -%}
+                            <a href="{{ publication.url }}" target="_blank" rel="noopener nofollow noreferrer" itemprop="url">{{ publication.name }}</a>
+                            <span class="print-only-inline"{% if rtl %} dir="ltr"{% endif %}>&nbsp;{{ publication.url }}</span>
+                        {%- else -%}
+                            {{ publication.name }}
+                        {%- endif -%}
+                    </h3>
+                    {%- if publication.publisher.size > 0 or publication.release_date -%}
+                        <h4 class="resume-item-details">
+                            {%- if publication.publisher.size > 0 -%}
+                                <span itemprop="publisher">{{ publication.publisher }}</span>
+                            {%- endif -%}
+                            {%- if publication.release_date -%}
+                                {% if publication.publisher.size > 0 %} &bull; {% endif %}
+                                {% include date-formatter.html date=publication.release_date lang=lang style="MDY" %}
+                            {%- endif -%}
+                        </h4>
+                    {%- endif -%}
+                    {% if publication.summary %}
+                        <p class="resume-item-copy" itemprop="description">{{ publication.summary }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </section>
+    <!-- end Publications -->
+
+{%- comment -%}
+  Section: References
+  - Data: `resume_data.references` filtered by `active == true`.
+  - Content: A `<blockquote>` with the reference text and a `<cite>` naming the referee.
+{%- endcomment -%}
+{% elsif include.section_name == "references" and site.resume_section.references %}
+    <!-- begin References -->
+    <section class="content-section">
+        <header class="section-header">
+            <h2>{{ locale.ui.section_titles.references }}</h2>
+        </header>
+
+        {% for reference in resume_data.references %}
+            {% if reference.active == true %}
+                <div class="resume-item">
+                    <blockquote>
+                        <p>{{ reference.reference }}</p>
+                        <cite>{{ reference.name }}</cite>
+                    </blockquote>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </section>
+    <!-- end References -->
+
 {% endif %}

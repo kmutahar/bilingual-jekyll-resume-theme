@@ -35,6 +35,8 @@ ui:
     interests: "Intereses Personales"
     languages: "Idiomas"
     links: "Enlaces Adicionales"
+    publications: "Publicaciones"
+    references: "Referencias"
   social_labels:
     email: "Correo electrónico"
     github: "GitHub"

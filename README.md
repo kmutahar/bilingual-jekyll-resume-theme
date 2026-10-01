@@ -12,7 +12,7 @@ Inspired by and originally forked from [Joel Glovier’s resume template](https:
 - **Multilingual support**: One layout (`resume.html`) renders every language, LTR or RTL, from per-language locale files (`_data/locales/<lang>.yml`) with localized UI strings, month names, and fonts (Cairo for Arabic, Noto Nastaliq Urdu for Urdu)
 - **Dark mode**: System preference detection (`prefers-color-scheme`) with optional interactive toggle, `localStorage` persistence, and zero-FOUC inline script
 - **Data-driven architecture**: All resume content stored in YAML files, supporting multiple data paths and versioning
-- **12 resume sections**: Experience, Education, Certifications, Courses, Volunteering, Projects, Skills, Recognition, Associations, Languages, Links, Interests
+- **Resume sections**: Experience, Education, Certifications, Courses, Volunteering, Projects, Skills, Recognition, Associations, Languages, Links, Interests, Publications, References
 - **Accessibility features**: Semantic landmarks, keyboard navigation, localized skip links, and labelled social controls. See the [Accessibility coverage](docs/reference/accessibility-coverage.md) for coverage and known limitations.
 - **Modern favicon suite**: High-resolution favicons (Apple touch icon, 32x32, 16x16, webmanifest) with subpath-safe URLs and `_config.yml` override support
 - **Print-friendly**: Optimized for PDF generation and printing with bidirectional text isolation (`dir="ltr"`) for URLs
@@ -98,7 +98,7 @@ See the [Configuration reference](docs/reference/config.md#3-languages) for ever
 
 ### Sample Files
 
-`demo/_data/{en,ar,es,fr,de,ur}/` hold a complete Sherlock Holmes demo resume in six languages, covering all 12 section types. Copy the folders you need to your site.
+`demo/_data/{en,ar,es,fr,de,ur}/` hold a complete Sherlock Holmes demo resume in six languages, covering all section types. Copy the folders you need to your site.
 
 ### Locales
 

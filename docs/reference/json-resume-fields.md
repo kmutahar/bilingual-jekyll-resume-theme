@@ -70,6 +70,8 @@ camelCase names on the right belong only to the JSON output.
 | `interests.name` (fallback `description`), `keywords` | `interests[].name`, `keywords` |
 | `projects.project`, `description`, `url`, `highlights`, `keywords` | `projects[].name`, `description`, `url`, `highlights`, `keywords` |
 | Project `roles`, or scalar `role` wrapped in an array | `projects[].roles` |
+| `publications.name`, `publisher`, `release_date`, `url`, `summary` | `publications[].name`, `publisher`, `releaseDate`, `url`, `summary` |
+| `references.name`, `reference` | `references[].name`, `reference` |
 
 Experience and volunteering remain one record per role; company groups and
 newest-first role ordering follow the HTML renderer. Supported social networks
@@ -115,8 +117,9 @@ the document is skipped and no discovery link is emitted.
 
 Associations, standalone courses, generic links, date of birth, skill narrative
 descriptions, education honors/summaries, certificate IDs/expiration, and
-free-form display date ranges have no mapping in this exporter. No publications
-or references are manufactured from other sections. Nested certificate courses
+free-form display date ranges have no mapping in this exporter. Publications and
+references export exactly as authored, with no extra fields; a publication's `summary` is exported regardless of `enable_summary`. References are
+public once exported, so include only what each referee agreed to publish. Nested certificate courses
 remain internal data and are not exported.
 
 ## Verification

@@ -125,6 +125,8 @@ The rules are identical for every language. Required fields must use the canonic
 | `associations.yml` | `organization` (`company`, `name`) | `url` |
 | `languages.yml` | `language` (`name`) | |
 | `links.yml` | `description` (`name`, `title`), `url` | `url` |
+| `publications.yml` | `name` (`title`) | `release_date` (ISO), `url` (http/https) |
+| `references.yml` | `name`, `reference` (`quote`, `text`) | none |
 | `interests.yml` | none; missing `description` is a warning (naming `interest`/`name` when one is set) | No `active` flag check |
 
 Every file except `header.yml` must be a list of Hashes. Every list entry except in `interests.yml` should carry `active: true` or `active: false`.

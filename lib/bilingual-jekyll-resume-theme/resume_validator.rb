@@ -459,6 +459,10 @@ module BilingualJekyllResumeTheme
         validate_language_entry(entry, item_context)
       when "links"
         validate_link_entry(entry, item_context)
+      when "publications"
+        validate_publication_entry(entry, item_context)
+      when "references"
+        validate_reference_entry(entry, item_context)
       when "interests"
         validate_interest_entry(entry, item_context)
       end
@@ -479,13 +483,14 @@ module BilingualJekyllResumeTheme
       if section == "skills" && entry.key?("level_label") && !entry["level_label"].is_a?(String)
         add_warning(context, "Optional 'level_label' must be a string.")
       end
-      validate_url(entry["url"], context, "url") if %w[experience volunteering education].include?(section) && entry["url"]
+      validate_url(entry["url"], context, "url") if %w[experience volunteering education publications].include?(section) && entry["url"]
       if section == "projects"
         validate_date(entry["startdate"], context, "startdate")
         validate_date_or_present(entry["enddate"], context, "enddate", lang: lang)
         validate_date_range(entry["startdate"], entry["enddate"], context, lang: lang) if entry["startdate"] && entry["enddate"]
       end
       validate_date(entry["date"], context, "date") if section == "recognitions"
+      validate_date(entry["release_date"], context, "release_date") if section == "publications"
     end
 
     def validate_active_flag(entry, context)
@@ -622,6 +627,15 @@ module BilingualJekyllResumeTheme
       else
         validate_url(entry["url"], context, "url")
       end
+    end
+
+    def validate_publication_entry(entry, context)
+      require_field(entry, context, "name", %w[title])
+    end
+
+    def validate_reference_entry(entry, context)
+      require_field(entry, context, "name")
+      require_field(entry, context, "reference", %w[quote text])
     end
 
     def validate_interest_entry(entry, context)

@@ -253,6 +253,24 @@ body {
     margin: .75rem 0 0;
   }
 
+  // References: logical border-inline-start mirrors automatically in RTL.
+  .resume-item blockquote {
+    margin: 0;
+    padding-block: .25rem;
+    padding-inline-start: 1rem;
+    border-inline-start: 3px solid var(--accent-color, #3064a9);
+
+    p {
+      margin: 0 0 .5rem;
+    }
+
+    cite {
+      display: block;
+      font-size: .9em;
+      color: var(--text-light, #646464);
+    }
+  }
+
   // Normal weight styling for certification IDs and license numbers.
   .resume-item-copy-license-cert-id {
     font-weight: normal;

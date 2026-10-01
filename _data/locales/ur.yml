@@ -35,6 +35,8 @@ ui:
     interests: "دلچسپیاں"
     languages: "زبانیں"
     links: "مزید لنکس"
+    publications: "اشاعتیں"
+    references: "حوالہ جات"
   social_labels:
     email: "ای میل"
     github: "گٹ ہب"

@@ -17,7 +17,8 @@ module BilingualJekyllResumeTheme
     SECTIONS = {
       "experience" => "work", "volunteering" => "volunteer", "education" => "education",
       "certifications" => "certificates", "recognitions" => "awards", "skills" => "skills",
-      "languages" => "languages", "interests" => "interests", "projects" => "projects"
+      "languages" => "languages", "interests" => "interests", "projects" => "projects",
+      "publications" => "publications", "references" => "references"
     }.freeze
     FIELDS = {
       "experience" => { "name" => "company", "position" => "position", "location" => "location" },
@@ -28,7 +29,9 @@ module BilingualJekyllResumeTheme
       "skills" => { "name" => "skill", "level" => "level_label" },
       "languages" => { "language" => "language" },
       "interests" => { "name" => %w[name description] },
-      "projects" => { "name" => "project", "description" => "description" }
+      "projects" => { "name" => "project", "description" => "description" },
+      "publications" => { "name" => "name", "publisher" => "publisher", "summary" => "summary" },
+      "references" => { "name" => "name", "reference" => "reference" }
     }.freeze
     LIST_FIELDS = {
       "experience" => %w[highlights], "volunteering" => %w[highlights], "education" => %w[courses],
@@ -276,6 +279,9 @@ module BilingualJekyllResumeTheme
       elsif section == "certifications"
         result["date"] = date(entry["issue_date"], "certifications.issue_date", full: true)
         result["url"] = absolute_url(entry["credential_url"], "certifications.credential_url")
+      elsif section == "publications"
+        result["releaseDate"] = date(entry["release_date"], "publications.release_date")
+        result["url"] = absolute_url(entry["url"], "publications.url")
       elsif section == "recognitions"
         value = entry["date"] || (entry["year"] if entry["year"].to_s.match?(/\A\d{4}\z/))
         result["date"] = date(value, "recognitions.date")

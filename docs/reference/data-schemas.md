@@ -27,6 +27,8 @@ _data/
 │   ├── associations.yml
 │   ├── languages.yml
 │   ├── links.yml
+│   ├── publications.yml
+│   ├── references.yml
 │   └── interests.yml
 ├── en/
 │   ├── header.yml
@@ -41,6 +43,8 @@ _data/
 │   ├── associations.yml
 │   ├── languages.yml
 │   ├── links.yml
+│   ├── publications.yml
+│   ├── references.yml
 │   └── interests.yml
 └── ...                       # one folder per language in `languages:`
 ```
@@ -373,6 +377,49 @@ The file links below name the English and Arabic demo files; every other languag
 
 ---
 
+### 13. Publications (`publications.yml`)
+
+- **Files:** [`_data/en/publications.yml`](../../demo/_data/en/publications.yml) / [`_data/ar/publications.yml`](../../demo/_data/ar/publications.yml)
+- **Config Toggle:** `resume_section.publications: true`
+
+```yaml
+- name: "On the Distinction of Tobacco Ashes"
+  publisher: "The Strand Magazine"
+  release_date: 1889-03-01   # YYYY, YYYY-MM, or YYYY-MM-DD
+  url: "https://example.com/monographs/tobacco-ashes"
+  summary: "A monograph cataloguing 140 varieties of tobacco ash."
+  active: true
+```
+
+`name` is required; `publisher`, `release_date`, `url` (http/https) and `summary` are optional.
+
+**Display Format:**
+- Name, linked to `url` when set (the URL is echoed in print, `dir="ltr"` in RTL locales).
+- `publisher • release date` (localized, same format as certifications).
+- `summary` is always shown; it is not gated by `enable_summary`.
+- Schema.org `CreativeWork` microdata.
+
+---
+
+### 14. References (`references.yml`)
+
+- **Files:** [`_data/en/references.yml`](../../demo/_data/en/references.yml) / [`_data/ar/references.yml`](../../demo/_data/ar/references.yml)
+- **Config Toggle:** `resume_section.references: true`
+
+```yaml
+- name: "Dr. John H. Watson, M.D."
+  reference: "I have never known a more precise and fearless investigator."
+  active: true
+```
+
+`name` and `reference` are both required. No other fields exist.
+
+**Display Format:** a `<blockquote>` with the reference text and a `<cite>` naming the referee.
+
+**Privacy:** references are rendered on the page and exported to `resume.json` exactly as written. Publish only what the referee agreed to make public; set `active: false` to hold an entry back.
+
+---
+
 ## Header & Executive Summary (`header.yml`)
 
 - **Files:** [`_data/en/header.yml`](../../demo/_data/en/header.yml) / [`_data/ar/header.yml`](../../demo/_data/ar/header.yml)
@@ -461,6 +508,8 @@ Every list section except interests uses the boolean `active:` flag:
 | Languages | `languages` / `lang_header` | `languages` | `languages.yml` |
 | Links | `links` | `links` | `links.yml` |
 | Interests | `interests` | `interests` | `interests.yml` |
+| Publications | `publications` | `publications` | `publications.yml` |
+| References | `references` | `references` | `references.yml` |
 | Header Intro | `languages.<lang>.header_intro` | *(rendered in header)* | `header.yml` |
 
 ## JSON Resume enrichment

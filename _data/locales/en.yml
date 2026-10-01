@@ -35,6 +35,8 @@ ui:
     interests: "Outside Interests"
     languages: "Languages"
     links: "Additional Links"
+    publications: "Publications"
+    references: "References"
   social_labels:
     email: "Email"
     github: "GitHub"

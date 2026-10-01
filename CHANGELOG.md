@@ -4,6 +4,79 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.1.0] - 2026-10-01
+
+### Added
+* Add bin/verify to run the Rule 5 suite with a log ([`333b939`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/333b93947c9f7ac20e21a97ce51ecbbec64bb0b0))
+
+* Add security briefs and streamline completed audit log ([`9580a55`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/9580a55411a605d7636227233a97c7d2f38e9822))
+
+* Add end-to-end rendered site, packaging, and error page suites ([`8eb6cb3`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/8eb6cb3526dbfde6587f4d6e00019be72bcb679d))
+
+* Add Feature 3.2 publications & references blueprint ([`8024a8a`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/8024a8aad060fdab0e2f4f0f4b75d5c75d311064))
+
+* Add exporter and generator test suite ([`aa237dd`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/aa237dd65da91894cafe87b7800533c49244ed51))
+
+* Add localized JSON Resume exporter and generator ([`c600361`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/c60036172e9f856d9fe538d8a381bca95bbc2968))
+
+
+### Changed
+* Filter Liquid frozen-string warning from tests, bump demo ([`8f3f5f9`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/8f3f5f98f62c6590c46a4db398c9a48f50af28c2))
+
+* Bump submodule to the docs-path update ([`38ae031`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/38ae031651476f4004ea1475af2000fb8dd855e9))
+
+* Expand four short guides with verified steps and checks ([`9b1f337`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/9b1f337807c2098ef3ba5e43e3fd53052a53bcef))
+
+* Correct stale layout names in stylesheet comments ([`ce7e1c3`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ce7e1c3a2b1db4f2b60be1c87fd93c3b7be3fb51))
+
+* Restructure documentation into Diataxis (tutorial, how-to, reference, explanation) ([`1348d88`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/1348d88b17e3f6d0397bc881b25003bfa5362d89))
+
+* Record ADR 0001 and exclude docs/adr from the gem ([`59695d5`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/59695d5cb679602bcd06dba37851681c8f4e3d63))
+
+* Restructure AGENTS.md and update README.md ([`9cb2459`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/9cb245966949cc48db63ac4157bbdbaf9013640b))
+
+* Update guides, README, and gemspec metadata for recent architecture ([`0ff18c0`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/0ff18c0dade5fd632d1af8770b6902b355aab56e))
+
+* Enforce canonical keys in data files with alias hints ([`9f43702`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/9f43702da1404277d8ef8994a843590696c8d365))
+
+* Localized JSON Resume export ([`898dce1`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/898dce11a250029c23285964ca6ecbcf26d50552))
+
+* Document the JSON Resume export feature ([`a304320`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/a3043204b51d17547f66e095d7521cae178d8836))
+
+* Wire discovery link and sample config ([`4fb5333`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/4fb53333a6e343877ee4e3c1048480d2ff5bdf37))
+
+* Validate optional JSON Resume enrichment fields ([`591cb9f`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/591cb9fbab4b5613c6a378aa06a0e3530125493c))
+
+* Merge vendor SVG folders and data-drive social links ([`e22afb8`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/e22afb874357c93d66308de38d9ceab1c462ca32))
+
+* Sync repository documentation, guides, and roadmap ([`40425a2`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/40425a2ebddfaa0dcba06748329b99f739f456bc))
+
+* Upgrade Lineicons to v5.1 and consolidate vendor assets ([`794edcb`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/794edcb35f707ac32cc190ce8deb45e6cc0a6867))
+
+* Inline single-caller stylesheet includes ([`4513f29`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/4513f2997f57577358820a1b2b0ba0bf82a0ca90))
+
+* Auto-generate CV and profile pages per language ([`abaf487`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/abaf48779013fa6524d60f1ba8f7bfdf06641168))
+
+* Deduplicate repeated CSS rules and remove dead code ([`a354b62`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/a354b62253aed4637f0e07df4397adaf27ca2ba9))
+
+
+### Fixed
+* Match GitHub host by parsed URL, not substring ([`98c8d83`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/98c8d83f69a408536c41a8de3ea9258bb4a43436))
+
+* Check doc links and anchors; assert docs ship and docs/adr does not ([`0e097d9`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/0e097d9a945b6757f48c26abafef225c485ce5ae))
+
+* Require date to fix CI error on Ruby 3.3 ([`fc7cb6e`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/fc7cb6e595809de402470f393bae7a934c9ca210))
+
+* Improve date formatting, presence checks, and accessible social labels ([`ea7dfeb`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/ea7dfeb40ae4dc8db865d52d39d203ebbbb8a140))
+
+* Match script closing tags with trailing garbage ([`abd4d95`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/abd4d9586183b9a3dc0bdaae2be701ecace07a34))
+
+* Decode HTML entities before stripping tags ([`cae8378`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/cae8378d111b23f38d62406b4c8c58ac2a547864))
+
+* Close CodeQL tag-stripping bypasses in text() ([`365b7f6`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/365b7f655a2adcc825033f5aab92c8c51edbe354))
+
+* Stop packaging dev-only tools and internal audit log ([`4c5f7d8`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/4c5f7d8ba256a0bf16f10e6bde9216fb0b93769e))
+
 ## [1.0.2] - 2026-09-25
 
 ### Changed
@@ -372,6 +445,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/bilingual-jekyll-resume-theme/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[1.1.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/kmutahar/bilingual-jekyll-resume-theme/compare/v0.9.0...v1.0.0
